@@ -5,12 +5,14 @@
     "license": "proprietary",
     "require": {
         "php": "^7.4|^8.0",
+        "bacon/bacon-qr-code": "master-dev",
         "composer/composer": "^2.0",
         "doctrine/dbal": "^3.0",
         "eusonlito/laravel-meta": "^3.1",
         "friendsofphp/php-cs-fixer": "^3.0",
         "laravel/framework": "^8.7",
         "laravel/helpers": "^1.2",
+        "pragmarx/google2fa-qrcode": "master-dev",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^2.0"
     },
