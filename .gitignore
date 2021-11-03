@@ -1,0 +1,15 @@
+/public/hot
+/public/storage
+/resources/views/assets/node_modules
+/resources/views/assets/theme
+/scripts
+/storage/*.key
+/storage/tmp
+/vendor
+
+.env
+.phpunit.result.cache
+.php_cs.cache
+.php-cs-fixer.cache
+
+*.sh

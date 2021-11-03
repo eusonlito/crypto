@@ -1,0 +1,16 @@
+<?php return [
+    'code' => 'Código',
+    'enabled' => 'Activo',
+    'enabled-all' => 'Estado',
+    'enabled-no' => 'Desactivos',
+    'enabled-yes' => 'Activos',
+    'favorite' => 'Favorito',
+    'favorite-all' => 'Todos',
+    'favorite-yes' => 'Sólo Favoritos',
+    'meta-title' => 'Productos',
+    'name' => 'Nombre',
+    'platform' => 'Plataforma',
+    'platforms-all' => 'Plataforma',
+    'search' => 'Buscar',
+    'tracking' => 'Seguimiento',
+];

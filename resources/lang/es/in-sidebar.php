@@ -1,0 +1,18 @@
+<?php return [
+    'accounts' => 'Cuentas',
+    'dashboard' => 'Dashboard',
+    'exchange' => 'Mercado',
+    'future' => 'Previsión',
+    'future-future' => 'Futuro',
+    'future-list' => 'Actuales',
+    'logout' => 'Salir',
+    'orders' => 'Órdenes',
+    'orders-list' => 'Listado',
+    'orders-status' => 'Estado',
+    'orders-sync' => 'Sincronizar',
+    'products' => 'Productos',
+    'profile' => 'Perfil',
+    'sync' => 'Sincronizar',
+    'tickers' => 'Tickers',
+    'wallets' => 'Carteras',
+];

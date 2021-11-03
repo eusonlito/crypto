@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Castellano",
+        "iso": "es",
+        "default": true,
+        "enabled": true
+    },
+    {
+        "name": "English",
+        "iso": "en",
+        "default": false,
+        "enabled": false
+    }
+]

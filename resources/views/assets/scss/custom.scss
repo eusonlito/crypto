@@ -1,0 +1,51 @@
+.content {
+    min-height: calc(100vh - 2.5rem);
+}
+
+.btn.form-select-lg {
+    padding-right: 1rem;
+}
+
+.h-600px {
+    height: 600px;
+}
+
+.is-favorite {
+    fill: currentColor;
+    color: #CC0;
+}
+
+.percent-pill {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 0.2rem;
+    margin-right: 0;
+    margin-top: 0;
+
+    tab-size: 4;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    font-family: Roboto;
+    white-space: nowrap;
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    --tw-border-opacity: 1;
+    border-color: rgba(226, 232, 240, var(--tw-border-opacity));
+    --tw-shadow: 0 0 #0000;
+    --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgba(59, 130, 246, 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    display: flex;
+    align-items: center;
+    border-radius: 9999px;
+    padding-left: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+}

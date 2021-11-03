@@ -1,0 +1,15 @@
+<?php return [
+    'all-platforms' => '',
+    'created_at' => 'Updated',
+    'difference' => 'Difference',
+    'exchange' => 'Exchange',
+    'meta-title' => 'Market',
+    'percent' => 'Percent',
+    'platform' => '',
+    'previous-exchange' => 'Previous Exchange',
+    'product' => '',
+    'search' => '',
+    'top-100' => '',
+    'top-50' => '',
+    'top-all' => '',
+];

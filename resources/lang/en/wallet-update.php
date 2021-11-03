@@ -1,0 +1,23 @@
+<?php return [
+    'address' => 'Address',
+    'amount' => 'Amount',
+    'buy_exchange' => 'Buy Exchange',
+    'buy_value' => 'Buy Value',
+    'current_exchange' => 'Current Exchange',
+    'current_value' => 'Current Value',
+    'delete' => [
+        'button' => '',
+        'cancel' => '',
+        'delete' => '',
+        'message' => '',
+        'title' => '',
+    ],
+    'enabled' => 'Enabled',
+    'name' => 'Name',
+    'platform' => '',
+    'product' => '',
+    'save' => 'Save',
+    'sell' => 'Sell',
+    'sell_percent' => '',
+    'sell_stop_min' => 'Reference Exchange',
+];

@@ -1,0 +1,16 @@
+<?php return [
+    'code' => 'Código',
+    'created_at' => 'Fecha',
+    'difference' => 'Diferencia',
+    'exchange' => 'Cambio',
+    'meta-title' => 'Mercado',
+    'name' => 'Nombre',
+    'percent' => 'Porcentaje',
+    'platform' => 'Plataforma',
+    'platforms-all' => 'Plataforma',
+    'previous-exchange' => 'Cambio Anterior',
+    'search' => 'Buscar...',
+    'top-100' => 'Top 100',
+    'top-50' => 'Top 50',
+    'top-all' => 'Productos',
+];

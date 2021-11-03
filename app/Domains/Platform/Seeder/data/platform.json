@@ -1,0 +1,14 @@
+[
+    {
+        "code": "binance",
+        "name": "Binance",
+        "url": "https://www.binance.com/en/trade/",
+        "enabled": true
+    },
+    {
+        "code": "coinbase-pro",
+        "name": "Coinbase PRO",
+        "url": "https://pro.coinbase.com/trade/",
+        "enabled": true
+    }
+]

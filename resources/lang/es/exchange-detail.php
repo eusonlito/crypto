@@ -1,0 +1,16 @@
+<?php return [
+    'ask_price' => 'Venta',
+    'ask_quantity' => 'Cantidad',
+    'ask_sum' => 'Acumulado',
+    'bid_price' => 'Compra',
+    'bid_quantity' => 'Cantidad',
+    'bid_sum' => 'Acumulado',
+    'created_at' => 'Fecha',
+    'difference' => 'Diferencia',
+    'exchange' => 'Cambio',
+    'first' => 'Primero',
+    'last' => 'Último',
+    'max' => 'Máximo',
+    'min' => 'Mínimo',
+    'percent' => 'Porcentaje',
+];

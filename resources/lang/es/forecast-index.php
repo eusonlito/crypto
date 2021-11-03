@@ -1,0 +1,18 @@
+<?php return [
+    'date' => 'Fecha',
+    'empty' => 'Todavía no se ha registrado ninguna previsión.',
+    'meta-title' => 'Recomendaciones',
+    'platform' => 'Plataforma',
+    'product' => 'Producto',
+    'search' => 'Buscar...',
+    'selected' => 'Seleccionada',
+    'selected-all' => 'Estado',
+    'selected-no' => 'No Seleccionada',
+    'selected-yes' => 'Seleccionada',
+    'side' => 'Dirección',
+    'side-all' => 'Dirección',
+    'side-buy' => 'Compra',
+    'side-sell' => 'Venta',
+    'wallet' => 'Cartera',
+    'wallets-all' => 'Cartera',
+];

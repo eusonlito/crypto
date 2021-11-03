@@ -1,0 +1,134 @@
+<?php declare(strict_types=1);
+
+namespace App\Domains\Wallet\Action;
+
+use App\Domains\Wallet\Model\Wallet as Model;
+use App\Domains\Shared\Action\ActionFactoryAbstract;
+
+class ActionFactory extends ActionFactoryAbstract
+{
+    /**
+     * @var ?\App\Domains\Wallet\Model\Wallet
+     */
+    protected ?Model $row;
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function buyStop(): Model
+    {
+        return $this->actionHandle(BuyStop::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function buyStopMax(): Model
+    {
+        return $this->actionHandle(BuyStopMax::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function buyStopMin(): Model
+    {
+        return $this->actionHandle(BuyStopMin::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function create(): Model
+    {
+        return $this->actionHandle(Create::class, $this->validate()->create());
+    }
+
+    /**
+     * @return void
+     */
+    public function delete(): void
+    {
+        $this->actionHandle(Delete::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStop(): Model
+    {
+        return $this->actionHandle(SellStop::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopLoss(): Model
+    {
+        return $this->actionHandle(SellStopLoss::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopMax(): Model
+    {
+        return $this->actionHandle(SellStopMax::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopMin(): Model
+    {
+        return $this->actionHandle(SellStopMin::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function sync(): void
+    {
+        $this->actionHandle(Sync::class, [], ...func_get_args());
+    }
+
+    /**
+     * @return void
+     */
+    public function syncAll(): void
+    {
+        $this->actionHandle(SyncAll::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function syncOne(): Model
+    {
+        return $this->actionHandle(SyncOne::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function update(): Model
+    {
+        return $this->actionHandle(Update::class, $this->validate()->update());
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function updateBoolean(): Model
+    {
+        return $this->actionHandle(UpdateBoolean::class, $this->validate()->updateBoolean());
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function updateColumn(): Model
+    {
+        return $this->actionHandle(UpdateColumn::class, $this->validate()->updateColumn());
+    }
+}
