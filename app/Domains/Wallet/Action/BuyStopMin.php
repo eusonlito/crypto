@@ -86,8 +86,8 @@ class BuyStopMin extends ActionAbstract
             && $this->row->buy_stop_min_executable
             && $this->row->buy_stop_max
             && ($this->row->buy_stop_max_at === null)
-            && ($this->row->buy_stop_amount > $this->product->quantity_min)
-            && ($this->row->buy_stop_min > $this->product->price_min);
+            && ($this->row->buy_stop_amount >= $this->product->quantity_min)
+            && ($this->row->buy_stop_min >= $this->product->price_min);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Domains\User\Action;
 
 use Illuminate\Support\Facades\Hash;
 use App\Domains\User\Model\User as Model;
+use App\Exceptions\ValidatorException;
 
 class Update extends ActionAbstract
 {

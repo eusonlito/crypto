@@ -157,6 +157,7 @@ class Wallet extends BuilderAbstract
             ->where('amount', '>', 0)
             ->where('sell_stoploss', true)
             ->where('sell_stoploss_exchange', '>', 0)
+            ->where('sell_stoploss_executable', true)
             ->whereNotNull('sell_stoploss_at');
     }
 

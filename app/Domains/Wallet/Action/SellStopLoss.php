@@ -4,19 +4,12 @@ namespace App\Domains\Wallet\Action;
 
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
-use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\BuySellStop as BuySellStopLogger;
-use App\Services\Platform\ApiFactoryAbstract;
 
 class SellStopLoss extends ActionAbstract
 {
-    /**
-     * @var \App\Services\Platform\ApiFactoryAbstract
-     */
-    protected ApiFactoryAbstract $api;
-
     /**
      * @var \App\Domains\Order\Model\Order
      */
@@ -52,10 +45,9 @@ class SellStopLoss extends ActionAbstract
         }
 
         $this->start();
-        $this->api();
         $this->order();
         $this->sync();
-        $this->buyStop();
+        $this->update();
         $this->finish();
 
         return $this->row;
@@ -92,7 +84,8 @@ class SellStopLoss extends ActionAbstract
             && $this->row->sell_stoploss
             && $this->row->sell_stoploss_exchange
             && $this->row->sell_stoploss_at
-            && ($this->row->amount > $this->product->quantity_min);
+            && $this->row->sell_stoploss_executable
+            && ($this->row->amount >= $this->product->quantity_min);
     }
 
     /**
@@ -115,21 +108,31 @@ class SellStopLoss extends ActionAbstract
     /**
      * @return void
      */
-    protected function api(): void
+    protected function order(): void
     {
-        $this->api = ProviderApiFactory::get($this->platform);
+        $this->orderCreate();
+        $this->orderUpdate();
     }
 
     /**
      * @return void
      */
-    protected function order(): void
+    protected function orderCreate(): void
     {
-        $this->api->orderCreateMarket(
-            $this->product->code,
-            'sell',
-            helper()->roundFixed($this->row->amount, $this->product->quantity_decimal)
-        );
+        $this->order = $this->factory('Order')->action([
+            'type' => 'MARKET',
+            'side' => 'sell',
+            'amount' => $this->row->amount,
+        ])->create($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderUpdate(): void
+    {
+        $this->order->wallet_id = $this->row->id;
+        $this->order->save();
     }
 
     /**
@@ -139,7 +142,6 @@ class SellStopLoss extends ActionAbstract
     {
         $this->syncOrder();
         $this->syncWallet();
-        $this->syncRefresh();
     }
 
     /**
@@ -155,33 +157,38 @@ class SellStopLoss extends ActionAbstract
      */
     protected function syncWallet(): void
     {
-        $this->factory()->action()->sync($this->platform);
+        $this->factory()->action()->syncOne();
     }
 
     /**
      * @return void
      */
-    protected function syncRefresh(): void
+    protected function update(): void
     {
-        $this->row->refresh();
+        $this->updateOrder();
+
+        if (empty($this->order->filled)) {
+            return;
+        }
+
+        $this->updateSellStopLoss();
     }
 
     /**
      * @return void
      */
-    protected function buyStop(): void
+    protected function updateOrder(): void
     {
-        $this->row->buy_stop_min_percent = $this->row->buy_stop_min_percent ?: 10;
-        $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
-        $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min;
-        $this->row->buy_stop_min_at = null;
+        $this->order = OrderModel::findOrFail($this->order->id);
+    }
 
-        $this->row->buy_stop_min_percent = $this->row->buy_stop_max_percent ?: 5;
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
-        $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max;
-        $this->row->buy_stop_max_at = null;
-
-        $this->row->buy_stop_percent = helper()->percent($this->row->buy_stop_min, $this->row->buy_stop_max);
+    /**
+     * @return void
+     */
+    protected function updateSellStopLoss(): void
+    {
+        $this->row->sell_stoploss = false;
+        $this->row->sell_stoploss_executable = false;
     }
 
     /**

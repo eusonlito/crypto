@@ -53,7 +53,7 @@ class ActionFactory extends ActionFactoryAbstract
     }
 
     /**
-     * @return \App\Domains\Wallet\Model\Wallet
+     * @return \App\Domains\Product\Model\Product
      */
     public function updateBoolean(): Model
     {

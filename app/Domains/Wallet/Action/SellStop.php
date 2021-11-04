@@ -84,8 +84,8 @@ class SellStop extends ActionAbstract
             && $this->row->sell_stop_max
             && $this->row->sell_stop_min
             && ($this->row->sell_stop_amount <= $this->row->amount)
-            && ($this->row->sell_stop_amount > $this->product->quantity_min)
-            && ($this->row->sell_stop_min > $this->product->price_min);
+            && ($this->row->sell_stop_amount >= $this->product->quantity_min)
+            && ($this->row->sell_stop_min >= $this->product->price_min);
     }
 
     /**
