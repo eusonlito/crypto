@@ -1,4 +1,4 @@
-<div class="sm:grid grid-cols-3 gap-4 sm:h-80 content-center">
+<div class="sm:grid grid-cols-3 gap-4 content-center">
     <div class="box p-5 mt-5 lg:mt-0">
         <img src="{{ $tfa_qr }}" class="m-auto" style="width: 260px; height: 260px;">
     </div>
