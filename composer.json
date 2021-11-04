@@ -4,7 +4,7 @@
     "description": "PROJECT",
     "license": "proprietary",
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "bacon/bacon-qr-code": "master-dev",
         "composer/composer": "^2.0",
         "doctrine/dbal": "^3.0",
@@ -43,11 +43,6 @@
         "files": [
             "app/Services/Helper/functions.php"
         ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
