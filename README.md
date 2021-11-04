@@ -64,8 +64,8 @@ composer deploy
 ![crypto-1](https://user-images.githubusercontent.com/644551/140419472-b1da492f-2cbc-4a29-83b8-c194594ba9dc.png)
 ![crypto-2](https://user-images.githubusercontent.com/644551/140419495-575e4b66-8704-4111-8886-8b062453c04c.png)
 ![crypto-3](https://user-images.githubusercontent.com/644551/140419508-7632c08d-ef85-4dc7-a719-2b9eccab8e4e.png)
-![Screenshot from 2021-11-04 18-14-23](https://user-images.githubusercontent.com/644551/140419549-9952fb2e-f07c-4ece-bbb4-7d27c37ed23c.png)
-![Screenshot from 2021-11-04 22-03-32](https://user-images.githubusercontent.com/644551/140419742-feb5bb67-29d9-4ff0-bc34-aed2bf98b063.png)
-![Screenshot from 2021-11-04 22-05-08](https://user-images.githubusercontent.com/644551/140419926-651c16c1-bc2f-4c14-987b-d829d3cce79a.png)
+![crypto-4](https://user-images.githubusercontent.com/644551/140419549-9952fb2e-f07c-4ece-bbb4-7d27c37ed23c.png)
+![crypto-5](https://user-images.githubusercontent.com/644551/140419926-651c16c1-bc2f-4c14-987b-d829d3cce79a.png)
+![crypto-6](https://user-images.githubusercontent.com/644551/140419742-feb5bb67-29d9-4ff0-bc34-aed2bf98b063.png)
 
 Listo!
