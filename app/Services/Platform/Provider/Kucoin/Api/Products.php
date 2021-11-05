@@ -28,15 +28,15 @@ class Products extends ApiAbstract
      */
     public function handle(): Collection
     {
-        return $this->collection($this->query());
+        return $this->collection($this->query()->data);
     }
 
     /**
-     * @return array
+     * @return \stdClass
      */
-    protected function query(): array
+    protected function query(): stdClass
     {
-        return $this->requestGuest('GET', '/products');
+        return $this->requestGuest('GET', '/api/v1/symbols');
     }
 
     /**
@@ -46,26 +46,26 @@ class Products extends ApiAbstract
      */
     protected function resource(stdClass $row): ?ProductResource
     {
-        if (($row->status !== 'online') || ($row->trading_disabled !== false)) {
+        if ($row->enableTrading !== true) {
             return null;
         }
 
         return new ProductResource([
-            'code' => $row->id,
-            'name' => $row->display_name,
+            'code' => $row->symbol,
+            'name' => ($row->baseCurrency.'/'.$row->quoteCurrency),
 
             'precision' => 8,
 
-            'priceMin' => (float)$row->quote_increment,
-            'priceMax' => (float)$row->max_market_funds,
-            'priceDecimal' => strpos(str_replace('.', '', $row->quote_increment), '1'),
+            'priceMin' => (float)$row->quoteMinSize,
+            'priceMax' => (float)$row->quoteMaxSize,
+            'priceDecimal' => strpos(str_replace('.', '', $row->quoteIncrement), '1'),
 
-            'quantityMin' => (float)$row->base_min_size,
-            'quantityMax' => (float)$row->base_max_size,
-            'quantityDecimal' => strpos(str_replace('.', '', $row->base_increment), '1'),
+            'quantityMin' => (float)$row->baseMinSize,
+            'quantityMax' => (float)$row->baseMaxSize,
+            'quantityDecimal' => strpos(str_replace('.', '', $row->baseIncrement), '1'),
 
-            'currencyBase' => $row->base_currency,
-            'currencyQuote' => $row->quote_currency,
+            'currencyBase' => $row->baseCurrency,
+            'currencyQuote' => $row->quoteCurrency,
         ]);
     }
 }
