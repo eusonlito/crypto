@@ -12,4 +12,10 @@ return [
         'socket' => env('PLATFORM_COINBASE_PRO_SOCKET'),
         'currency_innovation_allowed' => ['SHIB'],
     ],
+
+    'kucoin' => [
+        'endpoint' => env('PLATFORM_KUCOIN_ENDPOINT'),
+        'socket' => env('PLATFORM_KUCOIN_SOCKET'),
+        'currency_innovation_allowed' => ['SHIB'],
+    ]
 ];

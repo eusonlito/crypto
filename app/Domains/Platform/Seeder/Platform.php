@@ -12,8 +12,6 @@ class Platform extends SeederAbstract
      */
     public function run()
     {
-        $this->truncate('platform');
-
-        Model::insert($this->json('platform'));
+        $this->insertWithoutDuplicates(Model::class, $this->json('platform'), 'code');
     }
 }

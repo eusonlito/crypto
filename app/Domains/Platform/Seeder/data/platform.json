@@ -10,5 +10,11 @@
         "name": "Coinbase PRO",
         "url": "https://pro.coinbase.com/trade/",
         "enabled": true
+    },
+    {
+        "code": "kucoin",
+        "name": "KuCoin",
+        "url": "https://trade.kucoin.com/",
+        "enabled": true
     }
 ]
