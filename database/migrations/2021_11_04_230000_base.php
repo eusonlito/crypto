@@ -473,8 +473,8 @@ return new class extends MigrationAbstract {
             $table->unsignedDouble('sell_stoploss_exchange')->default(0);
             $table->unsignedDouble('sell_stoploss_value')->default(0);
             $table->unsignedDouble('sell_stoploss_percent')->default(0);
-
             $table->dateTime('sell_stoploss_at')->nullable();
+            $table->boolean('sell_stoploss_executable')->default(0);
 
             $table->boolean('processing')->default(0);
             $table->boolean('custom')->default(0);
