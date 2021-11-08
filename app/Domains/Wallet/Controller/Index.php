@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('wallet.index', [
             'list' => $this->list(),
             'filters' => $this->request->input(),
-            'platforms' => PlatformModel::enabled()->list()->get(),
+            'platforms' => PlatformModel::list()->get(),
         ]);
     }
 

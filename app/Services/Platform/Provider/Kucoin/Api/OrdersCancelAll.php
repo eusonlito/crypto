@@ -37,6 +37,6 @@ class OrdersCancelAll extends ApiAbstract
      */
     protected function query(): void
     {
-        $this->requestAuth('DELETE', '/orders', ['product_id' => $this->product]);
+        $this->requestAuth('DELETE', '/api/v1/orders', ['symbol' => $this->product]);
     }
 }

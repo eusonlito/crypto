@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('product.index', [
             'filters' => $this->request->input(),
             'list' => $this->list(),
-            'platforms' => PlatformModel::enabled()->list()->get(),
+            'platforms' => PlatformModel::list()->get(),
         ]);
     }
 

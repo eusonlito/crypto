@@ -22,7 +22,7 @@ class Platform extends BuilderAbstract
      */
     public function list(): self
     {
-        return $this->enabled()->orderBy('name', 'ASC');
+        return $this->orderBy('name', 'ASC');
     }
 
     /**

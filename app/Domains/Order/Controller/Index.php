@@ -23,7 +23,7 @@ class Index extends ControllerAbstract
             'list' => $this->list(),
             'filled_options' => $this->filledOptions(),
             'side_options' => $this->sideOptions(),
-            'platforms' => PlatformModel::enabled()->list()->get(),
+            'platforms' => PlatformModel::list()->get(),
         ]);
     }
 

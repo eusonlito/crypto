@@ -27,15 +27,15 @@ class Currencies extends ApiAbstract
     /**
      * @param \stdClass $row
      *
-     * @return ?\App\Services\Platform\Resource\Currency
+     * @return \App\Services\Platform\Resource\Currency
      */
-    protected function resource(stdClass $row): ?CurrencyResource
+    protected function resource(stdClass $row): CurrencyResource
     {
         return new CurrencyResource([
             'code' => $row->currency,
             'name' => $row->fullName,
             'symbol' => $row->currency,
-            'precision' => $row->precision,
+            'precision' => (int)$row->precision,
         ]);
     }
 }

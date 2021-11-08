@@ -58,7 +58,7 @@ class Products extends ApiAbstract
 
             'priceMin' => (float)$row->quoteMinSize,
             'priceMax' => (float)$row->quoteMaxSize,
-            'priceDecimal' => strpos(str_replace('.', '', $row->quoteIncrement), '1'),
+            'priceDecimal' => strpos(str_replace('.', '', $row->priceIncrement), '1'),
 
             'quantityMin' => (float)$row->baseMinSize,
             'quantityMax' => (float)$row->baseMaxSize,

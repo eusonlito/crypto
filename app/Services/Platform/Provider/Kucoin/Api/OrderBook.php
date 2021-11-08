@@ -27,7 +27,7 @@ class OrderBook extends ApiAbstract
      */
     public function handle(): OrderBookResource
     {
-        return $this->resource($this->query());
+        return $this->resource($this->query()->data);
     }
 
     /**
@@ -35,8 +35,8 @@ class OrderBook extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestGuest('GET', sprintf('/products/%s/book', $this->symbol), [
-            'level' => 3,
+        return $this->requestGuest('GET', '/api/v3/market/orderbook/level2', [
+            'symbol' => $this->symbol,
         ]);
     }
 

@@ -28,7 +28,7 @@ class Status extends ControllerAbstract
         return $this->page('order.status', [
             'filters' => $this->request->input(),
             'list' => $list,
-            'platforms' => PlatformModel::enabled()->list()->get(),
+            'platforms' => PlatformModel::list()->get(),
         ]);
     }
 

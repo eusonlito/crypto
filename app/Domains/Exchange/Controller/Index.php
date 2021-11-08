@@ -19,7 +19,7 @@ class Index extends ControllerAbstract
 
         return $this->page('exchange.index', [
             'list' => (new ReportService($this->request->input()))->get(),
-            'platforms' => PlatformModel::enabled()->list()->get(),
+            'platforms' => PlatformModel::list()->get(),
             'filters' => $this->request->input(),
         ]);
     }

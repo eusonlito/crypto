@@ -169,14 +169,19 @@ class Websocket
      */
     public function open(): self
     {
-        $request = $this->openRequest();
         $address = $this->protocol.$this->host.':'.$this->port;
+
+        $this->logFile('connect', $address);
 
         $this->stream = stream_socket_client($address, $errno, $errstr, $this->timeout, STREAM_CLIENT_CONNECT | STREAM_CLIENT_PERSISTENT);
 
         if ($this->stream === false) {
             throw new Exception(sprintf('Unable to connect to websocket server: %s (%s).', $errstr, $errno));
         }
+
+        $request = $this->openRequest();
+
+        $this->logFile('request', $request);
 
         stream_set_timeout($this->stream, $this->timeout);
 
@@ -219,6 +224,8 @@ class Websocket
      */
     public function write(string $data): self
     {
+        $this->logFile('write', $data);
+
         $length = strlen($data);
         $header = chr(0x80 | 0x01);
 
@@ -294,7 +301,7 @@ class Websocket
             $payload = $this->unmask($mask, $payload);
         }
 
-        $this->logFile($payload);
+        $this->logFile('read', $payload);
 
         return json_decode($payload);
     }
@@ -318,18 +325,19 @@ class Websocket
     }
 
     /**
+     * @param string $action
      * @param string $payload
      *
      * @return void
      */
-    protected function logFile(string $payload): void
+    protected function logFile(string $action, string $payload): void
     {
         if ($this->log !== true) {
             return;
         }
 
         $dir = storage_path('logs/websocket/'.date('Y-m-d'));
-        $file = str_slug($this->uri).'.json';
+        $file = str_slug($this->host).'.json';
 
         clearstatcache(true, $dir);
 
@@ -337,6 +345,6 @@ class Websocket
             mkdir($dir, 0755, true);
         }
 
-        file_put_contents($dir.'/'.$file, $payload."\n", FILE_APPEND | LOCK_EX);
+        file_put_contents($dir.'/'.$file, json_encode([$action => $payload])."\n", FILE_APPEND | LOCK_EX);
     }
 }

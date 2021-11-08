@@ -36,6 +36,12 @@ php artisan db:seed --class=Database\\Seeders\\Database
 composer artisan-cache
 ````
 
+# Desactivación de plataformas
+
+El sistema genera unos 18 millones de valores de cambio cada 15 días, con lo cual necesitarás una buena máquina para soportar eso.
+
+Si deseas desactivar cualquier plataforma puedes hacerlo indicando el campo `enabled` a `false` de la tabla `platform`, tu servidor te lo agradecerá.
+
 # Carga de datos inicial
 
 ```bash
@@ -49,8 +55,15 @@ php artisan exchange:sync:all
 
 ```bash
 nohup php artisan schedule:work > storage/logs/schedule-work.log 2>&1 &
-nohup php artisan exchange:sync:socket --platform_id=1 > storage/logs/exchange-sync-socket.log 2>&1 &
-nohup php artisan exchange:ticker:socket --platform_id=2 > storage/logs/exchange-ticker-socket.log 2>&1 &
+
+# Binance
+nohup php artisan exchange:sync:socket --platform_id=1 > storage/logs/exchange-sync-socket-1.log 2>&1 &
+
+# Coinbase PRO
+nohup php artisan exchange:ticker:socket --platform_id=2 > storage/logs/exchange-ticker-socket-2.log 2>&1 &
+
+# KuCoin
+nohup php artisan exchange:ticker:socket --platform_id=3 > storage/logs/exchange-ticker-socket-3.log 2>&1 &
 ```
 
 # Actualización

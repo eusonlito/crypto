@@ -9,42 +9,21 @@ use App\Services\Platform\Resource\Wallet as WalletResource;
 class Wallets extends ApiAbstract
 {
     /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected Collection $currencies;
-
-    /**
      * @return \Illuminate\Support\Collection
      */
     public function handle(): Collection
     {
-        $this->currencies();
-
-        return $this->collection($this->query());
+        return $this->collection($this->query()->data);
     }
 
     /**
-     * @return array
+     * @return \stdClass
      */
-    protected function query(): array
+    protected function query(): stdClass
     {
-        return $this->requestAuth('GET', '/accounts');
-    }
-
-    /**
-     * @return void
-     */
-    protected function currencies(): void
-    {
-        $this->currencies = collect($this->currenciesQuery())->keyBy('id');
-    }
-
-    /**
-     * @return array
-     */
-    protected function currenciesQuery(): array
-    {
-        return $this->requestGuest('GET', '/currencies');
+        return $this->requestAuth('GET', '/api/v1/accounts', [
+            'type' => 'trade',
+        ]);
     }
 
     /**
@@ -59,8 +38,8 @@ class Wallets extends ApiAbstract
             'symbol' => $row->currency,
             'name' => $row->currency,
             'amount' => (float)$row->balance,
-            'crypto' => ($this->currencies->get($row->currency)->details->type === 'crypto'),
-            'trading' => $row->trading_enabled,
+            'crypto' => ($row->currency !== 'USDT'),
+            'trading' => true,
         ]);
     }
 }

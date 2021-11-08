@@ -117,7 +117,7 @@ class Products extends ApiAbstract
      * @param \stdClass $row
      * @param string $type
      *
-     * @return stdClass
+     * @return \stdClass
      */
     protected function resourceFilter(stdClass $row, string $type): stdClass
     {

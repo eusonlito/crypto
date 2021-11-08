@@ -19,7 +19,7 @@ class SyncAll extends ActionAbstract
      */
     protected function iterate(): void
     {
-        foreach (PlatformModel::enabled()->byUserId($this->auth->id)->withUserPivot($this->auth->id)->get() as $each) {
+        foreach (PlatformModel::byUserId($this->auth->id)->withUserPivot($this->auth->id)->get() as $each) {
             $this->factory()->action()->sync($each);
         }
     }

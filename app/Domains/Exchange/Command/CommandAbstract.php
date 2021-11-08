@@ -12,6 +12,6 @@ abstract class CommandAbstract extends CommandAbstractShared
      */
     public function platform(): PlatformModel
     {
-        return PlatformModel::enabled()->findOrFail($this->checkOption('platform_id'));
+        return PlatformModel::findOrFail($this->checkOption('platform_id'));
     }
 }

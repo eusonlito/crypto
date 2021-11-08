@@ -77,13 +77,13 @@ abstract class ApiAbstract
     }
 
     /**
-     * @param string $date
+     * @param int $date
      *
      * @return string
      */
-    protected function date(string $date): string
+    protected function date(int $date): string
     {
-        return date('Y-m-d H:i:s', strtotime($date));
+        return date('Y-m-d H:i:s', intval($date / 1000));
     }
 
     /**

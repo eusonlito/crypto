@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform\Provider\Kucoin\Api;
 
+use stdClass;
 use Illuminate\Support\Collection;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\OrderBook as OrderBookResource;
@@ -118,5 +119,13 @@ class ApiFactory extends ApiFactoryAbstract
     public function wallets(): Collection
     {
         return $this->handle(Wallets::class);
+    }
+
+    /**
+     * @return \stdClass
+     */
+    public function websockets(): stdClass
+    {
+        return $this->handle(Websockets::class);
     }
 }
