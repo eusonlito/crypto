@@ -33,7 +33,11 @@ return new class extends MigrationAbstract
     protected function tables()
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->boolean('sell_stoploss_executable')->default(0);
+            $table->boolean('sell_stoploss_executable')->default(0)->after('sell_stoploss_at'):
+        });
+
+        Schema::table('wallet_history', function (Blueprint $table) {
+            $table->boolean('sell_stoploss_executable')->default(0)->after('sell_stoploss_at');
         });
     }
 
@@ -50,6 +54,10 @@ return new class extends MigrationAbstract
     public function down()
     {
         Schema::table('wallet', function (Blueprint $table) {
+            $table->dropColumn('sell_stoploss_executable');
+        });
+
+        Schema::table('wallet_history', function (Blueprint $table) {
             $table->dropColumn('sell_stoploss_executable');
         });
     }
