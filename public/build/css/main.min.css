@@ -6110,10 +6110,6 @@ html body {
     display: none;
   }
 
-  .sm\:h-80 {
-    height: 20rem;
-  }
-
   .sm\:w-3\/4 {
     width: 75%;
   }
