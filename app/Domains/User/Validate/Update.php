@@ -15,6 +15,7 @@ class Update extends ValidateAbstract
             'email' => ['bail', 'required', 'email:filter'],
             'password' => ['bail', 'min:8'],
             'tfa_enabled' => ['bail', 'boolean'],
+            'password_current' => ['bail', 'required', 'current_password'],
         ];
     }
 }
