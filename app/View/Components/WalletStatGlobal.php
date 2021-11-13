@@ -36,13 +36,13 @@ class WalletStatGlobal extends Component
      */
     protected function renderData(): array
     {
-        $buy_value = $this->list->where('ticker', false)->sum('buy_value');
-        $current_value = $this->list->where('ticker', false)->sum('current_value');
+        $buy_value = $this->list->sum('buy_value');
+        $current_value = $this->list->sum('current_value');
 
         return [
             'buy_value' => $buy_value,
             'current_value' => $current_value,
-            'sell_stop_min_value' => $this->list->where('ticker', false)->sum('sell_stop_min_value'),
+            'sell_stop_min_value' => $this->list->sum('sell_stop_min_value'),
             'result' => ($current_value - $buy_value),
         ];
     }
