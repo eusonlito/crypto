@@ -69,13 +69,11 @@ class Ticker extends SocketAbstract
     }
 
     /**
-     * @param array $product_ids
-     *
      * @return self
      */
-    public function subscribe(array $product_ids): self
+    public function subscribe(): self
     {
-        $this->socket->write($this->subscribeMessage($product_ids));
+        $this->socket->write($this->subscribeMessage());
 
         return $this;
     }
@@ -140,11 +138,9 @@ class Ticker extends SocketAbstract
     }
 
     /**
-     * @param array $product_ids
-     *
      * @return string
      */
-    protected function subscribeMessage(array $product_ids): string
+    protected function subscribeMessage(): string
     {
         return json_encode([
             'id' => time(),

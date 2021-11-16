@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform\Provider\Kucoin\Api;
 
+use stdClass;
 use Illuminate\Support\Collection;
 use App\Services\Platform\Provider\Kucoin\Api\Traits\OrderResource as OrderResourceTrait;
 
@@ -33,9 +34,9 @@ class OrdersProduct extends ApiAbstract
     }
 
     /**
-     * @return array
+     * @return \stdClass
      */
-    protected function query(): array
+    protected function query(): stdClass
     {
         return $this->requestAuth('GET', '/api/v1/orders', [
             'symbol' => $this->product,
