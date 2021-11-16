@@ -36,7 +36,7 @@ class BuyStopMax extends MailAbstract
             'platform' => $row->platform->name,
             'name' => $row->name,
             'amount' => $order->amount,
-            'price' => $order->price
+            'price' => $order->price,
         ]);
 
         $this->row = $row;
