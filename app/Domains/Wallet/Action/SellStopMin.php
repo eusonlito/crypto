@@ -49,6 +49,7 @@ class SellStopMin extends ActionAbstract
         $this->order();
         $this->update();
         $this->finish();
+        $this->mail();
 
         return $this->row;
     }
@@ -221,5 +222,13 @@ class SellStopMin extends ActionAbstract
         $this->row->sell_stop_min_executable = false;
         $this->row->processing = false;
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function mail(): void
+    {
+        $this->factory()->mail()->sellStopMin($this->row, $this->order);
     }
 }

@@ -19,8 +19,6 @@ class BuyStop extends CommandAbstract
      */
     public function handle()
     {
-        $this->factory()->mail()->buyStopMax(\App\Domains\Wallet\Model\Wallet::orderByLast()->first(), \App\Domains\Order\Model\Order::orderByLast()->first());
-        exit;
         $this->row();
         $this->factory()->action()->buyStop();
     }
