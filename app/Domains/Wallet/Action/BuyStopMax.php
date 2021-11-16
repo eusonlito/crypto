@@ -129,7 +129,20 @@ class BuyStopMax extends ActionAbstract
      */
     protected function syncWallet(): void
     {
-        $this->factory()->action()->syncOne();
+        $this->syncWalletSameCurrency($this->product->currency_base_id);
+        $this->syncWalletSameCurrency($this->product->currency_quote_id);
+    }
+
+    /**
+     * @param int $currency_id
+     *
+     * @return void
+     */
+    protected function syncWalletSameCurrency(int $currency_id): void
+    {
+        foreach (Model::byUserId($this->auth->id)->byCurrencyId($currency_id)->get() as $row) {
+            $this->factory(null, $row)->action()->syncOne();
+        }
     }
 
     /**

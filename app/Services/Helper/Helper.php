@@ -180,7 +180,7 @@ class Helper
             return 5;
         }
 
-        if ($value > 0.00001) {
+        if ($value > 0.0001) {
             return 6;
         }
 
