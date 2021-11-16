@@ -11,6 +11,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use App\Services\Database\Logger as LoggerDatabase;
+use App\Services\Mail\Logger as LoggerMail;
 
 class Debug extends ServiceProvider
 {
@@ -40,6 +41,7 @@ class Debug extends ServiceProvider
     protected function logging(): void
     {
         $this->loggingDatabase();
+        $this->loggingMail();
     }
 
     /**
@@ -48,6 +50,14 @@ class Debug extends ServiceProvider
     protected function loggingDatabase(): void
     {
         LoggerDatabase::listen();
+    }
+
+    /**
+     * @return void
+     */
+    protected function loggingMail(): void
+    {
+        LoggerMail::listen();
     }
 
     /**

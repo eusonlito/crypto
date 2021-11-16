@@ -10,7 +10,7 @@ use App\Exceptions\ValidatorException;
 trait CreateUpdate
 {
     /**
-     * @var \App\Domains\Product\Model\Product $product
+     * @var \App\Domains\Product\Model\Product
      */
     protected ProductModel $product;
 
