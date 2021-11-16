@@ -152,9 +152,19 @@ class SellStopMin extends ActionAbstract
             return;
         }
 
+        $this->updateExchange();
         $this->updateSellStop();
         $this->updateBuyStop();
         $this->updateProduct();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateExchange(): void
+    {
+        $this->row->buy_exchange = $this->row->sell_stop_min;
+        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }
 
     /**
@@ -173,10 +183,11 @@ class SellStopMin extends ActionAbstract
     protected function updateBuyStop(): void
     {
         if ($this->row->buy_stop_amount && $this->row->buy_stop_min_percent && $this->row->buy_stop_percent) {
+            $this->row->buy_stop_amount = $this->row->amount;
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_min = $this->row->current_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min;
         $this->row->buy_stop_min_at = null;
 

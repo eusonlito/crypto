@@ -151,9 +151,19 @@ class BuyStopMax extends ActionAbstract
             return;
         }
 
+        $this->updateExchange();
         $this->updateBuyStop();
         $this->updateSellStop();
         $this->updateProduct();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateExchange(): void
+    {
+        $this->row->buy_exchange = $this->row->buy_stop_max;
+        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }
 
     /**
@@ -172,10 +182,11 @@ class BuyStopMax extends ActionAbstract
     protected function updateSellStop(): void
     {
         if ($this->row->sell_stop_amount && $this->row->sell_stop_max_percent && $this->row->sell_stop_percent) {
+            $this->row->sell_stop_amount = $this->row->amount;
             $this->row->sell_stop = true;
         }
 
-        $this->row->sell_stop_max = $this->row->current_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_max = $this->row->buy_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_value = $this->row->sell_stop_amount * $this->row->sell_stop_max;
         $this->row->sell_stop_max_at = null;
 
