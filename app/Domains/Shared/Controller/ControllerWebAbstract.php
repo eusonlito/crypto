@@ -96,6 +96,18 @@ abstract class ControllerWebAbstract extends ControllerAbstract
      *
      * @return mixed
      */
+    final protected function actionGet(string $name)
+    {
+        if ($this->request->isMethod('get') && ($this->request->input('_action') === $name)) {
+            return call_user_func_array([$this, 'actionCall'], func_get_args());
+        }
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
     final protected function actionPost(string $name)
     {
         if ($this->request->isMethod('post') && ($this->request->input('_action') === $name)) {

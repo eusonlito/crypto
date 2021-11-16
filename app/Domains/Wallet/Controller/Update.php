@@ -37,7 +37,9 @@ class Update extends ControllerAbstract
      */
     protected function actions()
     {
-        return $this->actionPost('update') ?: $this->actionPost('delete');
+        return $this->actionPost('update')
+            ?: $this->actionPost('delete')
+            ?: $this->actionGet('syncOne');
     }
 
     /**
@@ -46,6 +48,14 @@ class Update extends ControllerAbstract
     protected function update(): RedirectResponse
     {
         return redirect()->route('wallet.update', $this->action()->update()->id);
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function syncOne(): RedirectResponse
+    {
+        return redirect()->route('wallet.update', $this->action()->syncOne()->id);
     }
 
     /**

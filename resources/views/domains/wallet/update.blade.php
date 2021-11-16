@@ -15,7 +15,15 @@
                 <x-select name="product_id" value="id" :text="['name']" :options="$products->toArray()" :label="__('wallet-update.product')" :selected="$row->product_id"></x-select>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-2">
+            <div class="col-span-12 mb-2 lg:col-span-1">
+                <label class="form-label">&nbsp;</label>
+
+                <a href="?_action=syncOne" class="btn form-select-lg block">
+                    @icon('refresh-cw')
+                </a>
+            </div>
+
+            <div class="col-span-12 mb-2 lg:col-span-1">
                 <label class="form-label">&nbsp;</label>
 
                 <a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg block">
