@@ -39,7 +39,7 @@ class Update extends ControllerAbstract
     {
         return $this->actionPost('update')
             ?: $this->actionPost('delete')
-            ?: $this->actionGet('syncOne');
+            ?: $this->actionIfExists('syncOne');
     }
 
     /**

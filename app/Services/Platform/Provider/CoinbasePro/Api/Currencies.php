@@ -38,7 +38,7 @@ class Currencies extends ApiAbstract
         return new CurrencyResource([
             'code' => $row->id,
             'name' => $row->name,
-            'symbol' => (string)$row->details->symbol,
+            'symbol' => '',
             'precision' => substr_count($row->max_precision, '0'),
         ]);
     }
