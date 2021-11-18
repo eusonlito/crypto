@@ -172,8 +172,8 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateExchange(): void
     {
-        $this->row->buy_exchange = $this->row->buy_stop_max;
-        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
+        $this->row->buy_exchange = $this->order->price;
+        $this->row->buy_value = $this->row->buy_exchange * $this->order->amount;
     }
 
     /**
