@@ -116,7 +116,8 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 Add the correct font weight in Edge and Safari.
 */
 
-b {
+b,
+strong {
   font-weight: bolder;
 }
 
@@ -269,6 +270,7 @@ Add the correct display in Chrome and Safari.
 
 
 h2,
+h3,
 p {
   margin: 0;
 }
@@ -402,7 +404,8 @@ table {
 }
 
 
-h2 {
+h2,
+h3 {
   font-size: inherit;
   font-weight: inherit;
 }
