@@ -203,15 +203,15 @@
 
             <div class="flex-initial p-4">
                 <div class="form-check">
-                    <input type="checkbox" name="buy_stop_max_at" value="1" class="form-check-switch" id="wallet-buy_stop_max_at" {{ $row->buy_stop_max_at ? 'checked' : '' }}>
-                    <label for="wallet-buy_stop_max_at" class="form-check-label">{{ __('wallet-update.buy_stop_max_at') }}</label>
+                    <input type="checkbox" name="buy_stop_min_at" value="1" class="form-check-switch" id="wallet-buy_stop_min_at" {{ $row->buy_stop_min_at ? 'checked' : '' }}>
+                    <label for="wallet-buy_stop_min_at" class="form-check-label">{{ __('wallet-update.buy_stop_min_at') }}</label>
                 </div>
             </div>
 
             <div class="flex-initial p-4">
                 <div class="form-check">
-                    <input type="checkbox" name="buy_stop_min_at" value="1" class="form-check-switch" id="wallet-buy_stop_min_at" {{ $row->buy_stop_min_at ? 'checked' : '' }}>
-                    <label for="wallet-buy_stop_min_at" class="form-check-label">{{ __('wallet-update.buy_stop_min_at') }}</label>
+                    <input type="checkbox" name="buy_stop_max_at" value="1" class="form-check-switch" id="wallet-buy_stop_max_at" {{ $row->buy_stop_max_at ? 'checked' : '' }}>
+                    <label for="wallet-buy_stop_max_at" class="form-check-label">{{ __('wallet-update.buy_stop_max_at') }}</label>
                 </div>
             </div>
         </div>

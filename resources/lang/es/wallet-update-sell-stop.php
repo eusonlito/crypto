@@ -1,0 +1,22 @@
+<?php return [
+    'amount' => 'Actual',
+    'buy_exchange' => 'Cambio en Compra',
+    'cancel' => 'Cancelar',
+    'error' => [
+        'sell-stop-max-empty-min' => 'Se ha establecido un valor para el máximo de Venta en Stop-Limit (:max) pero no para el mínimo (:min)',
+        'sell-stop-max-less-min' => 'El Cambio de Venta en Stop-Limit Máximo (:max) es menor al Mínimo (:min)',
+        'sell-stop-min-empty-max' => 'Se ha establecido un valor para el mínimo de Compra en Stop-Limit (:min) pero no para el máximo (:max)',
+    ],
+    'sell_stop' => 'Activo',
+    'sell_stop_amount' => 'En Venta',
+    'sell_stop_max' => 'Cambio Máximo',
+    'sell_stop_max_at' => 'Máximo Alcanzado',
+    'sell_stop_max_percent' => 'Porcentaje Máximo',
+    'sell_stop_max_value' => 'Valor Máximo',
+    'sell_stop_min' => 'Cambio Mínimo',
+    'sell_stop_min_at' => 'Mínimo Alcanzado',
+    'sell_stop_min_percent' => 'Porcentaje Mínimo',
+    'sell_stop_min_value' => 'Valor Mínimo',
+    'send' => 'Guardar',
+    'title' => 'Sell-Stop',
+];

@@ -33,8 +33,24 @@ class ValidateFactory extends ValidateFactoryAbstract
     /**
      * @return array
      */
+    public function updateBuyStop(): array
+    {
+        return $this->handle(UpdateBuyStop::class);
+    }
+
+    /**
+     * @return array
+     */
     public function updateColumn(): array
     {
         return $this->handle(UpdateColumn::class);
+    }
+
+    /**
+     * @return array
+     */
+    public function updateSellStop(): array
+    {
+        return $this->handle(UpdateSellStop::class);
     }
 }

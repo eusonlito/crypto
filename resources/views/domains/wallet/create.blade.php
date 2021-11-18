@@ -58,7 +58,7 @@
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <div class="form-check">
-                    <input type="checkbox" name="visible" value="1" class="form-check-switch" id="wallet-visible" {{ $REQUEST->input('visible') ? 'checked' : '' }}>
+                    <input type="checkbox" name="visible" value="1" class="form-check-switch" id="wallet-visible" {{ $REQUEST->input('visible', true) ? 'checked' : '' }}>
                     <label for="wallet-visible" class="form-check-label">{{ __('wallet-create.visible') }}</label>
                 </div>
             </div>

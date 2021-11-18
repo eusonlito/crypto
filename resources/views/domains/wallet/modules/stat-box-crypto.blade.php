@@ -41,7 +41,7 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stop') }}</div>
+                    <div class="text-gray-600 text-xs"><a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stop-modal-{{ $row->id }}">{{ __('wallet-stat.sell_stop') }}</a></div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base {{ $sell_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stop ? __('wallet-stat.sell_stop_enabled') : __('wallet-stat.sell_stop_disabled') }}</div>
@@ -103,7 +103,7 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.buy_stop') }}</div>
+                    <div class="text-gray-600 text-xs"><a href="javascript:;" data-toggle="modal" data-target="#wallet-update-buy-stop-modal-{{ $row->id }}">{{ __('wallet-stat.buy_stop') }}</a></div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base {{ $buy_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_stop ? __('wallet-stat.buy_stop_enabled') : __('wallet-stat.buy_stop_disabled') }}</div>
@@ -201,3 +201,6 @@
         </div>
     </div>
 </div>
+
+@include ('domains.wallet.molecules.wallet-update-buy-stop-modal')
+@include ('domains.wallet.molecules.wallet-update-sell-stop-modal')

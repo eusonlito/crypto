@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => env('SESSION_COOKIE', 'coinbase_session'),
+    'cookie' => env('SESSION_COOKIE', 'crypto_session'),
 
     /*
     |--------------------------------------------------------------------------

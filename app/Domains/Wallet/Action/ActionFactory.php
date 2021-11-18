@@ -127,8 +127,24 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
+    public function updateBuyStop(): Model
+    {
+        return $this->actionHandle(UpdateBuyStop::class, $this->validate()->updateBuyStop());
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
     public function updateColumn(): Model
     {
         return $this->actionHandle(UpdateColumn::class, $this->validate()->updateColumn());
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function updateSellStop(): Model
+    {
+        return $this->actionHandle(UpdateSellStop::class, $this->validate()->updateSellStop());
     }
 }
