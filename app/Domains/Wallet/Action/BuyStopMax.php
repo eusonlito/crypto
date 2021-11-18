@@ -161,10 +161,6 @@ class BuyStopMax extends ActionAbstract
      */
     protected function update(): void
     {
-        if (empty($this->order->filled)) {
-            return;
-        }
-
         $this->updateExchange();
         $this->updateBuyStop();
         $this->updateSellStop();

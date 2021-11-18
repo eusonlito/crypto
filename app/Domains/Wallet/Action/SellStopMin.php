@@ -162,10 +162,6 @@ class SellStopMin extends ActionAbstract
      */
     protected function update(): void
     {
-        if (empty($this->order->filled)) {
-            return;
-        }
-
         $this->updateExchange();
         $this->updateSellStop();
         $this->updateBuyStop();
