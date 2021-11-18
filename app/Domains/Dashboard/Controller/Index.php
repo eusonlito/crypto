@@ -65,7 +65,6 @@ class Index extends ControllerAbstract
         return WalletModel::byUserId($this->auth->id)
             ->enabled()
             ->whereVisible()
-            ->withAmount()
             ->list()
             ->withExchangesChart($this->request->input('time'))
             ->get();
