@@ -14,13 +14,6 @@
         </li>
 
         <li>
-            <a href="{{ route('exchange.index') }}" class="menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'menu--active' : '' }}">
-                <div class="menu__icon">@icon('bar-chart')</div>
-                <div class="menu__title">{{ __('in-sidebar.exchange') }}</div>
-            </a>
-        </li>
-
-        <li>
             <a href="{{ route('wallet.index') }}" class="menu {{ in_array($ROUTE, ['wallet.index', 'wallet.create', 'wallet.update']) ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('book-open')</div>
                 <div class="menu__title">{{ __('in-sidebar.wallets') }}</div>
@@ -86,6 +79,13 @@
                     </a>
                 </li>
             </ul>
+        </li>
+
+        <li>
+            <a href="{{ route('exchange.index') }}" class="menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'menu--active' : '' }}">
+                <div class="menu__icon">@icon('bar-chart')</div>
+                <div class="menu__title">{{ __('in-sidebar.exchange') }}</div>
+            </a>
         </li>
 
         <li>
