@@ -38,7 +38,6 @@ class OrderBook extends ActionAbstract
         $this->current();
         $this->api();
         $this->iterate();
-        $this->reset();
     }
 
     /**
@@ -98,26 +97,5 @@ class OrderBook extends ActionAbstract
         $row->bid_sum = array_sum($bids);
 
         $row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function reset(): void
-    {
-        $this->try(fn () => $this->resetQuery(), 3, 1);
-    }
-
-    /**
-     * @return void
-     */
-    protected function resetQuery(): void
-    {
-        Model::byPlatformId($this->platform->id)->whereWalletsInactive()->update([
-            'ask_price' => 0,
-            'ask_quantity' => 0,
-            'bid_price' => 0,
-            'bid_quantity' => 0,
-        ]);
     }
 }

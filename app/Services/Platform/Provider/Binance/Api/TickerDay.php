@@ -4,41 +4,36 @@ namespace App\Services\Platform\Provider\Binance\Api;
 
 use stdClass;
 use Illuminate\Support\Collection;
-use App\Services\Platform\Resource\Product as ProductResource;
+use App\Services\Platform\Resource\Ticker as TickerResource;
 
-class Products extends ApiAbstract
+class TickerDay extends ApiAbstract
 {
     /**
      * @return \Illuminate\Support\Collection
      */
     public function handle(): Collection
     {
-        return $this->collection($this->query()->symbols);
+        return $this->collection($this->query());
     }
 
     /**
-     * @return \stdClass
+     * @return array
      */
-    protected function query(): stdClass
+    protected function query(): array
     {
-        return $this->requestGuest('GET', '/api/v3/exchangeInfo');
+        return $this->requestGuest('GET', '/api/v3/ticker/24hr');
     }
 
     /**
      * @param \stdClass $row
      *
-     * @return ?\App\Services\Platform\Resource\Product
+     * @return \App\Services\Platform\Resource\Ticker
      */
-    protected function resource(stdClass $row): ?ProductResource
+    protected function resource(stdClass $row): TickerResource
     {
-        if ($row->status !== 'TRADING') {
-            return null;
-        }
+        dd($row);
 
-        $lotSize = $this->resourceFilter($row, 'LOT_SIZE');
-        $priceFilter = $this->resourceFilter($row, 'PRICE_FILTER');
-
-        return new ProductResource([
+        return new TickerResource([
             'code' => $row->symbol,
             'name' => ($row->baseAsset.'/'.$row->quoteAsset),
 
@@ -55,16 +50,5 @@ class Products extends ApiAbstract
             'currencyBase' => $row->baseAsset,
             'currencyQuote' => $row->quoteAsset,
         ]);
-    }
-
-    /**
-     * @param \stdClass $row
-     * @param string $type
-     *
-     * @return \stdClass
-     */
-    protected function resourceFilter(stdClass $row, string $type): stdClass
-    {
-        return current(array_filter($row->filters, static fn ($value) => $value->filterType === $type));
     }
 }

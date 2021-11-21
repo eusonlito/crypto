@@ -9,21 +9,6 @@ use App\Services\Platform\Resource\Product as ProductResource;
 class Products extends ApiAbstract
 {
     /**
-     * @var bool
-     */
-    protected bool $filter;
-
-    /**
-     * @param bool $filter
-     *
-     * @return self
-     */
-    public function __construct(bool $filter)
-    {
-        $this->filter = $filter;
-    }
-
-    /**
      * @return \Illuminate\Support\Collection
      */
     public function handle(): Collection

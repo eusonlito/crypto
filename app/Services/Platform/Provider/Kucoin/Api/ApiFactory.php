@@ -15,7 +15,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function check(): bool
     {
-        return $this->handle(Check::class);
+        return $this->handle(Check::class, func_get_args());
     }
 
     /**
@@ -23,7 +23,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function currencies(): Collection
     {
-        return $this->handle(Currencies::class);
+        return $this->handle(Currencies::class, func_get_args());
     }
 
     /**
@@ -31,7 +31,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function exchanges(): Collection
     {
-        return $this->handle(Exchanges::class);
+        return $this->handle(Exchanges::class, func_get_args());
     }
 
     /**
@@ -41,7 +41,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function orderBook(string $symbol): OrderBookResource
     {
-        return $this->handle(OrderBook::class, $symbol);
+        return $this->handle(OrderBook::class, func_get_args());
     }
 
     /**
@@ -54,7 +54,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function orderCreate(string $product, string $side, string $type, array $data): OrderResource
     {
-        return $this->handle(OrderCreate::class, $product, $side, $type, $data);
+        return $this->handle(OrderCreate::class, func_get_args());
     }
 
     /**
@@ -62,7 +62,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function ordersAll(): Collection
     {
-        return $this->handle(OrdersAll::class);
+        return $this->handle(OrdersAll::class, func_get_args());
     }
 
     /**
@@ -80,7 +80,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function ordersCancelAll(string $product): void
     {
-        $this->handle(OrdersCancelAll::class, $product);
+        $this->handle(OrdersCancelAll::class, func_get_args());
     }
 
     /**
@@ -90,7 +90,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function ordersOpen(?string $product = null): Collection
     {
-        return $this->handle(OrdersOpen::class, $product);
+        return $this->handle(OrdersOpen::class, func_get_args());
     }
 
     /**
@@ -100,17 +100,23 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function ordersProduct(string $product): Collection
     {
-        return $this->handle(OrdersProduct::class, $product);
+        return $this->handle(OrdersProduct::class, func_get_args());
     }
 
     /**
-     * @param bool $filter
-     *
      * @return \Illuminate\Support\Collection
      */
-    public function products(bool $filter): Collection
+    public function products(): Collection
     {
-        return $this->handle(Products::class, $filter);
+        return $this->handle(Products::class, func_get_args());
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function tickerDay(): Collection
+    {
+        return $this->handle(TickerDay::class, func_get_args());
     }
 
     /**
@@ -118,7 +124,7 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function wallets(): Collection
     {
-        return $this->handle(Wallets::class);
+        return $this->handle(Wallets::class, func_get_args());
     }
 
     /**
@@ -126,6 +132,6 @@ class ApiFactory extends ApiFactoryAbstract
      */
     public function websockets(): stdClass
     {
-        return $this->handle(Websockets::class);
+        return $this->handle(Websockets::class, func_get_args());
     }
 }

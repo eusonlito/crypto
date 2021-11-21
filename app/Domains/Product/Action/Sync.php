@@ -3,10 +3,10 @@
 namespace App\Domains\Product\Action;
 
 use Illuminate\Support\Collection;
-use App\Domains\Product\Model\Product as Model;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
+use App\Domains\Product\Model\Product as Model;
 use App\Services\Platform\Resource\Product as ProductResource;
 
 class Sync extends ActionAbstract
@@ -32,6 +32,11 @@ class Sync extends ActionAbstract
     protected Collection $products;
 
     /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected Collection $ticker;
+
+    /**
      * @param \App\Domains\Platform\Model\Platform $platform
      *
      * @return void
@@ -42,6 +47,7 @@ class Sync extends ActionAbstract
 
         $this->current();
         $this->currencies();
+        $this->ticker();
         $this->products();
         $this->iterate();
         $this->update();
@@ -52,7 +58,9 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -60,7 +68,17 @@ class Sync extends ActionAbstract
      */
     protected function currencies(): void
     {
-        $this->currencies = CurrencyModel::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->currencies = CurrencyModel::byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
+    }
+
+    /**
+     * @return void
+     */
+    protected function ticker(): void
+    {
+        $this->tiker = dd(ProviderApiFactory::get($this->platform)->tickerDay());
     }
 
     /**
@@ -68,7 +86,7 @@ class Sync extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProviderApiFactory::get($this->platform)->products(true);
+        $this->products = ProviderApiFactory::get($this->platform)->products();
     }
 
     /**

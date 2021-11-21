@@ -29,7 +29,7 @@ abstract class ApiFactoryAbstract
      *
      * @return mixed
      */
-    public function handle(string $class, ...$args)
+    public function handle(string $class, array $args)
     {
         return (new $class(...$args))->config($this->config)->handle();
     }
@@ -98,11 +98,14 @@ abstract class ApiFactoryAbstract
     abstract public function ordersProduct(string $product): Collection;
 
     /**
-     * @param bool $filter
-     *
      * @return \Illuminate\Support\Collection
      */
-    abstract public function products(bool $filter): Collection;
+    abstract public function products(): Collection;
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    abstract public function tickerDay(): Collection;
 
     /**
      * @return \Illuminate\Support\Collection

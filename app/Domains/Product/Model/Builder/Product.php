@@ -125,17 +125,17 @@ class Product extends BuilderAbstract
     /**
      * @return self
      */
-    public function whereWalletsActive(): self
+    public function whereWallet(): self
     {
-        return $this->whereIn('id', WalletModel::select('product_id')->enabled()->withAmount()->whereCrypto());
+        return $this->whereIn('id', WalletModel::select('product_id')->whereCrypto());
     }
 
     /**
      * @return self
      */
-    public function whereWalletsInactive(): self
+    public function whereWalletsActive(): self
     {
-        return $this->whereNotIn('id', WalletModel::select('product_id')->enabled()->withAmount()->whereCrypto());
+        return $this->whereIn('id', WalletModel::select('product_id')->enabled()->withAmount()->whereCrypto());
     }
 
     /**
