@@ -2,8 +2,6 @@
 
 namespace App\Domains\Product\Command;
 
-use App\Domains\Shared\Command\CommandAbstract;
-
 class SyncAll extends CommandAbstract
 {
     /**
