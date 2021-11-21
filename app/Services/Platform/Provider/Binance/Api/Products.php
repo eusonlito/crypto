@@ -9,6 +9,11 @@ use App\Services\Platform\Resource\Product as ProductResource;
 class Products extends ApiAbstract
 {
     /**
+     * @const int
+     */
+    protected const TIKER_COUNT_MIN = 900;
+
+    /**
      * @var \Illuminate\Support\Collection
      */
     protected Collection $tiker24h;
@@ -51,7 +56,7 @@ class Products extends ApiAbstract
      */
     protected function tiker24h(): void
     {
-        $this->tiker24h = collect(array_filter($this->tiker24hRequest(), static fn ($value) => $value->count > 1000))->keyBy('symbol');
+        $this->tiker24h = $this->tiker24hCollection($this->tiker24hFilter($this->tiker24hRequest()));
     }
 
     /**
@@ -60,6 +65,26 @@ class Products extends ApiAbstract
     protected function tiker24hRequest(): array
     {
         return $this->requestGuest('GET', '/api/v3/ticker/24hr');
+    }
+
+    /**
+     * @param array $list
+     *
+     * @return array
+     */
+    protected function tiker24hFilter(array $list): array
+    {
+        return array_filter($list, static fn ($value) => $value->count > static::TIKER_COUNT_MIN);
+    }
+
+    /**
+     * @param array $list
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function tiker24hCollection(array $list): Collection
+    {
+        return collect($list)->keyBy('symbol');
     }
 
     /**
