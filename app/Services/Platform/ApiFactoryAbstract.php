@@ -105,10 +105,5 @@ abstract class ApiFactoryAbstract
     /**
      * @return \Illuminate\Support\Collection
      */
-    abstract public function tickerDay(): Collection;
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     abstract public function wallets(): Collection;
 }

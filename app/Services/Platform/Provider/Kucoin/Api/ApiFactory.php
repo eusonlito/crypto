@@ -114,14 +114,6 @@ class ApiFactory extends ApiFactoryAbstract
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function tickerDay(): Collection
-    {
-        return $this->handle(TickerDay::class, func_get_args());
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function wallets(): Collection
     {
         return $this->handle(Wallets::class, func_get_args());
