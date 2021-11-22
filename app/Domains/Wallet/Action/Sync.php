@@ -10,6 +10,7 @@ use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Model\WalletHistory as WalletHistoryModel;
+use App\Exceptions\UnexpectedValueException;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Wallet as WalletResource;
 
@@ -227,6 +228,10 @@ class Sync extends ActionAbstract
     {
         $product = $this->productByCode($resource->symbol) ?: $this->productRelated($resource);
 
+        if (empty($product)) {
+            throw new UnexpectedValueException(__('wallet-sync.product-not-found', ['symbol' => $resource->symbol]));
+        }
+
         $row->crypto = $product->crypto;
         $row->product_id = $product->id;
     }
@@ -306,9 +311,9 @@ class Sync extends ActionAbstract
     /**
      * @param \App\Services\Platform\Resource\Wallet $resource
      *
-     * @return \App\Domains\Product\Model\Product
+     * @return ?\App\Domains\Product\Model\Product
      */
-    protected function productRelated(WalletResource $resource): ProductModel
+    protected function productRelated(WalletResource $resource): ?ProductModel
     {
         $products = $this->productsByWallet($resource);
 
