@@ -12,6 +12,11 @@ use App\Services\Platform\Resource\Product as ProductResource;
 class Sync extends ActionAbstract
 {
     /**
+     * @const
+     */
+    protected const VOLUME_MIN_PERCENT = 0.02;
+
+    /**
      * @var \Illuminate\Support\Collection
      */
     protected Collection $current;
@@ -32,11 +37,6 @@ class Sync extends ActionAbstract
     protected Collection $products;
 
     /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected Collection $ticker;
-
-    /**
      * @param \App\Domains\Platform\Model\Platform $platform
      *
      * @return void
@@ -47,10 +47,8 @@ class Sync extends ActionAbstract
 
         $this->current();
         $this->currencies();
-        $this->ticker();
         $this->products();
         $this->iterate();
-        $this->update();
     }
 
     /**
@@ -76,14 +74,6 @@ class Sync extends ActionAbstract
     /**
      * @return void
      */
-    protected function ticker(): void
-    {
-        $this->tiker = dd(ProviderApiFactory::get($this->platform)->tickerDay());
-    }
-
-    /**
-     * @return void
-     */
     protected function products(): void
     {
         $this->products = ProviderApiFactory::get($this->platform)->products();
@@ -94,24 +84,28 @@ class Sync extends ActionAbstract
      */
     protected function iterate(): void
     {
+        $ids = [];
+
         foreach ($this->products as $each) {
-            $this->store($each);
+            $ids[] = $this->store($each);
         }
+
+        $this->update(array_filter($ids));
     }
 
     /**
      * @param \App\Services\Platform\Resource\Product $resource
      *
-     * @return void
+     * @return ?int
      */
-    protected function store(ProductResource $resource): void
+    protected function store(ProductResource $resource): ?int
     {
         if (($currency_base = $this->currencies->get($resource->currencyBase)) === null) {
-            return;
+            return null;
         }
 
         if (($currency_quote = $this->currencies->get($resource->currencyQuote)) === null) {
-            return;
+            return null;
         }
 
         if (empty($row = $this->storeSearch($resource))) {
@@ -141,6 +135,8 @@ class Sync extends ActionAbstract
         $row->platform_id = $this->platform->id;
 
         $row->save();
+
+        return $row->id;
     }
 
     /**
@@ -154,15 +150,17 @@ class Sync extends ActionAbstract
     }
 
     /**
+     * @param array $ids
+     *
      * @return void
      */
-    protected function update(): void
+    protected function update(array $ids): void
     {
-        Model::byPlatformId($this->platform->id)->byCodeIn($this->products->pluck('code')->toArray())->update([
+        Model::byPlatformId($this->platform->id)->byIds($ids)->update([
             'trade' => true,
         ]);
 
-        Model::byPlatformId($this->platform->id)->byCodeNotIn($this->products->pluck('code')->toArray())->update([
+        Model::byPlatformId($this->platform->id)->byIdsNot($ids)->update([
             'trade' => false,
         ]);
     }
