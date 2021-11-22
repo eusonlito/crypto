@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use App\Services\Platform\Provider\CoinbasePro\Error;
 use App\Services\Platform\Provider\CoinbasePro\Request\Auth as AuthRequest;
 use App\Services\Platform\Provider\CoinbasePro\Request\Guest as GuestRequest;
+use App\Services\Platform\Provider\CoinbasePro\Request\RequestAbstract;
 
 abstract class ApiAbstract
 {
@@ -23,6 +24,11 @@ abstract class ApiAbstract
      * @var string
      */
     protected string $prefix = '';
+
+    /**
+     * @var bool
+     */
+    protected bool $log = false;
 
     /**
      * @param array $config
@@ -48,7 +54,7 @@ abstract class ApiAbstract
      */
     public function requestAuth(string $method, string $path, array $query = [], array $post = [], int $cache = 0)
     {
-        return Error::check(AuthRequest::send($this->config, $method, $this->endpoint, $this->requestPath($path, $query), $post, $cache));
+        return Error::check($this->request(new AuthRequest(), $method, $path, $query, $post, $cache));
     }
 
     /**
@@ -62,18 +68,29 @@ abstract class ApiAbstract
      */
     public function requestGuest(string $method, string $path, array $query = [], array $post = [], int $cache = 0)
     {
-        return Error::check(GuestRequest::send($method, $this->endpoint, $this->requestPath($path, $query), $post, $cache));
+        return Error::check($this->request(new GuestRequest(), $method, $path, $query, $post, $cache));
     }
 
     /**
+     * @param string $method
      * @param string $path
-     * @param array $query = []
+     * @param array $query
+     * @param array $post
+     * @param int $cache
      *
-     * @return string
+     * @return mixed
      */
-    protected function requestPath(string $path, array $query = []): string
+    protected function request(RequestAbstract $request, string $method, string $path, array $query, array $post, int $cache)
     {
-        return $this->prefix.$path.($query ? ('?'.http_build_query($query)) : '');
+        return $request->config($this->config)
+            ->method($method)
+            ->endpoint($this->endpoint)
+            ->path($this->prefix.$path)
+            ->query($query)
+            ->post($post)
+            ->cache($cache)
+            ->log(config('logging.channels.curl.enabled') ?: $this->log)
+            ->send();
     }
 
     /**

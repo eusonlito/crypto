@@ -2,21 +2,13 @@
 
 namespace App\Services\Platform\Provider\Kucoin\Request;
 
-class Guest
+class Guest extends RequestAbstract
 {
     /**
-     * @param string $method
-     * @param string $endpoint
-     * @param string $path
-     * @param array $post = []
-     * @param int $cache = 0
-     *
      * @return mixed
      */
-    public static function send(string $method, string $endpoint, string $path, array $post = [], int $cache = 0)
+    public function send()
     {
-        return Client::get($method, $endpoint.$path, $post, $cache)
-            ->send()
-            ->getBody('object');
+        return $this->client()->send()->getBody('object');
     }
 }
