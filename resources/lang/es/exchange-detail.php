@@ -7,10 +7,13 @@
     'bid_sum' => 'Acumulado',
     'created_at' => 'Fecha',
     'difference' => 'Diferencia',
+    'end_at' => 'Fin (yyyy-mm-dd hh:mm:ss)',
     'exchange' => 'Cambio',
+    'filter' => 'Filtrar',
     'first' => 'Primero',
     'last' => 'Último',
     'max' => 'Máximo',
     'min' => 'Mínimo',
     'percent' => 'Porcentaje',
+    'start_at' => 'Inicio (yyyy-mm-dd hh:mm:ss)',
 ];

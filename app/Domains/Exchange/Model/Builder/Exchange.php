@@ -103,13 +103,17 @@ class Exchange extends BuilderAbstract
 
     /**
      * @param int $minutes = 60
+     * @param ?string $start_at = null
+     * @param ?string $end_at = null
      *
      * @return self
      */
-    public function chart(int $minutes = 60): self
+    public function chart(int $minutes = 60, ?string $start_at = null, ?string $end_at = null): self
     {
         return $this->selectMaxMinutes()
             ->afterDate(date('Y-m-d H:i:s', strtotime('-'.$minutes.' minutes')))
+            ->when($start_at, static fn ($q) => $q->afterDate($start_at))
+            ->when($end_at, static fn ($q) => $q->beforeDate($end_at))
             ->groupByMinutesProduct($minutes);
     }
 

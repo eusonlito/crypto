@@ -2,7 +2,7 @@
     <div class="box p-2">
         <div class="flex px-2 pb-2 items-center">
             <div class="percent-pill {{ ($result < 0) ? 'bg-theme-24' : 'bg-theme-10' }}">
-                {{ $current_value_percent }}% @icon(($result < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
+                {{ $current_exchange_percent }}% @icon(($result < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
             </div>
 
             <div class="relative text-lg sm:text-xl font-bold ml-3 overflow-auto">

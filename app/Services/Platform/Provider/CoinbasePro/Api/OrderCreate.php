@@ -141,9 +141,9 @@ class OrderCreate extends ApiAbstract
     }
 
     /**
-     * @return ?string
+     * @return ?float
      */
-    protected function queryDataLimitStopPrice(): ?string
+    protected function queryDataLimitStopPrice(): ?float
     {
         return $this->data['limit'] ?? null;
     }

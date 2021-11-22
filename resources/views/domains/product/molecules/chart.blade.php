@@ -1,10 +1,6 @@
 @php ($dates = $exchanges->pluck('created_at'))
 
-@if ($dates->first() < date('Y-m-d H:i:s', strtotime('-1 day')))
-    @php ($dates = $dates->map(fn ($value) => strftime('%a %R', strtotime($value))))
-@else
-    @php ($dates = $dates->map(fn ($value) => strftime('%R', strtotime($value))))
-@endif
+<canvas id="line-chart-{{ $row->code }}" height="105"></canvas>
 
 <script>
 charts.push({
@@ -43,7 +39,16 @@ charts.push({
                         ticks: {
                             fontSize: '12',
                             fontColor: '#777777',
-                            autoSkip: true
+                            autoSkip: true,
+                            minRotation: 90,
+                            maxRotation: 90,
+                            callback: function(value) {
+                                const date = new Date(Date.parse(value));
+
+                                return date.getDate()
+                                    + ' ' + ('0' + date.getHours()).slice(-2)
+                                    + ':' + ('0' + date.getMinutes()).slice(-2);
+                            }
                         },
                         gridLines: {
                             display: false
@@ -75,6 +80,5 @@ charts.push({
         }
     }
 });
-</script>
 
-<canvas id="line-chart-{{ $row->code }}" height="105"></canvas>
+</script>

@@ -40,10 +40,6 @@ class Index extends ControllerAbstract
             $q->whereEnabled((bool)$filter);
         }
 
-        if (strlen($filter = $this->request->input('visible'))) {
-            $q->whereVisible((bool)$filter);
-        }
-
         return $q->get();
     }
 
@@ -55,7 +51,6 @@ class Index extends ControllerAbstract
         $this->request->merge([
             'platform_id' => (int)$this->auth->preference('ticker-index-platform_id', $this->request->input('platform_id'), 0),
             'enabled' => $this->auth->preference('ticker-index-enabled', $this->request->input('enabled'), ''),
-            'visible' => $this->auth->preference('ticker-index-visible', $this->request->input('visible'), ''),
         ]);
     }
 }
