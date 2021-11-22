@@ -148,12 +148,14 @@ class Product extends BuilderAbstract
 
     /**
      * @param int $time
+     * @param ?string $start_at = null
+     * @param ?string $end_at = null
      *
      * @return self
      */
-    public function withExchangesChart(int $time): self
+    public function withExchangesChart(int $time, ?string $start_at = null, ?string $end_at = null): self
     {
-        return $this->with(['exchanges' => static fn ($q) => $q->chart($time)]);
+        return $this->with(['exchanges' => static fn ($q) => $q->chart($time, $start_at, $end_at)]);
     }
 
     /**

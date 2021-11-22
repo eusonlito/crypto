@@ -59,9 +59,11 @@ class Detail extends ControllerAbstract
      */
     protected function product(int $product_id): void
     {
-        $this->product = ProductModel::byId($product_id)->withExchangesChart($this->time)->firstOr(static function () {
-            throw new NotFoundException(__('exchange.error.product-not-found'));
-        });
+        $this->product = ProductModel::byId($product_id)
+            ->withExchangesChart($this->time, $this->request->input('start_at'), $this->request->input('end_at'))
+            ->firstOr(static function () {
+                throw new NotFoundException(__('exchange.error.product-not-found'));
+            });
     }
 
     /**

@@ -66,6 +66,26 @@
 
 @if ($list->isNotEmpty())
 
+<div class="box whitespace-nowrap p-1 sm:p-2 mb-5">
+    <form method="get">
+        <input type="hidden" name="time" value="{{ $time }}" />
+
+        <div class="lg:flex">
+            <div class="flex-auto p-2">
+                <input type="text" name="start_at" value="{{ $REQUEST->input('start_at') }}" class="form-control form-control-lg" placeholder="{{ __('exchange-detail.start_at') }}" />
+            </div>
+
+            <div class="flex-auto p-2">
+                <input type="text" name="end_at" value="{{ $REQUEST->input('end_at') }}" class="form-control form-control-lg" placeholder="{{ __('exchange-detail.end_at') }}" />
+            </div>
+
+            <div class="p-2">
+                <button type="submit" class="btn form-select-lg">{{ __('exchange-detail.filter') }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <div class="box p-5">
     @include ('domains.product.molecules.chart', [
         'row' => $product,
