@@ -117,7 +117,7 @@
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}">@number($buy_stop_min)</div>
-                        <div class="{{ ($buy_stop_min_exchange_percent >= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
+                        <div class="{{ ($buy_stop_min_exchange_percent <= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
                             <span>{{ $buy_stop_min_exchange_percent }}%</span>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_max_at }}">@number($buy_stop_max)</div>
-                        <div class="{{ ($buy_stop_max_exchange_percent >= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
+                        <div class="{{ ($buy_stop_max_exchange_percent <= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
                             <span>{{ $buy_stop_max_exchange_percent }}%</span>
                         </div>
                     </div>
