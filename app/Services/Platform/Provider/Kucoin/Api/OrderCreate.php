@@ -64,44 +64,44 @@ class OrderCreate extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestAuth('POST', '/api/v1/orders', [], $this->postData());
+        return $this->requestAuth('POST', '/api/v1/orders', [], $this->queryData());
     }
 
     /**
      * @return array
      */
-    protected function postData(): array
+    protected function queryData(): array
     {
         return array_filter([
             'clientOid' => microtime(true),
-            'type' => $this->postDataType(),
+            'type' => $this->queryDataType(),
             'side' => $this->side,
             'symbol' => $this->product,
             'stp' => 'CO',
             'tradeType' => 'TRADE',
-        ] + $this->postDataByType());
+        ] + $this->queryDataByType());
     }
 
     /**
      * @return ?array
      */
-    protected function postDataByType(): ?array
+    protected function queryDataByType(): ?array
     {
         return match ($this->type) {
-            'LIMIT' => $this->postDataLimit(),
-            'MARKET' => $this->postDataMarket(),
-            'STOP_LOSS' => $this->postDataLimit(),
-            'STOP_LOSS_LIMIT' => $this->postDataLimit(),
-            'TAKE_PROFIT' => $this->postDataLimit(),
-            'TAKE_PROFIT_LIMIT' => $this->postDataLimit(),
-            'LIMIT_MAKER' => $this->postDataLimit(),
+            'LIMIT' => $this->queryDataLimit(),
+            'MARKET' => $this->queryDataMarket(),
+            'STOP_LOSS' => $this->queryDataLimit(),
+            'STOP_LOSS_LIMIT' => $this->queryDataLimit(),
+            'TAKE_PROFIT' => $this->queryDataLimit(),
+            'TAKE_PROFIT_LIMIT' => $this->queryDataLimit(),
+            'LIMIT_MAKER' => $this->queryDataLimit(),
         };
     }
 
     /**
      * @return string
      */
-    protected function postDataType(): string
+    protected function queryDataType(): string
     {
         return match ($this->type) {
             'MARKET' => 'market',
@@ -112,7 +112,7 @@ class OrderCreate extends ApiAbstract
     /**
      * @return array
      */
-    protected function postDataMarket(): array
+    protected function queryDataMarket(): array
     {
         return [
             'size' => $this->decimal($this->data['amount']),
@@ -122,21 +122,21 @@ class OrderCreate extends ApiAbstract
     /**
      * @return array
      */
-    protected function postDataLimit(): array
+    protected function queryDataLimit(): array
     {
         return [
             'price' => $this->decimal($this->data['price']),
             'size' => $this->decimal($this->data['amount']),
             'timeInForce' => 'GTC',
-            'stop' => $this->postDataLimitStop(),
-            'stopPrice' => $this->postDataLimitStopPrice(),
+            'stop' => $this->queryDataLimitStop(),
+            'stopPrice' => $this->queryDataLimitStopPrice(),
         ];
     }
 
     /**
      * @return ?string
      */
-    protected function postDataLimitStop(): ?string
+    protected function queryDataLimitStop(): ?string
     {
         return match ($this->type) {
             'STOP_LOSS', 'STOP_LOSS_LIMIT' => 'loss',
@@ -148,7 +148,7 @@ class OrderCreate extends ApiAbstract
     /**
      * @return ?string
      */
-    protected function postDataLimitStopPrice(): ?string
+    protected function queryDataLimitStopPrice(): ?string
     {
         if (isset($this->data['limit'])) {
             return $this->decimal($this->data['limit']);

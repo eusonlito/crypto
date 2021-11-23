@@ -61,7 +61,7 @@ class OrderCreate extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestAuth('POST', '/orders', $this->queryData());
+        return $this->requestAuth('POST', '/orders', [], $this->queryData());
     }
 
     /**
