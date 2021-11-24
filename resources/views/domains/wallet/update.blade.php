@@ -18,7 +18,7 @@
             <div class="col-span-12 mb-2 lg:col-span-1">
                 <label class="form-label">&nbsp;</label>
 
-                <a href="?_action=syncOne" class="btn form-select-lg block">
+                <a href="?_action=updateSync" class="btn form-select-lg block">
                     @icon('refresh-cw')
                 </a>
             </div>

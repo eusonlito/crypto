@@ -147,4 +147,12 @@ class ActionFactory extends ActionFactoryAbstract
     {
         return $this->actionHandle(UpdateSellStop::class, $this->validate()->updateSellStop());
     }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function updateSync(): Model
+    {
+        return $this->actionHandle(UpdateSync::class);
+    }
 }
