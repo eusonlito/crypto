@@ -229,7 +229,10 @@ class Sync extends ActionAbstract
         $product = $this->productByCode($resource->symbol) ?: $this->productRelated($resource);
 
         if (empty($product)) {
-            throw new UnexpectedValueException(__('wallet-sync.product-not-found', ['symbol' => $resource->symbol]));
+            throw new UnexpectedValueException(__('wallet-sync.product-not-found', [
+                'symbol' => $resource->symbol,
+                'platform' => $this->platform->name,
+            ]));
         }
 
         $row->crypto = $product->crypto;

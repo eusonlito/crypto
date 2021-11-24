@@ -79,7 +79,13 @@ class OrdersProduct extends ApiAbstract
      */
     protected function resourcePrice(stdClass $row): float
     {
-        return round(floatval($row->price ?? ($row->executed_value / $row->filled_size)), 12);
+        if ($row->executed_value && $row->filled_size) {
+            $price = $row->executed_value / $row->filled_size;
+        } else {
+            $price = $row->price;
+        }
+
+        return round(floatval($price), 12);
     }
 
     /**
@@ -89,6 +95,6 @@ class OrdersProduct extends ApiAbstract
      */
     protected function resourceAmount(stdClass $row): float
     {
-        return floatval($row->size ?? $row->filled_size);
+        return floatval($row->filled_size ?: $row->size);
     }
 }
