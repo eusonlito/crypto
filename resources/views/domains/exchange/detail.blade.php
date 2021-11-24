@@ -11,7 +11,7 @@
         </div>
 
         <div class="mt-2 sm:mt-0 bg-white">
-            <a href="{{ $platform->url.$product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg">
+            <a href="{{ $platform->url.$product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg truncate">
                 {{ $platform->name }}
             </a>
         </div>

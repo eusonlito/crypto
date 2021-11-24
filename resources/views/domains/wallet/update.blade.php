@@ -26,7 +26,7 @@
             <div class="col-span-12 mb-2 lg:col-span-1">
                 <label class="form-label">&nbsp;</label>
 
-                <a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg block">
+                <a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg block truncate">
                     {{ $row->platform->name }}
                 </a>
             </div>
