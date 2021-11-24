@@ -161,7 +161,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateSellStop(): void
     {
-        if ($this->row->sell_stop_amount && $this->row->sell_stop_max_percent && $this->row->sell_stop_percent) {
+        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_percent) {
             $this->row->sell_stop_amount = $this->row->amount;
             $this->row->sell_stop = true;
         }
