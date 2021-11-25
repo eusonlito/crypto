@@ -1,10 +1,10 @@
 @php ($dates = $exchanges->pluck('created_at'))
 
-<canvas id="line-chart-{{ $row->code }}" height="105"></canvas>
+<canvas id="product-chart-canvas" height="105"></canvas>
 
 <script>
-charts.push({
-    id: 'line-chart-{{ $row->code }}',
+const productChart = {
+    id: 'product-chart-canvas',
     config: {
         type: 'line',
         elements: {
@@ -36,6 +36,7 @@ charts.push({
             scales: {
                 xAxes: [
                     {
+                        id: 'x-axis-default',
                         ticks: {
                             fontSize: '12',
                             fontColor: '#777777',
@@ -79,6 +80,6 @@ charts.push({
             }
         }
     }
-});
+};
 
 </script>

@@ -80,6 +80,10 @@
             </div>
 
             <div class="p-2">
+                <a href="{{ route('exchange.detail', $product->id) }}" class="btn form-select-lg">{{ __('exchange-detail.clear') }}</a>
+            </div>
+
+            <div class="p-2">
                 <button type="submit" class="btn form-select-lg">{{ __('exchange-detail.filter') }}</button>
             </div>
         </div>

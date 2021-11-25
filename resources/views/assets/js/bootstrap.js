@@ -19,4 +19,5 @@ import './zoom';
 
 import './form-number';
 import './product';
+import './product-chart';
 import './wallet';

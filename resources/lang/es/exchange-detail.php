@@ -5,6 +5,7 @@
     'bid_price' => 'Compra',
     'bid_quantity' => 'Cantidad',
     'bid_sum' => 'Acumulado',
+    'clear' => 'Limpiar',
     'created_at' => 'Fecha',
     'difference' => 'Diferencia',
     'end_at' => 'Fin (yyyy-mm-dd hh:mm:ss)',
