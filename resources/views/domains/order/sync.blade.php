@@ -26,7 +26,10 @@
                     <th class="text-left">{{ __('order-sync.platform') }}</th>
                     <th class="text-center">{{ __('order-sync.enabled') }}</th>
                     <th class="text-center">{{ __('order-sync.favorite') }}</th>
-                    <th class="text-center">{{ __('order-sync.select') }}</th>
+                    <th class="text-center">
+                        <input type="checkbox" class="mr-2" data-checkall="#product-list-table tbody">
+                        {{ __('order-sync.select') }}
+                    </th>
                 </tr>
             </thead>
 
@@ -34,8 +37,8 @@
                 @foreach ($products as $each)
 
                 <tr class="text-right">
-                    <td class="text-left">{{ $each->acronym }}</td>
-                    <td class="text-left">{{ $each->name }}</td>
+                    <td class="text-left"><label for="product_ids-{{ $each->id }}">{{ $each->acronym }}</label></td>
+                    <td class="text-left"><label for="product_ids-{{ $each->id }}">{{ $each->name }}</label></td>
                     <td class="text-left"><a href="{{ $each->platform->url.$each->code }}" rel="nofollow noopener noreferrer" target="_blank">{{ $each->platform->name }}</a></td>
                     <td class="text-center">@status($each->enabled)</td>
                     <td class="text-center">
@@ -45,7 +48,7 @@
 
                     <td class="text-center">
                         <span class="hidden">{{ $each->selected ? '1' : '0' }}</span>
-                        <input type="checkbox" name="product_ids[]" value="{{ $each->id }}" {{ $each->selected ? 'checked' : '' }} />
+                        <input type="checkbox" name="product_ids[]" id="product_ids-{{ $each->id }}" value="{{ $each->id }}" {{ $each->selected ? 'checked' : '' }} />
                     </td>
                 </tr>
 
