@@ -1,3 +1,3 @@
 <?php return [
-    'subject' => '[BUY-STOP] :amount de :name en :platform a :price',
+    'subject' => '[BUY-STOP] FINALIZADA COMPRA de :amount de :name en :platform a :price',
 ];
