@@ -3,8 +3,6 @@
 namespace App\Domains\Order\Controller;
 
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
-use App\Domains\Order\Model\Order as Model;
 use App\Domains\Order\Service\Controller\Index as IndexService;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 

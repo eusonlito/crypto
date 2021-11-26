@@ -4,7 +4,6 @@ namespace App\Domains\Order\Controller;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Order\Service\Controller\Status as StatusService;
 

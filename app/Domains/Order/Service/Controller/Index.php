@@ -2,7 +2,6 @@
 
 namespace App\Domains\Order\Service\Controller;
 
-use stdClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as Model;
