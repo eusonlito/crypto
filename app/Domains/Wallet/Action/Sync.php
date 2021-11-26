@@ -249,6 +249,15 @@ class Sync extends ActionAbstract
      */
     protected function storeCreateNew(WalletResource $resource): Model
     {
+        $currency = $this->currencyByCode($resource->symbol);
+
+        if (empty($currency)) {
+            throw new UnexpectedValueException(__('wallet-sync.currency-not-found', [
+                'symbol' => $resource->symbol,
+                'platform' => $this->platform->name,
+            ]));
+        }
+
         return new Model([
             'address' => $resource->address,
             'name' => $resource->symbol,
@@ -258,7 +267,7 @@ class Sync extends ActionAbstract
             'custom' => false,
             'visible' => true,
             'enabled' => true,
-            'currency_id' => $this->currencyByCode($resource->symbol)->id,
+            'currency_id' => $currency->id,
             'platform_id' => $this->platform->id,
             'user_id' => $this->auth->id,
         ]);
@@ -267,9 +276,9 @@ class Sync extends ActionAbstract
     /**
      * @param string $code
      *
-     * @return \App\Domains\Currency\Model\Currency
+     * @return ?\App\Domains\Currency\Model\Currency
      */
-    protected function currencyByCode(string $code): CurrencyModel
+    protected function currencyByCode(string $code): ?CurrencyModel
     {
         return $this->currencies->get($code);
     }
