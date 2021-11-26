@@ -5,6 +5,7 @@ namespace App\Domains\Order\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Domains\Order\Model\Order as Model;
+use App\Domains\Order\Service\Controller\Index as IndexService;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 
 class Index extends ControllerAbstract
@@ -20,41 +21,12 @@ class Index extends ControllerAbstract
 
         return $this->page('order.index', [
             'filters' => $this->request->input(),
-            'list' => $this->list(),
+            'list' => (new IndexService($this->auth, $this->request))->get(),
             'filled_options' => $this->filledOptions(),
             'side_options' => $this->sideOptions(),
             'platforms' => PlatformModel::list()->get(),
+            'filled' => (bool)$this->request->input('filled'),
         ]);
-    }
-
-    /**
-     * @return \Illuminate\Pagination\LengthAwarePaginator
-     */
-    protected function list(): LengthAwarePaginator
-    {
-        $q = Model::byUserId($this->auth->id)->withRelations()->list();
-
-        if ($filter = $this->request->input('platform_id')) {
-            $q->byPlatformId($filter);
-        }
-
-        if (strlen($filter = $this->request->input('filled'))) {
-            $q->whereFilled((bool)$filter);
-        }
-
-        if ($filter = $this->request->input('side')) {
-            $q->bySide($filter);
-        }
-
-        if ($filter = helper()->dateToDate($this->request->input('date_start', ''))) {
-            $q->byCreatedAtStart($filter);
-        }
-
-        if ($filter = helper()->dateToDate($this->request->input('date_end', ''))) {
-            $q->byCreatedAtEnd($filter);
-        }
-
-        return $q->paginate(50);
     }
 
     /**

@@ -4,6 +4,7 @@
     'date' => 'Fecha',
     'date_end' => 'Fecha Inicio',
     'date_start' => 'Fecha Fin',
+    'exchange_current' => 'Precio Actual',
     'fee' => 'Comisión',
     'filled' => 'Completada',
     'filled-all' => 'Estado',
@@ -23,4 +24,5 @@
     'status' => 'Estado',
     'type' => 'Tipo',
     'value' => 'Valor',
+    'value_current' => 'Valor Actual',
 ];

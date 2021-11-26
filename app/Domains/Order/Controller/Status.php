@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use App\Domains\Platform\Model\Platform as PlatformModel;
-use App\Domains\Order\Service\Status\Status as StatusService;
+use App\Domains\Order\Service\Controller\Status as StatusService;
 
 class Status extends ControllerAbstract
 {
@@ -15,19 +15,17 @@ class Status extends ControllerAbstract
      */
     public function __invoke(): Response | JsonResponse
     {
-        $this->meta('title', __('order-status.meta-title'));
-
         $this->filters();
 
-        $list = (new StatusService())->listByRequest($this->auth, $this->request);
-
         if ($this->request->wantsJson()) {
-            return $this->responseJson($list);
+            return $this->responseJson();
         }
+
+        $this->meta('title', __('order-status.meta-title'));
 
         return $this->page('order.status', [
             'filters' => $this->request->input(),
-            'list' => $list,
+            'list' => (new StatusService($this->auth, $this->request))->get(),
             'platforms' => PlatformModel::list()->get(),
         ]);
     }
@@ -47,16 +45,16 @@ class Status extends ControllerAbstract
     }
 
     /**
-     * @param \Illuminate\Support\Collection $list
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function responseJson(Collection $list): JsonResponse
+    protected function responseJson(): JsonResponse
     {
         if ($wallet_id = (int)$this->request->input('wallet_id')) {
-            return $this->json($list->firstWhere('wallet.id', $wallet_id));
+            $row = (new StatusService($this->auth, $this->request))->get()->firstWhere('wallet.id', $wallet_id);
+        } else {
+            $row = null;
         }
 
-        return $this->json();
+        return $this->json($row);
     }
 }

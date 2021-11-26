@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Domains\Order\Service\Status;
+namespace App\Domains\Order\Service\Controller;
 
 use stdClass;
 use Illuminate\Http\Request;
@@ -11,36 +11,55 @@ use App\Domains\User\Model\User as UserModel;
 class Status
 {
     /**
+     * @param \App\Domains\User\Model\User
+     */
+    protected UserModel $user;
+
+    /**
+     * @param \Illuminate\Http\Request
+     */
+    protected Request $request;
+
+    /**
      * @param \App\Domains\User\Model\User $user
      * @param \Illuminate\Http\Request $request
      *
+     * @return self
+     */
+    public function __construct(UserModel $user, Request $request)
+    {
+        $this->user = $user;
+        $this->request = $request;
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
-    public function listByRequest(UserModel $user, Request $request): Collection
+    public function get(): Collection
     {
-        $q = Model::byUserId($user->id)
+        $q = Model::byUserId($this->user->id)
             ->withRelations()
             ->withWallet()
             ->whereFilled()
             ->orderByDate();
 
-        if ($filter = (int)$request->input('platform_id')) {
+        if ($filter = (int)$this->request->input('platform_id')) {
             $q->byPlatformId($filter);
         }
 
-        if ($filter = (int)$request->input('product_id')) {
+        if ($filter = (int)$this->request->input('product_id')) {
             $q->byProductId($filter);
         }
 
-        if ($filter = (int)$request->input('wallet_id')) {
+        if ($filter = (int)$this->request->input('wallet_id')) {
             $q->byProductWalletId($filter);
         }
 
-        if ($filter = helper()->dateToDate($request->input('date_start', ''))) {
+        if ($filter = helper()->dateToDate($this->request->input('date_start', ''))) {
             $q->byCreatedAtStart($filter);
         }
 
-        if ($filter = helper()->dateToDate($request->input('date_end', ''))) {
+        if ($filter = helper()->dateToDate($this->request->input('date_end', ''))) {
             $q->byCreatedAtEnd($filter);
         }
 

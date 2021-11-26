@@ -129,6 +129,14 @@ class Order extends BuilderAbstract
     /**
      * @return self
      */
+    public function withProductExchange(): self
+    {
+        return $this->with(['product' => static fn ($q) => $q->with(['exchange'])]);
+    }
+
+    /**
+     * @return self
+     */
     public function withRelations(): self
     {
         return $this->with(['platform', 'product']);

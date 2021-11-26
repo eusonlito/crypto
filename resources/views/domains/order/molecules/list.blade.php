@@ -1,3 +1,5 @@
+@php ($filled ??= false)
+
 <div id="order-list-table" class="overflow-auto">
     <table class="table table-report sm:mt-2">
         <thead>
@@ -7,7 +9,17 @@
                 <th class="text-center">{{ __('order-index.product') }}</th>
                 <th>{{ __('order-index.amount') }}</th>
                 <th>{{ __('order-index.price') }}</th>
+
+                @if ($filled)
+                <th>{{ __('order-index.exchange_current') }}</th>
+                @endif
+
                 <th>{{ __('order-index.value') }}</th>
+
+                @if ($filled)
+                <th>{{ __('order-index.value_current') }}</th>
+                @endif
+
                 <th>{{ __('order-index.fee') }}</th>
                 <th class="text-center">{{ __('order-index.type') }}</th>
                 <th class="text-center">{{ __('order-index.status') }}</th>
@@ -25,7 +37,21 @@
                 <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
                 <td><span class="block" title="{{ $row->amount }}">@number($row->amount)</span></td>
                 <td><span class="block" title="{{ $row->price }}">@number($row->price)</span></td>
+
+                @if ($filled)
+
+                <td><span class="block">@number($row->exchange_current)</span></td>
+
+                @endif
+
                 <td><span class="block" title="{{ $row->value }}">@number($row->value)</span></td>
+
+                @if ($filled)
+
+                <td><span class="block {{ $row->success ? 'text-theme-10' : 'text-theme-24' }}">@number($row->value_current)</span></td>
+
+                @endif
+
                 <td><span class="block" title="{{ $row->fee }}">@number($row->fee)</span></td>
                 <td><span class="block text-center">{{ $row->type }}</span></td>
                 <td><span class="block text-center">{{ $row->status }}</span></td>
