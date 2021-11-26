@@ -3,6 +3,7 @@
 namespace App\Domains\Wallet\Controller;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -26,10 +27,38 @@ class Update extends ControllerAbstract
 
         return $this->page('wallet.update', [
             'row' => $this->row,
-            'products' => ProductModel::byPlatformId($this->row->platform_id)->list()->get(),
-            'platforms' => PlatformModel::list()->get(),
-            'orders' => OrderModel::byProductId($this->row->product_id)->whereFilled()->list()->get(),
+            'products' => $this->products(),
+            'platforms' => $this->platforms(),
+            'orders' => $this->orders(),
         ]);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function products()
+    {
+        return ProductModel::byPlatformId($this->row->platform_id)->list()->get();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function platforms()
+    {
+        return PlatformModel::list()->get();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function orders()
+    {
+        return OrderModel::byProductId($this->row->product_id)
+            ->byUserId($this->auth->id)
+            ->whereFilled()
+            ->list()
+            ->get();
     }
 
     /**
