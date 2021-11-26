@@ -64,7 +64,10 @@ class SyncByWallets extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byUserId($this->auth->id)->byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::byUserId($this->auth->id)
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**

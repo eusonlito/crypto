@@ -80,8 +80,8 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)
-            ->byUserId($this->auth->id)
+        $this->current = Model::byUserId($this->auth->id)
+            ->byPlatformId($this->platform->id)
             ->get()
             ->keyBy('address');
     }

@@ -69,7 +69,10 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byUserId($this->auth->id)->byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::byUserId($this->auth->id)
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -77,7 +80,9 @@ class Sync extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProductModel::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->products = ProductModel::byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
