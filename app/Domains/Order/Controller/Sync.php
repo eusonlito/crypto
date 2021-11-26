@@ -98,9 +98,30 @@ class Sync extends ControllerAbstract
      */
     protected function productIds(): array
     {
-        return array_unique(array_merge(
-            Model::byUserId($this->auth->id)->whereProductCrypto()->groupByProductId()->pluck('product_id')->toArray(),
-            WalletModel::byUserId($this->auth->id)->whereCrypto()->groupByProductId()->pluck('product_id')->toArray(),
-        ));
+        return array_unique(array_merge($this->productIdsByOrders(), $this->productsIdsByWallets()));
+    }
+
+    /**
+     * @return array
+     */
+    protected function productIdsByOrders(): array
+    {
+        return Model::byUserId($this->auth->id)
+            ->whereProductCrypto()
+            ->groupByProductId()
+            ->pluck('product_id')
+            ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    protected function productsIdsByWallets(): array
+    {
+        return WalletModel::byUserId($this->auth->id)
+            ->whereCrypto()
+            ->groupByProductId()
+            ->pluck('product_id')
+            ->toArray();
     }
 }
