@@ -47,7 +47,13 @@ class Sync extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProductModel::byPlatformId($this->platform->id)->whereTrade()->whereCrypto()->withExchange()->get()->keyBy('code');
+        $this->products = ProductModel::byPlatformId($this->platform->id)
+            ->whereTrade()
+            ->whereCrypto()
+            ->whereWallet()
+            ->withExchange()
+            ->get()
+            ->keyBy('code');
     }
 
     /**
