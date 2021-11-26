@@ -3,7 +3,7 @@
 namespace App\Services\Platform\Provider\Kucoin\Api\Traits;
 
 use stdClass;
-use App\Services\Platform\Resource\Order as OrderResourcePlatform;
+use App\Services\Platform\Resource\Order;
 
 trait OrderResource
 {
@@ -12,9 +12,9 @@ trait OrderResource
      *
      * @return \App\Services\Platform\Resource\Order
      */
-    protected function resource(stdClass $row): OrderResourcePlatform
+    protected function resource(stdClass $row): Order
     {
-        return new OrderResourcePlatform([
+        return new Order([
             'id' => $row->id,
             'amount' => (float)$row->size,
             'price' => (float)$row->price,

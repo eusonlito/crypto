@@ -94,6 +94,16 @@ abstract class ApiAbstract
     }
 
     /**
+     * @param int $timestamp
+     *
+     * @return string
+     */
+    protected function date(int $timestamp): string
+    {
+        return date('Y-m-d H:i:s', intval($timestamp / 1000));
+    }
+
+    /**
      * @param float $value
      *
      * @return string

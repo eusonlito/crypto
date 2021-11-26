@@ -3,10 +3,13 @@
 namespace App\Services\Platform\Provider\CoinbasePro\Api;
 
 use stdClass;
+use App\Services\Platform\Provider\CoinbasePro\Api\Traits\OrderResource as OrderResourceTrait;
 use App\Services\Platform\Resource\Order as OrderResource;
 
 class OrderCreate extends ApiAbstract
 {
+    use OrderResourceTrait;
+
     /**
      * @var string
      */
@@ -146,29 +149,5 @@ class OrderCreate extends ApiAbstract
     protected function queryDataLimitStopPrice(): ?float
     {
         return $this->data['limit'] ?? null;
-    }
-
-    /**
-     * @param \stdClass $row
-     *
-     * @return \App\Services\Platform\Resource\Order
-     */
-    protected function resource(stdClass $row): OrderResource
-    {
-        return new OrderResource([
-            'id' => $row->id,
-            'amount' => (float)$row->size,
-            'price' => (float)$row->price,
-            'priceStop' => 0,
-            'value' => ((float)$row->size * (float)$row->price),
-            'fee' => (float)$row->fill_fees,
-            'product' => $row->product_id,
-            'status' => $row->status,
-            'type' => $row->type,
-            'side' => $row->side,
-            'filled' => ($row->status === 'done'),
-            'createdAt' => $this->date($row->created_at),
-            'updatedAt' => $this->date($row->created_at),
-        ]);
     }
 }

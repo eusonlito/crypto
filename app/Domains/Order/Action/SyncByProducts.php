@@ -50,7 +50,7 @@ class SyncByProducts extends ActionAbstract
      */
     protected function products(Collection $products): void
     {
-        $this->products = $products->groupBy('platform_id');
+        $this->products = $products->where('crypto', true)->groupBy('platform_id');
     }
 
     /**

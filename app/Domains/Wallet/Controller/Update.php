@@ -3,7 +3,6 @@
 namespace App\Domains\Wallet\Controller;
 
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
