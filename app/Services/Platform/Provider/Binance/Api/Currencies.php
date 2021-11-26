@@ -36,39 +36,11 @@ class Currencies extends ApiAbstract
      */
     protected function resource(stdClass $row): ?CurrencyResource
     {
-        if ($this->resourceValid($row) === false) {
-            return null;
-        }
-
         return new CurrencyResource([
             'code' => $row->assetCode,
             'name' => $row->assetName,
             'symbol' => (string)$row->unit,
             'precision' => $row->assetDigit,
         ]);
-    }
-
-    /**
-     * @param \stdClass $row
-     *
-     * @return bool
-     */
-    protected function resourceValid(stdClass $row): bool
-    {
-        return $row->trading
-            && ($row->etf === false)
-            && ($row->isLegalMoney || $row->tags)
-            && $this->resourceValidInnovation($row);
-    }
-
-    /**
-     * @param \stdClass $row
-     *
-     * @return bool
-     */
-    protected function resourceValidInnovation(stdClass $row): bool
-    {
-        return !in_array('innovation-zone', $row->tags)
-            || in_array($row->assetCode, $this->config['currency_innovation_allowed']);
     }
 }

@@ -31,10 +31,6 @@ class Currencies extends ApiAbstract
      */
     protected function resource(stdClass $row): ?CurrencyResource
     {
-        if ($row->status !== 'online') {
-            return null;
-        }
-
         return new CurrencyResource([
             'code' => $row->id,
             'name' => $row->name,
