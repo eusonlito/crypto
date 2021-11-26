@@ -1,5 +1,5 @@
-<div class="overflow-auto">
-    <table id="ticker-list-table" class="table table-report text-center sm:mt-2">
+<div class="overflow-auto md:overflow-visible header-sticky">
+    <table id="ticker-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr>
                 <th class="text-left">{{ __('ticker-index.platform') }}</th>

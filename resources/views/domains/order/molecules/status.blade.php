@@ -1,5 +1,5 @@
-<div id="order-status-table" class="overflow-auto">
-    <table class="table table-report sm:mt-2">
+<div class="overflow-auto md:overflow-visible header-sticky">
+    <table id="order-status-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
                 <th class="text-left">{{ __('order-status.platform') }}</th>

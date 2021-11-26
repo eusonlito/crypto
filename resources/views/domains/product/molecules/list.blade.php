@@ -1,5 +1,5 @@
-<div class="overflow-auto">
-    <table id="product-list-table" class="table table-report sm:mt-2" data-table-sort>
+<div class="overflow-auto md:overflow-visible header-sticky">
+    <table id="product-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
                 <th class="text-center">#</th>

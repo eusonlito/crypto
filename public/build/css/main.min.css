@@ -6225,6 +6225,10 @@ html body {
   .md\:hidden {
     display: none;
   }
+
+  .md\:overflow-visible {
+    overflow: visible;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -6437,6 +6441,15 @@ select {
   .side-nav {
     width: 105px;
   }
+}
+
+.header-sticky table thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  border-bottom: 1px solid #CCC;
+  box-shadow: 20px 3px 20px #0000000b;
+  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
 }
 
 .table-report img {
