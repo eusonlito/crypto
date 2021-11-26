@@ -48,7 +48,6 @@ class BuyStopMin extends ActionAbstract
         $this->order();
         $this->update();
         $this->finish();
-        $this->mail();
 
         return $this->row;
     }
@@ -161,13 +160,5 @@ class BuyStopMin extends ActionAbstract
         $this->row->buy_stop_min_executable = false;
         $this->row->processing = false;
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function mail(): void
-    {
-        $this->factory()->mail()->buyStopMax($this->row, $this->order);
     }
 }

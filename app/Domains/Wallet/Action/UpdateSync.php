@@ -5,7 +5,6 @@ namespace App\Domains\Wallet\Action;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Exceptions\ValidatorException;
 
 class UpdateSync extends ActionAbstract
 {
