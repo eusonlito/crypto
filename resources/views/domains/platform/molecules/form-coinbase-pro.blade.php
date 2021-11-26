@@ -1,17 +1,17 @@
 <div class="box p-5">
     <div class="p-2">
         <label for="coinbase-pro-key" class="form-label">{{ __('platform-form.coinbase-pro.key') }}</label>
-        <input type="text" name="coinbase-pro[key]" value="{{ $REQUEST->input('coinbase-pro.key') }}" class="form-control form-control-lg" id="coinbase-pro-key" value="">
+        <input type="password" name="coinbase-pro[key]" value="{{ $REQUEST->input('coinbase-pro.key') }}" class="form-control form-control-lg" id="coinbase-pro-key" value="">
     </div>
 
     <div class="p-2">
         <label for="coinbase-pro-secret" class="form-label mt-3">{{ __('platform-form.coinbase-pro.secret') }}</label>
-        <input type="text" name="coinbase-pro[secret]" value="{{ $REQUEST->input('coinbase-pro.secret') }}" class="form-control form-control-lg" id="coinbase-pro-secret" value="">
+        <input type="password" name="coinbase-pro[secret]" value="{{ $REQUEST->input('coinbase-pro.secret') }}" class="form-control form-control-lg" id="coinbase-pro-secret" value="">
     </div>
 
     <div class="p-2">
         <label for="coinbase-pro-passphrase" class="form-label mt-3">{{ __('platform-form.coinbase-pro.passphrase') }}</label>
-        <input type="text" name="coinbase-pro[passphrase]" value="{{ $REQUEST->input('coinbase-pro.passphrase') }}" class="form-control form-control-lg" id="coinbase-pro-passphrase" value="">
+        <input type="password" name="coinbase-pro[passphrase]" value="{{ $REQUEST->input('coinbase-pro.passphrase') }}" class="form-control form-control-lg" id="coinbase-pro-passphrase" value="">
     </div>
 
     @if ($row->userPivot)

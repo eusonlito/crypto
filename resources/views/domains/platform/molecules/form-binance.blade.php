@@ -1,12 +1,12 @@
 <div class="box p-5">
     <div class="p-2">
         <label for="binance-key" class="form-label">{{ __('platform-form.binance.key') }}</label>
-        <input type="text" name="binance[key]" value="{{ $REQUEST->input('binance.key') }}" class="form-control form-control-lg" id="binance-key" value="">
+        <input type="password" name="binance[key]" value="{{ $REQUEST->input('binance.key') }}" class="form-control form-control-lg" id="binance-key" value="">
     </div>
 
     <div class="p-2">
         <label for="binance-secret" class="form-label mt-3">{{ __('platform-form.binance.secret') }}</label>
-        <input type="text" name="binance[secret]" value="{{ $REQUEST->input('binance.secret') }}" class="form-control form-control-lg" id="binance-secret" value="">
+        <input type="password" name="binance[secret]" value="{{ $REQUEST->input('binance.secret') }}" class="form-control form-control-lg" id="binance-secret" value="">
     </div>
 
     @if ($row->userPivot)

@@ -1,17 +1,17 @@
 <div class="box p-5">
     <div class="p-2">
         <label for="kucoin-key" class="form-label">{{ __('platform-form.kucoin.key') }}</label>
-        <input type="text" name="kucoin[key]" value="{{ $REQUEST->input('kucoin.key') }}" class="form-control form-control-lg" id="kucoin-key" value="">
+        <input type="password" name="kucoin[key]" value="{{ $REQUEST->input('kucoin.key') }}" class="form-control form-control-lg" id="kucoin-key" value="">
     </div>
 
     <div class="p-2">
         <label for="kucoin-secret" class="form-label mt-3">{{ __('platform-form.kucoin.secret') }}</label>
-        <input type="text" name="kucoin[secret]" value="{{ $REQUEST->input('kucoin.secret') }}" class="form-control form-control-lg" id="kucoin-secret" value="">
+        <input type="password" name="kucoin[secret]" value="{{ $REQUEST->input('kucoin.secret') }}" class="form-control form-control-lg" id="kucoin-secret" value="">
     </div>
 
     <div class="p-2">
         <label for="kucoin-passphrase" class="form-label mt-3">{{ __('platform-form.kucoin.passphrase') }}</label>
-        <input type="text" name="kucoin[passphrase]" value="{{ $REQUEST->input('kucoin.passphrase') }}" class="form-control form-control-lg" id="kucoin-passphrase" value="">
+        <input type="password" name="kucoin[passphrase]" value="{{ $REQUEST->input('kucoin.passphrase') }}" class="form-control form-control-lg" id="kucoin-passphrase" value="">
     </div>
 
     @if ($row->userPivot)
