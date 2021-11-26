@@ -3,7 +3,7 @@
 namespace App\Domains\Exchange\Controller;
 
 use Illuminate\Http\Response;
-use App\Domains\Exchange\Service\Report\Report as ReportService;
+use App\Domains\Exchange\Service\Controller\Index as IndexService;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 
 class Index extends ControllerAbstract
@@ -18,7 +18,7 @@ class Index extends ControllerAbstract
         $this->meta('title', __('exchange-index.meta-title'));
 
         return $this->page('exchange.index', [
-            'list' => (new ReportService($this->request->input()))->get(),
+            'list' => (new IndexService($this->request->input()))->get(),
             'platforms' => PlatformModel::list()->get(),
             'filters' => $this->request->input(),
         ]);

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Domains\Exchange\Service\Report;
+namespace App\Domains\Exchange\Service\Controller;
 
 use Illuminate\Support\Collection;
 use App\Domains\Exchange\Model\Exchange as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 
-class Report
+class Index
 {
     /**
      * @const
