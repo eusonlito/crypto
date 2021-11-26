@@ -12,4 +12,9 @@
             <button type="button" class="input-group-text input-group-text-lg" title="{{ __('common.show') }}" data-password-show="#user-password" tabindex="-1">@icon('eye', 'w-5 h-5')</button>
         </div>
     </div>
+
+    <div class="p-2">
+        <label for="user-email" class="form-label">{{ __('user-update.investment') }}</label>
+        <input type="number" name="investment" class="form-control form-control-lg" id="user-investment" value="{{ $REQUEST->input('investment') }}">
+    </div>
 </div>

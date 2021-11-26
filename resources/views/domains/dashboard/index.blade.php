@@ -4,7 +4,7 @@
 
 <script>var charts = new Array();</script>
 
-<x-wallet-stat-global :list="$wallets"/>
+<x-wallet-stat-global :list="$wallets" :investment="$AUTH->investment" />
 
 @if ($walletsFiat->isNotEmpty())
 

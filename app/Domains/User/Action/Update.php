@@ -52,6 +52,7 @@ class Update extends ActionAbstract
     protected function update(): void
     {
         $this->row->email = $this->data['email'];
+        $this->row->investment = $this->data['investment'];
         $this->row->tfa_enabled = $this->data['tfa_enabled'];
 
         if ($this->data['password']) {

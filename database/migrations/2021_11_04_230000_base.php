@@ -299,6 +299,8 @@ return new class extends MigrationAbstract {
 
             $table->json('preferences')->nullable();
 
+            $table->unsignedDouble('investment')->default(0);
+
             $table->boolean('tfa_enabled')->default(0);
 
             $this->dateTimeCreatedAt($table);

@@ -4,6 +4,7 @@
     'error' => [
         'email-exists' => 'Ya existe otro usuario con ese mismo email',
     ],
+    'investment' => 'Inversión',
     'meta-title' => 'Actualización de Perfil',
     'password' => 'Contraseña',
     'password_current' => 'Contraseña Actual',

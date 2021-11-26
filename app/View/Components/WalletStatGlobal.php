@@ -14,13 +14,20 @@ class WalletStatGlobal extends Component
     public Collection $list;
 
     /**
+     * @var int
+     */
+    public int $investment;
+
+    /**
      * @param \Illuminate\Support\Collection $list
+     * @param int $investment
      *
      * @return self
      */
-    public function __construct(Collection $list)
+    public function __construct(Collection $list, int $investment)
     {
         $this->list = $list;
+        $this->investment = $investment;
     }
 
     /**
@@ -36,14 +43,12 @@ class WalletStatGlobal extends Component
      */
     protected function renderData(): array
     {
-        $buy_value = $this->list->sum('buy_value');
         $current_value = $this->list->sum('current_value');
 
         return [
-            'buy_value' => $buy_value,
             'current_value' => $current_value,
             'sell_stop_min_value' => $this->list->sum('sell_stop_min_value'),
-            'result' => ($current_value - $buy_value),
+            'result' => ($current_value - $this->investment),
         ];
     }
 }
