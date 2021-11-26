@@ -48,7 +48,7 @@
 
                 @if ($filled)
 
-                <td><span class="block {{ $row->success ? 'text-theme-10' : 'text-theme-24' }}">@number($row->value_current)</span></td>
+                <td><span class="block {{ $row->success ? 'text-theme-10' : 'text-theme-24' }}" title="@number($row->difference)">@number($row->value_current)</span></td>
 
                 @endif
 

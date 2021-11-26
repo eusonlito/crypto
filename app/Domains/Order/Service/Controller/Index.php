@@ -73,8 +73,10 @@ class Index
 
         if (empty($row->value_current) || ($row->side === 'sell')) {
             $row->success = $row->value >= $row->value_current;
+            $row->difference = $row->value - $row->value_current;
         } else {
             $row->success = $row->value_current >= $row->value;
+            $row->difference = $row->value_current - $row->value;
         }
 
         return $row;
