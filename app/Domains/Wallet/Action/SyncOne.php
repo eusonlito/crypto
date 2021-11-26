@@ -4,6 +4,7 @@ namespace App\Domains\Wallet\Action;
 
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
+use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Model\WalletHistory as WalletHistoryModel;
@@ -123,6 +124,10 @@ class SyncOne extends ActionAbstract
     {
         $this->row->amount = $this->resource->amount;
 
+        if (empty($this->row->buy_exchange) && $this->row->amount) {
+            $this->storeDefaultBuyExchange();
+        }
+
         if ($this->row->crypto) {
             $this->storeDefaultsCrypto();
         } else {
@@ -130,6 +135,18 @@ class SyncOne extends ActionAbstract
         }
 
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function storeDefaultBuyExchange(): void
+    {
+        $this->row->buy_exchange = OrderModel::byProductId($this->product->id)
+            ->byUserId($this->auth->id)
+            ->orderByLast()
+            ->first()
+            ->price ?? 0;
     }
 
     /**
