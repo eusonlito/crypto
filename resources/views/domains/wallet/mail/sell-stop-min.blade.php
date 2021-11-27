@@ -2,26 +2,181 @@
 
 @section ('body')
 
-<tr>
-    <td style="text-align: center; width: 50%">
-        <div class="text-author">
-            <h3 class="name"><a href="{{ route('wallet.update', $row->id) }}">Wallet {{ $row->name }}</a></h3>
-            <p><strong>Platform</strong><br />{{ $row->platform->name }}</p>
-            <p><strong>Amount</strong><br />@number($row->amount)</p>
-            <p><strong>Exchange</strong><br />@number($row->buy_exchange)</p>
-            <p><strong>Value</strong><br />@number($row->buy_value)</p>
-        </div>
-    </td>
+<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
+        <td valign="middle" class="hero bg_white">
+            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td style="padding: 2em; text-align: center;">
+                        <div class="text">
+                            <h2 style="margin-bottom: 0">{{ $subject }}</h2>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 
-    <td style="text-align: center; width: 50%">
-        <div class="text-author">
-            <p><strong>@datetime($order->created_at)</strong></p>
-            <p><strong>Amount</strong><br />@number($order->amount)</p>
-            <p><strong>Price</strong><br />@number($order->price)</p>
-            <p><strong>Price Stop</strong><br />@number($order->price_stop)</p>
-            <p><strong>Value</strong><br />@number($order->value)</p>
-        </div>
-    </td>
-</tr>
+    <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
+        <td valign="middle" style="text-align:center;">
+            <div class="product-entry bg_white">
+                <div class="text">
+                    <h3>Cartera <a href="{{ route('wallet.update', $row->id) }}">{{ $row->product->acronym }}</a> en {{ $row->platform->name }}</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Cambio</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr>
+                            <td>@number($row->amount)</td>
+                            <td>@number($row->buy_exchange)</td>
+                            <td>@number($row->buy_value)</td>
+                        </tr>
+                    </table>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <h3>Sell-Stop ({{ $row->sell_stop_amount }})</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cambio Máximo</th>
+                            <th>Valor Máximo</th>
+                            <th>Cambio Mínimo</th>
+                            <th>Valor Mínimo</th>
+                        </tr>
+                        <tr>
+                            <td>@number($row->sell_stop_max) <small>@number($row->sell_stop_max_percent, 2)%</small></td>
+                            <td>@number($row->sell_stop_max_value)</td>
+                            <td>@number($row->sell_stop_min) <small>@number($row->sell_stop_min_percent, 2)%</small></td>
+                            <td>@number($row->sell_stop_min_value)</td>
+                        </tr>
+                    </table>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <h3>Buy-Stop ({{ $row->buy_stop_amount }})</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cambio Mínimo</th>
+                            <th>Valor Mínimo</th>
+                            <th>Cambio Máximo</th>
+                            <th>Valor Máximo</th>
+                        </tr>
+                        <tr>
+                            <td>@number($row->buy_stop_min) <small>@number($row->buy_stop_min_percent, 2)%</small></td>
+                            <td>@number($row->buy_stop_min_value)</td>
+                            <td>@number($row->buy_stop_max) <small>@number($row->buy_stop_max_percent, 2)%</small></td>
+                            <td>@number($row->buy_stop_max_value)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
+        <td valign="middle" style="text-align:center;">
+            <div class="product-entry bg_white">
+                <div class="text">
+                    <h3>Estado Anterior de <a href="{{ route('wallet.update', $row->id) }}">{{ $row->product->acronym }}</a> en {{ $row->platform->name }}</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Cambio</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr>
+                            <td>@number($previous->amount)</td>
+                            <td>@number($previous->buy_exchange)</td>
+                            <td>@number($previous->buy_value)</td>
+                        </tr>
+                    </table>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <h3>Sell-Stop ({{ $previous->sell_stop_amount }})</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cambio Máximo</th>
+                            <th>Valor Máximo</th>
+                            <th>Cambio Mínimo</th>
+                            <th>Valor Mínimo</th>
+                        </tr>
+                        <tr>
+                            <td>@number($previous->sell_stop_max) <small>@number($previous->sell_stop_max_percent, 2)%</small></td>
+                            <td>@number($previous->sell_stop_max_value)</td>
+                            <td>@number($previous->sell_stop_min) <small>@number($previous->sell_stop_min_percent, 2)%</small></td>
+                            <td>@number($previous->sell_stop_min_value)</td>
+                        </tr>
+                    </table>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <h3>Buy-Stop ({{ $previous->buy_stop_amount }})</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Cambio Mínimo</th>
+                            <th>Valor Mínimo</th>
+                            <th>Cambio Máximo</th>
+                            <th>Valor Máximo</th>
+                        </tr>
+                        <tr>
+                            <td>@number($previous->buy_stop_min) <small>@number($previous->buy_stop_min_percent, 2)%</small></td>
+                            <td>@number($previous->buy_stop_min_value)</td>
+                            <td>@number($previous->buy_stop_max) <small>@number($previous->buy_stop_max_percent, 2)%</small></td>
+                            <td>@number($previous->buy_stop_max_value)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
+        <td valign="middle" style="text-align:center;">
+            <div class="product-entry bg_white">
+                <div class="text">
+                    <h3>Orden</h3>
+
+                    <hr style="border: 1px solid rgba(0,0,0,.05);">
+
+                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Cantidad</th>
+                            <th>Cambio</th>
+                            <th>Valor</th>
+                        </tr>
+                        <tr>
+                            <td>@datetime($order->created_at)</td>
+                            <td>@number($order->amount)</td>
+                            <td>@number($order->price)</td>
+                            <td>@number($order->value)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
 
 @stop

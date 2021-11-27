@@ -26,6 +26,11 @@ class SellStopMin extends ActionAbstract
     protected ProductModel $product;
 
     /**
+     * @var \App\Domains\Wallet\Model\Wallet
+     */
+    protected Model $previous;
+
+    /**
      * @var bool
      */
     protected bool $executable;
@@ -44,6 +49,7 @@ class SellStopMin extends ActionAbstract
             return $this->row;
         }
 
+        $this->previous();
         $this->start();
         $this->sync();
         $this->order();
@@ -102,6 +108,14 @@ class SellStopMin extends ActionAbstract
     /**
      * @return void
      */
+    protected function previous(): void
+    {
+        $this->previous = $this->row->replicate();
+    }
+
+    /**
+     * @return void
+     */
     protected function start(): void
     {
         $this->row->processing = true;
@@ -144,7 +158,7 @@ class SellStopMin extends ActionAbstract
     protected function updateExchange(): void
     {
         $this->row->buy_exchange = $this->order->price;
-        $this->row->buy_value = $this->row->buy_exchange * $this->order->amount;
+        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }
 
     /**
@@ -208,6 +222,6 @@ class SellStopMin extends ActionAbstract
      */
     protected function mail(): void
     {
-        $this->factory()->mail()->sellStopMin($this->row, $this->order);
+        $this->factory()->mail()->sellStopMin($this->row, $this->previous, $this->order);
     }
 }

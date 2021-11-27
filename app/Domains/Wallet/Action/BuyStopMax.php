@@ -26,6 +26,11 @@ class BuyStopMax extends ActionAbstract
     protected ProductModel $product;
 
     /**
+     * @var \App\Domains\Wallet\Model\Wallet
+     */
+    protected Model $previous;
+
+    /**
      * @var bool
      */
     protected bool $executable;
@@ -44,6 +49,7 @@ class BuyStopMax extends ActionAbstract
             return $this->row;
         }
 
+        $this->previous();
         $this->start();
         $this->sync();
         $this->order();
@@ -101,6 +107,14 @@ class BuyStopMax extends ActionAbstract
     /**
      * @return void
      */
+    protected function previous(): void
+    {
+        $this->previous = $this->row->replicate();
+    }
+
+    /**
+     * @return void
+     */
     protected function start(): void
     {
         $this->row->processing = true;
@@ -143,7 +157,7 @@ class BuyStopMax extends ActionAbstract
     protected function updateExchange(): void
     {
         $this->row->buy_exchange = $this->order->price;
-        $this->row->buy_value = $this->row->buy_exchange * $this->order->amount;
+        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }
 
     /**
@@ -207,6 +221,6 @@ class BuyStopMax extends ActionAbstract
      */
     protected function mail(): void
     {
-        $this->factory()->mail()->buyStopMax($this->row, $this->order);
+        $this->factory()->mail()->buyStopMax($this->row, $this->previous, $this->order);
     }
 }
