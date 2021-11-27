@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Action;
 
+use Illuminate\Support\Collection;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
@@ -75,6 +76,8 @@ class UpdateSync extends ActionAbstract
      */
     protected function wallet(): void
     {
+        $this->syncOne($this->row);
+
         $this->walletSameCurrency($this->product->currency_base_id);
         $this->walletSameCurrency($this->product->currency_quote_id);
     }
@@ -86,8 +89,31 @@ class UpdateSync extends ActionAbstract
      */
     protected function walletSameCurrency(int $currency_id): void
     {
-        foreach (Model::byUserId($this->auth->id)->byCurrencyId($currency_id)->get() as $row) {
-            $this->factory(null, $row)->action()->syncOne();
+        foreach ($this->walletSameCurrencyList($currency_id) as $row) {
+            $this->syncOne($row);
         }
+    }
+
+    /**
+     * @param int $currency_id
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function walletSameCurrencyList(int $currency_id): Collection
+    {
+        return Model::byIdNot($this->row->id)
+            ->byUserId($this->auth->id)
+            ->byCurrencyId($currency_id)
+            ->get();
+    }
+
+    /**
+     * @param \App\Domains\Wallet\Model\Wallet $row
+     *
+     * @return void
+     */
+    protected function syncOne(Model $row): void
+    {
+        $this->factory(null, $row)->action()->syncOne();
     }
 }
