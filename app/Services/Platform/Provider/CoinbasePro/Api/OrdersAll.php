@@ -10,6 +10,11 @@ class OrdersAll extends ApiAbstract
     use OrderResourceTrait;
 
     /**
+     * @var bool
+     */
+    protected bool $log = true;
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function handle(): Collection
