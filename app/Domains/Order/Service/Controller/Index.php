@@ -3,7 +3,7 @@
 namespace App\Domains\Order\Service\Controller;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Domains\Order\Model\Order as Model;
 use App\Domains\User\Model\User as UserModel;
 
@@ -32,9 +32,9 @@ class Index
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function get(): Collection
+    public function get(): LengthAwarePaginator
     {
         $q = Model::byUserId($this->user->id)->list();
 
@@ -58,7 +58,10 @@ class Index
             $q->byCreatedAtEnd($filter);
         }
 
-        return $q->paginate(50)->map(fn ($list) => $this->map($list));
+        $list = $q->paginate(50);
+        $list->getCollection()->transform(fn ($list) => $this->map($list));
+
+        return $list;
     }
 
     /**
