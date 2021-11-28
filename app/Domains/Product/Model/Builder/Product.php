@@ -75,6 +75,14 @@ class Product extends BuilderAbstract
     }
 
     /**
+     * @return self
+     */
+    public function list(): self
+    {
+        return $this->orderBy('code', 'ASC');
+    }
+
+    /**
      * @param bool $crypto = true
      *
      * @return self
@@ -200,13 +208,5 @@ class Product extends BuilderAbstract
     public function withUserPivotFavoriteByUserId(int $user_id): self
     {
         return $this->with(['userPivot' => static fn ($q) => $q->byUserId($user_id)->whereFavorite()]);
-    }
-
-    /**
-     * @return self
-     */
-    public function list(): self
-    {
-        return $this->orderBy('code', 'ASC');
     }
 }
