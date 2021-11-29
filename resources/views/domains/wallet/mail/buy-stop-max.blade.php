@@ -2,12 +2,12 @@
 
 @section ('body')
 
-<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+<table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
         <td valign="middle" class="hero bg_white">
             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td style="padding: 2em; text-align: center;">
+                    <td style="padding: 2em;">
                         <div class="text">
                             <h2 style="margin-bottom: 0">{{ $subject }}</h2>
                         </div>
@@ -18,14 +18,14 @@
     </tr>
 
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-        <td valign="middle" style="text-align:center;">
+        <td valign="middle">
             <div class="product-entry bg_white">
                 <div class="text">
                     <h3>Cartera <a href="{{ route('wallet.update', $row->id) }}">{{ $row->product->acronym }}</a> en {{ $row->platform->name }}</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cantidad</th>
                             <th>Cambio</th>
@@ -44,7 +44,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cambio Máximo</th>
                             <th>Valor Máximo</th>
@@ -65,7 +65,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cambio Mínimo</th>
                             <th>Valor Mínimo</th>
@@ -85,14 +85,14 @@
     </tr>
 
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-        <td valign="middle" style="text-align:center;">
+        <td valign="middle">
             <div class="product-entry bg_white">
                 <div class="text">
                     <h3>Estado Anterior de <a href="{{ route('wallet.update', $row->id) }}">{{ $row->product->acronym }}</a> en {{ $row->platform->name }}</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cantidad</th>
                             <th>Cambio</th>
@@ -111,7 +111,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cambio Máximo</th>
                             <th>Valor Máximo</th>
@@ -132,7 +132,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Cambio Mínimo</th>
                             <th>Valor Mínimo</th>
@@ -152,14 +152,14 @@
     </tr>
 
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
-        <td valign="middle" style="text-align:center;">
+        <td valign="middle">
             <div class="product-entry bg_white">
                 <div class="text">
                     <h3>Orden</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Fecha</th>
                             <th>Cantidad</th>

@@ -178,7 +178,6 @@ class SellStopMin extends ActionAbstract
     protected function updateBuyStop(): void
     {
         if ($this->row->buy_stop_min_percent && $this->row->buy_stop_percent) {
-            $this->row->buy_stop_amount = $this->row->amount;
             $this->row->buy_stop = true;
         }
 
