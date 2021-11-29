@@ -103,6 +103,11 @@ Grouping content
 2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
 */
 
+hr {
+  height: 0; /* 1 */
+  color: inherit; /* 2 */
+}
+
 /*
 Text-level semantics
 ====================
@@ -116,8 +121,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 Add the correct font weight in Edge and Safari.
 */
 
-b,
-strong {
+b {
   font-weight: bolder;
 }
 
@@ -140,6 +144,10 @@ code {
 /**
 Add the correct font size in all browsers.
 */
+
+small {
+  font-size: 80%;
+}
 
 /**
 Prevent 'sub' and 'sup' elements from affecting the line height in all browsers.
@@ -205,6 +213,11 @@ button,
 Remove the inner border and padding in Firefox.
 */
 
+::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
 /**
 Restore the focus styles unset by the previous rule.
 */
@@ -230,6 +243,11 @@ Add the correct vertical alignment in Chrome and Firefox.
 Correct the cursor style of increment and decrement buttons in Safari.
 */
 
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
 /**
 1. Correct the odd appearance in Chrome and Safari.
 2. Correct the outline style in Safari.
@@ -244,10 +262,19 @@ Correct the cursor style of increment and decrement buttons in Safari.
 Remove the inner padding in Chrome and Safari on macOS.
 */
 
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
 /**
 1. Correct the inability to style clickable types in iOS and Safari.
 2. Change font properties to 'inherit' in Safari.
 */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
 
 /*
 Interactive
@@ -271,6 +298,7 @@ Add the correct display in Chrome and Safari.
 
 h2,
 h3,
+hr,
 p {
   margin: 0;
 }
@@ -351,6 +379,10 @@ body {
 /*
  * Ensure horizontal rules are visible by default
  */
+
+hr {
+  border-top-width: 1px;
+}
 
 /**
  * Undo the `border-style: none` reset that Normalize applies to images so that
