@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Mail;
 
+use stdClass;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 
@@ -13,9 +14,9 @@ class BuyStopMax extends MailAbstract
     public Model $row;
 
     /**
-     * @var \App\Domains\Wallet\Model\Wallet
+     * @var \stdClass
      */
-    public Model $previous;
+    public stdClass $previous;
 
     /**
      * @var \App\Domains\Order\Model\Order
@@ -29,12 +30,12 @@ class BuyStopMax extends MailAbstract
 
     /**
      * @param \App\Domains\Wallet\Model\Wallet $row
-     * @param \App\Domains\Wallet\Model\Wallet $previous
+     * @param \stdClass $previous
      * @param \App\Domains\Order\Model\Order $order
      *
      * @return self
      */
-    public function __construct(Model $row, Model $previous, OrderModel $order)
+    public function __construct(Model $row, stdClass $previous, OrderModel $order)
     {
         $this->to($row->user->email);
 

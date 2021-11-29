@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Action;
 
+use stdClass;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -26,9 +27,9 @@ class SellStopMin extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var \App\Domains\Wallet\Model\Wallet
+     * @var \stdClass
      */
-    protected Model $previous;
+    protected stdClass $previous;
 
     /**
      * @var bool
@@ -110,7 +111,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function previous(): void
     {
-        $this->previous = $this->row->replicate();
+        $this->previous = (object)$this->row->toArray();
     }
 
     /**
