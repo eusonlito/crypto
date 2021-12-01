@@ -9,25 +9,32 @@ use Illuminate\View\View;
 class WalletStatGlobal extends Component
 {
     /**
-     * @var \Illuminate\Support\Collection
+     * @var float
      */
-    public Collection $list;
+    public float $investment;
 
     /**
-     * @var int
+     * @var float
      */
-    public int $investment;
+    public float $value;
 
     /**
-     * @param \Illuminate\Support\Collection $list
-     * @param int $investment
+     * @var float
+     */
+    public float $sellStopMinValue;
+
+    /**
+     * @param float $investment
+     * @param float $value
+     * @param float $sellStopMinValue
      *
      * @return self
      */
-    public function __construct(Collection $list, int $investment)
+    public function __construct(Collection $list, float $investment, float $value, float $sellStopMinValue)
     {
-        $this->list = $list;
         $this->investment = $investment;
+        $this->value = $value;
+        $this->sellStopMinValue = $sellStopMinValue;
     }
 
     /**
@@ -43,12 +50,10 @@ class WalletStatGlobal extends Component
      */
     protected function renderData(): array
     {
-        $current_value = $this->list->sum('current_value');
-
         return [
-            'current_value' => $current_value,
-            'sell_stop_min_value' => $this->list->sum('sell_stop_min_value'),
-            'result' => ($current_value - $this->investment),
+            'current_value' => $this->value,
+            'sell_stop_min_value' => $this->sellStopMinValue,
+            'result' => ($this->value - $this->investment),
         ];
     }
 }

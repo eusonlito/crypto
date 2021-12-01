@@ -28,6 +28,9 @@ class Index extends ControllerAbstract
             'filters' => $this->request->input(),
             'orders' => $this->orders(),
             'tickers' => $this->tickers(),
+            'walletsInvestment' => $this->auth->investment,
+            'walletsValue' => $this->walletsValue(),
+            'walletsSellStopMinValue' => $this->walletsSellStopMinValue(),
             'wallets' => $wallets,
             'walletsCrypto' => $wallets->where('crypto', true),
             'walletsFiat' => $wallets->where('crypto', false),
@@ -55,6 +58,22 @@ class Index extends ControllerAbstract
             ->list()
             ->withExchangesChart($this->request->input('time'))
             ->get();
+    }
+
+    /**
+     * @return float
+     */
+    protected function walletsValue(): float
+    {
+        return WalletModel::byUserId($this->auth->id)->sum('current_value');
+    }
+
+    /**
+     * @return float
+     */
+    protected function walletsSellStopMinValue(): float
+    {
+        return WalletModel::byUserId($this->auth->id)->sum('sell_stop_min_value');
     }
 
     /**

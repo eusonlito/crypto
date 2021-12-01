@@ -45,5 +45,14 @@
 
             @endforeach
         </tbody>
+
+        <tfoot>
+            <tr class="text-right">
+                <td colspan="6"></td>
+                <td>@number($list->sum('buy_value'))</td>
+                <td>@number($list->sum('current_value'))</td>
+                <td colspan="7"></td>
+            </tr>
+        </tfoot>
     </table>
 </div>

@@ -4,7 +4,7 @@
 
 <script>var charts = new Array();</script>
 
-<x-wallet-stat-global :list="$wallets" :investment="$AUTH->investment" />
+<x-wallet-stat-global :investment="$walletsInvestment" :value="$walletsValue" :sell-stop-min-value="$walletsSellStopMinValue" />
 
 @if ($walletsFiat->isNotEmpty())
 
