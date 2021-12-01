@@ -2,9 +2,9 @@
     <table id="wallet-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
-                <th class="text-left">{{ __('wallet-index.platform') }}</th>
                 <th class="text-left">{{ __('wallet-index.name') }}</th>
                 <th class="text-center">{{ __('wallet-index.product') }}</th>
+                <th class="text-left">{{ __('wallet-index.platform') }}</th>
                 <th>{{ __('wallet-index.amount') }}</th>
                 <th>{{ __('wallet-index.buy_exchange') }}</th>
                 <th>{{ __('wallet-index.current_exchange') }}</th>
@@ -26,9 +26,9 @@
             @php ($link = route('wallet.update', $row->id))
 
             <tr class="text-right">
-                <td><a href="{{ $link }}" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ $link }}" class="block text-left font-semibold whitespace-nowrap">{{ $row->name }}</a></td>
-                <td><a href="{{ $link }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
+                <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
+                <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->amount)">@number($row->amount)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->buy_exchange)">@number($row->buy_exchange)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->current_exchange)">@number($row->current_exchange)</a></td>
