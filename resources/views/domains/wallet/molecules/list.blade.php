@@ -31,7 +31,7 @@
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->amount)">@number($row->amount)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->buy_exchange)">@number($row->buy_exchange)</a></td>
-                <td><a href="{{ $link }}" class="block" title="@numberString($row->current_exchange)">@number($row->current_exchange)</a></td>
+                <td><a href="{{ $link }}" class="block" title="@number($row->current_exchange - $row->buy_exchange)">@number($row->current_exchange)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->buy_value)">@number($row->buy_value)</a></td>
                 <td><a href="{{ $link }}" class="block {{ ($row->current_value >= $row->buy_value) ? 'text-theme-10' : 'text-theme-24' }}" title="@numberString($row->current_value)">@number($row->current_value)</a></td>
                 <td><a href="{{ route('wallet.update.boolean', [$row->id, 'buy_stop']) }}" data-link-boolean="buy_stop" class="block text-center">@status($row->buy_stop)</a></td>
