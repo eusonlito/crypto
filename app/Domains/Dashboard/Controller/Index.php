@@ -26,14 +26,13 @@ class Index extends ControllerAbstract
 
         return $this->page('dashboard.index', [
             'filters' => $this->request->input(),
+            'investment' => $this->auth->investment,
             'orders' => $this->orders(),
             'tickers' => $this->tickers(),
-            'walletsInvestment' => $this->auth->investment,
-            'walletsValue' => $this->walletsValue(),
-            'walletsSellStopMinValue' => $this->walletsSellStopMinValue(),
             'wallets' => $wallets,
             'walletsCrypto' => $wallets->where('crypto', true),
             'walletsFiat' => $wallets->where('crypto', false),
+            'walletsValues' => $this->walletsValues(),
         ]);
     }
 
@@ -61,19 +60,15 @@ class Index extends ControllerAbstract
     }
 
     /**
-     * @return float
+     * @return \Illuminate\Support\Collection
      */
-    protected function walletsValue(): float
+    protected function orders(): Collection
     {
-        return WalletModel::byUserId($this->auth->id)->sum('current_value');
-    }
-
-    /**
-     * @return float
-     */
-    protected function walletsSellStopMinValue(): float
-    {
-        return WalletModel::byUserId($this->auth->id)->sum('sell_stop_min_value');
+        return OrderModel::byUserId($this->auth->id)
+            ->whereFilled()
+            ->list()
+            ->limit(10)
+            ->get();
     }
 
     /**
@@ -92,12 +87,8 @@ class Index extends ControllerAbstract
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function orders(): Collection
+    protected function walletsValues(): Collection
     {
-        return OrderModel::byUserId($this->auth->id)
-            ->whereFilled()
-            ->list()
-            ->limit(10)
-            ->get();
+        return WalletModel::byUserId($this->auth->id)->get();
     }
 }
