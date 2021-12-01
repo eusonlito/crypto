@@ -114,6 +114,7 @@ class BuyStopMin extends ActionAbstract
     {
         $this->orderCreate();
         $this->orderUpdate();
+        $this->orderSync();
     }
 
     /**
@@ -137,6 +138,14 @@ class BuyStopMin extends ActionAbstract
     {
         $this->order->wallet_id = $this->row->id;
         $this->order->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderSync(): void
+    {
+        $this->factory('Order')->action()->syncByProduct($this->product);
     }
 
     /**
