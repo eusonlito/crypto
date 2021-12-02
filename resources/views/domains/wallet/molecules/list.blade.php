@@ -33,7 +33,7 @@
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->buy_exchange)">@number($row->buy_exchange)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@number($row->current_exchange - $row->buy_exchange)">@number($row->current_exchange)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->buy_value)">@number($row->buy_value)</a></td>
-                <td><a href="{{ $link }}" class="block {{ ($row->current_value >= $row->buy_value) ? 'text-theme-10' : 'text-theme-24' }}" title="@numberString($row->current_value)">@number($row->current_value)</a></td>
+                <td><a href="{{ $link }}" class="block {{ ($row->current_value >= $row->buy_value) ? 'text-theme-10' : 'text-theme-24' }}" title="@number($row->current_value - $row->buy_value)">@number($row->current_value)</a></td>
                 <td><a href="{{ route('wallet.update.boolean', [$row->id, 'buy_stop']) }}" data-link-boolean="buy_stop" class="block text-center">@status($row->buy_stop)</a></td>
                 <td><a href="{{ route('wallet.update.boolean', [$row->id, 'sell_stop']) }}" data-link-boolean="sell_stop" class="block text-center">@status($row->sell_stop)</a></td>
                 <td><a href="{{ $link }}" class="block text-center">@status($row->sell_stoploss)</a></td>
