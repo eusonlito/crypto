@@ -9,6 +9,11 @@ use App\Services\Platform\Resource\Wallet as WalletResource;
 class Wallets extends ApiAbstract
 {
     /**
+     * @var bool
+     */
+    protected bool $log = true;
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function handle(): Collection
