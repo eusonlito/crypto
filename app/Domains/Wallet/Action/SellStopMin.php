@@ -158,6 +158,10 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateExchange(): void
     {
+        if ($this->row->amount > $this->order->amount) {
+            $this->row->amount -= $this->order->amount;
+        }
+
         $this->row->buy_exchange = $this->order->price;
         $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }

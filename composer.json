@@ -24,7 +24,7 @@
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.3",
         "nunomaduro/phpinsights": "^2.0",
-        "phpstan/phpstan": "^0.12.75",
+        "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.3"
     },
     "config": {
