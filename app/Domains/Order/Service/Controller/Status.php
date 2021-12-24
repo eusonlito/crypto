@@ -11,12 +11,12 @@ use App\Domains\User\Model\User as UserModel;
 class Status
 {
     /**
-     * @param \App\Domains\User\Model\User
+     * @var \App\Domains\User\Model\User
      */
     protected UserModel $user;
 
     /**
-     * @param \Illuminate\Http\Request
+     * @var \Illuminate\Http\Request
      */
     protected Request $request;
 

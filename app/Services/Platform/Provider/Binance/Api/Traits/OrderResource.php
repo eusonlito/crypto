@@ -36,7 +36,7 @@ trait OrderResource
     /**
      * @param \stdClass $row
      *
-     * @return \App\Services\Platform\Resource\Order
+     * @return \stdClass
      */
     protected function resourceMap(stdClass $row): stdClass
     {

@@ -6,7 +6,7 @@ use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Wallet\Service\Logger\BuySellStop as BuySellStopLogger;
+use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
 class SellStopLoss extends ActionAbstract
 {
@@ -26,22 +26,16 @@ class SellStopLoss extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var bool
-     */
-    protected bool $executable;
-
-    /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
     public function handle(): Model
     {
         $this->platform();
         $this->product();
-        $this->executable();
-        $this->log();
+        $this->logBefore();
 
-        if ($this->executable === false) {
-            return $this->row;
+        if ($this->executable() === false) {
+            return tap($this->row, fn () => $this->logNotExecutable());
         }
 
         $this->start();
@@ -49,6 +43,7 @@ class SellStopLoss extends ActionAbstract
         $this->sync();
         $this->update();
         $this->finish();
+        $this->logSuccess();
 
         return $this->row;
     }
@@ -72,11 +67,11 @@ class SellStopLoss extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return bool
      */
-    protected function executable(): void
+    protected function executable(): bool
     {
-        $this->executable = (bool)$this->platform->userPivot
+        return (bool)$this->platform->userPivot
             && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
@@ -86,14 +81,6 @@ class SellStopLoss extends ActionAbstract
             && $this->row->sell_stoploss_at
             && $this->row->sell_stoploss_executable
             && ($this->row->amount >= $this->product->quantity_min);
-    }
-
-    /**
-     * @return void
-     */
-    protected function log(): void
-    {
-        BuySellStopLogger::set('wallet-sell-stop-loss', $this->row, $this->executable);
     }
 
     /**
@@ -198,5 +185,40 @@ class SellStopLoss extends ActionAbstract
     {
         $this->row->processing = false;
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function logBefore(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logNotExecutable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logSuccess(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @param string $status
+     * @param array $data = []
+     *
+     * @return void
+     */
+    protected function log(string $status, array $data = []): void
+    {
+        ActionLogger::set($status, 'sell-stop-loss', $this->row, $data);
     }
 }

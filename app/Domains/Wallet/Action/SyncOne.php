@@ -8,6 +8,7 @@ use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Model\WalletHistory as WalletHistoryModel;
+use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Wallet as WalletResource;
 
@@ -42,15 +43,18 @@ class SyncOne extends ActionAbstract
         $this->product();
 
         if ($this->available() === false) {
-            return $this->row;
+            return tap($this->row, fn () => $this->logNotAvailable());
         }
 
         $this->api();
         $this->resource();
 
-        if ($this->resource) {
-            $this->save();
+        if (empty($this->resource)) {
+            return tap($this->row, fn () => $this->logResourceNotAvailable());
         }
+
+        $this->save();
+        $this->logSuccess();
 
         return $this->row;
     }
@@ -217,5 +221,40 @@ class SyncOne extends ActionAbstract
         }
 
         return $this->product->exchange->exchange;
+    }
+
+    /**
+     * @return void
+     */
+    protected function logNotAvailable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logResourceNotAvailable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logSuccess(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @param string $status
+     * @param array $data = []
+     *
+     * @return void
+     */
+    protected function log(string $status, array $data = []): void
+    {
+        ActionLogger::set($status, 'update-one', $this->row, $data);
     }
 }

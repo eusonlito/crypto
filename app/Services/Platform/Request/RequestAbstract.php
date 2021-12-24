@@ -54,7 +54,7 @@ abstract class RequestAbstract
     /**
      * @param array $config = []
      *
-     * @var self
+     * @return self
      */
     public function __construct(array $config = [])
     {
@@ -64,7 +64,7 @@ abstract class RequestAbstract
     /**
      * @param array $config
      *
-     * @var self
+     * @return self
      */
     public function config(array $config): self
     {
@@ -76,7 +76,7 @@ abstract class RequestAbstract
     /**
      * @param string $method
      *
-     * @var self
+     * @return self
      */
     public function method(string $method): self
     {
@@ -88,7 +88,7 @@ abstract class RequestAbstract
     /**
      * @param string $endpoint
      *
-     * @var self
+     * @return self
      */
     public function endpoint(string $endpoint): self
     {
@@ -100,7 +100,7 @@ abstract class RequestAbstract
     /**
      * @param string $path
      *
-     * @var self
+     * @return self
      */
     public function path(string $path): self
     {
@@ -112,7 +112,7 @@ abstract class RequestAbstract
     /**
      * @param array $query
      *
-     * @var self
+     * @return self
      */
     public function query(array $query): self
     {
@@ -124,7 +124,7 @@ abstract class RequestAbstract
     /**
      * @param array $post
      *
-     * @var self
+     * @return self
      */
     public function post(array $post): self
     {
@@ -136,7 +136,7 @@ abstract class RequestAbstract
     /**
      * @param int $cache
      *
-     * @var self
+     * @return self
      */
     public function cache(int $cache): self
     {

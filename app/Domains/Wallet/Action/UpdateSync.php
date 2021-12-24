@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
+use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
 class UpdateSync extends ActionAbstract
 {
@@ -28,11 +29,12 @@ class UpdateSync extends ActionAbstract
         $this->product();
 
         if ($this->available() === false) {
-            return $this->row;
+            return tap($this->row, fn () => $this->logNotAvailable());
         }
 
         $this->order();
         $this->wallet();
+        $this->logSuccess();
 
         return $this->row;
     }
@@ -61,6 +63,16 @@ class UpdateSync extends ActionAbstract
     protected function available(): bool
     {
         return (bool)$this->platform->userPivot;
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    protected function notAvailable(): Model
+    {
+        ActionLogger::set('error', 'update-sync', $this->row, ['error' => 'Not Available']);
+
+        return $this->row;
     }
 
     /**
@@ -115,5 +127,32 @@ class UpdateSync extends ActionAbstract
     protected function syncOne(Model $row): void
     {
         $this->factory(null, $row)->action()->syncOne();
+    }
+
+    /**
+     * @return void
+     */
+    protected function logNotAvailable(): void
+    {
+        $this->log('error', ['error' => 'Not Available']);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logSuccess(): void
+    {
+        $this->log('info', ['success' => true]);
+    }
+
+    /**
+     * @param string $status
+     * @param array $data = []
+     *
+     * @return void
+     */
+    protected function log(string $status, array $data = []): void
+    {
+        ActionLogger::set($status, 'update-sync', $this->row, $data);
     }
 }

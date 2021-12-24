@@ -7,7 +7,7 @@ use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Wallet\Service\Logger\BuySellStop as BuySellStopLogger;
+use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
 class SellStopMin extends ActionAbstract
 {
@@ -32,22 +32,16 @@ class SellStopMin extends ActionAbstract
     protected stdClass $previous;
 
     /**
-     * @var bool
-     */
-    protected bool $executable;
-
-    /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
     public function handle(): Model
     {
         $this->platform();
         $this->product();
-        $this->executable();
-        $this->log();
+        $this->logBefore();
 
-        if ($this->executable === false) {
-            return $this->row;
+        if ($this->executable() === false) {
+            return tap($this->row, fn () => $this->logNotExecutable());
         }
 
         $this->previous();
@@ -56,6 +50,7 @@ class SellStopMin extends ActionAbstract
         $this->order();
         $this->update();
         $this->finish();
+        $this->logSuccess();
         $this->mail();
 
         return $this->row;
@@ -80,11 +75,11 @@ class SellStopMin extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return bool
      */
-    protected function executable(): void
+    protected function executable(): bool
     {
-        $this->executable = (bool)$this->platform->userPivot
+        return (bool)$this->platform->userPivot
             && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
@@ -96,14 +91,6 @@ class SellStopMin extends ActionAbstract
             && $this->row->sell_stop_min_executable
             && $this->row->sell_stop_max
             && $this->row->sell_stop_max_at;
-    }
-
-    /**
-     * @return void
-     */
-    protected function log(): void
-    {
-        BuySellStopLogger::set('wallet-sell-stop-min', $this->row, $this->executable);
     }
 
     /**
@@ -227,5 +214,40 @@ class SellStopMin extends ActionAbstract
     protected function mail(): void
     {
         $this->factory()->mail()->sellStopMin($this->row, $this->previous, $this->order);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logBefore(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logNotExecutable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logSuccess(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @param string $status
+     * @param array $data = []
+     *
+     * @return void
+     */
+    protected function log(string $status, array $data = []): void
+    {
+        ActionLogger::set($status, 'sell-stop-min', $this->row, $data);
     }
 }
