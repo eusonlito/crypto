@@ -14,5 +14,6 @@
     'profile' => 'Perfil',
     'sync' => 'Sincronizar',
     'tickers' => 'Tickers',
+    'users' => 'Usuarios',
     'wallets' => 'Carteras',
 ];

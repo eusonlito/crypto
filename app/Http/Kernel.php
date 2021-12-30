@@ -12,6 +12,7 @@ use Illuminate\Session\Middleware\StartSession;
 
 use App\Domains\Language\Middleware\Request as LanguageRequest;
 
+use App\Domains\User\Middleware\Admin as UserAdmin;
 use App\Domains\User\Middleware\Auth as UserAuth;
 use App\Domains\User\Middleware\AuthRedirect as UserAuthRedirect;
 use App\Domains\User\Middleware\AuthTFA as UserAuthTFA;
@@ -51,6 +52,7 @@ class Kernel extends KernelVendor
      * @var array
      */
     protected $routeMiddleware = [
+        'user.admin' => UserAdmin::class,
         'user.auth' => UserAuth::class,
         'user.auth.redirect' => UserAuthRedirect::class,
         'user.auth.tfa' => UserAuthTFA::class,

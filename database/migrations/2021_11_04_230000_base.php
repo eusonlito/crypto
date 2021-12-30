@@ -302,6 +302,8 @@ return new class extends MigrationAbstract {
             $table->unsignedDouble('investment')->default(0);
 
             $table->boolean('tfa_enabled')->default(0);
+            $table->boolean('admin')->default(0);
+            $table->boolean('enabled')->default(0);
 
             $this->dateTimeCreatedAt($table);
             $this->dateTimeUpdatedAt($table);

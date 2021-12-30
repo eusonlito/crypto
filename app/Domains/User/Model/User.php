@@ -34,6 +34,7 @@ class User extends ModelAbstract implements Authenticatable
      * @var array
      */
     protected $casts = [
+        'admin' => 'boolean',
         'enabled' => 'boolean',
         'preferences' => 'array',
     ];

@@ -117,6 +117,7 @@ class Signup extends ActionAbstract
             'code' => $this->data['code'],
             'tfa_secret' => $this->data['tfa_secret'],
             'tfa_enabled' => $this->data['tfa_enabled'],
+            'enabled' => true,
             'ip' => $this->data['ip'],
             'language_id' => $this->data['language_id'],
         ]);

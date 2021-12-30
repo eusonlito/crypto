@@ -116,6 +116,17 @@
             </a>
         </li>
 
+        @if ($AUTH->admin)
+
+        <li>
+            <a href="{{ route('user.index') }}" class="menu {{ ($ROUTE === 'user.index') ? 'side-menu--active' : '' }}">
+                <div class="menu__icon">@icon('users')</div>
+                <div class="menu__title">{{ __('in-sidebar.users') }}</div>
+            </a>
+        </li>
+
+        @endif
+
         <li>
             <a href="{{ route('user.logout') }}" class="menu">
                 <div class="menu__icon">@icon('toggle-right')</div>
