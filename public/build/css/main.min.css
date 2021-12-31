@@ -6285,6 +6285,10 @@ html body {
     grid-column: span 5 / span 5;
   }
 
+  .lg\:col-span-6 {
+    grid-column: span 6 / span 6;
+  }
+
   .lg\:col-span-12 {
     grid-column: span 12 / span 12;
   }

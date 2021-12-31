@@ -3,8 +3,6 @@
 namespace App\Domains\User\Controller;
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
-use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\User\Model\User as Model;
 
 class Index extends ControllerAbstract
