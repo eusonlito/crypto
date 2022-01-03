@@ -450,8 +450,14 @@ charts.push({
     </div>
 </div>
 
+<div class="box p-5 mt-5">
+    <form method="get">
+        <input type="search" class="form-control form-control-lg" placeholder="{{ __('wallet-percent.filter') }}" data-table-search="#wallet-percent-table" />
+    </form>
+</div>
+
 <div class="overflow-auto md:overflow-visible header-sticky">
-    <table id="order-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
+    <table id="wallet-percent-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
                 <th class="text-center">{{ __('wallet-percent.order.date') }}</th>
@@ -486,7 +492,10 @@ charts.push({
                 <td><span class="block" title="{{ $each->wallet_buy_stop_max }}">@number($each->wallet_buy_stop_max)</span></td>
                 <td><span class="block" title="{{ $each->wallet_sell_stoploss_exchange }}">@number($each->wallet_sell_stoploss_exchange)</span></td>
                 <td><span class="block @numberColor($each->profit, $each->filled)" title="{{ $each->profit }}">@number($each->profit)</span></td>
-                <td><span class="block text-center">@status($each->filled)</span></td>
+                <td>
+                    <span class="hidden">{{ $each->filled ? 'Completada' : '' }}</span>
+                    <span class="block text-center">@status($each->filled)</span>
+                </td>
             </tr>
 
             @endforeach

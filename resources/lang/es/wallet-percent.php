@@ -31,6 +31,7 @@
         'sell_stoploss_exchange' => 'Sell Stop-Loss',
         'value' => 'Valor',
     ],
+    'filter' => 'Filtrar',
     'sell_stop' => 'Activar Venta Stop-Limit',
     'sell_stop_amount' => 'Cantidad',
     'sell_stop_max' => 'Valor de Cambio Máximo',
