@@ -55,6 +55,7 @@ class WalletStatBoxCrypto extends Component
             'buy_stop_amount' => $this->row->buy_stop_amount,
 
             'buy_stop_min' => $this->row->buy_stop_min,
+            'buy_stop_min_percent' => $this->row->buy_stop_min_percent,
             'buy_stop_min_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_min),
             'buy_stop_min_value' => $this->row->buy_stop_min_value,
             'buy_stop_min_value_percent' => helper()->percent($this->row->current_value, $this->row->buy_stop_min_value),
@@ -62,6 +63,7 @@ class WalletStatBoxCrypto extends Component
             'buy_stop_min_at' => $this->row->buy_stop_min_at,
 
             'buy_stop_max' => $this->row->buy_stop_max,
+            'buy_stop_max_percent' => $this->row->buy_stop_max_percent,
             'buy_stop_max_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_max),
             'buy_stop_max_value' => $this->row->buy_stop_max_value,
             'buy_stop_max_value_percent' => helper()->percent($this->row->current_value, $this->row->buy_stop_max_value),
@@ -73,6 +75,7 @@ class WalletStatBoxCrypto extends Component
             'sell_stop_amount' => $this->row->sell_stop_amount,
 
             'sell_stop_min' => $this->row->sell_stop_min,
+            'sell_stop_min_percent' => $this->row->sell_stop_min_percent,
             'sell_stop_min_exchange_percent' => helper()->percent($this->row->sell_stop_min, $this->row->current_exchange),
             'sell_stop_min_value' => $this->row->sell_stop_min_value,
             'sell_stop_min_value_percent' => helper()->percent($this->row->sell_stop_min_value, $this->row->current_value),
@@ -80,6 +83,7 @@ class WalletStatBoxCrypto extends Component
             'sell_stop_min_at' => $this->row->sell_stop_min_at,
 
             'sell_stop_max' => $this->row->sell_stop_max,
+            'sell_stop_max_percent' => $this->row->sell_stop_max_percent,
             'sell_stop_max_exchange_percent' => helper()->percent($this->row->sell_stop_max, $this->row->current_exchange),
             'sell_stop_max_value' => $this->row->sell_stop_max_value,
             'sell_stop_max_value_percent' => helper()->percent($this->row->sell_stop_max_value, $this->row->current_value),

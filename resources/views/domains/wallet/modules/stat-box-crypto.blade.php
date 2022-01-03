@@ -47,7 +47,7 @@
                         <div class="text-base {{ $sell_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stop ? __('wallet-stat.sell_stop_enabled') : __('wallet-stat.sell_stop_disabled') }}</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max') }}</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max') }} ({{ $sell_stop_max_percent }}%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_max_at }}">@number($sell_stop_max)</div>
@@ -77,7 +77,7 @@
                         <div class="text-base" title="@numberString($sell_stop_amount)">@number($sell_stop_amount)</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_min') }}</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_min') }} ({{ $sell_stop_min_percent }}%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_min_at }}">@number($sell_stop_min)</div>
@@ -113,7 +113,7 @@
                         <div class="text-base {{ $buy_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_stop ? __('wallet-stat.buy_stop_enabled') : __('wallet-stat.buy_stop_disabled') }}</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min') }}</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min') }} ({{ $buy_stop_min_percent }}%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}">@number($buy_stop_min)</div>
@@ -143,7 +143,7 @@
                         <div class="text-base" title="@numberString($buy_stop_amount)">@number($buy_stop_amount)</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max') }}</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max') }} ({{ $buy_stop_max_percent }}%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_max_at }}">@number($buy_stop_max)</div>
