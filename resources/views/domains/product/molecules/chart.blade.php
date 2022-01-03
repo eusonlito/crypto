@@ -29,7 +29,7 @@ const productChart = {
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.raw.toLocaleString('es-ES', {
+                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES', {
                                     minimumFractionDigits: {{ $row->price_decimal }}
                                 });
                             }

@@ -20,6 +20,7 @@ charts.push({
             labels: @json($dates),
             datasets: [
                 @if ($references && $row->exchange_reference)
+
                 {
                     label: 'Buy Exchange',
                     yAxisID: 'yAxisLeft',
@@ -34,16 +35,18 @@ charts.push({
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.raw.toLocaleString('es-ES', {
+                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES', {
                                     minimumFractionDigits: {{ $row->product->price_decimal }}
                                 });
                             }
                         }
                     }
                 },
+
                 @endif
 
                 @if ($references && $row->value_reference)
+
                 {
                     label: 'Buy Value',
                     yAxisID: 'yAxisRight',
@@ -54,8 +57,16 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 1.5,
-                    data: @json(array_fill(0, $exchanges->count(), $row->value_reference))
+                    data: @json(array_fill(0, $exchanges->count(), $row->value_reference)),
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES');
+                            }
+                        }
+                    }
                 },
+
                 @endif
 
                 {
@@ -72,7 +83,7 @@ charts.push({
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.raw.toLocaleString('es-ES', {
+                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES', {
                                     minimumFractionDigits: {{ $row->product->price_decimal }}
                                 });
                             }
@@ -90,7 +101,14 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 0,
-                    data: @json($exchanges->map(static fn ($value) => $value->exchange * $row->amount))
+                    data: @json($exchanges->map(static fn ($value) => $value->exchange * $row->amount)),
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES');
+                            }
+                        }
+                    }
                 }
             ]
         },
