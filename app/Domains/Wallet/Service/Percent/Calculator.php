@@ -169,6 +169,7 @@ class Calculator
             return;
         }
 
+        $amount = $this->row->amount;
         $profit = ($this->row->amount * $this->exchange) - ($this->row->amount * $this->row->buy_exchange);
 
         $this->row->amount = 0;
@@ -187,7 +188,7 @@ class Calculator
         $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
 
-        $this->order('sell-stop-loss', $this->row->amount, true, $profit);
+        $this->order('sell-stop-loss', $amount, true, $profit);
     }
 
     /**
