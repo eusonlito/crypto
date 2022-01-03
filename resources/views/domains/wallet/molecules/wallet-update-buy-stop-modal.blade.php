@@ -30,13 +30,13 @@
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_min" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min') }}</label>
-                            <input type="number" name="buy_stop_min" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_min" value="@numberString($row->buy_stop_min)" data-value-to-percent="{{ $prefix }}-buy_stop_min_percent" data-value-to-percent-reference="{{ $prefix }}-buy_exchange">
+                            <label for="{{ $prefix }}-buy_stop_min_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_percent') }}</label>
+                            <input type="number" name="buy_stop_min_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_min_percent" value="@value($row->buy_stop_min_percent, 2)" data-percent-to-value="{{ $prefix }}-buy_stop_min" data-percent-to-value-reference="{{ $prefix }}-buy_exchange" data-percent-to-value-operation="substract">
                         </div>
 
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_min_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_percent') }}</label>
-                            <input type="number" name="buy_stop_min_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_min_percent" value="@value($row->buy_stop_min_percent, 2)" data-percent-to-value="{{ $prefix }}-buy_stop_min" data-percent-to-value-reference="{{ $prefix }}-buy_exchange" data-percent-to-value-operation="substract">
+                            <label for="{{ $prefix }}-buy_stop_min" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min') }}</label>
+                            <input type="number" name="buy_stop_min" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_min" value="@numberString($row->buy_stop_min)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
@@ -47,13 +47,13 @@
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_max" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max') }}</label>
-                            <input type="number" name="buy_stop_max" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_max" value="@numberString($row->buy_stop_max)" data-value-to-percent="{{ $prefix }}-buy_stop_max_percent" data-value-to-percent-reference="{{ $prefix }}-buy_stop_min">
+                            <label for="{{ $prefix }}-buy_stop_max_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_percent') }}</label>
+                            <input type="number" name="buy_stop_max_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_max_percent" value="@value($row->buy_stop_max_percent, 2)" data-percent-to-value="{{ $prefix }}-buy_stop_max" data-percent-to-value-reference="{{ $prefix }}-buy_stop_min">
                         </div>
 
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_max_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_percent') }}</label>
-                            <input type="number" name="buy_stop_max_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_max_percent" value="@value($row->buy_stop_max_percent, 2)" data-percent-to-value="{{ $prefix }}-buy_stop_max" data-percent-to-value-reference="{{ $prefix }}-buy_stop_min">
+                            <label for="{{ $prefix }}-buy_stop_max" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max') }}</label>
+                            <input type="number" name="buy_stop_max" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_max" value="@numberString($row->buy_stop_max)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">

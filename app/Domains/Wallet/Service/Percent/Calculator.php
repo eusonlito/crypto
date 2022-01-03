@@ -199,6 +199,7 @@ class Calculator
         return $this->row->amount
             && $this->row->sell_stoploss
             && $this->row->sell_stoploss_exchange
+            && $this->row->sell_stoploss_percent
             && ($this->exchange <= $this->row->sell_stoploss_exchange);
     }
 

@@ -8,6 +8,8 @@ use App\Exceptions\ValidatorException;
 
 trait CreateUpdate
 {
+    use DataBuyStop, DataSellStop, DataSellStopLoss;
+
     /**
      * @var \App\Domains\Product\Model\Product
      */
@@ -44,73 +46,6 @@ trait CreateUpdate
     }
 
     /**
-     * @return void
-     */
-    protected function dataSellStop(): void
-    {
-        $this->data['sell_stop_amount'] = (float)$this->data['sell_stop_amount'];
-
-        $this->data['sell_stop_max'] = (float)$this->data['sell_stop_max'];
-        $this->data['sell_stop_max_value'] = $this->data['sell_stop_amount'] * $this->data['sell_stop_max'];
-        $this->data['sell_stop_max_percent'] = abs((float)$this->data['sell_stop_max_percent']);
-
-        if ($this->data['sell_stop_max_at']) {
-            $this->data['sell_stop_max_at'] = $this->row->sell_stop_max_at ?? date('Y-m-d H:i:s');
-        } else {
-            $this->data['sell_stop_max_at'] = null;
-        }
-
-        $this->data['sell_stop_min'] = (float)$this->data['sell_stop_min'];
-        $this->data['sell_stop_min_value'] = $this->data['sell_stop_amount'] * $this->data['sell_stop_min'];
-        $this->data['sell_stop_min_percent'] = abs((float)$this->data['sell_stop_min_percent']);
-
-        if ($this->data['sell_stop_min_at']) {
-            $this->data['sell_stop_min_at'] = $this->row->sell_stop_min_at ?? date('Y-m-d H:i:s');
-        } else {
-            $this->data['sell_stop_min_at'] = null;
-        }
-    }
-
-    /**
-     * @return void
-     */
-    protected function dataBuyStop(): void
-    {
-        $this->data['buy_stop_amount'] = (float)$this->data['buy_stop_amount'];
-
-        $this->data['buy_stop_min'] = (float)$this->data['buy_stop_min'];
-        $this->data['buy_stop_min_value'] = $this->data['buy_stop_amount'] * $this->data['buy_stop_min'];
-        $this->data['buy_stop_min_percent'] = abs((float)$this->data['buy_stop_min_percent']);
-
-        if ($this->data['buy_stop_min_at']) {
-            $this->data['buy_stop_min_at'] = $this->row->buy_stop_min_at ?? date('Y-m-d H:i:s');
-        } else {
-            $this->data['buy_stop_min_at'] = null;
-        }
-
-        $this->data['buy_stop_max'] = (float)$this->data['buy_stop_max'];
-        $this->data['buy_stop_max_value'] = $this->data['buy_stop_amount'] * $this->data['buy_stop_max'];
-        $this->data['buy_stop_max_percent'] = abs((float)$this->data['buy_stop_max_percent']);
-
-        if ($this->data['buy_stop_max_at']) {
-            $this->data['buy_stop_max_at'] = $this->row->buy_stop_max_at ?? date('Y-m-d H:i:s');
-        } else {
-            $this->data['buy_stop_max_at'] = null;
-        }
-    }
-
-    /**
-     * @return void
-     */
-    protected function dataStopLoss(): void
-    {
-        $this->data['sell_stoploss_exchange'] = (float)$this->data['sell_stoploss_exchange'];
-        $this->data['sell_stoploss_value'] = $this->data['amount'] * $this->data['sell_stoploss_exchange'];
-        $this->data['sell_stoploss_percent'] = abs((float)$this->data['sell_stoploss_percent']);
-        $this->data['sell_stoploss_at'] = $this->data['sell_stoploss_at'] ? $this->row->sell_stoploss_at : null;
-    }
-
-    /**
      * @return float
      */
     protected function dataExchange(): float
@@ -127,46 +62,7 @@ trait CreateUpdate
      */
     protected function check(): void
     {
-        if ($this->data['sell_stop_min'] && empty($this->data['sell_stop_max'])) {
-            throw new ValidatorException(__('wallet-update.error.sell-stop-min-empty-max', [
-                'max' => $this->data['sell_stop_max'],
-                'min' => $this->data['sell_stop_min'],
-            ]));
-        }
-
-        if (empty($this->data['sell_stop_min']) && $this->data['sell_stop_max']) {
-            throw new ValidatorException(__('wallet-update.error.sell-stop-max-empty-min', [
-                'max' => $this->data['sell_stop_max'],
-                'min' => $this->data['sell_stop_min'],
-            ]));
-        }
-
-        if ($this->data['sell_stop_max'] < $this->data['sell_stop_min']) {
-            throw new ValidatorException(__('wallet-update.error.sell-stop-max-less-min', [
-                'max' => $this->data['sell_stop_max'],
-                'min' => $this->data['sell_stop_min'],
-            ]));
-        }
-
-        if ($this->data['buy_stop_min'] && empty($this->data['buy_stop_max'])) {
-            throw new ValidatorException(__('wallet-update.error.buy-stop-min-empty-max', [
-                'max' => $this->data['buy_stop_max'],
-                'min' => $this->data['buy_stop_min'],
-            ]));
-        }
-
-        if (empty($this->data['buy_stop_min']) && $this->data['buy_stop_max']) {
-            throw new ValidatorException(__('wallet-update.error.buy-stop-max-empty-min', [
-                'max' => $this->data['buy_stop_max'],
-                'min' => $this->data['buy_stop_min'],
-            ]));
-        }
-
-        if ($this->data['buy_stop_max'] < $this->data['buy_stop_min']) {
-            throw new ValidatorException(__('wallet-update.error.buy-stop-max-less-min', [
-                'max' => $this->data['buy_stop_max'],
-                'min' => $this->data['buy_stop_min'],
-            ]));
-        }
+        $this->checkSellStop();
+        $this->checkBuyStop();
     }
 }

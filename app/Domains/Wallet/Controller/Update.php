@@ -22,6 +22,8 @@ class Update extends ControllerAbstract
             return $response;
         }
 
+        $this->requestMergeWithRow();
+
         $this->meta('title', $this->row->name);
 
         return $this->page('wallet.update', [
