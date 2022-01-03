@@ -68,8 +68,6 @@ class Update extends ActionAbstract
         $this->row->sell_stop_min_percent = $this->data['sell_stop_min_percent'];
         $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
 
-        $this->row->sell_stop_percent = $this->data['sell_stop_percent'];
-
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->buy_stop_amount = $this->data['buy_stop_amount'];
@@ -83,8 +81,6 @@ class Update extends ActionAbstract
         $this->row->buy_stop_min_value = $this->data['buy_stop_min_value'];
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
-
-        $this->row->buy_stop_percent = $this->data['buy_stop_percent'];
 
         $this->row->buy_stop = $this->data['buy_stop'];
 

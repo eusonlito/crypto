@@ -69,7 +69,7 @@ trait WalletSql
                     AND `sell_stop_max`
                     AND `sell_stop_max_at` IS NOT NULL
                 ),
-                `sell_stop_max` * (1 - (`sell_stop_percent` / 100)),
+                `sell_stop_max` * (1 - (`sell_stop_min_percent` / 100)),
                 `sell_stop_min`
             ),
 
@@ -139,7 +139,7 @@ trait WalletSql
                     AND `buy_stop_min`
                     AND `buy_stop_min_at` IS NOT NULL
                 ),
-                `buy_stop_min` * (1 + (`buy_stop_percent` / 100)),
+                `buy_stop_min` * (1 + (`buy_stop_max_percent` / 100)),
                 `buy_stop_max`
             ),
 

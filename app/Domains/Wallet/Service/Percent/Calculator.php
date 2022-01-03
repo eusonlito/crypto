@@ -178,7 +178,7 @@ class Calculator
 
         $this->row->sell_stoploss = false;
 
-        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_percent) {
+        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_max_percent) {
             $this->row->buy_stop = true;
         }
 
@@ -198,8 +198,8 @@ class Calculator
     {
         return $this->row->amount
             && $this->row->sell_stoploss
-            && $this->row->sell_stoploss_percent
-            && ($this->exchange <= ($this->row->buy_exchange * (1 - ($this->row->sell_stoploss_percent / 100))));
+            && $this->row->sell_stoploss_exchange
+            && ($this->exchange <= $this->row->sell_stoploss_exchange);
     }
 
     /**

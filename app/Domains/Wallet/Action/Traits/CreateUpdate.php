@@ -69,8 +69,6 @@ trait CreateUpdate
         } else {
             $this->data['sell_stop_min_at'] = null;
         }
-
-        $this->data['sell_stop_percent'] = abs(helper()->percent($this->data['sell_stop_min'], $this->data['sell_stop_max']));
     }
 
     /**
@@ -99,8 +97,6 @@ trait CreateUpdate
         } else {
             $this->data['buy_stop_max_at'] = null;
         }
-
-        $this->data['buy_stop_percent'] = abs(helper()->percent($this->data['buy_stop_min'], $this->data['buy_stop_max']));
     }
 
     /**

@@ -41,6 +41,8 @@ class Create extends ActionAbstract
             'current_exchange' => $this->data['current_exchange'],
             'current_value' => $this->data['current_value'],
 
+            'sell_stop' => $this->data['sell_stop'],
+
             'sell_stop_amount' => $this->data['sell_stop_amount'],
 
             'sell_stop_max' => $this->data['sell_stop_max'],
@@ -51,9 +53,7 @@ class Create extends ActionAbstract
             'sell_stop_min_value' => $this->data['sell_stop_min_value'],
             'sell_stop_min_percent' => $this->data['sell_stop_min_percent'],
 
-            'sell_stop_percent' => $this->data['sell_stop_percent'],
-
-            'sell_stop' => $this->data['sell_stop'],
+            'buy_stop' => $this->data['buy_stop'],
 
             'buy_stop_amount' => $this->data['buy_stop_amount'],
 
@@ -65,15 +65,11 @@ class Create extends ActionAbstract
             'buy_stop_min_value' => $this->data['buy_stop_min_value'],
             'buy_stop_min_percent' => $this->data['buy_stop_min_percent'],
 
-            'buy_stop_percent' => $this->data['buy_stop_percent'],
-
-            'buy_stop' => $this->data['buy_stop'],
+            'sell_stoploss' => $this->data['sell_stoploss'],
 
             'sell_stoploss_exchange' => $this->data['sell_stoploss_exchange'],
             'sell_stoploss_value' => $this->data['sell_stoploss_value'],
             'sell_stoploss_percent' => $this->data['sell_stoploss_percent'],
-
-            'sell_stoploss' => $this->data['sell_stoploss'],
 
             'crypto' => $this->product->crypto,
             'trade' => false,

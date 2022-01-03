@@ -189,8 +189,6 @@ class SyncOne extends ActionAbstract
         $this->row->sell_stop_min = $this->row->buy_exchange;
         $this->row->sell_stop_min_value = $this->row->buy_value;
 
-        $this->row->sell_stop_percent = 0;
-
         $this->row->buy_stop = 0;
 
         $this->row->buy_stop_amount = $this->row->amount;
@@ -202,8 +200,6 @@ class SyncOne extends ActionAbstract
         $this->row->buy_stop_min_percent = 0;
         $this->row->buy_stop_min = $this->row->buy_exchange;
         $this->row->buy_stop_min_value = $this->row->buy_value;
-
-        $this->row->buy_stop_percent = 0;
 
         $this->row->sell_stoploss = 0;
         $this->row->sell_stoploss_percent = 0;

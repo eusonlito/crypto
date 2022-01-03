@@ -45,8 +45,6 @@ class UpdateBuyStop extends ActionAbstract
         } else {
             $this->data['buy_stop_max_at'] = null;
         }
-
-        $this->data['buy_stop_percent'] = abs(helper()->percent($this->data['buy_stop_min'], $this->data['buy_stop_max']));
     }
 
     /**
@@ -81,6 +79,8 @@ class UpdateBuyStop extends ActionAbstract
      */
     protected function store(): void
     {
+        $this->row->buy_stop = $this->data['buy_stop'];
+
         $this->row->buy_stop_amount = $this->data['buy_stop_amount'];
 
         $this->row->buy_stop_max = $this->data['buy_stop_max'];
@@ -92,10 +92,6 @@ class UpdateBuyStop extends ActionAbstract
         $this->row->buy_stop_min_value = $this->data['buy_stop_min_value'];
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
-
-        $this->row->buy_stop_percent = $this->data['buy_stop_percent'];
-
-        $this->row->buy_stop = $this->data['buy_stop'];
 
         $this->row->save();
     }

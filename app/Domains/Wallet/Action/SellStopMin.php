@@ -168,7 +168,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateBuyStop(): void
     {
-        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_percent) {
+        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_max_percent) {
             $this->row->buy_stop = true;
         }
 
@@ -176,7 +176,7 @@ class SellStopMin extends ActionAbstract
         $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min;
         $this->row->buy_stop_min_at = null;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_percent / 100));
+        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max;
         $this->row->buy_stop_max_at = null;
     }

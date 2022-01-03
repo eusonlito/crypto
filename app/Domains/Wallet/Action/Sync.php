@@ -406,8 +406,6 @@ class Sync extends ActionAbstract
         $row->sell_stop_min = $row->buy_exchange;
         $row->sell_stop_min_value = $row->buy_value;
 
-        $row->sell_stop_percent = 0;
-
         $row->buy_stop = 0;
 
         $row->buy_stop_amount = $row->amount;
@@ -419,8 +417,6 @@ class Sync extends ActionAbstract
         $row->buy_stop_min_percent = 0;
         $row->buy_stop_min = $row->buy_exchange;
         $row->buy_stop_min_value = $row->buy_value;
-
-        $row->buy_stop_percent = 0;
 
         $row->sell_stoploss = 0;
         $row->sell_stoploss_percent = 0;

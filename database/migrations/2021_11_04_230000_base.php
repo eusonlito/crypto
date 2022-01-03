@@ -360,9 +360,6 @@ return new class extends MigrationAbstract {
             $table->dateTime('sell_stop_min_at')->nullable();
             $table->boolean('sell_stop_min_executable')->default(0);
 
-            // sell_stop_max - sell_stop_min
-            $table->unsignedDouble('sell_stop_percent')->default(0);
-
             // Buy Stop Enabled
             $table->boolean('buy_stop')->default(0);
 
@@ -383,14 +380,12 @@ return new class extends MigrationAbstract {
             $table->dateTime('buy_stop_min_at')->nullable();
             $table->boolean('buy_stop_min_executable')->default(0);
 
-            // buy_stop_max - buy_stop_min
-            $table->unsignedDouble('buy_stop_percent')->default(0);
-
             $table->boolean('sell_stoploss')->default(0);
 
             $table->unsignedDouble('sell_stoploss_exchange')->default(0);
             $table->unsignedDouble('sell_stoploss_value')->default(0);
             $table->unsignedDouble('sell_stoploss_percent')->default(0);
+
             $table->dateTime('sell_stoploss_at')->nullable();
             $table->boolean('sell_stoploss_executable')->default(0);
 
@@ -446,9 +441,6 @@ return new class extends MigrationAbstract {
             $table->dateTime('sell_stop_min_at')->nullable();
             $table->boolean('sell_stop_min_executable')->default(0);
 
-            // sell_stop_max - sell_stop_min
-            $table->unsignedDouble('sell_stop_percent')->default(0);
-
             // Buy Stop Enabled
             $table->boolean('buy_stop')->default(0);
 
@@ -469,14 +461,12 @@ return new class extends MigrationAbstract {
             $table->dateTime('buy_stop_min_at')->nullable();
             $table->boolean('buy_stop_min_executable')->default(0);
 
-            // buy_stop_max - buy_stop_min
-            $table->unsignedDouble('buy_stop_percent')->default(0);
-
             $table->boolean('sell_stoploss')->default(0);
 
             $table->unsignedDouble('sell_stoploss_exchange')->default(0);
             $table->unsignedDouble('sell_stoploss_value')->default(0);
             $table->unsignedDouble('sell_stoploss_percent')->default(0);
+
             $table->dateTime('sell_stoploss_at')->nullable();
             $table->boolean('sell_stoploss_executable')->default(0);
 
