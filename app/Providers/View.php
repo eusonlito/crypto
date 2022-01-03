@@ -40,6 +40,10 @@ class View extends ServiceProvider
             return "<?= \App\Services\Html\Html::numberString($expression); ?>";
         });
 
+        Blade::directive('numberColor', function (string $expression) {
+            return "<?= \App\Services\Html\Html::numberColor($expression); ?>";
+        });
+
         Blade::directive('value', function (string $expression) {
             return "<?= \App\Services\Html\Html::value($expression); ?>";
         });

@@ -110,6 +110,29 @@ class Html
     }
 
     /**
+     * @param float $value
+     * @param ?bool $condition = null
+     *
+     * @return string
+     */
+    public static function numberColor(float $value, ?bool $condition = null): string
+    {
+        if ($condition === false) {
+            return '';
+        }
+
+        if ($value > 0) {
+            return 'text-theme-10';
+        }
+
+        if ($value < 0) {
+            return  'text-theme-24';
+        }
+
+        return '';
+    }
+
+    /**
      * @param bool $status
      *
      * @return string

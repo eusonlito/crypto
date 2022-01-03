@@ -8,17 +8,27 @@
         </li>
 
         <li>
-            <a href="{{ route('wallet.index') }}" class="side-menu {{ in_array($ROUTE, ['wallet.index', 'wallet.create', 'wallet.update']) ? 'side-menu--active' : '' }}">
+            <a href="javascript:;" class="side-menu {{ (strpos($ROUTE, 'wallet.') === 0) ? 'side-menu--active' : '' }}">
                 <div class="side-menu__icon">@icon('book-open')</div>
-                <div class="side-menu__title">{{ __('in-sidebar.wallets') }}</div>
+                <div class="side-menu__title">
+                    {{ __('in-sidebar.wallets') }} <div class="side-menu__sub-icon">@icon('chevron-down')</div>
+                </div>
             </a>
-        </li>
 
-        <li>
-            <a href="{{ route('ticker.index') }}" class="side-menu {{ in_array($ROUTE, ['ticker.index', 'ticker.create', 'ticker.update']) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('bookmark')</div>
-                <div class="side-menu__title">{{ __('in-sidebar.tickers') }}</div>
-            </a>
+            <ul class="{{ (strpos($ROUTE, 'wallet.') === 0) ? 'side-menu__sub-open' : '' }}">
+                <li>
+                    <a href="{{ route('wallet.index') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.index') === 0) ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('list') </div>
+                        <div class="side-menu__title">{{ __('in-sidebar.wallets-list') }}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('wallet.percent') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.percent') === 0) ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('percent') </div>
+                        <div class="side-menu__title">{{ __('in-sidebar.wallets-percent') }}</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li>
@@ -79,6 +89,13 @@
             <a href="{{ route('exchange.index') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu--active' : '' }}">
                 <div class="side-menu__icon">@icon('bar-chart')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.exchange') }}</div>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('ticker.index') }}" class="side-menu {{ in_array($ROUTE, ['ticker.index', 'ticker.create', 'ticker.update']) ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('bookmark')</div>
+                <div class="side-menu__title">{{ __('in-sidebar.tickers') }}</div>
             </a>
         </li>
 

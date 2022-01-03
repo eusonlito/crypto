@@ -1,4 +1,4 @@
-import chart from 'chart.js';
+import Chart from 'chart.js/auto';
 
 (function () {
     'use strict';
@@ -8,6 +8,6 @@ import chart from 'chart.js';
     }
 
     for (var i = 0; i < charts.length; i++ ) {
-        new chart(document.getElementById(charts[i].id).getContext('2d'), charts[i].config);
+        new Chart(document.getElementById(charts[i].id).getContext('2d'), charts[i].config);
     }
 })();

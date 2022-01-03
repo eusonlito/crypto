@@ -1,4 +1,4 @@
-import chart from 'chart.js';
+import Chart from 'chart.js/auto';
 
 (function () {
     'use strict';
@@ -20,7 +20,7 @@ import chart from 'chart.js';
         return;
     }
 
-    const $chart = new chart($canvas.getContext('2d'), productChart.config);
+    const $chart = new Chart($canvas.getContext('2d'), productChart.config);
 
     $canvas.onclick = function (e) {
         e.preventDefault();
@@ -32,10 +32,20 @@ import chart from 'chart.js';
         if ($start_at.value && $end_at.value) {
             $start_at.value = '';
             $end_at.value = '';
-        } else if ($start_at.value) {
-            $end_at.value = clickLabel(e);
+
+            return;
+        }
+
+        const value = clickLabel(e);
+
+        if (!value) {
+            return
+        }
+
+        if ($start_at.value) {
+            $end_at.value = value;
         } else {
-            $start_at.value = clickLabel(e);
+            $start_at.value = value;
         }
     }
 
@@ -51,10 +61,6 @@ import chart from 'chart.js';
     function clickLabel (e) {
         const point = $chart.getElementsAtEventForMode(e, 'nearest', { intersect: false, axis: 'x' })[0];
 
-        if (!point) {
-            return;
-        }
-
-        return $chart.scales['x-axis-default'].getLabelForIndex(point._index, point._datasetIndex);
+        return point ? $chart.scales.x.getLabelForValue(point.index) : '';
     }
 })();

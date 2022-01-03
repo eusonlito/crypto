@@ -16,4 +16,6 @@
     'tickers' => 'Tickers',
     'users' => 'Usuarios',
     'wallets' => 'Carteras',
+    'wallets-list' => 'Listado',
+    'wallets-percent' => 'Calculadora',
 ];

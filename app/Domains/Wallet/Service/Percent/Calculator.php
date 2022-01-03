@@ -20,9 +20,9 @@ class Calculator
     protected Collection $exchanges;
 
     /**
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    protected array $orders;
+    protected Collection $orders;
 
     /**
      * @var string
@@ -44,6 +44,7 @@ class Calculator
     {
         $this->row($row, $input);
         $this->exchanges();
+        $this->orders();
     }
 
     /**
@@ -85,7 +86,6 @@ class Calculator
     protected function exchanges(): void
     {
         $this->exchanges = ExchangeModel::byProductId($this->row->product->id)
-            ->afterDate(date('Y-m-d H:i:s', strtotime('-15 days')))
             ->pluck('exchange', 'created_at');
     }
 
@@ -95,26 +95,53 @@ class Calculator
     public function getExchanges(): Collection
     {
         return $this->exchanges
-            ->groupBy(static fn ($value, $key) => explode(':', $key)[0])
-            ->map(static fn ($value) => round($avg = $value->avg(), helper()->numberDecimals($avg)));
+            ->groupBy(fn ($value, $key) => $this->dateKey($key))
+            ->map(fn ($value, $key) => $this->getExchangesMap($value, $key));
     }
 
     /**
+     * @param \Illuminate\Support\Collection $values
+     *
      * @return array
      */
-    public function getOrders(): array
+    public function getExchangesMap(Collection $values, string $key): array
     {
-        if (isset($this->row->_action) === false) {
-            return [];
-        }
+        return [
+            'datetime' => $key,
+            'average' => round($average = $values->avg(), helper()->numberDecimals($average))
+        ];
+    }
 
-        $this->orders = [];
+    /**
+     * @return void
+     */
+    protected function orders(): void
+    {
+        $this->orders = collect();
+
+        if (isset($this->row->_action) === false) {
+            return;
+        }
 
         foreach ($this->exchanges as $key => $value) {
             $this->exchange($key, $value);
         }
+    }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getOrders(): Collection
+    {
         return $this->orders;
+    }
+
+    /**
+     * @return \stdClass
+     */
+    public function getRow(): stdClass
+    {
+        return $this->row;
     }
 
     /**
@@ -142,6 +169,8 @@ class Calculator
             return;
         }
 
+        $profit = ($this->row->amount * $this->exchange) - ($this->row->amount * $this->row->buy_exchange);
+
         $this->row->amount = 0;
         $this->row->buy_exchange = $this->exchange;
         $this->row->buy_value = 0;
@@ -155,18 +184,10 @@ class Calculator
         $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_percent / 100));
+        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
 
-        $this->orders[] = (object)[
-            'action' => 'sell-stop-loss',
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $this->row->amount,
-            'value' => $this->exchange * $this->row->amount,
-            'filled' => true,
-            'row' => clone $this->row,
-        ];
+        $this->order('sell-stop-loss', $this->row->amount, true, $profit);
     }
 
     /**
@@ -198,6 +219,8 @@ class Calculator
             return;
         }
 
+        $profit = ($this->row->sell_stop_amount * $this->exchange) - ($this->row->sell_stop_amount * $this->row->buy_exchange);
+
         $this->row->amount -= $this->row->sell_stop_amount;
         $this->row->buy_exchange = $this->exchange;
         $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
@@ -206,25 +229,17 @@ class Calculator
         $this->row->sell_stop_max_at = null;
         $this->row->sell_stop_min_at = null;
 
-        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_percent) {
+        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_max_percent) {
             $this->row->buy_stop = true;
         }
 
         $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_percent / 100));
+        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
 
-        $this->orders[] = (object)[
-            'action' => 'sell-stop-min',
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $this->row->sell_stop_amount,
-            'value' => $this->exchange * $this->row->sell_stop_amount,
-            'filled' => true,
-            'row' => clone $this->row,
-        ];
+        $this->order('sell-stop-min', $this->row->sell_stop_amount, true, $profit);
     }
 
     /**
@@ -253,17 +268,11 @@ class Calculator
         $this->row->sell_stop_max = $this->exchange;
         $this->row->sell_stop_max_at = $this->datetime;
 
-        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_percent / 100));
+        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
 
-        $this->orders[] = (object)[
-            'action' => 'sell-stop-max',
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $this->row->sell_stop_amount,
-            'value' => $this->exchange * $this->row->sell_stop_amount,
-            'filled' => false,
-            'row' => clone $this->row,
-        ];
+        $profit = ($this->row->sell_stop_amount * $this->row->sell_stop_min) - ($this->row->sell_stop_amount * $this->row->buy_exchange);
+
+        $this->order('sell-stop-max', $this->row->sell_stop_amount, false, $profit);
     }
 
     /**
@@ -304,25 +313,23 @@ class Calculator
         $this->row->buy_stop_min_at = null;
         $this->row->buy_stop_max_at = null;
 
-        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_percent) {
+        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
             $this->row->sell_stop = true;
         }
 
         $this->row->sell_stop_max = $this->row->buy_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_at = null;
 
-        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_percent / 100));
+        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
         $this->row->sell_stop_min_at = null;
 
-        $this->orders[] = (object)[
-            'action' => 'buy-stop-max',
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $this->row->buy_stop_amount,
-            'value' => $this->exchange * $this->row->buy_stop_amount,
-            'filled' => true,
-            'row' => clone $this->row,
-        ];
+        if ($this->row->sell_stoploss_percent) {
+            $this->row->sell_stoploss = true;
+        }
+
+        $this->row->sell_stoploss_exchange = $this->row->buy_exchange * (1 - ($this->row->sell_stoploss_percent / 100));
+
+        $this->order('buy-stop-max', $this->row->buy_stop_amount, true);
     }
 
     /**
@@ -350,17 +357,9 @@ class Calculator
         $this->row->buy_stop_min = $this->exchange;
         $this->row->buy_stop_min_at = $this->datetime;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_percent / 100));
+        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
 
-        $this->orders[] = (object)[
-            'action' => 'buy-stop-min',
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $this->row->buy_stop_amount,
-            'value' => $this->exchange * $this->row->buy_stop_amount,
-            'filled' => false,
-            'row' => clone $this->row,
-        ];
+        $this->order('buy-stop-min', $this->row->buy_stop_amount, false);
     }
 
     /**
@@ -373,6 +372,45 @@ class Calculator
             && $this->row->buy_stop_min
             && ($this->exchange <= $this->row->buy_stop_min);
     }
+
+    /**
+     * @param string $action
+     * @param float $amount
+     * @param bool $filled
+     * @param float $profit = 0
+     *
+     * @return void
+     */
+    protected function order(string $action, float $amount, bool $filled, float $profit = 0): void
+    {
+        $this->orders->put($index = $this->dateKey($this->datetime), (object)[
+            'index' => $index,
+            'action' => $action,
+            'created_at' => $this->datetime,
+            'exchange' => $this->exchange,
+            'amount' => $amount,
+            'value' => $this->exchange * $amount,
+            'profit' => $profit,
+            'filled' => $filled,
+            'wallet_buy_value' => $this->exchange * $this->row->amount,
+
+            'wallet_buy_stop_min' => $this->row->buy_stop_min,
+            'wallet_buy_stop_max' => $this->row->buy_stop_max,
+
+            'wallet_sell_stop_max' => $this->row->sell_stop_max,
+            'wallet_sell_stop_min' => $this->row->sell_stop_min,
+
+            'wallet_sell_stoploss_exchange' => $this->row->sell_stoploss_exchange,
+        ]);
+    }
+
+    /**
+     * @param string $datetime
+     *
+     * @return string
+     */
+    protected function dateKey(string $datetime): string
+    {
+        return date('Y-m-d H:i', (int)round(strtotime($datetime) / 300) * 300);
+    }
 }
-
-

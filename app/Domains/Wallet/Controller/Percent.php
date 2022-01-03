@@ -40,12 +40,9 @@ class Percent extends ControllerAbstract
      */
     protected function data(): array
     {
-        $data = [
-            'list' => $this->list(),
-            'row' => ($this->row ?? null),
-        ];
+        $data = ['list' => $this->list()];
 
-        if (empty($data['row'])) {
+        if (empty($this->row)) {
             return $data;
         }
 
@@ -54,6 +51,7 @@ class Percent extends ControllerAbstract
         return $data + [
             'exchanges' => $service->getExchanges(),
             'orders' => $service->getOrders(),
+            'row' => $service->getRow(),
         ];
     }
 

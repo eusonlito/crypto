@@ -14,24 +14,34 @@
         </li>
 
         <li>
-            <a href="{{ route('wallet.index') }}" class="menu {{ in_array($ROUTE, ['wallet.index', 'wallet.create', 'wallet.update']) ? 'menu--active' : '' }}">
+            <a href="javascript:;" class="menu {{ (strpos($ROUTE, 'wallet.') === 0) ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('book-open')</div>
-                <div class="menu__title">{{ __('in-sidebar.wallets') }}</div>
+                <div class="menu__title">
+                    {{ __('in-sidebar.wallets') }} <div class="menu__sub-icon">@icon('chevron-down')</div>
+                </div>
             </a>
-        </li>
 
-        <li>
-            <a href="{{ route('ticker.index') }}" class="menu {{ in_array($ROUTE, ['ticker.index', 'ticker.create', 'ticker.update']) ? 'menu--active' : '' }}">
-                <div class="menu__icon">@icon('bookmark')</div>
-                <div class="menu__title">{{ __('in-sidebar.tickers') }}</div>
-            </a>
+            <ul class="{{ (strpos($ROUTE, 'wallet.') === 0) ? 'menu__sub-open' : '' }}">
+                <li>
+                    <a href="{{ route('wallet.index') }}" class="menu {{ (strpos($ROUTE, 'wallet.index') === 0) ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('list') </div>
+                        <div class="menu__title">{{ __('in-sidebar.wallets-list') }}</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('wallet.percent') }}" class="menu {{ (strpos($ROUTE, 'wallet.percent') === 0) ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('percent') </div>
+                        <div class="menu__title">{{ __('in-sidebar.wallets-percent') }}</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li>
             <a href="javascript:;" class="menu {{ (strpos($ROUTE, 'order.') === 0) ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('shuffle')</div>
                 <div class="menu__title">
-                    {{ __('in-sidebar.orders') }} @icon('chevron-down', 'menu__sub-icon')
+                    {{ __('in-sidebar.orders') }} <div class="menu__sub-icon">@icon('chevron-down')</div>
                 </div>
             </a>
 
@@ -44,7 +54,7 @@
                 </li>
                 <li>
                     <a href="{{ route('order.status') }}" class="menu {{ (strpos($ROUTE, 'order.status') === 0) ? 'menu--active' : '' }}">
-                        <div class="menu__icon">@icon('compass') </div>
+                        <div class="menu__icon">@icon('bar-chart-2') </div>
                         <div class="menu__title">{{ __('in-sidebar.orders-status') }}</div>
                     </a>
                 </li>
@@ -61,7 +71,7 @@
             <a href="javascript:;" class="menu {{ (strpos($ROUTE, 'forecast.') === 0) ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('trello')</div>
                 <div class="menu__title">
-                    {{ __('in-sidebar.future') }} @icon('chevron-down', 'menu__sub-icon')
+                    {{ __('in-sidebar.future') }} <div class="menu__sub-icon">@icon('chevron-down')</div>
                 </div>
             </a>
 
@@ -89,6 +99,13 @@
         </li>
 
         <li>
+            <a href="{{ route('ticker.index') }}" class="menu {{ in_array($ROUTE, ['ticker.index', 'ticker.create', 'ticker.update']) ? 'menu--active' : '' }}">
+                <div class="menu__icon">@icon('bookmark')</div>
+                <div class="menu__title">{{ __('in-sidebar.tickers') }}</div>
+            </a>
+        </li>
+
+        <li>
             <a href="{{ route('product.index') }}" class="menu {{ (strpos($ROUTE, 'product.index') === 0) ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('box')</div>
                 <div class="menu__title">{{ __('in-sidebar.products') }}</div>
@@ -103,14 +120,14 @@
         </li>
 
         <li>
-            <a href="{{ route('user.update') }}" class="menu {{ (strpos($ROUTE, 'user.update') === 0) ? 'menu--active' : '' }}">
+            <a href="{{ route('user.update') }}" class="menu {{ ($ROUTE === 'user.update') ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('user')</div>
                 <div class="menu__title">{{ __('in-sidebar.profile') }}</div>
             </a>
         </li>
 
         <li>
-            <a href="{{ route('user.update.platform') }}" class="menu {{ (strpos($ROUTE, 'user.update.platform') === 0) ? 'menu--active' : '' }}">
+            <a href="{{ route('user.update.platform') }}" class="menu {{ ($ROUTE === 'user.update.platform') ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('key')</div>
                 <div class="menu__title">{{ __('in-sidebar.accounts') }}</div>
             </a>
@@ -119,7 +136,7 @@
         @if ($AUTH->admin)
 
         <li>
-            <a href="{{ route('user.index') }}" class="menu {{ ($ROUTE === 'user.index') ? 'side-menu--active' : '' }}">
+            <a href="{{ route('user.index') }}" class="menu {{ ($ROUTE === 'user.index') ? 'menu--active' : '' }}">
                 <div class="menu__icon">@icon('users')</div>
                 <div class="menu__title">{{ __('in-sidebar.users') }}</div>
             </a>
