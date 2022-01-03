@@ -1,5 +1,5 @@
 <?php return [
-    'amount' => 'Actual',
+    'amount' => 'Cantidad',
     'buy_exchange' => 'Cambio en Compra',
     'buy_stop' => 'Activo',
     'buy_stop_amount' => 'En Compra',

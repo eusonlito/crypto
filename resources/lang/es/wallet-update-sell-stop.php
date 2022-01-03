@@ -1,5 +1,5 @@
 <?php return [
-    'amount' => 'Actual',
+    'amount' => 'Cantidad',
     'buy_exchange' => 'Cambio en Compra',
     'cancel' => 'Cancelar',
     'error' => [
