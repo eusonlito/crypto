@@ -4,7 +4,6 @@ namespace App\Domains\Wallet\Controller;
 
 use Illuminate\Support\Collection;
 use Illuminate\Http\Response;
-use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Percent\Calculator as PercentCalculator;
 
@@ -32,6 +31,7 @@ class Percent extends ControllerAbstract
         }
 
         $this->row($id);
+        $this->row->load(['product', 'platform']);
         $this->requestMergeWithRow();
     }
 
@@ -49,12 +49,11 @@ class Percent extends ControllerAbstract
             return $data;
         }
 
-        $exchanges = $this->exchanges();
+        $service = new PercentCalculator($this->row, $this->request->isMethod('post') ? $this->request->input() : []);
 
         return $data + [
-            'exchange' => $exchanges->last(),
-            'exchanges' => $exchanges,
-            'result' => PercentCalculator::new($this->row, $exchanges)->get(),
+            'exchanges' => $service->getExchanges(),
+            'orders' => $service->getOrders(),
         ];
     }
 
@@ -68,15 +67,5 @@ class Percent extends ControllerAbstract
             ->list()
             ->get()
             ->sortBy('product.name');
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function exchanges(): Collection
-    {
-        return ExchangeModel::byProductId($this->row->product->id)
-            ->afterDate(date('Y-m-d H:i:s', strtotime('-15 days')))
-            ->pluck('exchange', 'created_at');
     }
 }
