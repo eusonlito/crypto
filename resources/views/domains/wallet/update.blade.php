@@ -7,41 +7,53 @@
 
     <div class="box p-5">
         <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-12 mb-2 lg:col-span-5">
+            <div class="col-span-12 mb-2 xl:col-span-4">
                 <x-select name="platform_id" value="id" :text="['name']" :options="$platforms->toArray()" :label="__('wallet-update.platform')" :selected="$row->platform_id" readonly></x-select>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-5">
+            <div class="col-span-12 mb-2 xl:col-span-4">
                 <x-select name="product_id" value="id" :text="['name']" :options="$products->toArray()" :label="__('wallet-update.product')" :selected="$row->product_id"></x-select>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-1">
-                <label class="form-label">&nbsp;</label>
+            <div class="col-span-12 xl:col-span-4">
+                <div class="flex">
+                    <div class="flex-1 mb-2 px-2">
+                        <label class="form-label hidden xl:block">&nbsp;</label>
 
-                <a href="?_action=updateSync" class="btn form-select-lg block">
-                    @icon('refresh-cw')
-                </a>
+                        <a href="?_action=updateSync" class="btn form-select-lg block">
+                            @icon('refresh-cw')
+                        </a>
+                    </div>
+
+                    <div class="flex-1 mb-2 px-2">
+                        <label class="form-label hidden xl:block">&nbsp;</label>
+
+                        <a href="{{ route('wallet.percent', ['id' => $row->id]) }}" class="btn form-select-lg block truncate">
+                            @icon('percent')
+                        </a>
+                    </div>
+
+                    <div class="flex-1 mb-2 px-2">
+                        <label class="form-label hidden xl:block">&nbsp;</label>
+
+                        <a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg block truncate">
+                            {{ $row->platform->name }}
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-1">
-                <label class="form-label">&nbsp;</label>
-
-                <a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="btn form-select-lg block truncate">
-                    {{ $row->platform->name }}
-                </a>
-            </div>
-
-            <div class="col-span-12 mb-2 lg:col-span-5">
+            <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-address" class="form-label">{{ __('wallet-update.address') }}</label>
                 <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $row->address }}" {{ $row->custom ? '' : 'readonly' }}>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-5">
+            <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-name" class="form-label">{{ __('wallet-update.name') }}</label>
                 <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $row->name }}" {{ $row->custom ? '' : 'readonly' }}>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-2">
+            <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-order" class="form-label">{{ __('wallet-update.order') }}</label>
                 <input type="number" name="order" step="1" class="form-control form-control-lg" id="wallet-order" value="{{ $row->order }}">
             </div>
