@@ -27,6 +27,7 @@ class UpdateSync extends ActionAbstract
     {
         $this->platform();
         $this->product();
+        $this->logBefore();
 
         if ($this->available() === false) {
             return tap($this->row, fn () => $this->logNotAvailable());
@@ -127,6 +128,14 @@ class UpdateSync extends ActionAbstract
     protected function syncOne(Model $row): void
     {
         $this->factory(null, $row)->action()->syncOne();
+    }
+
+    /**
+     * @return void
+     */
+    protected function logBefore(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
     }
 
     /**

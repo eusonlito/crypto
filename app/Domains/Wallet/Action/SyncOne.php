@@ -41,6 +41,7 @@ class SyncOne extends ActionAbstract
     {
         $this->platform();
         $this->product();
+        $this->logBefore();
 
         if ($this->available() === false) {
             return tap($this->row, fn () => $this->logNotAvailable());
@@ -222,6 +223,14 @@ class SyncOne extends ActionAbstract
     /**
      * @return void
      */
+    protected function logBefore(): void
+    {
+        $this->log('info', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
     protected function logNotAvailable(): void
     {
         $this->log('error', ['detail' => __FUNCTION__]);
@@ -251,6 +260,6 @@ class SyncOne extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'update-one', $this->row, $data);
+        ActionLogger::set($status, 'sync-one', $this->row, $data);
     }
 }
