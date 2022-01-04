@@ -12,11 +12,6 @@
     'buy_stop_min_percent' => 'Porcentaje Mínimo',
     'buy_stop_min_value' => 'Valor Mínimo',
     'cancel' => 'Cancelar',
-    'error' => [
-        'buy-stop-max-empty-min' => 'Se ha establecido un valor para el máximo de Compra en Stop-Limit (:max) pero no para el mínimo (:min)',
-        'buy-stop-max-less-min' => 'El Cambio de Compra en Stop-Limit Máximo (:max) es menor al Mínimo (:min)',
-        'buy-stop-min-empty-max' => 'Se ha establecido un valor para el mínimo de Compra en Stop-Limit (:min) pero no para el máximo (:max)',
-    ],
     'send' => 'Guardar',
     'title' => 'Buy-Stop',
 ];

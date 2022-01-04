@@ -51,7 +51,8 @@ class Percent extends ControllerAbstract
         return $data + [
             'exchanges' => $service->getExchanges(),
             'orders' => $service->getOrders(),
-            'row' => $service->getRow(),
+            'row' => $this->row,
+            'result' => $service->getRow(),
         ];
     }
 

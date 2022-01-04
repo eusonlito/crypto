@@ -429,23 +429,38 @@ charts.push({
 <div class="box p-5 mt-5">
     <div class="lg:flex">
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_current_amount" class="form-label">{{ __('wallet-percent.wallet_last_amount') }}</label>
-            <input type="number" step="0.000000001" class="form-control form-control-lg" id="wallet-wallet_current_amount" value="@numberString($row->amount)" readonly />
+            <label for="wallet-wallet_current_amount" class="form-label">{{ __('wallet-percent.wallet_start_amount') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_amount" value="@numberString($row->amount)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_current_exchange" class="form-label">{{ __('wallet-percent.wallet_last_exchange') }}</label>
-            <input type="number" step="0.0001" class="form-control form-control-lg" id="wallet-wallet_current_exchange" value="@numberString($row->buy_exchange)" readonly />
+            <label for="wallet-wallet_current_amount" class="form-label">{{ __('wallet-percent.wallet_end_amount') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_amount" value="@numberString($result->amount)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_current_value" class="form-label">{{ __('wallet-percent.wallet_last_value') }}</label>
-            <input type="text" step="0.000000001" class="form-control form-control-lg" id="wallet-wallet_current_value" value="@number($row->buy_value, 2)" readonly />
+            <label for="wallet-wallet_current_exchange" class="form-label">{{ __('wallet-percent.wallet_start_exchange') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_exchange" value="@numberString($row->buy_exchange)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-wallet_current_exchange" class="form-label">{{ __('wallet-percent.wallet_end_exchange') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_exchange" value="@numberString($result->buy_exchange)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-wallet_current_value" class="form-label">{{ __('wallet-percent.wallet_start_value') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_value" value="@number($row->buy_value, 2)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-wallet_current_value" class="form-label">{{ __('wallet-percent.wallet_end_value') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_current_value" value="@number($result->buy_value, 2)" readonly />
         </div>
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_profit" class="form-label">{{ __('wallet-percent.wallet_profit') }}</label>
-            <input type="text" step="0.000000001" class="form-control form-control-lg" id="wallet-wallet_profit" value="@number($orders->where('filled', true)->sum('profit'), 2)" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_profit" value="@number($orders->where('filled', true)->sum('profit'), 2)" readonly />
         </div>
     </div>
 </div>

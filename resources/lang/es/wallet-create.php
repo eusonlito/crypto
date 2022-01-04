@@ -12,6 +12,7 @@
     'buy_stop_min_at' => 'Cambio Mínimo Alcanzado',
     'buy_stop_min_percent' => '% Mínimo',
     'buy_stop_min_value' => 'Valor Total en Mínimo',
+    'buy_value' => 'Valor en Compra',
     'enabled' => 'Activa',
     'meta-title' => 'Crear Cartera',
     'name' => 'Nombre',
