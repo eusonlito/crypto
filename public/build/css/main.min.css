@@ -6598,3 +6598,10 @@ table[data-table-sort] thead th {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
+
+.external {
+  -webkit-text-decoration: underline rgba(45, 55, 72, 0.3) dashed;
+          text-decoration: underline rgba(45, 55, 72, 0.3) dashed;
+  text-decoration-thickness: 0.01em;
+  text-underline-offset: 0.1em;
+}

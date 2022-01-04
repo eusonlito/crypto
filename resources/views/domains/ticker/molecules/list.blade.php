@@ -2,8 +2,9 @@
     <table id="ticker-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr>
-                <th class="text-left">{{ __('ticker-index.platform') }}</th>
+                <th>{{ __('ticker-index.name') }}</th>
                 <th>{{ __('ticker-index.product') }}</th>
+                <th>{{ __('ticker-index.platform') }}</th>
                 <th>{{ __('ticker-index.date_at') }}</th>
                 <th>{{ __('ticker-index.amount') }}</th>
                 <th>{{ __('ticker-index.exchange_reference') }}</th>
@@ -24,8 +25,9 @@
             @php ($link = route('ticker.update', $row->id))
 
             <tr>
-                <td><a href="{{ $link }}" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ $link }}" class="block font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
+                <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a></td>
+                <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-left font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ $link }}" class="block">@datetime($row->date_at)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->amount)">@number($row->amount)</a></td>
                 <td><a href="{{ $link }}" class="block" title="@numberString($row->exchange_reference)">@number($row->exchange_reference)</a></td>

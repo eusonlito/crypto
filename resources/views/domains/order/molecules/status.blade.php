@@ -2,9 +2,9 @@
     <table id="order-status-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
-                <th class="text-left">{{ __('order-status.platform') }}</th>
-                <th class="text-center">{{ __('order-status.product') }}</th>
                 <th class="text-center">{{ __('order-status.wallet') }}</th>
+                <th class="text-center">{{ __('order-status.product') }}</th>
+                <th class="text-center">{{ __('order-status.platform') }}</th>
                 <th class="text-center">{{ __('order-status.buy-operations') }}</th>
                 <th class="text-center">{{ __('order-status.sell-operations') }}</th>
                 <th class="text-center">{{ __('order-status.date-first') }}</th>
@@ -23,15 +23,15 @@
             @foreach ($list as $row)
 
             <tr class="text-right">
-                <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
-                <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
                 <td class="text-center">
                     @if ($row->wallet)
-                    <a href="{{ route('wallet.update', $row->wallet->id) }}" class="block font-semibold whitespace-nowrap">{{ $row->wallet->name }}</a>
+                    <a href="{{ route('wallet.update', $row->wallet->id) }}" class="block font-semibold whitespace-nowrap external">{{ $row->wallet->name }}</a>
                     @else
                     -
                     @endif
                 </td>
+                <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a></td>
+                <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-center font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
 
                 <td class="text-center"><span class="block">@number($row->buy_count, 0)</span></td>
                 <td class="text-center"><span class="block">@number($row->sell_count, 0)</span></td>
