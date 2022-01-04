@@ -11,6 +11,7 @@
     'exchange_min' => 'Cambio Mínimo',
     'exchange_reference' => 'Cambio Referencia',
     'meta-title' => 'Tickers',
+    'name' => 'Nombre',
     'platform' => 'Plataforma',
     'platforms-all' => 'Plataforma',
     'product' => 'Producto',
