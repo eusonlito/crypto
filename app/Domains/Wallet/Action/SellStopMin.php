@@ -98,7 +98,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function previous(): void
     {
-        $this->previous = (object)$this->row->toArray();
+        $this->previous = json_decode(json_encode($this->row->toArray()));
     }
 
     /**
@@ -145,7 +145,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateExchange(): void
     {
-        if ($this->row->amount > $this->order->amount) {
+        if ($this->row->amount === $this->previous->amount) {
             $this->row->amount -= $this->order->amount;
         }
 
