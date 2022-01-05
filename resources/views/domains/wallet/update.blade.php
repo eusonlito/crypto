@@ -2,7 +2,7 @@
 
 @section ('body')
 
-<form id="wallet-form" method="post">
+<form id="wallet-form" method="post" data-change-event-change>
     <input type="hidden" name="_action" value="update" />
 
     <div class="box p-5">
