@@ -108,7 +108,7 @@ class Calculator
     {
         return [
             'datetime' => $key,
-            'average' => round($average = $values->avg(), helper()->numberDecimals($average))
+            'average' => round($average = $values->avg(), helper()->numberDecimals($average)),
         ];
     }
 
@@ -182,7 +182,9 @@ class Calculator
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_exchange = $this->row->buy_exchange;
+
+        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
         $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
@@ -235,7 +237,9 @@ class Calculator
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_min = $this->row->buy_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_exchange = $this->row->buy_exchange;
+
+        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
         $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
@@ -319,7 +323,9 @@ class Calculator
             $this->row->sell_stop = true;
         }
 
-        $this->row->sell_stop_max = $this->row->buy_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_exchange = $this->row->buy_exchange;
+
+        $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_at = null;
 
         $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
@@ -394,6 +400,7 @@ class Calculator
             'value' => $this->exchange * $amount,
             'profit' => $profit,
             'filled' => $filled,
+
             'wallet_buy_value' => $this->exchange * $this->row->amount,
 
             'wallet_buy_stop_min' => $this->row->buy_stop_min,

@@ -2,7 +2,6 @@
 
 namespace App\Domains\Wallet\Action\Traits;
 
-use App\Domains\Wallet\Model\Wallet as Model;
 use App\Exceptions\ValidatorException;
 
 trait DataSellStop
@@ -21,8 +20,9 @@ trait DataSellStop
         }
 
         $this->data['sell_stop_amount'] = (float)$this->data['sell_stop_amount'];
+        $this->data['sell_stop_exchange'] = (float)$this->data['sell_stop_exchange'];
 
-        $this->data['sell_stop_max'] = $this->data['buy_exchange'] * (1 + ($this->data['sell_stop_max_percent'] / 100));
+        $this->data['sell_stop_max'] = $this->data['sell_stop_exchange'] * (1 + ($this->data['sell_stop_max_percent'] / 100));
         $this->data['sell_stop_min'] = $this->data['sell_stop_max'] * (1 - ($this->data['sell_stop_min_percent'] / 100));
 
         $this->data['sell_stop_max_value'] = $this->data['sell_stop_amount'] * $this->data['sell_stop_max'];
@@ -48,10 +48,11 @@ trait DataSellStop
     {
         $this->data['sell_stop'] = false;
 
+        $this->data['sell_stop_amount'] = 0;
+        $this->data['sell_stop_exchange'] = 0;
+
         $this->data['sell_stop_max_percent'] = 0;
         $this->data['sell_stop_min_percent'] = 0;
-
-        $this->data['sell_stop_amount'] = 0;
 
         $this->data['sell_stop_max'] = 0;
         $this->data['sell_stop_min'] = 0;

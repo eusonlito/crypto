@@ -56,33 +56,33 @@ class Html
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      * @param ?int $decimals = null
      *
      * @return string
      */
-    public static function number(float $value, ?int $decimals = null): string
+    public static function number(?float $value, ?int $decimals = null): string
     {
         return helper()->number($value, $decimals);
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      *
      * @return string
      */
-    public static function numberString(float $value): string
+    public static function numberString(?float $value): string
     {
         return helper()->numberString($value);
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      * @param ?int $decimals = null
      *
      * @return string
      */
-    public static function money(float $value, ?int $decimals = null): string
+    public static function money(?float $value, ?int $decimals = null): string
     {
         return helper()->money($value, $decimals);
     }
@@ -99,14 +99,14 @@ class Html
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      * @param ?int $decimals = null
      *
      * @return string
      */
-    public static function value(float $value, ?int $decimals = null): string
+    public static function value(?float $value, ?int $decimals = null): string
     {
-        return number_format($value, helper()->numberDecimals($value, $decimals), '.', '');
+        return number_format((float)$value, helper()->numberDecimals($value, $decimals), '.', '');
     }
 
     /**

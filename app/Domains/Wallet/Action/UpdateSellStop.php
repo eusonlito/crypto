@@ -4,7 +4,6 @@ namespace App\Domains\Wallet\Action;
 
 use App\Domains\Wallet\Action\Traits\DataSellStop as DataSellStopTrait;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Exceptions\ValidatorException;
 
 class UpdateSellStop extends ActionAbstract
 {
@@ -27,16 +26,7 @@ class UpdateSellStop extends ActionAbstract
      */
     protected function data(): void
     {
-        $this->dataRow();
         $this->dataSellStop();
-    }
-
-    /**
-     * @return void
-     */
-    protected function dataRow(): void
-    {
-        $this->data['buy_exchange'] = $this->row->buy_exchange;
     }
 
     /**
@@ -55,6 +45,7 @@ class UpdateSellStop extends ActionAbstract
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
+        $this->row->sell_stop_exchange = $this->data['sell_stop_exchange'];
 
         $this->row->sell_stop_max = $this->data['sell_stop_max'];
         $this->row->sell_stop_max_value = $this->data['sell_stop_max_value'];

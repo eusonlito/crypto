@@ -2,9 +2,6 @@
 
 namespace App\Domains\Wallet\Action\Traits;
 
-use App\Domains\Wallet\Model\Wallet as Model;
-use App\Exceptions\ValidatorException;
-
 trait DataSellStopLoss
 {
     /**

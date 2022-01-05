@@ -343,6 +343,9 @@ return new class extends MigrationAbstract {
             // Sell Stop Enabled
             $table->boolean('sell_stop')->default(0);
 
+            // Sell Stop Exchange Reference
+            $table->boolean('sell_stop_exchange')->default(0);
+
             // Amount available to sell
             $table->unsignedDouble('sell_stop_amount')->default(0);
 
@@ -362,6 +365,9 @@ return new class extends MigrationAbstract {
 
             // Buy Stop Enabled
             $table->boolean('buy_stop')->default(0);
+
+            // Buy Stop Exchange Reference
+            $table->boolean('buy_stop_exchange')->default(0);
 
             // Amount available to spend
             $table->unsignedDouble('buy_stop_amount')->default(0);
@@ -424,6 +430,9 @@ return new class extends MigrationAbstract {
             // Sell Stop Enabled
             $table->boolean('sell_stop')->default(0);
 
+            // Sell Stop Exchange Reference
+            $table->boolean('sell_stop_exchange')->default(0);
+
             // Amount available to sell
             $table->unsignedDouble('sell_stop_amount')->default(0);
 
@@ -443,6 +452,9 @@ return new class extends MigrationAbstract {
 
             // Buy Stop Enabled
             $table->boolean('buy_stop')->default(0);
+
+            // Buy Stop Exchange Reference
+            $table->boolean('buy_stop_exchange')->default(0);
 
             // Amount available to spend
             $table->unsignedDouble('buy_stop_amount')->default(0);

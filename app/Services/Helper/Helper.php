@@ -129,30 +129,30 @@ class Helper
             return $default;
         }
 
-        return number_format($value, $this->numberDecimals($value, $decimals), ',', '.');
+        return number_format((float)$value, $this->numberDecimals($value, $decimals), ',', '.');
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      *
      * @return string
      */
-    public function numberString(float $value): string
+    public function numberString(?float $value): string
     {
         if (preg_match('/^[0-9]+(\.([0-9]+))?E\-([0-9]+)/i', (string)$value, $matches) === 0) {
             return (string)$value;
         }
 
-        return number_format($value, strlen($matches[2]) + (int)$matches[3], '.', '');
+        return number_format((float)$value, strlen($matches[2]) + (int)$matches[3], '.', '');
     }
 
     /**
-     * @param float $value
+     * @param ?float $value
      * @param ?int $decimals = null
      *
      * @return int
      */
-    public function numberDecimals(float $value, ?int $decimals = null): int
+    public function numberDecimals(?float $value, ?int $decimals = null): int
     {
         if ($decimals !== null) {
             return $decimals;

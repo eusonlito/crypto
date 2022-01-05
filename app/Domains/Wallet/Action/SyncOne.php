@@ -179,28 +179,30 @@ class SyncOne extends ActionAbstract
         $this->row->current_value = $this->row->amount;
 
         $this->row->sell_stop = 0;
+        $this->row->sell_stop_exchange = 0;
 
-        $this->row->sell_stop_amount = $this->row->amount;
+        $this->row->sell_stop_amount = 0;
 
         $this->row->sell_stop_max_percent = 0;
-        $this->row->sell_stop_max = $this->row->buy_exchange;
-        $this->row->sell_stop_max_value = $this->row->buy_value;
+        $this->row->sell_stop_max = 0;
+        $this->row->sell_stop_max_value = 0;
 
         $this->row->sell_stop_min_percent = 0;
-        $this->row->sell_stop_min = $this->row->buy_exchange;
-        $this->row->sell_stop_min_value = $this->row->buy_value;
+        $this->row->sell_stop_min = 0;
+        $this->row->sell_stop_min_value = 0;
 
         $this->row->buy_stop = 0;
+        $this->row->buy_stop_exchange = 0;
 
-        $this->row->buy_stop_amount = $this->row->amount;
+        $this->row->buy_stop_amount = 0;
 
         $this->row->buy_stop_max_percent = 0;
-        $this->row->buy_stop_max = $this->row->buy_exchange;
-        $this->row->buy_stop_max_value = $this->row->buy_value;
+        $this->row->buy_stop_max = 0;
+        $this->row->buy_stop_max_value = 0;
 
         $this->row->buy_stop_min_percent = 0;
-        $this->row->buy_stop_min = $this->row->buy_exchange;
-        $this->row->buy_stop_min_value = $this->row->buy_value;
+        $this->row->buy_stop_min = 0;
+        $this->row->buy_stop_min_value = 0;
 
         $this->row->sell_stoploss = 0;
         $this->row->sell_stoploss_percent = 0;

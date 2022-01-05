@@ -1,9 +1,10 @@
 <?php return [
-    'amount' => 'Cantidad',
+    'amount' => 'Cantidad Actual',
     'buy_exchange' => 'Cambio en Compra',
     'cancel' => 'Cancelar',
     'sell_stop' => 'Activo',
-    'sell_stop_amount' => 'En Venta',
+    'sell_stop_amount' => 'Vendiendo',
+    'sell_stop_exchange' => 'Cambio de Referencia',
     'sell_stop_max' => 'Cambio Máximo',
     'sell_stop_max_at' => 'Máximo Alcanzado',
     'sell_stop_max_percent' => 'Porcentaje Máximo',

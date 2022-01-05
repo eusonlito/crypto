@@ -396,27 +396,29 @@ class Sync extends ActionAbstract
 
         $row->sell_stop = 0;
 
-        $row->sell_stop_amount = $row->amount;
+        $row->sell_stop_amount = 0;
+        $row->sell_stop_exchange = 0;
 
         $row->sell_stop_max_percent = 0;
-        $row->sell_stop_max = $row->buy_exchange;
-        $row->sell_stop_max_value = $row->buy_value;
+        $row->sell_stop_max = 0;
+        $row->sell_stop_max_value = 0;
 
         $row->sell_stop_min_percent = 0;
-        $row->sell_stop_min = $row->buy_exchange;
-        $row->sell_stop_min_value = $row->buy_value;
+        $row->sell_stop_min = 0;
+        $row->sell_stop_min_value = 0;
 
         $row->buy_stop = 0;
 
-        $row->buy_stop_amount = $row->amount;
+        $row->buy_stop_amount = 0;
+        $row->buy_stop_exchange = 0;
 
         $row->buy_stop_max_percent = 0;
-        $row->buy_stop_max = $row->buy_exchange;
-        $row->buy_stop_max_value = $row->buy_value;
+        $row->buy_stop_max = 0;
+        $row->buy_stop_max_value = 0;
 
         $row->buy_stop_min_percent = 0;
-        $row->buy_stop_min = $row->buy_exchange;
-        $row->buy_stop_min_value = $row->buy_value;
+        $row->buy_stop_min = 0;
+        $row->buy_stop_min_value = 0;
 
         $row->sell_stoploss = 0;
         $row->sell_stoploss_percent = 0;

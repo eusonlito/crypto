@@ -175,7 +175,9 @@ class BuyStopMax extends ActionAbstract
             $this->row->sell_stop = true;
         }
 
-        $this->row->sell_stop_max = $this->row->buy_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_exchange = $this->row->buy_exchange;
+
+        $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_value = $this->row->sell_stop_amount * $this->row->sell_stop_max;
         $this->row->sell_stop_max_at = null;
 

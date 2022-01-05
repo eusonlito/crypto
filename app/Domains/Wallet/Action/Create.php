@@ -44,6 +44,7 @@ class Create extends ActionAbstract
             'sell_stop' => $this->data['sell_stop'],
 
             'sell_stop_amount' => $this->data['sell_stop_amount'],
+            'sell_stop_exchange' => $this->data['sell_stop_exchange'],
 
             'sell_stop_max' => $this->data['sell_stop_max'],
             'sell_stop_max_value' => $this->data['sell_stop_max_value'],
@@ -56,6 +57,7 @@ class Create extends ActionAbstract
             'buy_stop' => $this->data['buy_stop'],
 
             'buy_stop_amount' => $this->data['buy_stop_amount'],
+            'buy_stop_exchange' => $this->data['buy_stop_exchange'],
 
             'buy_stop_max' => $this->data['buy_stop_max'],
             'buy_stop_max_value' => $this->data['buy_stop_max_value'],

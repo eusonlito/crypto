@@ -59,6 +59,7 @@ class Update extends ActionAbstract
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
+        $this->row->sell_stop_exchange = $this->data['sell_stop_exchange'];
 
         $this->row->sell_stop_max = $this->data['sell_stop_max'];
         $this->row->sell_stop_max_value = $this->data['sell_stop_max_value'];
@@ -73,6 +74,7 @@ class Update extends ActionAbstract
         $this->row->buy_stop = $this->data['buy_stop'];
 
         $this->row->buy_stop_amount = $this->data['buy_stop_amount'];
+        $this->row->buy_stop_exchange = $this->data['buy_stop_exchange'];
 
         $this->row->buy_stop_max = $this->data['buy_stop_max'];
         $this->row->buy_stop_max_value = $this->data['buy_stop_max_value'];
