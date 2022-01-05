@@ -678,6 +678,7 @@ class Curl
         }
 
         $data = get_object_vars($this);
+        $data['created_at'] = date('Y-m-d H:i:s');
 
         unset($data['curl']);
 
