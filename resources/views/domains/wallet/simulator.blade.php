@@ -4,7 +4,7 @@
 
 <div class="box p-5">
     <form method="get">
-        <x-select name="id" value="id" :text="['product.name', 'platform.name']" :options="$list->toArray()" :placeholder="__('wallet-percent.wallet-placeholder')" :selected="$REQUEST->input('id')" data-change-submit required></x-select>
+        <x-select name="id" value="id" :text="['product.name', 'platform.name']" :options="$list->toArray()" :placeholder="__('wallet-simulator.wallet-placeholder')" :selected="$REQUEST->input('id')" data-change-submit required></x-select>
     </form>
 </div>
 
@@ -15,38 +15,46 @@
 
     <div class="box p-5 mt-5">
         <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-12 mb-2 lg:col-span-6">
-                <label for="wallet-address" class="form-label">{{ __('wallet-percent.address') }}</label>
+            <div class="col-span-12 mb-2 lg:col-span-5">
+                <label for="wallet-address" class="form-label">{{ __('wallet-simulator.address') }}</label>
                 <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $row->address }}" readonly>
             </div>
 
-            <div class="col-span-12 mb-2 lg:col-span-6">
-                <label for="wallet-name" class="form-label">{{ __('wallet-percent.name') }}</label>
+            <div class="col-span-12 mb-2 lg:col-span-5">
+                <label for="wallet-name" class="form-label">{{ __('wallet-simulator.name') }}</label>
                 <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $row->name }}" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
-                <label for="wallet-amount" class="form-label">{{ __('wallet-percent.amount') }}</label>
+                <label class="form-label hidden xl:block">&nbsp;</label>
+
+                <a href="{{ route('wallet.update', $row->id) }}" class="btn form-select-lg block" title="{{ __('wallet-simulator.edit') }}">
+                    @icon('edit')
+                </a>
+            </div>
+
+            <div class="col-span-12 mb-2 lg:col-span-2">
+                <label for="wallet-amount" class="form-label">{{ __('wallet-simulator.amount') }}</label>
                 <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="@numberString($REQUEST->input('amount'))">
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">
-                <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-percent.buy_exchange') }}</label>
+                <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-simulator.buy_exchange') }}</label>
                 <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="@numberString($REQUEST->input('buy_exchange'))">
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">
-                <label for="wallet-current_exchange" class="form-label">{{ __('wallet-percent.current_exchange') }}</label>
+                <label for="wallet-current_exchange" class="form-label">{{ __('wallet-simulator.current_exchange') }}</label>
                 <input type="number" name="current_exchange" class="form-control form-control-lg" id="wallet-current_exchange" value="@numberString($REQUEST->input('current_exchange'))" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
-                <label for="wallet-buy_value" class="form-label">{{ __('wallet-percent.buy_value') }}</label>
+                <label for="wallet-buy_value" class="form-label">{{ __('wallet-simulator.buy_value') }}</label>
                 <input type="number" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="@numberString($REQUEST->input('buy_value'))" data-total data-total-amount="wallet-amount" data-total-value="wallet-buy_exchange" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
-                <label for="wallet-current_value" class="form-label">{{ __('wallet-percent.current_value') }}</label>
+                <label for="wallet-current_value" class="form-label">{{ __('wallet-simulator.current_value') }}</label>
                 <input type="number" name="current_value" class="form-control form-control-lg" id="wallet-current_value" value="@numberString($REQUEST->input('current_value'))" data-total data-total-amount="wallet-amount" data-total-value="wallet-current_exchange" readonly>
             </div>
         </div>
@@ -55,37 +63,42 @@
     <div class="box p-5 mt-5">
         <div class="lg:flex">
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_amount" class="form-label">{{ __('wallet-percent.sell_stop_amount') }}</label>
+                <label for="wallet-sell_stop_amount" class="form-label">{{ __('wallet-simulator.sell_stop_amount') }}</label>
                 <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_amount" value="@numberString($REQUEST->input('sell_stop_amount'))">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_max_percent" class="form-label">{{ __('wallet-percent.sell_stop_max_percent') }}</label>
-                <input type="number" name="sell_stop_max_percent" step="0.0001" class="form-control form-control-lg" id="wallet-sell_stop_max_percent" value="@value($REQUEST->input('sell_stop_max_percent'), 2)" data-percent-to-value="wallet-sell_stop_max" data-percent-to-value-reference="wallet-buy_exchange">
+                <label for="wallet-sell_stop_exchange" class="form-label">{{ __('wallet-simulator.sell_stop_exchange') }}</label>
+                <input type="number" name="sell_stop_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_exchange" value="@numberString($REQUEST->input('sell_stop_exchange'))">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_min_percent" class="form-label">{{ __('wallet-percent.sell_stop_min_percent') }}</label>
+                <label for="wallet-sell_stop_max_percent" class="form-label">{{ __('wallet-simulator.sell_stop_max_percent') }}</label>
+                <input type="number" name="sell_stop_max_percent" step="0.0001" class="form-control form-control-lg" id="wallet-sell_stop_max_percent" value="@value($REQUEST->input('sell_stop_max_percent'), 2)" data-percent-to-value="wallet-sell_stop_max" data-percent-to-value-reference="wallet-sell_stop_exchange">
+            </div>
+
+            <div class="flex-auto p-2">
+                <label for="wallet-sell_stop_min_percent" class="form-label">{{ __('wallet-simulator.sell_stop_min_percent') }}</label>
                 <input type="number" name="sell_stop_min_percent" step="0.0001" class="form-control form-control-lg" id="wallet-sell_stop_min_percent" value="@value($REQUEST->input('sell_stop_min_percent'), 2)" data-percent-to-value="wallet-sell_stop_min" data-percent-to-value-reference="wallet-sell_stop_max" data-percent-to-value-operation="substract">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_max" class="form-label">{{ __('wallet-percent.sell_stop_max') }}</label>
+                <label for="wallet-sell_stop_max" class="form-label">{{ __('wallet-simulator.sell_stop_max') }}</label>
                 <input type="number" name="sell_stop_max" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_max" value="@numberString($REQUEST->input('sell_stop_max'))" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_min" class="form-label">{{ __('wallet-percent.sell_stop_min') }}</label>
+                <label for="wallet-sell_stop_min" class="form-label">{{ __('wallet-simulator.sell_stop_min') }}</label>
                 <input type="number" name="sell_stop_min" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_min" value="@numberString($REQUEST->input('sell_stop_min'))" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_max_value" class="form-label">{{ __('wallet-percent.sell_stop_max_value') }}</label>
+                <label for="wallet-sell_stop_max_value" class="form-label">{{ __('wallet-simulator.sell_stop_max_value') }}</label>
                 <input type="number" name="sell_stop_max_value" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_max_value" value="@numberString($REQUEST->input('sell_stop_max_value'))" data-total data-total-amount="wallet-sell_stop_amount" data-total-value="wallet-sell_stop_max" data-total-change="wallet-sell_stop_max_percent" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stop_min_value" class="form-label">{{ __('wallet-percent.sell_stop_min_value') }}</label>
+                <label for="wallet-sell_stop_min_value" class="form-label">{{ __('wallet-simulator.sell_stop_min_value') }}</label>
                 <input type="number" name="sell_stop_min_value" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_min_value" value="@numberString($REQUEST->input('sell_stop_min_value'))" data-total data-total-amount="wallet-sell_stop_amount" data-total-value="wallet-sell_stop_min" data-total-change="wallet-sell_stop_min_percent" readonly>
             </div>
         </div>
@@ -94,7 +107,7 @@
             <div class="flex-initial p-4">
                 <div class="form-check">
                     <input type="checkbox" name="sell_stop" value="1" class="form-check-switch" id="wallet-sell_stop" {{ $REQUEST->input('sell_stop') ? 'checked' : '' }}>
-                    <label for="wallet-sell_stop" class="form-check-label">{{ __('wallet-percent.sell_stop') }}</label>
+                    <label for="wallet-sell_stop" class="form-check-label">{{ __('wallet-simulator.sell_stop') }}</label>
                 </div>
             </div>
         </div>
@@ -103,37 +116,42 @@
     <div class="box p-5 mt-5">
         <div class="lg:flex">
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_amount" class="form-label">{{ __('wallet-percent.buy_stop_amount') }}</label>
+                <label for="wallet-buy_stop_amount" class="form-label">{{ __('wallet-simulator.buy_stop_amount') }}</label>
                 <input type="number" name="buy_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_amount" value="@numberString($REQUEST->input('buy_stop_amount'))">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_min_percent" class="form-label">{{ __('wallet-percent.buy_stop_min_percent') }}</label>
-                <input type="number" name="buy_stop_min_percent" step="0.0001" class="form-control form-control-lg" id="wallet-buy_stop_min_percent" value="@value($REQUEST->input('buy_stop_min_percent'), 2)" data-percent-to-value="wallet-buy_stop_min" data-percent-to-value-reference="wallet-buy_exchange" data-percent-to-value-operation="substract">
+                <label for="wallet-buy_stop_exchange" class="form-label">{{ __('wallet-simulator.buy_stop_exchange') }}</label>
+                <input type="number" name="buy_stop_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_exchange" value="@numberString($REQUEST->input('buy_stop_exchange'))">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_max_percent" class="form-label">{{ __('wallet-percent.buy_stop_max_percent') }}</label>
+                <label for="wallet-buy_stop_min_percent" class="form-label">{{ __('wallet-simulator.buy_stop_min_percent') }}</label>
+                <input type="number" name="buy_stop_min_percent" step="0.0001" class="form-control form-control-lg" id="wallet-buy_stop_min_percent" value="@value($REQUEST->input('buy_stop_min_percent'), 2)" data-percent-to-value="wallet-buy_stop_min" data-percent-to-value-reference="wallet-buy_stop_exchange" data-percent-to-value-operation="substract">
+            </div>
+
+            <div class="flex-auto p-2">
+                <label for="wallet-buy_stop_max_percent" class="form-label">{{ __('wallet-simulator.buy_stop_max_percent') }}</label>
                 <input type="number" name="buy_stop_max_percent" step="0.0001" class="form-control form-control-lg" id="wallet-buy_stop_max_percent" value="@value($REQUEST->input('buy_stop_max_percent'), 2)" data-percent-to-value="wallet-buy_stop_max" data-percent-to-value-reference="wallet-buy_stop_min">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_min" class="form-label">{{ __('wallet-percent.buy_stop_min') }}</label>
+                <label for="wallet-buy_stop_min" class="form-label">{{ __('wallet-simulator.buy_stop_min') }}</label>
                 <input type="number" name="buy_stop_min" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_min" value="@numberString($REQUEST->input('buy_stop_min'))" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_max" class="form-label">{{ __('wallet-percent.buy_stop_max') }}</label>
+                <label for="wallet-buy_stop_max" class="form-label">{{ __('wallet-simulator.buy_stop_max') }}</label>
                 <input type="number" name="buy_stop_max" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_max" value="@numberString($REQUEST->input('buy_stop_max'))" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_min_value" class="form-label">{{ __('wallet-percent.buy_stop_min_value') }}</label>
+                <label for="wallet-buy_stop_min_value" class="form-label">{{ __('wallet-simulator.buy_stop_min_value') }}</label>
                 <input type="number" name="buy_stop_min_value" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_min_value" value="@numberString($REQUEST->input('buy_stop_min_value'))" data-total data-total-amount="wallet-buy_stop_amount" data-total-value="wallet-buy_stop_min" data-total-change="wallet-buy_stop_min_percent" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-buy_stop_max_value" class="form-label">{{ __('wallet-percent.buy_stop_max_value') }}</label>
+                <label for="wallet-buy_stop_max_value" class="form-label">{{ __('wallet-simulator.buy_stop_max_value') }}</label>
                 <input type="number" name="buy_stop_max_value" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_max_value" value="@numberString($REQUEST->input('buy_stop_max_value'))" data-total data-total-amount="wallet-buy_stop_amount" data-total-value="wallet-buy_stop_max" data-total-change="wallet-buy_stop_max_percent" readonly>
             </div>
         </div>
@@ -142,7 +160,7 @@
             <div class="flex-initial p-4">
                 <div class="form-check">
                     <input type="checkbox" name="buy_stop" value="1" class="form-check-switch" id="wallet-buy_stop" {{ $REQUEST->input('buy_stop') ? 'checked' : '' }}>
-                    <label for="wallet-buy_stop" class="form-check-label">{{ __('wallet-percent.buy_stop') }}</label>
+                    <label for="wallet-buy_stop" class="form-check-label">{{ __('wallet-simulator.buy_stop') }}</label>
                 </div>
             </div>
         </div>
@@ -151,17 +169,17 @@
     <div class="box p-5 mt-5">
         <div class="lg:flex">
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-percent.sell_stoploss_percent') }}</label>
+                <label for="wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-simulator.sell_stoploss_percent') }}</label>
                 <input type="number" name="sell_stoploss_percent" step="0.0001" class="form-control form-control-lg" id="wallet-sell_stoploss_percent" value="@value($REQUEST->input('sell_stoploss_percent'), 2)" data-percent-to-value="wallet-sell_stoploss_exchange" data-percent-to-value-reference="wallet-buy_exchange" data-percent-to-value-operation="substract">
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stoploss_exchange" class="form-label">{{ __('wallet-percent.sell_stoploss_exchange') }}</label>
+                <label for="wallet-sell_stoploss_exchange" class="form-label">{{ __('wallet-simulator.sell_stoploss_exchange') }}</label>
                 <input type="number" name="sell_stoploss_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stoploss_exchange" value="@numberString($REQUEST->input('sell_stoploss_exchange'))" readonly>
             </div>
 
             <div class="flex-auto p-2">
-                <label for="wallet-sell_stoploss_value" class="form-label">{{ __('wallet-percent.sell_stoploss_value') }}</label>
+                <label for="wallet-sell_stoploss_value" class="form-label">{{ __('wallet-simulator.sell_stoploss_value') }}</label>
                 <input type="number" name="sell_stoploss_value" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stoploss_value" value="@numberString($REQUEST->input('sell_stoploss_value'))" data-total data-total-amount="wallet-amount" data-total-value="wallet-sell_stoploss_exchange" data-total-change="wallet-sell_stoploss_percent" readonly>
             </div>
         </div>
@@ -170,7 +188,7 @@
             <div class="flex-initial p-4">
                 <div class="form-check">
                     <input type="checkbox" name="sell_stoploss" value="1" class="form-check-switch" id="wallet-sell_stoploss" {{ $REQUEST->input('sell_stoploss') ? 'checked' : '' }}>
-                    <label for="wallet-sell_stoploss" class="form-check-label">{{ __('wallet-percent.sell_stoploss') }}</label>
+                    <label for="wallet-sell_stoploss" class="form-check-label">{{ __('wallet-simulator.sell_stoploss') }}</label>
                 </div>
             </div>
         </div>
@@ -178,7 +196,7 @@
 
     <div class="box p-5 mt-5">
         <div class="text-right">
-            <button type="submit" class="btn btn-primary">{{ __('wallet-percent.calculate') }}</button>
+            <button type="submit" class="btn btn-primary">{{ __('wallet-simulator.calculate') }}</button>
         </div>
     </div>
 </form>
@@ -429,37 +447,37 @@ charts.push({
 <div class="box p-5 mt-5">
     <div class="lg:flex">
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_start_amount" class="form-label">{{ __('wallet-percent.wallet_start_amount') }}</label>
+            <label for="wallet-wallet_start_amount" class="form-label">{{ __('wallet-simulator.wallet_start_amount') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_amount" value="@numberString($REQUEST->input('amount'))" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_end_amount" class="form-label">{{ __('wallet-percent.wallet_end_amount') }}</label>
+            <label for="wallet-wallet_end_amount" class="form-label">{{ __('wallet-simulator.wallet_end_amount') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_amount" value="@numberString($result->amount)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_start_exchange" class="form-label">{{ __('wallet-percent.wallet_start_exchange') }}</label>
+            <label for="wallet-wallet_start_exchange" class="form-label">{{ __('wallet-simulator.wallet_start_exchange') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_exchange" value="@numberString($REQUEST->input('buy_exchange'))" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_end_exchange" class="form-label">{{ __('wallet-percent.wallet_end_exchange') }}</label>
+            <label for="wallet-wallet_end_exchange" class="form-label">{{ __('wallet-simulator.wallet_end_exchange') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_exchange" value="@numberString($result->buy_exchange)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_start_value" class="form-label">{{ __('wallet-percent.wallet_start_value') }}</label>
+            <label for="wallet-wallet_start_value" class="form-label">{{ __('wallet-simulator.wallet_start_value') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_value" value="@number($REQUEST->input('amount') * $REQUEST->input('buy_exchange'), 2)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_end_value" class="form-label">{{ __('wallet-percent.wallet_end_value') }}</label>
+            <label for="wallet-wallet_end_value" class="form-label">{{ __('wallet-simulator.wallet_end_value') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_value" value="@number($result->buy_value, 2)" readonly />
         </div>
 
         <div class="flex-auto p-2">
-            <label for="wallet-wallet_profit" class="form-label">{{ __('wallet-percent.wallet_profit') }}</label>
+            <label for="wallet-wallet_profit" class="form-label">{{ __('wallet-simulator.wallet_profit') }}</label>
             <input type="text" class="form-control form-control-lg" id="wallet-wallet_profit" value="@number($orders->where('filled', true)->sum('profit'), 2)" readonly />
         </div>
     </div>
@@ -467,27 +485,27 @@ charts.push({
 
 <div class="box p-5 mt-5">
     <form method="get">
-        <input type="search" class="form-control form-control-lg" placeholder="{{ __('wallet-percent.filter') }}" data-table-search="#wallet-percent-table" />
+        <input type="search" class="form-control form-control-lg" placeholder="{{ __('wallet-simulator.filter') }}" data-table-search="#wallet-simulator-table" />
     </form>
 </div>
 
 <div class="overflow-auto md:overflow-visible header-sticky">
-    <table id="wallet-percent-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
+    <table id="wallet-simulator-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
             <tr class="text-right">
-                <th class="text-center">{{ __('wallet-percent.order.date') }}</th>
-                <th class="text-center">{{ __('wallet-percent.order.action') }}</th>
-                <th>{{ __('wallet-percent.order.amount') }}</th>
-                <th>{{ __('wallet-percent.order.exchange') }}</th>
-                <th>{{ __('wallet-percent.order.value') }}</th>
-                <th>{{ __('wallet-percent.order.buy_value') }}</th>
-                <th>{{ __('wallet-percent.order.sell_stop_max') }}</th>
-                <th>{{ __('wallet-percent.order.sell_stop_min') }}</th>
-                <th>{{ __('wallet-percent.order.buy_stop_min') }}</th>
-                <th>{{ __('wallet-percent.order.buy_stop_max') }}</th>
-                <th>{{ __('wallet-percent.order.sell_stoploss_exchange') }}</th>
-                <th>{{ __('wallet-percent.order.profit') }}</th>
-                <th class="text-center">{{ __('wallet-percent.order.filled') }}</th>
+                <th class="text-center">{{ __('wallet-simulator.order.date') }}</th>
+                <th class="text-center">{{ __('wallet-simulator.order.action') }}</th>
+                <th>{{ __('wallet-simulator.order.amount') }}</th>
+                <th>{{ __('wallet-simulator.order.exchange') }}</th>
+                <th>{{ __('wallet-simulator.order.value') }}</th>
+                <th>{{ __('wallet-simulator.order.buy_value') }}</th>
+                <th>{{ __('wallet-simulator.order.sell_stop_max') }}</th>
+                <th>{{ __('wallet-simulator.order.sell_stop_min') }}</th>
+                <th>{{ __('wallet-simulator.order.buy_stop_min') }}</th>
+                <th>{{ __('wallet-simulator.order.buy_stop_max') }}</th>
+                <th>{{ __('wallet-simulator.order.sell_stoploss_exchange') }}</th>
+                <th>{{ __('wallet-simulator.order.profit') }}</th>
+                <th class="text-center">{{ __('wallet-simulator.order.filled') }}</th>
             </tr>
         </thead>
 

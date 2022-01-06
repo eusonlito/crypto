@@ -23,9 +23,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('wallet.percent') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.percent') === 0) ? 'side-menu--active' : '' }}">
-                        <div class="side-menu__icon">@icon('percent') </div>
-                        <div class="side-menu__title">{{ __('in-sidebar.wallets-percent') }}</div>
+                    <a href="{{ route('wallet.simulator') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.simulator') === 0) ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('activity') </div>
+                        <div class="side-menu__title">{{ __('in-sidebar.wallets-simulator') }}</div>
                     </a>
                 </li>
             </ul>

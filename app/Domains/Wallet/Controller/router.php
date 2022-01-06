@@ -8,7 +8,7 @@ Route::group(['middleware' => 'user-auth'], static function () {
     Route::get('/wallet', Index::class)->name('wallet.index');
 
     Route::any('/wallet/create', Create::class)->name('wallet.create');
-    Route::any('/wallet/percent', Percent::class)->name('wallet.percent');
+    Route::any('/wallet/simulator', Simulator::class)->name('wallet.simulator');
 
     Route::any('/wallet/{id}', Update::class)->name('wallet.update');
     Route::any('/wallet/{id}/buy-stop', UpdateBuyStop::class)->name('wallet.update.buy-stop');

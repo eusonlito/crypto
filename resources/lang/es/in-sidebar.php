@@ -17,5 +17,5 @@
     'users' => 'Usuarios',
     'wallets' => 'Carteras',
     'wallets-list' => 'Listado',
-    'wallets-percent' => 'Calculadora',
+    'wallets-simulator' => 'Simulador',
 ];

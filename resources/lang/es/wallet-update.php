@@ -28,6 +28,8 @@
     'platform' => 'Plataforma',
     'product' => 'Producto',
     'save' => 'Guardar',
+    'simulator' => 'Simulador',
     'success' => 'Cartera actualizada correctamente',
+    'sync' => 'Sincronizar',
     'visible' => 'Visible',
 ];

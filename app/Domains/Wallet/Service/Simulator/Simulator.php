@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\Domains\Wallet\Service\Percent;
+namespace App\Domains\Wallet\Service\Simulator;
 
 use stdClass;
 use Illuminate\Support\Collection;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 
-class Calculator
+class Simulator
 {
     /**
      * @var \stdClass

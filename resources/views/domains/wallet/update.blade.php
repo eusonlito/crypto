@@ -20,7 +20,7 @@
                     <div class="flex-1 mb-2 px-2">
                         <label class="form-label hidden xl:block">&nbsp;</label>
 
-                        <a href="?_action=updateSync" class="btn form-select-lg block">
+                        <a href="?_action=updateSync" class="btn form-select-lg block" title="{{ __('wallet-update.sync') }}">
                             @icon('refresh-cw')
                         </a>
                     </div>
@@ -28,8 +28,8 @@
                     <div class="flex-1 mb-2 px-2">
                         <label class="form-label hidden xl:block">&nbsp;</label>
 
-                        <a href="{{ route('wallet.percent', ['id' => $row->id]) }}" class="btn form-select-lg block truncate">
-                            @icon('percent')
+                        <a href="{{ route('wallet.simulator', ['id' => $row->id]) }}" class="btn form-select-lg block truncate" title="{{ __('wallet-update.simulator') }}">
+                            @icon('activity')
                         </a>
                     </div>
 

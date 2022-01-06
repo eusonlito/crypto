@@ -5,9 +5,9 @@ namespace App\Domains\Wallet\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Response;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Wallet\Service\Percent\Calculator as PercentCalculator;
+use App\Domains\Wallet\Service\Simulator\Simulator as SimulatorService;
 
-class Percent extends ControllerAbstract
+class Simulator extends ControllerAbstract
 {
     /**
      * @return \Illuminate\Http\Response
@@ -16,9 +16,9 @@ class Percent extends ControllerAbstract
     {
         $this->load();
 
-        $this->meta('title', __('wallet-percent.meta-title'));
+        $this->meta('title', __('wallet-simulator.meta-title'));
 
-        return $this->page('wallet.percent', $this->data());
+        return $this->page('wallet.simulator', $this->data());
     }
 
     /**
@@ -46,7 +46,7 @@ class Percent extends ControllerAbstract
             return $data;
         }
 
-        $service = new PercentCalculator($this->row, $this->request->isMethod('post') ? $this->request->input() : []);
+        $service = new SimulatorService($this->row, $this->request->isMethod('post') ? $this->request->input() : []);
 
         return $data + [
             'exchanges' => $service->getExchanges(),
