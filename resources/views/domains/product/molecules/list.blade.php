@@ -20,7 +20,7 @@
             <tr class="text-right">
                 <td class="text-center"><a href="{{ $link }}" class="block">{{ $i + 1 }}</a></td>
                 <td class="text-left"><a href="{{ $link }}" class="block">{{ $row->acronym }}</a></td>
-                <td class="text-left"><a href="{{ $link }}" class="block">{{ $row->name }}</a></td>
+                <td class="text-left whitespace-nowrap whitespace-nowrap"><a href="{{ $link }}" class="block">{{ $row->name }}</a></td>
                 <td><a href="{{ $row->platform->url.$row->code }}" rel="nofollow noopener noreferrer" target="_blank">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ route('product.update.boolean', [$row->id, 'tracking']) }}" data-link-boolean="tracking" class="block text-center">@status($row->tracking)</a></td>
                 <td><a href="{{ route('product.update.boolean', [$row->id, 'enabled']) }}" data-link-boolean="enabled" class="block text-center">@status($row->enabled)</a></td>

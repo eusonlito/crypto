@@ -28,7 +28,7 @@
             @foreach ($list as $row)
 
             <tr class="text-right">
-                <td><span class="block text-center" title="{{ $row->created_at }}">@datetime($row->created_at)</span></td>
+                <td><span class="block text-center whitespace-nowrap" title="{{ $row->created_at }}">@datetime($row->created_at)</span></td>
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-left font-semibold whitespace-nowrap">{{ $row->platform->name }}</a></td>
                 <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->product->acronym }}</a></td>
                 <td><a href="{{ route('wallet.update', $row->wallet->id) }}" class="block text-center font-semibold whitespace-nowrap">{{ $row->wallet->name }}</a></td>

@@ -513,7 +513,7 @@ charts.push({
             @foreach ($orders as $each)
 
             <tr class="text-right">
-                <td><span class="block text-center" title="{{ $each->created_at }}">@datetime($each->created_at)</span></td>
+                <td><span class="block text-center whitespace-nowrap" title="{{ $each->created_at }}">@datetime($each->created_at)</span></td>
                 <td><span class="block text-center whitespace-nowrap">{{ $each->action }}</span></td>
                 <td><span class="block" title="{{ $each->amount }}">@number($each->amount)</span></td>
                 <td><span class="block" title="{{ $each->exchange }}">@number($each->exchange)</span></td>

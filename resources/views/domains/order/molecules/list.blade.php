@@ -32,7 +32,7 @@
             @foreach ($list as $row)
 
             <tr class="text-right">
-                <td><span class="block text-center" title="{{ $row->created_at }}">@datetime($row->created_at)</span></td>
+                <td><span class="block text-center whitespace-nowrap" title="{{ $row->created_at }}">@datetime($row->created_at)</span></td>
                 <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a></td>
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-center font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
                 <td><span class="block" title="{{ $row->amount }}">@number($row->amount)</span></td>

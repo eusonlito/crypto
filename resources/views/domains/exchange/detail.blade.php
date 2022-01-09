@@ -150,7 +150,7 @@
             @foreach ($list->reverse() as $row)
 
             <tr>
-                <td title="{{ $row->created_at }}">@datetime($row->created_at)</td>
+                <td title="{{ $row->created_at }}" class="whitespace-nowrap">@datetime($row->created_at)</td>
                 <td title="{{ $row->exchange }}">@number($row->exchange)</td>
             </tr>
 

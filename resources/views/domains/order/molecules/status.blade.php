@@ -36,8 +36,8 @@
                 <td class="text-center"><span class="block">@number($row->buy_count, 0)</span></td>
                 <td class="text-center"><span class="block">@number($row->sell_count, 0)</span></td>
 
-                <td><span class="block">@datetime($row->date_first)</span></td>
-                <td><span class="block">@datetime($row->date_last)</span></td>
+                <td><span class="block whitespace-nowrap">@datetime($row->date_first)</span></td>
+                <td><span class="block whitespace-nowrap">@datetime($row->date_last)</span></td>
 
                 <td><span class="block">@number($row->buy_average)</span></td>
                 <td><span class="block">@number($row->sell_average)</span></td>
