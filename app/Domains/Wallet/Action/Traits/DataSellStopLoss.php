@@ -7,12 +7,12 @@ trait DataSellStopLoss
     /**
      * @return void
      */
-    protected function dataStopLoss(): void
+    protected function dataSellStopLoss(): void
     {
         $this->data['sell_stoploss_percent'] = abs((float)$this->data['sell_stoploss_percent']);
 
         if ($this->data['sell_stoploss_percent'] === 0.0) {
-            $this->dataStopLossZero();
+            $this->dataSellStopLossZero();
             return;
         }
 
@@ -24,8 +24,9 @@ trait DataSellStopLoss
     /**
      * @return void
      */
-    protected function dataStopLossZero(): void
+    protected function dataSellStopLossZero(): void
     {
+        $this->data['sell_stoploss'] = 0;
         $this->data['sell_stoploss_percent'] = 0;
         $this->data['sell_stoploss_exchange'] = 0;
         $this->data['sell_stoploss_value'] = 0;
