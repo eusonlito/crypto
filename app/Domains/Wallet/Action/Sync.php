@@ -188,7 +188,18 @@ class Sync extends ActionAbstract
      */
     protected function storeUpdateHistory(Model $row): void
     {
-        WalletHistoryModel::insert($row->withoutRelations()->replicate()->toArray() + ['wallet_id' => $row->id]);
+        WalletHistoryModel::create([
+            'address' => $row->address,
+            'name' => $row->name,
+
+            'payload' => $row->withoutRelations()->toArray(),
+
+            'currency_id' => $row->currency_id,
+            'platform_id' => $row->platform_id,
+            'product_id' => $row->product_id,
+            'user_id' => $row->user_id,
+            'wallet_id' => $row->id,
+        ]);
     }
 
     /**

@@ -33,13 +33,7 @@ class WalletHistory extends ModelAbstract
      * @var array
      */
     protected $casts = [
-        'sell_stop' => 'boolean',
-        'sell_stoploss' => 'boolean',
-        'processing' => 'boolean',
-        'custom' => 'boolean',
-        'crypto' => 'boolean',
-        'trade' => 'boolean',
-        'enabled' => 'boolean',
+        'payload' => 'object',
     ];
 
     /**

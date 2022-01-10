@@ -417,77 +417,7 @@ return new class extends MigrationAbstract {
             $table->string('address')->index();
             $table->string('name');
 
-            $table->unsignedSmallInteger('order')->default(0);
-
-            $table->unsignedDouble('amount');
-
-            $table->unsignedDouble('buy_exchange')->default(0);
-            $table->unsignedDouble('buy_value')->default(0);
-
-            $table->unsignedDouble('current_exchange')->default(0);
-            $table->unsignedDouble('current_value')->default(0);
-
-            // Sell Stop Enabled
-            $table->boolean('sell_stop')->default(0);
-
-            // Sell Stop Exchange Reference
-            $table->boolean('sell_stop_exchange')->default(0);
-
-            // Amount available to sell
-            $table->unsignedDouble('sell_stop_amount')->default(0);
-
-            // We need to reach this price before sell
-            $table->unsignedDouble('sell_stop_max')->default(0);
-            $table->unsignedDouble('sell_stop_max_value')->default(0);
-            $table->unsignedDouble('sell_stop_max_percent')->default(0);
-            $table->dateTime('sell_stop_max_at')->nullable();
-            $table->boolean('sell_stop_max_executable')->default(0);
-
-            // We will sell at this price only if sell_stop_max is reached
-            $table->unsignedDouble('sell_stop_min')->default(0);
-            $table->unsignedDouble('sell_stop_min_value')->default(0);
-            $table->unsignedDouble('sell_stop_min_percent')->default(0);
-            $table->dateTime('sell_stop_min_at')->nullable();
-            $table->boolean('sell_stop_min_executable')->default(0);
-
-            // Buy Stop Enabled
-            $table->boolean('buy_stop')->default(0);
-
-            // Buy Stop Exchange Reference
-            $table->boolean('buy_stop_exchange')->default(0);
-
-            // Amount available to spend
-            $table->unsignedDouble('buy_stop_amount')->default(0);
-
-            // We will buy at this price only if buy_stop_min is reached
-            $table->unsignedDouble('buy_stop_max')->default(0);
-            $table->unsignedDouble('buy_stop_max_value')->default(0);
-            $table->unsignedDouble('buy_stop_max_percent')->default(0);
-            $table->dateTime('buy_stop_max_at')->nullable();
-            $table->boolean('buy_stop_max_executable')->default(0);
-
-            // We need to reach this price before buy
-            $table->unsignedDouble('buy_stop_min')->default(0);
-            $table->unsignedDouble('buy_stop_min_value')->default(0);
-            $table->unsignedDouble('buy_stop_min_percent')->default(0);
-            $table->dateTime('buy_stop_min_at')->nullable();
-            $table->boolean('buy_stop_min_executable')->default(0);
-
-            $table->boolean('sell_stoploss')->default(0);
-
-            $table->unsignedDouble('sell_stoploss_exchange')->default(0);
-            $table->unsignedDouble('sell_stoploss_value')->default(0);
-            $table->unsignedDouble('sell_stoploss_percent')->default(0);
-
-            $table->dateTime('sell_stoploss_at')->nullable();
-            $table->boolean('sell_stoploss_executable')->default(0);
-
-            $table->boolean('processing')->default(0);
-            $table->boolean('custom')->default(0);
-            $table->boolean('crypto')->default(0);
-            $table->boolean('trade')->default(0);
-            $table->boolean('visible')->default(0);
-            $table->boolean('enabled')->default(0);
+            $table->json('payload')->nullable();
 
             $this->dateTimeCreatedAt($table);
             $this->dateTimeUpdatedAt($table);

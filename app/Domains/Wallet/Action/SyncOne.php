@@ -119,7 +119,18 @@ class SyncOne extends ActionAbstract
      */
     protected function storeUpdateHistory(): void
     {
-        WalletHistoryModel::insert($this->row->withoutRelations()->replicate()->toArray() + ['wallet_id' => $this->row->id]);
+        WalletHistoryModel::create([
+            'address' => $this->row->address,
+            'name' => $this->row->name,
+
+            'payload' => $this->row->withoutRelations()->toArray(),
+
+            'currency_id' => $this->row->currency_id,
+            'platform_id' => $this->row->platform_id,
+            'product_id' => $this->row->product_id,
+            'user_id' => $this->row->user_id,
+            'wallet_id' => $this->row->id,
+        ]);
     }
 
     /**
