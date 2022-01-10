@@ -151,6 +151,21 @@ class Simulator
     }
 
     /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return [
+            'exchanges' => ($exchanges = $this->getExchanges()),
+            'exchangeFirst' => $exchanges->first()['average'],
+            'exchangeLast' => $exchanges->last()['average'],
+            'orders' => ($orders = $this->getOrders()),
+            'profit' => $orders->where('filled', true)->sum('profit'),
+            'result' => $this->getRow(),
+        ];
+    }
+
+    /**
      * @param string $datetime
      * @param float $exchange
      *

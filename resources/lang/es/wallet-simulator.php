@@ -51,6 +51,7 @@
     'wallet-placeholder' => 'Selecciona una Cartera',
     'wallet_end_amount' => 'Cantidad Final',
     'wallet_end_exchange' => 'Cambio Final',
+    'wallet_end_total' => 'Total',
     'wallet_end_value' => 'Valor Final',
     'wallet_profit' => 'Beneficio',
     'wallet_start_amount' => 'Cantidad Inicial',
