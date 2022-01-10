@@ -2,10 +2,7 @@
 
 namespace App\Domains\Dashboard\Controller;
 
-use Illuminate\Support\Collection;
-use App\Domains\Order\Model\Order as OrderModel;
-use App\Domains\Ticker\Model\Ticker as TickerModel;
-use App\Domains\Wallet\Model\Wallet as WalletModel;
+use App\Domains\Dashboard\Service\Controller\Index as IndexService;
 
 class Index extends ControllerAbstract
 {
@@ -22,18 +19,7 @@ class Index extends ControllerAbstract
 
         $this->meta('title', __('dashboard-index.meta-title'));
 
-        $wallets = $this->wallets();
-
-        return $this->page('dashboard.index', [
-            'filters' => $this->request->input(),
-            'investment' => $this->auth->investment,
-            'orders' => $this->orders(),
-            'tickers' => $this->tickers(),
-            'wallets' => $wallets,
-            'walletsCrypto' => $wallets->where('crypto', true),
-            'walletsFiat' => $wallets->where('crypto', false),
-            'walletsValues' => $this->walletsValues(),
-        ]);
+        return $this->page('dashboard.index', $this->data());
     }
 
     /**
@@ -48,47 +34,13 @@ class Index extends ControllerAbstract
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    protected function tickers(): Collection
+    protected function data(): array
     {
-        return TickerModel::byUserId($this->auth->id)
-            ->enabled()
-            ->list()
-            ->withExchangesChart($this->request->input('time'))
-            ->get();
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function orders(): Collection
-    {
-        return OrderModel::byUserId($this->auth->id)
-            ->whereFilled()
-            ->list()
-            ->limit(10)
-            ->get();
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function wallets(): Collection
-    {
-        return WalletModel::byUserId($this->auth->id)
-            ->enabled()
-            ->whereVisible()
-            ->list()
-            ->withExchangesChart($this->request->input('time'))
-            ->get();
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected function walletsValues(): Collection
-    {
-        return WalletModel::byUserId($this->auth->id)->get();
+        return IndexService::new($this->auth, $this->request)->data() + [
+            'filters' => $this->request->input(),
+            'investment' => $this->auth->investment,
+        ];
     }
 }

@@ -44,11 +44,11 @@ class Exchange extends BuilderAbstract
     }
 
     /**
-     * @param array $product_ids
+     * @param iterable $product_ids
      *
      * @return self
      */
-    public function byProductIds(array $product_ids): self
+    public function byProductIds(iterable $product_ids): self
     {
         return $this->whereIn('product_id', $product_ids);
     }
