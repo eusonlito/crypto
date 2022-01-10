@@ -5,7 +5,7 @@ namespace App\Domains\Wallet\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Response;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Wallet\Service\Simulator\Simulator as SimulatorService;
+use App\Domains\Wallet\Service\Controller\Simulator as SimulatorService;
 
 class Simulator extends ControllerAbstract
 {

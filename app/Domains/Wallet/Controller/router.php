@@ -11,6 +11,7 @@ Route::group(['middleware' => 'user-auth'], static function () {
     Route::any('/wallet/simulator', Simulator::class)->name('wallet.simulator');
 
     Route::any('/wallet/{id}', Update::class)->name('wallet.update');
+    Route::any('/wallet/{id}/buy-market', UpdateBuyMarket::class)->name('wallet.update.buy-market');
     Route::any('/wallet/{id}/buy-stop', UpdateBuyStop::class)->name('wallet.update.buy-stop');
     Route::any('/wallet/{id}/sell-stop', UpdateSellStop::class)->name('wallet.update.sell-stop');
     Route::post('/wallet/{id}/column/{column}', UpdateColumn::class)->name('wallet.update.column');

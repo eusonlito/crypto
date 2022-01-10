@@ -431,6 +431,14 @@ class Sync extends ActionAbstract
         $row->buy_stop_min = 0;
         $row->buy_stop_min_value = 0;
 
+        $row->buy_market = 0;
+
+        $row->buy_market_amount = 0;
+        $row->buy_market_reference = 0;
+        $row->buy_market_percent = 0;
+        $row->buy_market_exchange = 0;
+        $row->buy_market_value = 0;
+
         $row->sell_stoploss = 0;
         $row->sell_stoploss_percent = 0;
         $row->sell_stoploss_exchange = 0;

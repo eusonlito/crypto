@@ -135,6 +135,7 @@ class BuyStopMax extends ActionAbstract
     {
         $this->updateExchange();
         $this->updateBuyStop();
+        $this->updateBuyMarket();
         $this->updateSellStop();
         $this->updateProduct();
     }
@@ -158,8 +159,22 @@ class BuyStopMax extends ActionAbstract
     protected function updateBuyStop(): void
     {
         $this->row->buy_stop = false;
+
         $this->row->buy_stop_min_at = null;
+        $this->row->buy_stop_min_executable = 0;
+
         $this->row->buy_stop_max_at = null;
+        $this->row->buy_stop_max_executable = 0;
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuyMarket(): void
+    {
+        $this->row->buy_market = false;
+        $this->row->buy_market_at = null;
+        $this->row->buy_market_executable = 0;
     }
 
     /**
@@ -180,10 +195,12 @@ class BuyStopMax extends ActionAbstract
         $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_value = $this->row->sell_stop_amount * $this->row->sell_stop_max;
         $this->row->sell_stop_max_at = null;
+        $this->row->sell_stop_max_executable = 0;
 
         $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
         $this->row->sell_stop_min_value = $this->row->sell_stop_amount * $this->row->sell_stop_min;
         $this->row->sell_stop_min_at = null;
+        $this->row->sell_stop_min_executable = 0;
     }
 
     /**
@@ -208,7 +225,6 @@ class BuyStopMax extends ActionAbstract
      */
     protected function finish(): void
     {
-        $this->row->buy_stop_max_executable = false;
         $this->row->processing = false;
         $this->row->save();
     }

@@ -50,6 +50,15 @@ class WalletStatBoxCrypto extends Component
             'current_value' => $this->row->current_value,
             'current_value_percent' => helper()->percent($this->row->buy_value, $this->row->current_value),
 
+            'buy_market' => $this->row->buy_market,
+            'buy_market_amount' => $this->row->buy_market_amount,
+            'buy_market_exchange' => $this->row->buy_market_exchange,
+            'buy_market_exchange_percent' => helper()->percent($this->row->buy_market_exchange, $this->row->current_exchange),
+            'buy_market_value' => $this->row->buy_market_value,
+            'buy_market_value_percent' => helper()->percent($this->row->buy_market_value, $this->row->current_value),
+            'buy_market_value_difference' => ($this->row->buy_market_value - ($this->row->buy_market_amount * $this->row->buy_exchange)),
+            'buy_market_at' => $this->row->buy_market_at,
+
             'buy_stop' => $this->row->buy_stop,
 
             'buy_stop_amount' => $this->row->buy_stop_amount,

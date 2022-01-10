@@ -20,6 +20,7 @@ trait WalletSql
 
                 '.static::updateBySqlSellStop().'
                 '.static::updateBySqlBuyStop().'
+                '.static::updateBySqlBuyMarket().'
                 '.static::updateBySqlStopLoss().'
 
             WHERE `product_id` = :product_id;
@@ -166,6 +167,38 @@ trait WalletSql
                     AND `current_exchange` >= `buy_stop_max`
                 ), TRUE, `buy_stop_max_executable`
             ),
+        ';
+    }
+
+    /**
+     * @return string
+     */
+    protected static function updateBySqlBuyMarket(): string
+    {
+        return '
+            `buy_market_at` = IF (
+                (
+                    `buy_market`
+                    AND `buy_market_amount`
+                    AND `buy_market_exchange`
+                    AND `buy_market_at` IS NULL
+                    AND `buy_stop_min_at` IS NULL
+                    AND `sell_stop_max_at` IS NULL
+                    AND `current_exchange` >= `buy_market_exchange`
+                ), NOW(), `buy_market_at`
+            ),
+
+            `buy_market_executable` = IF (
+                (
+                    `buy_market`
+                    AND `buy_market_amount`
+                    AND `buy_market_exchange`
+                    AND `buy_market_at` IS NOT NULL
+                    AND `buy_stop_min_at` IS NULL
+                    AND `sell_stop_max_at` IS NULL
+                    AND `current_exchange` >= `buy_market_exchange`
+                ), TRUE, `buy_market_executable`
+            )
         ';
     }
 

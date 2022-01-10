@@ -2,20 +2,14 @@
 
 namespace App\Domains\Wallet\Action;
 
-use stdClass;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
-class SellStopMin extends ActionAbstract
+class BuyMarket extends ActionAbstract
 {
-    /**
-     * @var ?\App\Domains\Order\Model\Order
-     */
-    protected ?OrderModel $order;
-
     /**
      * @var \App\Domains\Platform\Model\Platform
      */
@@ -27,9 +21,9 @@ class SellStopMin extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var \stdClass
+     * @var \App\Domains\Order\Model\Order
      */
-    protected stdClass $previous;
+    protected OrderModel $order;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -44,14 +38,11 @@ class SellStopMin extends ActionAbstract
             return tap($this->row, fn () => $this->logNotExecutable());
         }
 
-        $this->previous();
         $this->start();
-        $this->sync();
         $this->order();
         $this->update();
         $this->finish();
         $this->logSuccess();
-        $this->mail();
 
         return $this->row;
     }
@@ -83,22 +74,13 @@ class SellStopMin extends ActionAbstract
             && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
-            && $this->row->amount
-            && $this->row->sell_stop
-            && $this->row->sell_stop_amount
-            && $this->row->sell_stop_min
-            && $this->row->sell_stop_min_at
-            && $this->row->sell_stop_min_executable
-            && $this->row->sell_stop_max
-            && $this->row->sell_stop_max_at;
-    }
-
-    /**
-     * @return void
-     */
-    protected function previous(): void
-    {
-        $this->previous = json_decode(json_encode($this->row->toArray()));
+            && $this->row->buy_market
+            && $this->row->buy_market_amount
+            && $this->row->buy_market_exchange
+            && $this->row->buy_market_at
+            && $this->row->buy_market_executable
+            && ($this->row->buy_market_amount >= $this->product->quantity_min)
+            && ($this->row->buy_market_exchange >= $this->product->price_min);
     }
 
     /**
@@ -113,20 +95,40 @@ class SellStopMin extends ActionAbstract
     /**
      * @return void
      */
-    protected function sync(): void
+    protected function order(): void
     {
-        $this->factory()->action()->updateSync();
+        $this->orderCreate();
+        $this->orderUpdate();
+        $this->orderSync();
     }
 
     /**
      * @return void
      */
-    protected function order(): void
+    protected function orderCreate(): void
     {
-        $this->order = OrderModel::byProductId($this->product->id)
-            ->byWalletId($this->row->id)
-            ->orderByLast()
-            ->first();
+        $this->order = $this->factory('Order')->action([
+            'type' => 'MARKET',
+            'side' => 'buy',
+            'amount' => $this->row->buy_market_amount,
+        ])->create($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderUpdate(): void
+    {
+        $this->order->wallet_id = $this->row->id;
+        $this->order->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderSync(): void
+    {
+        $this->factory('Order')->action()->syncByProduct($this->product);
     }
 
     /**
@@ -135,9 +137,9 @@ class SellStopMin extends ActionAbstract
     protected function update(): void
     {
         $this->updateExchange();
-        $this->updateSellStop();
         $this->updateBuyStop();
         $this->updateBuyMarket();
+        $this->updateSellStop();
         $this->updateProduct();
     }
 
@@ -147,7 +149,7 @@ class SellStopMin extends ActionAbstract
     protected function updateExchange(): void
     {
         if ($this->row->amount === $this->previous->amount) {
-            $this->row->amount -= $this->order->amount;
+            $this->row->amount += $this->order->amount;
         }
 
         $this->row->buy_exchange = $this->order->price;
@@ -157,35 +159,13 @@ class SellStopMin extends ActionAbstract
     /**
      * @return void
      */
-    protected function updateSellStop(): void
-    {
-        $this->row->sell_stop = false;
-
-        $this->row->sell_stop_max_at = null;
-        $this->row->sell_stop_max_executable = 0;
-
-        $this->row->sell_stop_min_at = null;
-        $this->row->sell_stop_min_executable = 0;
-    }
-
-    /**
-     * @return void
-     */
     protected function updateBuyStop(): void
     {
-        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_max_percent) {
-            $this->row->buy_stop = true;
-        }
+        $this->row->buy_stop = false;
 
-        $this->row->buy_stop_exchange = $this->row->buy_exchange;
-
-        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
-        $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min;
         $this->row->buy_stop_min_at = null;
         $this->row->buy_stop_min_executable = 0;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
-        $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max;
         $this->row->buy_stop_max_at = null;
         $this->row->buy_stop_max_executable = 0;
     }
@@ -195,16 +175,35 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateBuyMarket(): void
     {
-        if ($this->row->buy_market_percent) {
-            $this->row->buy_market = true;
-        }
-
-        $this->row->buy_market_reference = $this->row->buy_exchange;
-
-        $this->row->buy_market_exchange = $this->row->buy_market_reference * (1 + ($this->row->buy_market_percent / 100));
-        $this->row->buy_market_value = $this->row->buy_market_amount * $this->row->buy_market;
+        $this->row->buy_market = false;
         $this->row->buy_market_at = null;
         $this->row->buy_market_executable = 0;
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateSellStop(): void
+    {
+        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
+            if ($this->row->sell_stop_amount > $this->row->amount) {
+                $this->row->sell_stop_amount = $this->row->amount;
+            }
+
+            $this->row->sell_stop = true;
+        }
+
+        $this->row->sell_stop_exchange = $this->row->buy_exchange;
+
+        $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_max_value = $this->row->sell_stop_amount * $this->row->sell_stop_max;
+        $this->row->sell_stop_max_at = null;
+        $this->row->sell_stop_max_executable = 0;
+
+        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
+        $this->row->sell_stop_min_value = $this->row->sell_stop_amount * $this->row->sell_stop_min;
+        $this->row->sell_stop_min_at = null;
+        $this->row->sell_stop_min_executable = 0;
     }
 
     /**
@@ -231,14 +230,6 @@ class SellStopMin extends ActionAbstract
     {
         $this->row->processing = false;
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function mail(): void
-    {
-        $this->factory()->mail()->sellStopMin($this->row, $this->previous, $this->order);
     }
 
     /**
@@ -273,6 +264,6 @@ class SellStopMin extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-min', $this->row, $data);
+        ActionLogger::set($status, 'buy-market', $this->row, $data);
     }
 }

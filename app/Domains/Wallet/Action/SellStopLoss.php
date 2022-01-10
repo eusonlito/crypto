@@ -153,11 +153,6 @@ class SellStopLoss extends ActionAbstract
     protected function update(): void
     {
         $this->updateOrder();
-
-        if (empty($this->order->filled)) {
-            return;
-        }
-
         $this->updateSellStopLoss();
     }
 
@@ -175,6 +170,7 @@ class SellStopLoss extends ActionAbstract
     protected function updateSellStopLoss(): void
     {
         $this->row->sell_stoploss = false;
+        $this->row->sell_stoploss_at = null;
         $this->row->sell_stoploss_executable = false;
     }
 
