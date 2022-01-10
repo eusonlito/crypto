@@ -56,6 +56,11 @@ class Simulator
     protected function row(Model $row, array $input): void
     {
         $this->row = json_decode(json_encode(array_map([$this, 'rowMap'], $input) + $row->toArray()));
+
+        $this->row->buy_stop_min_at = null;
+        $this->row->buy_stop_max_at = null;
+        $this->row->sell_stop_min_at = null;
+        $this->row->sell_stop_max_at = null;
     }
 
     /**
@@ -86,7 +91,8 @@ class Simulator
     protected function exchanges(): void
     {
         $this->exchanges = ExchangeModel::byProductId($this->row->product->id)
-            ->pluck('exchange', 'created_at');
+            ->pluck('exchange', 'created_at')
+            ->when(isset($this->row->exchange_reverse), static fn ($collection) => $collection->reverse());
     }
 
     /**
@@ -391,8 +397,8 @@ class Simulator
      */
     protected function order(string $action, float $amount, bool $filled, float $profit = 0): void
     {
-        $this->orders->put($index = $this->dateKey($this->datetime), (object)[
-            'index' => $index,
+        $this->orders->put($this->datetime, (object)[
+            'index' => $this->dateKey($this->datetime),
             'action' => $action,
             'created_at' => $this->datetime,
             'exchange' => $this->exchange,
