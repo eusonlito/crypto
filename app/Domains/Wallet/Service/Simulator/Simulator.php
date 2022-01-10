@@ -160,7 +160,12 @@ class Simulator
             'exchangeFirst' => $exchanges->first()['average'],
             'exchangeLast' => $exchanges->last()['average'],
             'orders' => ($orders = $this->getOrders()),
-            'profit' => $orders->where('filled', true)->sum('profit'),
+            'ordersCompleted' => ($ordersCompleted = $orders->where('filled', true)),
+            'ordersCompletedBuy' => ($ordersCompletedBuy = $ordersCompleted->where('side', 'buy')),
+            'ordersCompletedBuyValue' => $ordersCompletedBuy->sum('value'),
+            'ordersCompletedSell' => ($ordersCompletedSell = $ordersCompleted->where('side', 'sell')),
+            'ordersCompletedSellValue' => $ordersCompletedSell->sum('value'),
+            'profit' => $ordersCompleted->sum('profit'),
             'result' => $this->getRow(),
         ];
     }
@@ -421,6 +426,8 @@ class Simulator
             'value' => $this->exchange * $amount,
             'profit' => $profit,
             'filled' => $filled,
+
+            'side' => explode('-', $action)[0],
 
             'wallet_buy_value' => $this->exchange * $this->row->amount,
 

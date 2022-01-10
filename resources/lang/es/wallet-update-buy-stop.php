@@ -1,6 +1,7 @@
 <?php return [
     'amount' => 'Cantidad Actual',
     'buy_exchange' => 'Cambio en Compra',
+    'buy_value' => 'Valor en Compra',
     'buy_stop' => 'Activo',
     'buy_stop_amount' => 'Comprando',
     'buy_stop_exchange' => 'Cambio de Referencia',
@@ -13,6 +14,8 @@
     'buy_stop_min_percent' => 'Porcentaje Mínimo',
     'buy_stop_min_value' => 'Valor Mínimo',
     'cancel' => 'Cancelar',
+    'current_exchange' => 'Cambio Actual',
+    'current_value' => 'Valor Actual',
     'send' => 'Guardar',
     'title' => 'Buy-Stop',
 ];
