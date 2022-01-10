@@ -151,6 +151,26 @@ class Simulator
     }
 
     /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return [
+            'exchanges' => ($exchanges = $this->getExchanges()),
+            'exchangeFirst' => $exchanges->first()['average'],
+            'exchangeLast' => $exchanges->last()['average'],
+            'orders' => ($orders = $this->getOrders()),
+            'ordersCompleted' => ($ordersCompleted = $orders->where('filled', true)),
+            'ordersCompletedBuy' => ($ordersCompletedBuy = $ordersCompleted->where('side', 'buy')),
+            'ordersCompletedBuyValue' => $ordersCompletedBuy->sum('value'),
+            'ordersCompletedSell' => ($ordersCompletedSell = $ordersCompleted->where('side', 'sell')),
+            'ordersCompletedSellValue' => $ordersCompletedSell->sum('value'),
+            'profit' => $ordersCompleted->sum('profit'),
+            'result' => $this->getRow(),
+        ];
+    }
+
+    /**
      * @param string $datetime
      * @param float $exchange
      *
@@ -406,6 +426,8 @@ class Simulator
             'value' => $this->exchange * $amount,
             'profit' => $profit,
             'filled' => $filled,
+
+            'side' => explode('-', $action)[0],
 
             'wallet_buy_value' => $this->exchange * $this->row->amount,
 

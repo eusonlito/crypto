@@ -48,12 +48,7 @@ class Simulator extends ControllerAbstract
 
         $service = new SimulatorService($this->row, $this->request->isMethod('post') ? $this->request->input() : []);
 
-        return $data + [
-            'exchanges' => $service->getExchanges(),
-            'orders' => $service->getOrders(),
-            'row' => $this->row,
-            'result' => $service->getRow(),
-        ];
+        return $data + ['row' => $this->row] + $service->getData();
     }
 
     /**

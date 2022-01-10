@@ -468,27 +468,71 @@ charts.push({
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_start_exchange" class="form-label">{{ __('wallet-simulator.wallet_start_exchange') }}</label>
-            <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_exchange" value="@numberString($REQUEST->input('buy_exchange'))" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_exchange" value="@numberString($exchangeFirst)" readonly />
         </div>
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_end_exchange" class="form-label">{{ __('wallet-simulator.wallet_end_exchange') }}</label>
-            <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_exchange" value="@numberString($result->buy_exchange)" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_exchange" value="@numberString($exchangeLast)" readonly />
         </div>
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_start_value" class="form-label">{{ __('wallet-simulator.wallet_start_value') }}</label>
-            <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_value" value="@number($REQUEST->input('amount') * $REQUEST->input('buy_exchange'), 2)" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_start_value" value="@number($REQUEST->input('amount') * $exchangeFirst, 2)" readonly />
         </div>
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_end_value" class="form-label">{{ __('wallet-simulator.wallet_end_value') }}</label>
-            <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_value" value="@number($result->buy_value, 2)" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_value" value="@number($result->amount * $exchangeLast, 2)" readonly />
         </div>
 
         <div class="flex-auto p-2">
             <label for="wallet-wallet_profit" class="form-label">{{ __('wallet-simulator.wallet_profit') }}</label>
-            <input type="text" class="form-control form-control-lg" id="wallet-wallet_profit" value="@number($orders->where('filled', true)->sum('profit'), 2)" readonly />
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_profit" value="@number($profit, 2)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-wallet_end_total" class="form-label">{{ __('wallet-simulator.wallet_end_total') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-wallet_end_total" value="@number(($result->amount * $exchangeLast) + $profit, 2)" readonly />
+        </div>
+    </div>
+</div>
+
+<div class="box p-5 mt-5">
+    <div class="lg:flex">
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_count" class="form-label">{{ __('wallet-simulator.orders_count') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_count" value="@number($orders->count(), 0)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_completed_count" class="form-label">{{ __('wallet-simulator.orders_completed_count') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_completed_count" value="@number($ordersCompleted->count(), 0)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_completed_buy" class="form-label">{{ __('wallet-simulator.orders_completed_buy') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_completed_buy" value="@number($ordersCompletedBuy->count(), 0)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_completed_sell" class="form-label">{{ __('wallet-simulator.orders_completed_sell') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_completed_sell" value="@number($ordersCompletedSell->count(), 0)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_completed_buy_value" class="form-label">{{ __('wallet-simulator.orders_completed_buy_value') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_completed_buy_value" value="@number($ordersCompletedBuyValue)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_completed_sell_value" class="form-label">{{ __('wallet-simulator.orders_completed_sell_value') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_completed_sell_value" value="@number($ordersCompletedSellValue)" readonly />
+        </div>
+
+        <div class="flex-auto p-2">
+            <label for="wallet-orders_difference" class="form-label">{{ __('wallet-simulator.orders_difference') }}</label>
+            <input type="text" class="form-control form-control-lg" id="wallet-orders_difference" value="@number($ordersCompletedSellValue - $ordersCompletedBuyValue)" readonly />
         </div>
     </div>
 </div>

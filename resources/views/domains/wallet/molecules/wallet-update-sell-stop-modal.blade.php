@@ -21,6 +21,23 @@
                             <label for="{{ $prefix }}-buy_exchange" class="form-label">{{ __('wallet-update-sell-stop.buy_exchange') }}</label>
                             <input type="number" name="buy_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
                         </div>
+
+                        <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-current_exchange" class="form-label">{{ __('wallet-update-sell-stop.current_exchange') }}</label>
+                            <input type="number" name="current_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-current_exchange" value="@numberString($row->current_exchange)" readonly>
+                        </div>
+                    </div>
+
+                    <div class="lg:flex">
+                        <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-buy_value" class="form-label">{{ __('wallet-update-sell-stop.buy_value') }}</label>
+                            <input type="number" name="buy_value" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_value" value="@numberString($row->buy_value)" readonly>
+                        </div>
+
+                        <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-current_value" class="form-label">{{ __('wallet-update-sell-stop.current_value') }}</label>
+                            <input type="number" name="current_value" step="0.000000001" class="form-control" id="{{ $prefix }}-current_value" value="@numberString($row->current_value)" readonly>
+                        </div>
                     </div>
 
                     <div class="lg:flex">
