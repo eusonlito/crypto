@@ -40,6 +40,11 @@ class User extends ModelAbstract implements Authenticatable
     ];
 
     /**
+     * @var array
+     */
+    protected $hidden = ['code', 'password', 'preferences', 'remember_token', 'tfa_secret'];
+
+    /**
      * @param \Illuminate\Database\Query\Builder $q
      *
      * @return \Illuminate\Database\Eloquent\Builder|static

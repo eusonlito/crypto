@@ -32,6 +32,11 @@ class PlatformUser extends ModelAbstract
     ];
 
     /**
+     * @var array
+     */
+    protected $hidden = ['settings'];
+
+    /**
      * @param \Illuminate\Database\Query\Builder $q
      *
      * @return \Illuminate\Database\Eloquent\Builder|static
