@@ -198,7 +198,7 @@ trait WalletSql
                     AND `sell_stop_max_at` IS NULL
                     AND `current_exchange` >= `buy_market_exchange`
                 ), TRUE, `buy_market_executable`
-            )
+            ),
         ';
     }
 
