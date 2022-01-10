@@ -194,6 +194,16 @@
         </div>
     </div>
 
+
+    <div class="box p-5 mt-5">
+        <div class="p-4">
+            <div class="form-check">
+                <input type="checkbox" name="exchange_reverse" value="1" class="form-check-switch" id="wallet-exchange_reverse" {{ $REQUEST->input('exchange_reverse') ? 'checked' : '' }}>
+                <label for="wallet-exchange_reverse" class="form-check-label">{{ __('wallet-simulator.exchange_reverse') }}</label>
+            </div>
+        </div>
+    </div>
+
     <div class="box p-5 mt-5">
         <div class="text-right">
             <button type="submit" class="btn btn-primary">{{ __('wallet-simulator.calculate') }}</button>

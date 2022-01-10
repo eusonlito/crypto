@@ -16,6 +16,7 @@
     'current_exchange' => 'Cambio Actual',
     'current_value' => 'Valor Actual',
     'edit' => 'Editar',
+    'exchange_reverse' => 'Invertir Cambio',
     'filter' => 'Filtrar',
     'meta-title' => 'Simulador',
     'name' => 'Nombre',
