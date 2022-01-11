@@ -88,6 +88,8 @@ class BuyMarket extends ActionAbstract
             && $this->row->buy_market_exchange
             && $this->row->buy_market_at
             && $this->row->buy_market_executable
+            && empty($this->row->buy_stop_min_at)
+            && empty($this->row->sell_stop_max_at)
             && ($this->row->buy_market_amount >= $this->product->quantity_min)
             && ($this->row->buy_market_exchange >= $this->product->price_min);
     }

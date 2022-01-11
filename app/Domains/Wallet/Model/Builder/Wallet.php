@@ -79,6 +79,23 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function whereBuyMarketActivated(): self
+    {
+        return $this->enabled()
+            ->where('processing', false)
+            ->where('crypto', true)
+            ->where('buy_market', true)
+            ->where('buy_market_amount', '>', 0)
+            ->where('buy_market_exchange', '>', 0)
+            ->where('buy_market_executable', true)
+            ->whereNotNull('buy_market_at')
+            ->whereNull('buy_stop_min_at')
+            ->whereNull('sell_stop_max_at');
+    }
+
+    /**
+     * @return self
+     */
     public function whereBuyStopMaxActivated(): self
     {
         return $this->enabled()

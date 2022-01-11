@@ -48,24 +48,28 @@ trait SyncRelation
      */
     protected function relationsWalletsSell(Model $row): void
     {
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopLossActivated()->get() as $each) {
-            Artisan::exec(sprintf('wallet:sell-stop-loss --id=%s', $each->id));
+        foreach (WalletModel::byProductId($row->product_id)->whereSellStopLossActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:sell-stop-loss --id=%s', $each));
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMinActivated()->get() as $each) {
-            Artisan::exec(sprintf('wallet:sell-stop:min --id=%s', $each->id));
+        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMinActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:sell-stop:min --id=%s', $each));
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMaxActivated()->get() as $each) {
-            Artisan::exec(sprintf('wallet:sell-stop:max --id=%s', $each->id));
+        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMaxActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:sell-stop:max --id=%s', $each));
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMaxActivated()->get() as $each) {
-            Artisan::exec(sprintf('wallet:buy-stop:max --id=%s', $each->id));
+        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMaxActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:buy-stop:max --id=%s', $each));
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMinActivated()->get() as $each) {
-            Artisan::exec(sprintf('wallet:buy-stop:min --id=%s', $each->id));
+        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMinActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:buy-stop:min --id=%s', $each));
+        }
+
+        foreach (WalletModel::byProductId($row->product_id)->whereBuyMarketActivated()->pluck('id') as $each) {
+            Artisan::exec(sprintf('wallet:buy-market --id=%s', $each));
         }
     }
 
