@@ -12,6 +12,11 @@ use App\Services\Platform\Resource\Order as OrderResource;
 class Create extends ActionAbstract
 {
     /**
+     * @const float
+     */
+    protected const LIMIT_MARGIN = 0.002;
+
+    /**
      * @var \App\Services\Platform\ApiFactoryAbstract
      */
     protected ApiFactoryAbstract $api;
@@ -81,9 +86,7 @@ class Create extends ActionAbstract
      */
     protected function cancelOpen(): void
     {
-        if ($this->api->ordersOpen($this->product->code)->isNotEmpty()) {
-            $this->api->ordersCancelAll($this->product->code);
-        }
+        $this->api->ordersCancelAll($this->product->code);
     }
 
     /**
@@ -96,11 +99,57 @@ class Create extends ActionAbstract
             $this->data['side'],
             $this->data['type'],
             [
-                'amount' => helper()->roundFixed($this->data['amount'], $this->product->quantity_decimal),
-                'price' => helper()->roundFixed($this->data['price'], $this->product->price_decimal),
-                'limit' => helper()->roundFixed($this->data['limit'], $this->product->price_decimal),
+                'amount' => $this->orderAmount(),
+                'price' => $this->orderPrice(),
+                'limit' => $this->orderLimit(),
             ]
         );
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderAmount(): float
+    {
+        return helper()->roundFixed($this->data['amount'], $this->product->quantity_decimal);
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderPrice(): float
+    {
+        return helper()->roundFixed($this->data['price'], $this->product->price_decimal);
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderLimit(): float
+    {
+        return helper()->roundFixed($this->orderLimitValue(), $this->product->price_decimal);
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderLimitValue(): float
+    {
+        $limit = $this->data['limit'];
+
+        if (empty($limit) || ($limit !== $this->data['price'])) {
+            return $limit;
+        }
+
+        $margin = $limit * static::LIMIT_MARGIN;
+
+        if ($this->data['side'] === 'buy') {
+            $limit -= $margin;
+        } else {
+            $limit += $margin;
+        }
+
+        return $limit;
     }
 
     /**
