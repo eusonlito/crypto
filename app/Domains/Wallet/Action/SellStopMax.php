@@ -77,14 +77,14 @@ class SellStopMax extends ActionAbstract
             && $this->row->amount
             && $this->row->sell_stop
             && $this->row->sell_stop_amount
-            && $this->row->sell_stop_max
+            && $this->row->sell_stop_max_exchange
             && $this->row->sell_stop_max_at
             && $this->row->sell_stop_max_executable
-            && $this->row->sell_stop_min
+            && $this->row->sell_stop_min_exchange
             && ($this->row->sell_stop_min_at === null)
             && ($this->row->sell_stop_amount <= $this->row->amount)
             && ($this->row->sell_stop_amount >= $this->product->quantity_min)
-            && ($this->row->sell_stop_min >= $this->product->price_min);
+            && ($this->row->sell_stop_min_exchange >= $this->product->price_min);
     }
 
     /**
@@ -115,8 +115,8 @@ class SellStopMax extends ActionAbstract
             'type' => 'STOP_LOSS_LIMIT',
             'side' => 'sell',
             'amount' => $this->row->sell_stop_amount,
-            'price' => $this->row->sell_stop_min,
-            'limit' => $this->row->sell_stop_min,
+            'price' => $this->row->sell_stop_min_exchange,
+            'limit' => $this->row->sell_stop_min_exchange,
         ])->create($this->product);
     }
 

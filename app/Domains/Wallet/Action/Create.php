@@ -44,26 +44,26 @@ class Create extends ActionAbstract
             'sell_stop' => $this->data['sell_stop'],
 
             'sell_stop_amount' => $this->data['sell_stop_amount'],
-            'sell_stop_exchange' => $this->data['sell_stop_exchange'],
+            'sell_stop_reference' => $this->data['sell_stop_reference'],
 
-            'sell_stop_max' => $this->data['sell_stop_max'],
+            'sell_stop_max_exchange' => $this->data['sell_stop_max_exchange'],
             'sell_stop_max_value' => $this->data['sell_stop_max_value'],
             'sell_stop_max_percent' => $this->data['sell_stop_max_percent'],
 
-            'sell_stop_min' => $this->data['sell_stop_min'],
+            'sell_stop_min_exchange' => $this->data['sell_stop_min_exchange'],
             'sell_stop_min_value' => $this->data['sell_stop_min_value'],
             'sell_stop_min_percent' => $this->data['sell_stop_min_percent'],
 
             'buy_stop' => $this->data['buy_stop'],
 
             'buy_stop_amount' => $this->data['buy_stop_amount'],
-            'buy_stop_exchange' => $this->data['buy_stop_exchange'],
+            'buy_stop_reference' => $this->data['buy_stop_reference'],
 
-            'buy_stop_max' => $this->data['buy_stop_max'],
+            'buy_stop_max_exchange' => $this->data['buy_stop_max_exchange'],
             'buy_stop_max_value' => $this->data['buy_stop_max_value'],
             'buy_stop_max_percent' => $this->data['buy_stop_max_percent'],
 
-            'buy_stop_min' => $this->data['buy_stop_min'],
+            'buy_stop_min_exchange' => $this->data['buy_stop_min_exchange'],
             'buy_stop_min_value' => $this->data['buy_stop_min_value'],
             'buy_stop_min_percent' => $this->data['buy_stop_min_percent'],
 

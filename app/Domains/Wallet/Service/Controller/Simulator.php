@@ -214,12 +214,12 @@ class Simulator
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_exchange = $this->row->buy_exchange;
+        $this->row->buy_stop_reference = $this->row->buy_exchange;
 
-        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_min_exchange = $this->row->buy_stop_reference * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
+        $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
 
         $this->order('sell-stop-loss', $amount, true, $profit);
@@ -269,12 +269,12 @@ class Simulator
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_exchange = $this->row->buy_exchange;
+        $this->row->buy_stop_reference = $this->row->buy_exchange;
 
-        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_min_exchange = $this->row->buy_stop_reference * (1 - ($this->row->buy_stop_min_percent / 100));
         $this->row->buy_stop_min_at = null;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
+        $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
 
         if ($this->row->buy_market_percent) {
@@ -297,10 +297,10 @@ class Simulator
         return $this->row->amount
             && $this->row->sell_stop
             && $this->row->sell_stop_amount
-            && $this->row->sell_stop_min
-            && $this->row->sell_stop_max
+            && $this->row->sell_stop_min_exchange
+            && $this->row->sell_stop_max_exchange
             && $this->row->sell_stop_max_at
-            && ($this->exchange <= $this->row->sell_stop_min);
+            && ($this->exchange <= $this->row->sell_stop_min_exchange);
     }
 
     /**
@@ -312,12 +312,12 @@ class Simulator
             return;
         }
 
-        $this->row->sell_stop_max = $this->exchange;
+        $this->row->sell_stop_max_exchange = $this->exchange;
         $this->row->sell_stop_max_at = $this->datetime;
 
-        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
+        $this->row->sell_stop_min_exchange = $this->row->sell_stop_max_exchange * (1 - ($this->row->sell_stop_min_percent / 100));
 
-        $profit = ($this->row->sell_stop_amount * $this->row->sell_stop_min) - ($this->row->sell_stop_amount * $this->row->buy_exchange);
+        $profit = ($this->row->sell_stop_amount * $this->row->sell_stop_min_exchange) - ($this->row->sell_stop_amount * $this->row->buy_exchange);
 
         $this->order('sell-stop-max', $this->row->sell_stop_amount, false, $profit);
     }
@@ -330,8 +330,8 @@ class Simulator
         return $this->row->amount
             && $this->row->sell_stop
             && $this->row->sell_stop_amount
-            && $this->row->sell_stop_max
-            && ($this->exchange >= $this->row->sell_stop_max);
+            && $this->row->sell_stop_max_exchange
+            && ($this->exchange >= $this->row->sell_stop_max_exchange);
     }
 
     /**
@@ -367,12 +367,12 @@ class Simulator
             $this->row->sell_stop = true;
         }
 
-        $this->row->sell_stop_exchange = $this->row->buy_exchange;
+        $this->row->sell_stop_reference = $this->row->buy_exchange;
 
-        $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_max_exchange = $this->row->sell_stop_reference * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_at = null;
 
-        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
+        $this->row->sell_stop_min_exchange = $this->row->sell_stop_max_exchange * (1 - ($this->row->sell_stop_min_percent / 100));
         $this->row->sell_stop_min_at = null;
 
         if ($this->row->sell_stoploss_percent) {
@@ -391,10 +391,10 @@ class Simulator
     {
         return $this->row->buy_stop
             && $this->row->buy_stop_amount
-            && $this->row->buy_stop_max
-            && $this->row->buy_stop_min
+            && $this->row->buy_stop_max_exchange
+            && $this->row->buy_stop_min_exchange
             && $this->row->buy_stop_min_at
-            && ($this->exchange >= $this->row->buy_stop_max);
+            && ($this->exchange >= $this->row->buy_stop_max_exchange);
     }
 
     /**
@@ -406,10 +406,10 @@ class Simulator
             return;
         }
 
-        $this->row->buy_stop_min = $this->exchange;
+        $this->row->buy_stop_min_exchange = $this->exchange;
         $this->row->buy_stop_min_at = $this->datetime;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
+        $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
 
         $this->order('buy-stop-min', $this->row->buy_stop_amount, false);
     }
@@ -421,8 +421,8 @@ class Simulator
     {
         return $this->row->buy_stop
             && $this->row->buy_stop_amount
-            && $this->row->buy_stop_min
-            && ($this->exchange <= $this->row->buy_stop_min);
+            && $this->row->buy_stop_min_exchange
+            && ($this->exchange <= $this->row->buy_stop_min_exchange);
     }
 
     /**
@@ -449,12 +449,12 @@ class Simulator
             $this->row->sell_stop = true;
         }
 
-        $this->row->sell_stop_exchange = $this->row->buy_exchange;
+        $this->row->sell_stop_reference = $this->row->buy_exchange;
 
-        $this->row->sell_stop_max = $this->row->sell_stop_exchange * (1 + ($this->row->sell_stop_max_percent / 100));
+        $this->row->sell_stop_max_exchange = $this->row->sell_stop_reference * (1 + ($this->row->sell_stop_max_percent / 100));
         $this->row->sell_stop_max_at = null;
 
-        $this->row->sell_stop_min = $this->row->sell_stop_max * (1 - ($this->row->sell_stop_min_percent / 100));
+        $this->row->sell_stop_min_exchange = $this->row->sell_stop_max_exchange * (1 - ($this->row->sell_stop_min_percent / 100));
         $this->row->sell_stop_min_at = null;
 
         if ($this->row->sell_stoploss_percent) {
@@ -505,11 +505,11 @@ class Simulator
 
             'wallet_buy_market_exchange' => $this->row->buy_market_exchange,
 
-            'wallet_buy_stop_min' => $this->row->buy_stop_min,
-            'wallet_buy_stop_max' => $this->row->buy_stop_max,
+            'wallet_buy_stop_min_exchange' => $this->row->buy_stop_min_exchange,
+            'wallet_buy_stop_max_exchange' => $this->row->buy_stop_max_exchange,
 
-            'wallet_sell_stop_max' => $this->row->sell_stop_max,
-            'wallet_sell_stop_min' => $this->row->sell_stop_min,
+            'wallet_sell_stop_max_exchange' => $this->row->sell_stop_max_exchange,
+            'wallet_sell_stop_min_exchange' => $this->row->sell_stop_min_exchange,
 
             'wallet_sell_stoploss_exchange' => $this->row->sell_stoploss_exchange,
         ]);

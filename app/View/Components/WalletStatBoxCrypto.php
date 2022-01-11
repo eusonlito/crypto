@@ -52,6 +52,7 @@ class WalletStatBoxCrypto extends Component
 
             'buy_market' => $this->row->buy_market,
             'buy_market_amount' => $this->row->buy_market_amount,
+            'buy_market_percent' => $this->row->buy_market_percent,
             'buy_market_exchange' => $this->row->buy_market_exchange,
             'buy_market_exchange_percent' => helper()->percent($this->row->buy_market_exchange, $this->row->current_exchange),
             'buy_market_value' => $this->row->buy_market_value,
@@ -63,17 +64,17 @@ class WalletStatBoxCrypto extends Component
 
             'buy_stop_amount' => $this->row->buy_stop_amount,
 
-            'buy_stop_min' => $this->row->buy_stop_min,
+            'buy_stop_min_exchange' => $this->row->buy_stop_min_exchange,
             'buy_stop_min_percent' => $this->row->buy_stop_min_percent,
-            'buy_stop_min_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_min),
+            'buy_stop_min_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_min_exchange),
             'buy_stop_min_value' => $this->row->buy_stop_min_value,
             'buy_stop_min_value_percent' => helper()->percent($this->row->current_value, $this->row->buy_stop_min_value),
             'buy_stop_min_value_difference' => ($this->row->buy_stop_min_value - ($this->row->buy_stop_amount * $this->row->buy_exchange)),
             'buy_stop_min_at' => $this->row->buy_stop_min_at,
 
-            'buy_stop_max' => $this->row->buy_stop_max,
+            'buy_stop_max_exchange' => $this->row->buy_stop_max_exchange,
             'buy_stop_max_percent' => $this->row->buy_stop_max_percent,
-            'buy_stop_max_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_max),
+            'buy_stop_max_exchange_percent' => helper()->percent($this->row->current_exchange, $this->row->buy_stop_max_exchange),
             'buy_stop_max_value' => $this->row->buy_stop_max_value,
             'buy_stop_max_value_percent' => helper()->percent($this->row->current_value, $this->row->buy_stop_max_value),
             'buy_stop_max_value_difference' => ($this->row->buy_stop_max_value - ($this->row->buy_stop_amount * $this->row->buy_exchange)),
@@ -83,17 +84,17 @@ class WalletStatBoxCrypto extends Component
 
             'sell_stop_amount' => $this->row->sell_stop_amount,
 
-            'sell_stop_min' => $this->row->sell_stop_min,
+            'sell_stop_min_exchange' => $this->row->sell_stop_min_exchange,
             'sell_stop_min_percent' => $this->row->sell_stop_min_percent,
-            'sell_stop_min_exchange_percent' => helper()->percent($this->row->sell_stop_min, $this->row->current_exchange),
+            'sell_stop_min_exchange_percent' => helper()->percent($this->row->sell_stop_min_exchange, $this->row->current_exchange),
             'sell_stop_min_value' => $this->row->sell_stop_min_value,
             'sell_stop_min_value_percent' => helper()->percent($this->row->sell_stop_min_value, $this->row->current_value),
             'sell_stop_min_value_difference' => ($this->row->sell_stop_min_value - ($this->row->sell_stop_amount * $this->row->buy_exchange)),
             'sell_stop_min_at' => $this->row->sell_stop_min_at,
 
-            'sell_stop_max' => $this->row->sell_stop_max,
+            'sell_stop_max_exchange' => $this->row->sell_stop_max_exchange,
             'sell_stop_max_percent' => $this->row->sell_stop_max_percent,
-            'sell_stop_max_exchange_percent' => helper()->percent($this->row->sell_stop_max, $this->row->current_exchange),
+            'sell_stop_max_exchange_percent' => helper()->percent($this->row->sell_stop_max_exchange, $this->row->current_exchange),
             'sell_stop_max_value' => $this->row->sell_stop_max_value,
             'sell_stop_max_value_percent' => helper()->percent($this->row->sell_stop_max_value, $this->row->current_value),
             'sell_stop_max_value_difference' => ($this->row->sell_stop_max_value - ($this->row->sell_stop_amount * $this->row->buy_exchange)),

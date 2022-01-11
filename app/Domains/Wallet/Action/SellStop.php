@@ -76,11 +76,11 @@ class SellStop extends ActionAbstract
             && $this->row->crypto
             && $this->row->amount
             && $this->row->sell_stop_amount
-            && $this->row->sell_stop_max
-            && $this->row->sell_stop_min
+            && $this->row->sell_stop_max_exchange
+            && $this->row->sell_stop_min_exchange
             && ($this->row->sell_stop_amount <= $this->row->amount)
             && ($this->row->sell_stop_amount >= $this->product->quantity_min)
-            && ($this->row->sell_stop_min >= $this->product->price_min);
+            && ($this->row->sell_stop_min_exchange >= $this->product->price_min);
     }
 
     /**
@@ -110,8 +110,8 @@ class SellStop extends ActionAbstract
             'type' => 'TAKE_PROFIT_LIMIT',
             'side' => 'sell',
             'amount' => $this->row->sell_stop_amount,
-            'price' => $this->row->sell_stop_min,
-            'limit' => $this->row->sell_stop_max,
+            'price' => $this->row->sell_stop_min_exchange,
+            'limit' => $this->row->sell_stop_max_exchange,
         ])->create($this->product);
     }
 

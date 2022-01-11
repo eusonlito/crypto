@@ -80,7 +80,7 @@ return new class extends MigrationAbstract
             $table->dropColumn('sell_stop_max_percent');
             $table->dropColumn('sell_stop_max_at');
             $table->dropColumn('sell_stop_max_executable');
-            $table->dropColumn('sell_stop_min');
+            $table->dropColumn('sell_stop_min_exchange');
             $table->dropColumn('sell_stop_min_value');
             $table->dropColumn('sell_stop_min_percent');
             $table->dropColumn('sell_stop_min_at');
@@ -88,7 +88,7 @@ return new class extends MigrationAbstract
             $table->dropColumn('buy_stop');
             $table->dropColumn('buy_stop_exchange');
             $table->dropColumn('buy_stop_amount');
-            $table->dropColumn('buy_stop_max');
+            $table->dropColumn('buy_stop_max_exchange');
             $table->dropColumn('buy_stop_max_value');
             $table->dropColumn('buy_stop_max_percent');
             $table->dropColumn('buy_stop_max_at');
@@ -150,7 +150,7 @@ return new class extends MigrationAbstract
             $table->dateTime('sell_stop_max_at')->nullable();
             $table->boolean('sell_stop_max_executable')->default(0);
 
-            $table->unsignedDouble('sell_stop_min')->default(0);
+            $table->unsignedDouble('sell_stop_min_exchange')->default(0);
             $table->unsignedDouble('sell_stop_min_value')->default(0);
             $table->unsignedDouble('sell_stop_min_percent')->default(0);
             $table->dateTime('sell_stop_min_at')->nullable();
@@ -162,7 +162,7 @@ return new class extends MigrationAbstract
 
             $table->unsignedDouble('buy_stop_amount')->default(0);
 
-            $table->unsignedDouble('buy_stop_max')->default(0);
+            $table->unsignedDouble('buy_stop_max_exchange')->default(0);
             $table->unsignedDouble('buy_stop_max_value')->default(0);
             $table->unsignedDouble('buy_stop_max_percent')->default(0);
             $table->dateTime('buy_stop_max_at')->nullable();

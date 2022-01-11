@@ -52,9 +52,9 @@
                             <th>Valor Mínimo</th>
                         </tr>
                         <tr>
-                            <td>@number($row->sell_stop_max) <small>@number($row->sell_stop_max_percent, 2)%</small></td>
+                            <td>@number($row->sell_stop_max_exchange) <small>@number($row->sell_stop_max_percent, 2)%</small></td>
                             <td>@number($row->sell_stop_max_value)</td>
-                            <td>@number($row->sell_stop_min) <small>@number($row->sell_stop_min_percent, 2)%</small></td>
+                            <td>@number($row->sell_stop_min_exchange) <small>@number($row->sell_stop_min_percent, 2)%</small></td>
                             <td>@number($row->sell_stop_min_value)</td>
                         </tr>
                     </table>
@@ -73,9 +73,9 @@
                             <th>Valor Máximo</th>
                         </tr>
                         <tr>
-                            <td>@number($row->buy_stop_min) <small>@number($row->buy_stop_min_percent, 2)%</small></td>
+                            <td>@number($row->buy_stop_min_exchange) <small>@number($row->buy_stop_min_percent, 2)%</small></td>
                             <td>@number($row->buy_stop_min_value)</td>
-                            <td>@number($row->buy_stop_max) <small>@number($row->buy_stop_max_percent, 2)%</small></td>
+                            <td>@number($row->buy_stop_max_exchange) <small>@number($row->buy_stop_max_percent, 2)%</small></td>
                             <td>@number($row->buy_stop_max_value)</td>
                         </tr>
                     </table>
@@ -119,9 +119,9 @@
                             <th>Valor Mínimo</th>
                         </tr>
                         <tr>
-                            <td>@number($previous->sell_stop_max) <small>@number($previous->sell_stop_max_percent, 2)%</small></td>
+                            <td>@number($previous->sell_stop_max_exchange) <small>@number($previous->sell_stop_max_percent, 2)%</small></td>
                             <td>@number($previous->sell_stop_max_value)</td>
-                            <td>@number($previous->sell_stop_min) <small>@number($previous->sell_stop_min_percent, 2)%</small></td>
+                            <td>@number($previous->sell_stop_min_exchange) <small>@number($previous->sell_stop_min_percent, 2)%</small></td>
                             <td>@number($previous->sell_stop_min_value)</td>
                         </tr>
                     </table>
@@ -140,9 +140,9 @@
                             <th>Valor Máximo</th>
                         </tr>
                         <tr>
-                            <td>@number($previous->buy_stop_min) <small>@number($previous->buy_stop_min_percent, 2)%</small></td>
+                            <td>@number($previous->buy_stop_min_exchange) <small>@number($previous->buy_stop_min_percent, 2)%</small></td>
                             <td>@number($previous->buy_stop_min_value)</td>
-                            <td>@number($previous->buy_stop_max) <small>@number($previous->buy_stop_max_percent, 2)%</small></td>
+                            <td>@number($previous->buy_stop_max_exchange) <small>@number($previous->buy_stop_max_percent, 2)%</small></td>
                             <td>@number($previous->buy_stop_max_value)</td>
                         </tr>
                     </table>

@@ -41,7 +41,7 @@ class WalletStat extends Component
             'exchanges' => $this->row->exchanges,
             'current_exchange' => $this->row->current_exchange,
             'buy_exchange' => $this->row->buy_exchange,
-            'sell_stop_min' => $this->row->sell_stop_min,
+            'sell_stop_min_exchange' => $this->row->sell_stop_min_exchange,
             'amount' => $this->row->amount,
             'buy_value' => $this->row->buy_value,
             'current_value' => $this->row->current_value,

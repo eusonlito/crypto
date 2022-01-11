@@ -86,10 +86,10 @@ class SellStopMin extends ActionAbstract
             && $this->row->amount
             && $this->row->sell_stop
             && $this->row->sell_stop_amount
-            && $this->row->sell_stop_min
+            && $this->row->sell_stop_min_exchange
             && $this->row->sell_stop_min_at
             && $this->row->sell_stop_min_executable
-            && $this->row->sell_stop_max
+            && $this->row->sell_stop_max_exchange
             && $this->row->sell_stop_max_at;
     }
 
@@ -177,15 +177,15 @@ class SellStopMin extends ActionAbstract
             $this->row->buy_stop = true;
         }
 
-        $this->row->buy_stop_exchange = $this->row->buy_exchange;
+        $this->row->buy_stop_reference = $this->row->buy_exchange;
 
-        $this->row->buy_stop_min = $this->row->buy_stop_exchange * (1 - ($this->row->buy_stop_min_percent / 100));
-        $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min;
+        $this->row->buy_stop_min_exchange = $this->row->buy_stop_reference * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min_exchange;
         $this->row->buy_stop_min_at = null;
         $this->row->buy_stop_min_executable = 0;
 
-        $this->row->buy_stop_max = $this->row->buy_stop_min * (1 + ($this->row->buy_stop_max_percent / 100));
-        $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max;
+        $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
+        $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max_exchange;
         $this->row->buy_stop_max_at = null;
         $this->row->buy_stop_max_executable = 0;
     }

@@ -86,8 +86,8 @@ class Wallet extends BuilderAbstract
             ->where('crypto', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
-            ->where('buy_stop_min', '>', 0)
-            ->where('buy_stop_max', '>', 0)
+            ->where('buy_stop_min_exchange', '>', 0)
+            ->where('buy_stop_max_exchange', '>', 0)
             ->where('buy_stop_max_executable', true)
             ->whereNotNull('buy_stop_min_at')
             ->whereNotNull('buy_stop_max_at');
@@ -103,9 +103,9 @@ class Wallet extends BuilderAbstract
             ->where('crypto', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
-            ->where('buy_stop_min', '>', 0)
+            ->where('buy_stop_min_exchange', '>', 0)
             ->where('buy_stop_min_executable', true)
-            ->where('buy_stop_max', '>', 0)
+            ->where('buy_stop_max_exchange', '>', 0)
             ->whereNotNull('buy_stop_min_at')
             ->whereNull('buy_stop_max_at');
     }
@@ -121,8 +121,8 @@ class Wallet extends BuilderAbstract
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
             ->where('sell_stop_amount', '>', 0)
-            ->where('sell_stop_min', '>', 0)
-            ->where('sell_stop_max', '>', 0)
+            ->where('sell_stop_min_exchange', '>', 0)
+            ->where('sell_stop_max_exchange', '>', 0)
             ->where('sell_stop_max_executable', true)
             ->whereNull('sell_stop_min_at')
             ->whereNotNull('sell_stop_max_at');
@@ -139,8 +139,8 @@ class Wallet extends BuilderAbstract
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
             ->where('sell_stop_amount', '>', 0)
-            ->where('sell_stop_min', '>', 0)
-            ->where('sell_stop_max', '>', 0)
+            ->where('sell_stop_min_exchange', '>', 0)
+            ->where('sell_stop_max_exchange', '>', 0)
             ->where('sell_stop_min_executable', true)
             ->whereNotNull('sell_stop_min_at')
             ->whereNotNull('sell_stop_max_at');

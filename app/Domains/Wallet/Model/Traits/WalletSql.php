@@ -36,65 +36,65 @@ trait WalletSql
     protected static function updateBySqlSellStop(): string
     {
         return '
-            `sell_stop_max` = IF (
+            `sell_stop_max_exchange` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_max`
-                    AND `current_exchange` > `sell_stop_max`
+                    AND `sell_stop_max_exchange`
+                    AND `current_exchange` > `sell_stop_max_exchange`
                 ),
-                `current_exchange`, `sell_stop_max`
+                `current_exchange`, `sell_stop_max_exchange`
             ),
 
-            `sell_stop_max_value` = `sell_stop_max` * `sell_stop_amount`,
+            `sell_stop_max_value` = `sell_stop_max_exchange` * `sell_stop_amount`,
 
             `sell_stop_max_at` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_max`
-                    AND `current_exchange` >= `sell_stop_max`
+                    AND `sell_stop_max_exchange`
+                    AND `current_exchange` >= `sell_stop_max_exchange`
                 ), NOW(), `sell_stop_max_at`
             ),
 
             `sell_stop_max_executable` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_max`
-                    AND `current_exchange` >= `sell_stop_max`
+                    AND `sell_stop_max_exchange`
+                    AND `current_exchange` >= `sell_stop_max_exchange`
                 ), TRUE, `sell_stop_max_executable`
             ),
 
-            `sell_stop_min` = IF (
+            `sell_stop_min_exchange` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_min`
-                    AND `sell_stop_max`
+                    AND `sell_stop_min_exchange`
+                    AND `sell_stop_max_exchange`
                     AND `sell_stop_max_at` IS NOT NULL
                 ),
-                `sell_stop_max` * (1 - (`sell_stop_min_percent` / 100)),
-                `sell_stop_min`
+                `sell_stop_max_exchange` * (1 - (`sell_stop_min_percent` / 100)),
+                `sell_stop_min_exchange`
             ),
 
-            `sell_stop_min_value` = `sell_stop_min` * `sell_stop_amount`,
+            `sell_stop_min_value` = `sell_stop_min_exchange` * `sell_stop_amount`,
 
             `sell_stop_min_at` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_min`
-                    AND `sell_stop_max`
+                    AND `sell_stop_min_exchange`
+                    AND `sell_stop_max_exchange`
                     AND `sell_stop_min_at` IS NULL
                     AND `sell_stop_max_at` IS NOT NULL
-                    AND `current_exchange` <= `sell_stop_min`
+                    AND `current_exchange` <= `sell_stop_min_exchange`
                 ), NOW(), `sell_stop_min_at`
             ),
 
             `sell_stop_min_executable` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_min`
-                    AND `sell_stop_max`
+                    AND `sell_stop_min_exchange`
+                    AND `sell_stop_max_exchange`
                     AND `sell_stop_min_at` IS NOT NULL
                     AND `sell_stop_max_at` IS NOT NULL
-                    AND `current_exchange` <= `sell_stop_min`
+                    AND `current_exchange` <= `sell_stop_min_exchange`
                 ), TRUE, `sell_stop_min_executable`
             ),
         ';
@@ -106,65 +106,65 @@ trait WalletSql
     protected static function updateBySqlBuyStop(): string
     {
         return '
-            `buy_stop_min` = IF (
+            `buy_stop_min_exchange` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_min`
-                    AND `current_exchange` < `buy_stop_min`
+                    AND `buy_stop_min_exchange`
+                    AND `current_exchange` < `buy_stop_min_exchange`
                 ),
-                `current_exchange`, `buy_stop_min`
+                `current_exchange`, `buy_stop_min_exchange`
             ),
 
-            `buy_stop_min_value` = `buy_stop_min` * `buy_stop_amount`,
+            `buy_stop_min_value` = `buy_stop_min_exchange` * `buy_stop_amount`,
 
             `buy_stop_min_at` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_min`
-                    AND `current_exchange` <= `buy_stop_min`
+                    AND `buy_stop_min_exchange`
+                    AND `current_exchange` <= `buy_stop_min_exchange`
                 ), NOW(), `buy_stop_min_at`
             ),
 
             `buy_stop_min_executable` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_min`
-                    AND `current_exchange` <= `buy_stop_min`
+                    AND `buy_stop_min_exchange`
+                    AND `current_exchange` <= `buy_stop_min_exchange`
                 ), TRUE, `buy_stop_min_executable`
             ),
 
-            `buy_stop_max` = IF (
+            `buy_stop_max_exchange` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_max`
-                    AND `buy_stop_min`
+                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_min_exchange`
                     AND `buy_stop_min_at` IS NOT NULL
                 ),
-                `buy_stop_min` * (1 + (`buy_stop_max_percent` / 100)),
-                `buy_stop_max`
+                `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
+                `buy_stop_max_exchange`
             ),
 
-            `buy_stop_max_value` = `buy_stop_max` * `buy_stop_amount`,
+            `buy_stop_max_value` = `buy_stop_max_exchange` * `buy_stop_amount`,
 
             `buy_stop_max_at` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_max`
-                    AND `buy_stop_min`
+                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_min_exchange`
                     AND `buy_stop_min_at` IS NOT NULL
                     AND `buy_stop_max_at` IS NULL
-                    AND `current_exchange` >= `buy_stop_max`
+                    AND `current_exchange` >= `buy_stop_max_exchange`
                 ), NOW(), `buy_stop_max_at`
             ),
 
             `buy_stop_max_executable` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_max`
-                    AND `buy_stop_min`
+                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_min_exchange`
                     AND `buy_stop_min_at` IS NOT NULL
                     AND `buy_stop_max_at` IS NOT NULL
-                    AND `current_exchange` >= `buy_stop_max`
+                    AND `current_exchange` >= `buy_stop_max_exchange`
                 ), TRUE, `buy_stop_max_executable`
             ),
         ';

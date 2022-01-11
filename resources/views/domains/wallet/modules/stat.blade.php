@@ -20,8 +20,8 @@
             <div class="w-px h-12 border border-r border-dashed border-gray-300 mx-4 xl:mx-6 invisible md:visible"></div>
 
             <div>
-                <div>@number($sell_stop_min)</div>
-                <div class="text-xs">{{ __('wallet-stat.sell_stop_min') }}</div>
+                <div>@number($sell_stop_min_exchange)</div>
+                <div class="text-xs">{{ __('wallet-stat.sell_stop_min_exchange') }}</div>
             </div>
 
             <div class="w-px h-12 border border-r border-dashed border-gray-300 mx-4 xl:mx-6 invisible md:visible"></div>

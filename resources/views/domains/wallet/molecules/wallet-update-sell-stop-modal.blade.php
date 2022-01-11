@@ -47,44 +47,44 @@
                         </div>
 
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-sell_stop_exchange" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_exchange') }}</label>
-                            <input type="number" name="sell_stop_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_exchange" value="@numberString($row->sell_stop_exchange)">
+                            <label for="{{ $prefix }}-sell_stop_reference" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_reference') }}</label>
+                            <input type="number" name="sell_stop_reference" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_reference" value="@numberString($row->sell_stop_reference)">
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-sell_stop_max_percent" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_max_percent') }}</label>
-                            <input type="number" name="sell_stop_max_percent" step="0.0001" class="form-control" id="{{ $prefix }}-sell_stop_max_percent" value="@value($row->sell_stop_max_percent, 2)" data-percent-to-value="{{ $prefix }}-sell_stop_max" data-percent-to-value-reference="{{ $prefix }}-sell_stop_exchange">
+                            <input type="number" name="sell_stop_max_percent" step="0.0001" class="form-control" id="{{ $prefix }}-sell_stop_max_percent" value="@value($row->sell_stop_max_percent, 2)" data-percent-to-value="{{ $prefix }}-sell_stop_max_exchange" data-percent-to-value-reference="{{ $prefix }}-sell_stop_reference">
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-sell_stop_min_percent" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_min_percent') }}</label>
-                            <input type="number" name="sell_stop_min_percent" step="0.0001" class="form-control" id="{{ $prefix }}-sell_stop_min_percent" value="@value($row->sell_stop_min_percent, 2)" data-percent-to-value="{{ $prefix }}-sell_stop_min" data-percent-to-value-reference="{{ $prefix }}-sell_stop_max" data-percent-to-value-operation="substract">
+                            <input type="number" name="sell_stop_min_percent" step="0.0001" class="form-control" id="{{ $prefix }}-sell_stop_min_percent" value="@value($row->sell_stop_min_percent, 2)" data-percent-to-value="{{ $prefix }}-sell_stop_min_exchange" data-percent-to-value-reference="{{ $prefix }}-sell_stop_max_exchange" data-percent-to-value-operation="substract">
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-sell_stop_max" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_max') }}</label>
-                            <input type="number" name="sell_stop_max" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_max" value="@numberString($row->sell_stop_max)" readonly>
+                            <label for="{{ $prefix }}-sell_stop_max_exchange" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_max_exchange') }}</label>
+                            <input type="number" name="sell_stop_max_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_max_exchange" value="@numberString($row->sell_stop_max_exchange)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-sell_stop_min" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_min') }}</label>
-                            <input type="number" name="sell_stop_min" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_min" value="@numberString($row->sell_stop_min)" readonly>
+                            <label for="{{ $prefix }}-sell_stop_min_exchange" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_min_exchange') }}</label>
+                            <input type="number" name="sell_stop_min_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_min_exchange" value="@numberString($row->sell_stop_min_exchange)" readonly>
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-sell_stop_max_value" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_max_value') }}</label>
-                            <input type="number" name="sell_stop_max_value" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_max_value" value="@numberString($row->sell_stop_max_value)" data-total data-total-amount="{{ $prefix }}-sell_stop_amount" data-total-value="{{ $prefix }}-sell_stop_max" data-total-change="{{ $prefix }}-sell_stop_max_percent" readonly>
+                            <input type="number" name="sell_stop_max_value" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_max_value" value="@numberString($row->sell_stop_max_value)" data-total data-total-amount="{{ $prefix }}-sell_stop_amount" data-total-value="{{ $prefix }}-sell_stop_max_exchange" data-total-change="{{ $prefix }}-sell_stop_max_percent" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-sell_stop_min_value" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_min_value') }}</label>
-                            <input type="number" name="sell_stop_min_value" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_min_value" value="@numberString($row->sell_stop_min_value)" data-total data-total-amount="{{ $prefix }}-sell_stop_amount" data-total-value="{{ $prefix }}-sell_stop_min" data-total-change="{{ $prefix }}-sell_stop_min_percent" readonly>
+                            <input type="number" name="sell_stop_min_value" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_min_value" value="@numberString($row->sell_stop_min_value)" data-total data-total-amount="{{ $prefix }}-sell_stop_amount" data-total-value="{{ $prefix }}-sell_stop_min_exchange" data-total-change="{{ $prefix }}-sell_stop_min_percent" readonly>
                         </div>
                     </div>
 

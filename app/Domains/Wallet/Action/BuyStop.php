@@ -75,8 +75,8 @@ class BuyStop extends ActionAbstract
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->buy_stop_amount
-            && $this->row->buy_stop_min
-            && $this->row->buy_stop_max;
+            && $this->row->buy_stop_min_exchange
+            && $this->row->buy_stop_max_exchange;
     }
 
     /**
@@ -106,8 +106,8 @@ class BuyStop extends ActionAbstract
             'type' => 'TAKE_PROFIT_LIMIT',
             'side' => 'buy',
             'amount' => $this->row->buy_stop_amount,
-            'price' => $this->row->buy_stop_max,
-            'limit' => $this->row->buy_stop_min,
+            'price' => $this->row->buy_stop_max_exchange,
+            'limit' => $this->row->buy_stop_min_exchange,
         ])->create($this->product);
     }
 

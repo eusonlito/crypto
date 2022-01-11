@@ -344,20 +344,20 @@ return new class extends MigrationAbstract {
             $table->boolean('sell_stop')->default(0);
 
             // Sell Stop Exchange Reference
-            $table->boolean('sell_stop_exchange')->default(0);
+            $table->boolean('sell_stop_reference')->default(0);
 
             // Amount available to sell
             $table->unsignedDouble('sell_stop_amount')->default(0);
 
             // We need to reach this price before sell
-            $table->unsignedDouble('sell_stop_max')->default(0);
+            $table->unsignedDouble('sell_stop_max_exchange')->default(0);
             $table->unsignedDouble('sell_stop_max_value')->default(0);
             $table->unsignedDouble('sell_stop_max_percent')->default(0);
             $table->dateTime('sell_stop_max_at')->nullable();
             $table->boolean('sell_stop_max_executable')->default(0);
 
-            // We will sell at this price only if sell_stop_max is reached
-            $table->unsignedDouble('sell_stop_min')->default(0);
+            // We will sell at this price only if sell_stop_max_exchange is reached
+            $table->unsignedDouble('sell_stop_min_exchange')->default(0);
             $table->unsignedDouble('sell_stop_min_value')->default(0);
             $table->unsignedDouble('sell_stop_min_percent')->default(0);
             $table->dateTime('sell_stop_min_at')->nullable();
@@ -367,20 +367,20 @@ return new class extends MigrationAbstract {
             $table->boolean('buy_stop')->default(0);
 
             // Buy Stop Exchange Reference
-            $table->boolean('buy_stop_exchange')->default(0);
+            $table->boolean('buy_stop_reference')->default(0);
 
             // Amount available to spend
             $table->unsignedDouble('buy_stop_amount')->default(0);
 
-            // We will buy at this price only if buy_stop_min is reached
-            $table->unsignedDouble('buy_stop_max')->default(0);
+            // We will buy at this price only if buy_stop_min_exchange is reached
+            $table->unsignedDouble('buy_stop_max_exchange')->default(0);
             $table->unsignedDouble('buy_stop_max_value')->default(0);
             $table->unsignedDouble('buy_stop_max_percent')->default(0);
             $table->dateTime('buy_stop_max_at')->nullable();
             $table->boolean('buy_stop_max_executable')->default(0);
 
             // We need to reach this price before buy
-            $table->unsignedDouble('buy_stop_min')->default(0);
+            $table->unsignedDouble('buy_stop_min_exchange')->default(0);
             $table->unsignedDouble('buy_stop_min_value')->default(0);
             $table->unsignedDouble('buy_stop_min_percent')->default(0);
             $table->dateTime('buy_stop_min_at')->nullable();

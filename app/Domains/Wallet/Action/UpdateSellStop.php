@@ -45,14 +45,14 @@ class UpdateSellStop extends ActionAbstract
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
-        $this->row->sell_stop_exchange = $this->data['sell_stop_exchange'];
+        $this->row->sell_stop_reference = $this->data['sell_stop_reference'];
 
-        $this->row->sell_stop_max = $this->data['sell_stop_max'];
+        $this->row->sell_stop_max_exchange = $this->data['sell_stop_max_exchange'];
         $this->row->sell_stop_max_value = $this->data['sell_stop_max_value'];
         $this->row->sell_stop_max_percent = $this->data['sell_stop_max_percent'];
         $this->row->sell_stop_max_at = $this->data['sell_stop_max_at'];
 
-        $this->row->sell_stop_min = $this->data['sell_stop_min'];
+        $this->row->sell_stop_min_exchange = $this->data['sell_stop_min_exchange'];
         $this->row->sell_stop_min_value = $this->data['sell_stop_min_value'];
         $this->row->sell_stop_min_percent = $this->data['sell_stop_min_percent'];
         $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
