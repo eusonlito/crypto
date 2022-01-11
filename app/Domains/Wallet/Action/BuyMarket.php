@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Action;
 
+use stdClass;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -26,6 +27,11 @@ class BuyMarket extends ActionAbstract
     protected OrderModel $order;
 
     /**
+     * @var \stdClass
+     */
+    protected stdClass $previous;
+
+    /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
     public function handle(): Model
@@ -38,11 +44,14 @@ class BuyMarket extends ActionAbstract
             return tap($this->row, fn () => $this->logNotExecutable());
         }
 
+        $this->previous();
         $this->start();
         $this->order();
+        $this->sync();
         $this->update();
         $this->finish();
         $this->logSuccess();
+        $this->mail();
 
         return $this->row;
     }
@@ -81,6 +90,14 @@ class BuyMarket extends ActionAbstract
             && $this->row->buy_market_executable
             && ($this->row->buy_market_amount >= $this->product->quantity_min)
             && ($this->row->buy_market_exchange >= $this->product->price_min);
+    }
+
+    /**
+     * @return void
+     */
+    protected function previous(): void
+    {
+        $this->previous = json_decode(json_encode($this->row->toArray()));
     }
 
     /**
@@ -129,6 +146,14 @@ class BuyMarket extends ActionAbstract
     protected function orderSync(): void
     {
         $this->factory('Order')->action()->syncByProduct($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function sync(): void
+    {
+        $this->factory()->action()->updateSync();
     }
 
     /**
@@ -230,6 +255,14 @@ class BuyMarket extends ActionAbstract
     {
         $this->row->processing = false;
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function mail(): void
+    {
+        $this->factory()->mail()->buyMarket($this->row, $this->previous, $this->order);
     }
 
     /**

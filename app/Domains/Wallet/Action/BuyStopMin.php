@@ -2,11 +2,13 @@
 
 namespace App\Domains\Wallet\Action;
 
+use Throwable;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
+use App\Services\Platform\Exception\InsufficientFundsException;
 
 class BuyStopMin extends ActionAbstract
 {
@@ -109,6 +111,20 @@ class BuyStopMin extends ActionAbstract
      */
     protected function orderCreate(): void
     {
+        try {
+            $this->orderCreateSend();
+        } catch (InsufficientFundsException $e) {
+            $this->orderCreateRecover();
+        } catch (Throwable $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderCreateSend(): void
+    {
         $this->order = $this->factory('Order')->action([
             'type' => 'STOP_LOSS_LIMIT',
             'side' => 'buy',
@@ -116,6 +132,17 @@ class BuyStopMin extends ActionAbstract
             'price' => $this->row->buy_stop_max_exchange,
             'limit' => $this->row->buy_stop_max_exchange,
         ])->create($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderCreateRecover(): void
+    {
+        $this->order = OrderModel::byProductId($this->product->id)
+            ->byWalletId($this->row->id)
+            ->orderByLast()
+            ->first();
     }
 
     /**

@@ -9,7 +9,7 @@ trait Properties
     /**
      * @var array
      */
-    protected static $properties;
+    protected static array $properties;
 
     /**
      * @param array $attributes

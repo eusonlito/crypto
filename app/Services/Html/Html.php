@@ -126,7 +126,7 @@ class Html
         }
 
         if ($value < 0) {
-            return  'text-theme-24';
+            return 'text-theme-24';
         }
 
         return '';

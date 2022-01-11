@@ -3,6 +3,7 @@
 namespace App\Services\Platform\Provider\Binance\Api;
 
 use stdClass;
+use Throwable;
 use App\Services\Platform\Provider\Binance\Api\Traits\OrderResource as OrderResourceTrait;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -64,7 +65,11 @@ class OrderCreate extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestAuth('POST', '/api/v3/order', $this->queryData());
+        try {
+            return $this->requestAuth('POST', '/api/v3/order', $this->queryData());
+        } catch (Throwable $e) {
+            $this->exception($e);
+        }
     }
 
     /**

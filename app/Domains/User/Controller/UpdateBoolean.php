@@ -4,6 +4,7 @@ namespace App\Domains\User\Controller;
 
 use Illuminate\Http\JsonResponse;
 use App\Domains\User\Model\User as Model;
+use App\Exceptions\NotFoundException;
 
 class UpdateBoolean extends ControllerAbstract
 {

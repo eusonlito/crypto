@@ -20,7 +20,6 @@ class ActionFactory extends ActionFactoryAbstract
         return $this->actionHandle(BuyMarket::class);
     }
 
-
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
