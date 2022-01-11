@@ -66,181 +66,50 @@ return new class extends MigrationAbstract
     protected function tablesDrop()
     {
         Schema::table('wallet_history', function (Blueprint $table) {
-            if (Schema::hasColumn('wallet_history', 'order')) {
-                $table->dropColumn('order');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'amount')) {
-                $table->dropColumn('amount');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_exchange')) {
-                $table->dropColumn('buy_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_value')) {
-                $table->dropColumn('buy_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'current_exchange')) {
-                $table->dropColumn('current_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'current_value')) {
-                $table->dropColumn('current_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop')) {
-                $table->dropColumn('sell_stop');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_exchange')) {
-                $table->dropColumn('sell_stop_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_amount')) {
-                $table->dropColumn('sell_stop_amount');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_max')) {
-                $table->dropColumn('sell_stop_max');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_max_value')) {
-                $table->dropColumn('sell_stop_max_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_max_percent')) {
-                $table->dropColumn('sell_stop_max_percent');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_max_at')) {
-                $table->dropColumn('sell_stop_max_at');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_max_executable')) {
-                $table->dropColumn('sell_stop_max_executable');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_min_exchange')) {
-                $table->dropColumn('sell_stop_min_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_min_value')) {
-                $table->dropColumn('sell_stop_min_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_min_percent')) {
-                $table->dropColumn('sell_stop_min_percent');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_min_at')) {
-                $table->dropColumn('sell_stop_min_at');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stop_min_executable')) {
-                $table->dropColumn('sell_stop_min_executable');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop')) {
-                $table->dropColumn('buy_stop');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_exchange')) {
-                $table->dropColumn('buy_stop_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_amount')) {
-                $table->dropColumn('buy_stop_amount');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_max')) {
-                $table->dropColumn('buy_stop_max');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_max_value')) {
-                $table->dropColumn('buy_stop_max_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_max_percent')) {
-                $table->dropColumn('buy_stop_max_percent');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_max_at')) {
-                $table->dropColumn('buy_stop_max_at');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_max_executable')) {
-                $table->dropColumn('buy_stop_max_executable');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_min')) {
-                $table->dropColumn('buy_stop_min');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_min_value')) {
-                $table->dropColumn('buy_stop_min_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_min_percent')) {
-                $table->dropColumn('buy_stop_min_percent');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_min_at')) {
-                $table->dropColumn('buy_stop_min_at');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'buy_stop_min_executable')) {
-                $table->dropColumn('buy_stop_min_executable');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss')) {
-                $table->dropColumn('sell_stoploss');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss_exchange')) {
-                $table->dropColumn('sell_stoploss_exchange');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss_value')) {
-                $table->dropColumn('sell_stoploss_value');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss_percent')) {
-                $table->dropColumn('sell_stoploss_percent');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss_at')) {
-                $table->dropColumn('sell_stoploss_at');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'sell_stoploss_executable')) {
-                $table->dropColumn('sell_stoploss_executable');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'processing')) {
-                $table->dropColumn('processing');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'custom')) {
-                $table->dropColumn('custom');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'crypto')) {
-                $table->dropColumn('crypto');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'trade')) {
-                $table->dropColumn('trade');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'visible')) {
-                $table->dropColumn('visible');
-            }
-
-            if (Schema::hasColumn('wallet_history', 'enabled')) {
-                $table->dropColumn('enabled');
-            }
+            $table->dropColumn('order');
+            $table->dropColumn('amount');
+            $table->dropColumn('buy_exchange');
+            $table->dropColumn('buy_value');
+            $table->dropColumn('current_exchange');
+            $table->dropColumn('current_value');
+            $table->dropColumn('sell_stop');
+            $table->dropColumn('sell_stop_exchange');
+            $table->dropColumn('sell_stop_amount');
+            $table->dropColumn('sell_stop_max');
+            $table->dropColumn('sell_stop_max_value');
+            $table->dropColumn('sell_stop_max_percent');
+            $table->dropColumn('sell_stop_max_at');
+            $table->dropColumn('sell_stop_max_executable');
+            $table->dropColumn('sell_stop_min_exchange');
+            $table->dropColumn('sell_stop_min_value');
+            $table->dropColumn('sell_stop_min_percent');
+            $table->dropColumn('sell_stop_min_at');
+            $table->dropColumn('sell_stop_min_executable');
+            $table->dropColumn('buy_stop');
+            $table->dropColumn('buy_stop_exchange');
+            $table->dropColumn('buy_stop_amount');
+            $table->dropColumn('buy_stop_max');
+            $table->dropColumn('buy_stop_max_value');
+            $table->dropColumn('buy_stop_max_percent');
+            $table->dropColumn('buy_stop_max_at');
+            $table->dropColumn('buy_stop_max_executable');
+            $table->dropColumn('buy_stop_min');
+            $table->dropColumn('buy_stop_min_value');
+            $table->dropColumn('buy_stop_min_percent');
+            $table->dropColumn('buy_stop_min_at');
+            $table->dropColumn('buy_stop_min_executable');
+            $table->dropColumn('sell_stoploss');
+            $table->dropColumn('sell_stoploss_exchange');
+            $table->dropColumn('sell_stoploss_value');
+            $table->dropColumn('sell_stoploss_percent');
+            $table->dropColumn('sell_stoploss_at');
+            $table->dropColumn('sell_stoploss_executable');
+            $table->dropColumn('processing');
+            $table->dropColumn('custom');
+            $table->dropColumn('crypto');
+            $table->dropColumn('trade');
+            $table->dropColumn('visible');
+            $table->dropColumn('enabled');
         });
     }
 
