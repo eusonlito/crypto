@@ -14,7 +14,7 @@ class BuyStopMax extends ActionAbstract
     /**
      * @var ?\App\Domains\Order\Model\Order
      */
-    protected ?OrderModel $order;
+    protected ?OrderModel $order = null;
 
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -29,7 +29,7 @@ class BuyStopMax extends ActionAbstract
     /**
      * @var \stdClass
      */
-    protected stdClass $previous;
+    protected ?stdClass $previous = null;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -48,10 +48,16 @@ class BuyStopMax extends ActionAbstract
         $this->start();
         $this->sync();
         $this->order();
-        $this->update();
-        $this->finish();
-        $this->logSuccess();
-        $this->mail();
+
+        if ($this->isPending()) {
+            $this->logIsPending();
+            $this->finish();
+        } else {
+            $this->update();
+            $this->finish();
+            $this->logSuccess();
+            $this->mail();
+        }
 
         return $this->row;
     }
@@ -129,6 +135,15 @@ class BuyStopMax extends ActionAbstract
     }
 
     /**
+     * @return bool
+     */
+    protected function isPending(): bool
+    {
+        return ((float)$this->row->amount === (float)$this->previous->amount)
+            || empty($this->order->filled);
+    }
+
+    /**
      * @return void
      */
     protected function update(): void
@@ -145,10 +160,6 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateExchange(): void
     {
-        if ($this->row->amount === $this->previous->amount) {
-            $this->row->amount += $this->order->amount;
-        }
-
         $this->row->buy_exchange = $this->order->price;
         $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
     }
@@ -256,6 +267,14 @@ class BuyStopMax extends ActionAbstract
     /**
      * @return void
      */
+    protected function logIsPending(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
     protected function logSuccess(): void
     {
         $this->log('info', ['detail' => __FUNCTION__]);
@@ -269,6 +288,9 @@ class BuyStopMax extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'buy-stop-max', $this->row, $data);
+        ActionLogger::set($status, 'buy-stop-max', $this->row, $data + [
+            'order' => $this->order,
+            'previous' => $this->previous,
+        ]);
     }
 }

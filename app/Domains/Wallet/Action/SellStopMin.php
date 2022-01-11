@@ -14,7 +14,7 @@ class SellStopMin extends ActionAbstract
     /**
      * @var ?\App\Domains\Order\Model\Order
      */
-    protected ?OrderModel $order;
+    protected ?OrderModel $order = null;
 
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -29,7 +29,7 @@ class SellStopMin extends ActionAbstract
     /**
      * @var \stdClass
      */
-    protected stdClass $previous;
+    protected ?stdClass $previous = null;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -48,10 +48,16 @@ class SellStopMin extends ActionAbstract
         $this->start();
         $this->sync();
         $this->order();
-        $this->update();
-        $this->finish();
-        $this->logSuccess();
-        $this->mail();
+
+        if ($this->isPending()) {
+            $this->logIsPending();
+            $this->finish();
+        } else {
+            $this->update();
+            $this->finish();
+            $this->logSuccess();
+            $this->mail();
+        }
 
         return $this->row;
     }
@@ -127,6 +133,15 @@ class SellStopMin extends ActionAbstract
             ->byWalletId($this->row->id)
             ->orderByLast()
             ->first();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPending(): bool
+    {
+        return ((float)$this->row->amount === (float)$this->previous->amount)
+            || empty($this->order->filled);
     }
 
     /**
@@ -260,6 +275,14 @@ class SellStopMin extends ActionAbstract
     /**
      * @return void
      */
+    protected function logIsPending(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
     protected function logSuccess(): void
     {
         $this->log('info', ['detail' => __FUNCTION__]);
@@ -273,6 +296,9 @@ class SellStopMin extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-min', $this->row, $data);
+        ActionLogger::set($status, 'sell-stop-min', $this->row, $data + [
+            'order' => $this->order,
+            'previous' => $this->previous,
+        ]);
     }
 }
