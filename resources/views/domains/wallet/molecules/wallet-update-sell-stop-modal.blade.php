@@ -1,12 +1,12 @@
 @php ($prefix = 'wallet-update-sell-stop-modal-'.$row->id)
 
 <div id="{{ $prefix }}" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" id="{{ $prefix }}-dialog">
         <div class="modal-content">
             <form action="{{ route('wallet.update.sell-stop', $row->id) }}" method="POST" data-change-event-change>
                 <input type="hidden" name="_action" value="updateSellStop" />
 
-                <div class="modal-header">
+                <div class="modal-header" data-draggable="#{{ $prefix }}-dialog">
                     <h2 class="font-medium text-base mr-auto">{{ __('wallet-update-sell-stop.title') }}</h2>
                 </div>
 

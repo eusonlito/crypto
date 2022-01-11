@@ -10,7 +10,17 @@ import './table-pagination';
 import './chart';
 import './table-sort';
 import './table-search';
-import './data';
+
+import './change-submit';
+import './click-one';
+import './link-boolean';
+import './link-form';
+import './disabled';
+import './password-show';
+import './change-event-change';
+import './checkall';
+import './draggable';
+
 import './dropdown';
 import './tooltip';
 import './alert';
