@@ -212,6 +212,8 @@ class Wallet extends BuilderAbstract
     public function list(): self
     {
         return $this->with(['currency', 'platform', 'product'])
+            ->orderBy('enabled', 'DESC')
+            ->orderBy('visible', 'DESC')
             ->orderByRaw('`order` = 0 ASC')
             ->orderBy('order', 'ASC')
             ->orderBy('current_value', 'DESC')
