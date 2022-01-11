@@ -10,18 +10,27 @@ trait DataBuyMarket
     protected function dataBuyMarket(): void
     {
         $this->data['buy_market_percent'] = abs((float)$this->data['buy_market_percent']);
+        $this->data['buy_market_amount'] = abs((float)$this->data['buy_market_amount']);
+        $this->data['buy_market_reference'] = abs((float)$this->data['buy_market_reference']);
 
-        if ($this->data['buy_market_percent'] === 0.0) {
+        if ($this->dataBuyMarketIsEmpty()) {
             $this->dataBuyMarketZero();
             return;
         }
 
-        $this->data['buy_market_amount'] = abs((float)$this->data['buy_market_amount']);
-        $this->data['buy_market_reference'] = abs((float)$this->data['buy_market_reference']);
-
         $this->data['buy_market_exchange'] = $this->data['buy_market_reference'] * (1 + ($this->data['buy_market_percent'] / 100));
         $this->data['buy_market_value'] = $this->data['buy_market_amount'] * $this->data['buy_market_exchange'];
         $this->data['buy_market_at'] = $this->data['buy_market_at'] ? $this->row->buy_market_at : null;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function dataBuyMarketIsEmpty(): bool
+    {
+        return empty($this->data['buy_market_percent'])
+            || empty($this->data['buy_market_amount'])
+            || empty($this->data['buy_market_reference']);
     }
 
     /**

@@ -13,7 +13,7 @@ class UpdateSellStop extends ValidateAbstract
     {
         return [
             'sell_stop_amount' => 'bail|numeric',
-            'sell_stop_reference' => 'bail|numeric|required_with:sell_stop_max_percent',
+            'sell_stop_reference' => 'bail|numeric',
             'sell_stop_max_exchange' => 'bail|numeric',
             'sell_stop_max_percent' => 'bail|numeric',
             'sell_stop_min_exchange' => 'bail|numeric',

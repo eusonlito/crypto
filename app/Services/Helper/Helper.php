@@ -117,13 +117,13 @@ class Helper
     }
 
     /**
-     * @param ?float $value
+     * @param float|string|null $value
      * @param ?int $decimals = null
      * @param ?string $default = '-'
      *
      * @return ?string
      */
-    public function number(?float $value, ?int $decimals = null, ?string $default = '-'): ?string
+    public function number(float|string|null $value, ?int $decimals = null, ?string $default = '-'): ?string
     {
         if ($value === null) {
             return $default;
@@ -133,11 +133,11 @@ class Helper
     }
 
     /**
-     * @param ?float $value
+     * @param float|string|null $value
      *
      * @return string
      */
-    public function numberString(?float $value): string
+    public function numberString(float|string|null $value): string
     {
         if (preg_match('/^[0-9]+(\.([0-9]+))?E\-([0-9]+)/i', (string)$value, $matches) === 0) {
             return (string)$value;
@@ -147,18 +147,18 @@ class Helper
     }
 
     /**
-     * @param ?float $value
+     * @param float|string|null $value
      * @param ?int $decimals = null
      *
      * @return int
      */
-    public function numberDecimals(?float $value, ?int $decimals = null): int
+    public function numberDecimals(float|string|null $value, ?int $decimals = null): int
     {
         if ($decimals !== null) {
             return $decimals;
         }
 
-        $value = abs($value);
+        $value = abs((float)$value);
 
         if ($value === 0.0) {
             return 2;
@@ -188,27 +188,31 @@ class Helper
     }
 
     /**
-     * @param float $value
+     * @param float|string|null $value
      * @param ?int $decimals = null
      *
      * @return string
      */
-    public function money(float $value, ?int $decimals = null): string
+    public function money(float|string|null $value, ?int $decimals = null): string
     {
         return $this->number($value, $decimals).'€';
     }
 
     /**
-     * @param float $value
+     * @param float|string|null $value
      * @param int $decimals
      *
      * @return float
      */
-    public function roundFixed(float $value, int $decimals): float
+    public function roundFixed(float|string|null $value, int $decimals): float
     {
+        if (empty($value)) {
+            return 0;
+        }
+
         $expo = pow(10, $decimals);
 
-        return intval($value * $expo) / $expo;
+        return intval((float)$value * $expo) / $expo;
     }
 
     /**

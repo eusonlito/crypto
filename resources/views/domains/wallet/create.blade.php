@@ -21,12 +21,12 @@
 
             <div class="col-span-12 mb-2 lg:col-span-3">
                 <label for="wallet-address" class="form-label">{{ __('wallet-create.address') }}</label>
-                <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $REQUEST->input('address') }}">
+                <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $REQUEST->input('address') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-name" class="form-label">{{ __('wallet-create.name') }}</label>
-                <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $REQUEST->input('name') }}">
+                <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $REQUEST->input('name') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-1">
@@ -36,12 +36,12 @@
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-amount" class="form-label">{{ __('wallet-create.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="{{ $REQUEST->input('amount') }}">
+                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="{{ $REQUEST->input('amount') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-create.buy_exchange') }}</label>
-                <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="{{ $REQUEST->input('buy_exchange') }}">
+                <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="{{ $REQUEST->input('buy_exchange') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">

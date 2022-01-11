@@ -22,7 +22,7 @@ class Create extends ValidateAbstract
 
             'sell_stop' => 'bail|boolean',
             'sell_stop_amount' => 'bail|numeric',
-            'sell_stop_reference' => 'bail|numeric|required_with:sell_stop_max_percent',
+            'sell_stop_reference' => 'bail|numeric',
             'sell_stop_max_exchange' => 'bail|numeric',
             'sell_stop_max_percent' => 'bail|numeric',
             'sell_stop_min_exchange' => 'bail|numeric',
@@ -32,7 +32,7 @@ class Create extends ValidateAbstract
 
             'buy_stop' => 'bail|boolean',
             'buy_stop_amount' => 'bail|numeric',
-            'buy_stop_reference' => 'bail|numeric|required_with:buy_stop_max_percent',
+            'buy_stop_reference' => 'bail|numeric',
             'buy_stop_max_exchange' => 'bail|numeric',
             'buy_stop_max_percent' => 'bail|numeric',
             'buy_stop_min_exchange' => 'bail|numeric',
@@ -42,7 +42,7 @@ class Create extends ValidateAbstract
 
             'buy_market' => 'bail|boolean',
             'buy_market_amount' => 'bail|numeric',
-            'buy_market_reference' => 'bail|numeric|required_with:buy_market_percent',
+            'buy_market_reference' => 'bail|numeric',
             'buy_market_percent' => 'bail|numeric',
             'buy_market_exchange' => 'bail|numeric',
             'buy_market_value' => 'bail|numeric',
