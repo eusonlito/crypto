@@ -27,7 +27,7 @@ class BuyStopMax extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var \stdClass
+     * @var ?\stdClass
      */
     protected ?stdClass $previous = null;
 

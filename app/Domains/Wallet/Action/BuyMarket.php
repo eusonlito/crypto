@@ -22,14 +22,14 @@ class BuyMarket extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var \App\Domains\Order\Model\Order
+     * @var ?\App\Domains\Order\Model\Order
      */
-    protected OrderModel $order;
+    protected ?OrderModel $order = null;
 
     /**
-     * @var \stdClass
+     * @var ?\stdClass
      */
-    protected stdClass $previous;
+    protected ?stdClass $previous = null;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -299,6 +299,9 @@ class BuyMarket extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'buy-market', $this->row, $data);
+        ActionLogger::set($status, 'buy-market', $this->row, $data + [
+            'order' => $this->order,
+            'previous' => $this->previous,
+        ]);
     }
 }

@@ -23,9 +23,9 @@ class BuyStopMin extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var \App\Domains\Order\Model\Order
+     * @var ?\App\Domains\Order\Model\Order
      */
-    protected OrderModel $order;
+    protected ?OrderModel $order = null;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -217,6 +217,8 @@ class BuyStopMin extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'buy-stop-min', $this->row, $data);
+        ActionLogger::set($status, 'buy-stop-min', $this->row, $data + [
+            'order' => $this->order
+        ]);
     }
 }

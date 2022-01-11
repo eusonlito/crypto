@@ -11,9 +11,9 @@ use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 class SellStopLoss extends ActionAbstract
 {
     /**
-     * @var \App\Domains\Order\Model\Order
+     * @var ?\App\Domains\Order\Model\Order
      */
-    protected OrderModel $order;
+    protected ?OrderModel $order = null;
 
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -215,6 +215,8 @@ class SellStopLoss extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-loss', $this->row, $data);
+        ActionLogger::set($status, 'sell-stop-loss', $this->row, $data + [
+            'order' => $this->order
+        ]);
     }
 }
