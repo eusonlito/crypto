@@ -1,0 +1,17 @@
+<?php return [
+    'amount' => 'Cantidad Actual',
+    'buy_exchange' => 'Cambio en Compra',
+    'buy_market' => 'Activo',
+    'buy_market_amount' => 'Comprando',
+    'buy_market_at' => 'Máximo Alcanzado',
+    'buy_market_exchange' => 'Cambio Máximo',
+    'buy_market_percent' => 'Porcentaje Máximo',
+    'buy_market_reference' => 'Cambio de Referencia',
+    'buy_market_value' => 'Valor Máximo',
+    'buy_value' => 'Valor en Compra',
+    'cancel' => 'Cancelar',
+    'current_exchange' => 'Cambio Actual',
+    'current_value' => 'Valor Actual',
+    'send' => 'Guardar',
+    'title' => 'Buy-Market',
+];

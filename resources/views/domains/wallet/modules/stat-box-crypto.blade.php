@@ -210,7 +210,7 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.buy_market') }}</div>
+                    <div class="text-gray-600 text-xs"><a href="javascript:;" data-toggle="modal" data-target="#wallet-update-buy-market-modal-{{ $row->id }}">{{ __('wallet-stat.buy_market') }}</a></div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base {{ $buy_market ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_market ? __('wallet-stat.buy_market_enabled') : __('wallet-stat.buy_market_disabled') }}</div>
@@ -247,4 +247,5 @@
 </div>
 
 @include ('domains.wallet.molecules.wallet-update-buy-stop-modal')
+@include ('domains.wallet.molecules.wallet-update-buy-market-modal')
 @include ('domains.wallet.molecules.wallet-update-sell-stop-modal')

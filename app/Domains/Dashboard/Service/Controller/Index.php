@@ -132,11 +132,11 @@ class Index
     protected function exchangesSet(): void
     {
         foreach ($this->wallets as $each) {
-            $each->setRelation('exchanges', $this->exchanges->get($each->product_id));
+            $each->setRelation('exchanges', $this->exchanges->get($each->product_id, collect()));
         }
 
         foreach ($this->tickers as $each) {
-            $each->setRelation('exchanges', $this->exchanges->get($each->product_id));
+            $each->setRelation('exchanges', $this->exchanges->get($each->product_id, collect()));
         }
     }
 
