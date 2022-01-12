@@ -86,7 +86,9 @@ class Create extends ActionAbstract
      */
     protected function cancelOpen(): void
     {
-        $this->api->ordersCancelAll($this->product->code);
+        if ($this->api->ordersOpen($this->product->code)->isNotEmpty()) {
+            $this->api->ordersCancelAll($this->product->code);
+        }
     }
 
     /**
