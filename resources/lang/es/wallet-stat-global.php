@@ -4,5 +4,5 @@
     'difference' => 'Diferencia',
     'investment' => 'Inversión',
     'result' => 'Resultado',
-    'sell_stop_min_value' => 'Valor Sell-Stop',
+    'sell_stop_min_value' => 'Valor Venta en Subida',
 ];

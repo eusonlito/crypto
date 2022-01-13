@@ -17,5 +17,5 @@
     'current_exchange' => 'Cambio Actual',
     'current_value' => 'Valor Actual',
     'send' => 'Guardar',
-    'title' => 'Buy-Stop',
+    'title' => 'Compra en Bajada',
 ];

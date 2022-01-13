@@ -13,5 +13,5 @@
     'current_exchange' => 'Cambio Actual',
     'current_value' => 'Valor Actual',
     'send' => 'Guardar',
-    'title' => 'Buy-Market',
+    'title' => 'Compra en Subida',
 ];

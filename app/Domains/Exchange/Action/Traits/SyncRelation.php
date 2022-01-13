@@ -28,7 +28,7 @@ trait SyncRelation
     protected function relationsWallets(Model $row): void
     {
         $this->relationsWalletsExchange($row);
-        $this->relationsWalletsSell($row);
+        $this->relationsWalletsBuySell($row);
     }
 
     /**
@@ -46,7 +46,7 @@ trait SyncRelation
      *
      * @return void
      */
-    protected function relationsWalletsSell(Model $row): void
+    protected function relationsWalletsBuySell(Model $row): void
     {
         foreach (WalletModel::byProductId($row->product_id)->whereSellStopLossActivated()->pluck('id') as $each) {
             Artisan::exec(sprintf('wallet:sell-stop-loss --id=%s', $each));
