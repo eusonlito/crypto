@@ -221,7 +221,7 @@ class SellStopMax extends ActionAbstract
     protected function log(string $status, array $data = []): void
     {
         ActionLogger::set($status, 'sell-stop-max', $this->row, $data + [
-            'order' => $this->order
+            'order' => $this->order,
         ]);
     }
 }

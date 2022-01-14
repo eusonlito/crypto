@@ -2,7 +2,6 @@
 
 namespace App\Domains\Product\Action;
 
-use Illuminate\Support\Collection;
 use App\Domains\Product\Model\Product as Model;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 

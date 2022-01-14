@@ -216,7 +216,7 @@ class SellStopLoss extends ActionAbstract
     protected function log(string $status, array $data = []): void
     {
         ActionLogger::set($status, 'sell-stop-loss', $this->row, $data + [
-            'order' => $this->order
+            'order' => $this->order,
         ]);
     }
 }

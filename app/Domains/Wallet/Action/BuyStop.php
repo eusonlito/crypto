@@ -175,7 +175,7 @@ class BuyStop extends ActionAbstract
     protected function log(string $status, array $data = []): void
     {
         ActionLogger::set($status, 'buy-stop', $this->row, $data + [
-            'order' => $this->order
+            'order' => $this->order,
         ]);
     }
 }
