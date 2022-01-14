@@ -36,7 +36,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Sell-Stop ({{ $row->sell_stop_amount }})</h3>
+                    <h3>Venta en Subida ({{ $row->sell_stop_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
@@ -57,7 +57,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Buy-Stop ({{ $row->buy_stop_amount }})</h3>
+                    <h3>Compra en Bajada ({{ $row->buy_stop_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
@@ -78,7 +78,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Buy-Market ({{ $row->buy_market_amount }})</h3>
+                    <h3>Compra en Subida ({{ $row->buy_market_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
@@ -122,7 +122,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Sell-Stop ({{ $previous->sell_stop_amount }})</h3>
+                    <h3>Venta en Subida ({{ $previous->sell_stop_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
@@ -143,7 +143,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Buy-Stop ({{ $previous->buy_stop_amount }})</h3>
+                    <h3>Compra en Bajada ({{ $previous->buy_stop_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
@@ -164,7 +164,7 @@
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
-                    <h3>Buy-Market ({{ $previous->buy_market_amount }})</h3>
+                    <h3>Compra en Subida ({{ $previous->buy_market_amount }})</h3>
 
                     <hr style="border: 1px solid rgba(0,0,0,.05);">
 
