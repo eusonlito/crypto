@@ -130,6 +130,7 @@ class BuyStopMax extends ActionAbstract
     {
         $this->order = OrderModel::byProductId($this->product->id)
             ->byWalletId($this->row->id)
+            ->bySide('buy')
             ->orderByLast()
             ->first();
     }

@@ -36,6 +36,7 @@ class Auth extends RequestAbstract
      */
     protected function data(array $data): array
     {
+        $data['recvWindow'] = 10000;
         $data['timestamp'] = intval(microtime(true) * 1000);
 
         return $data + ['signature' => $this->signature($data)];

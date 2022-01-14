@@ -131,6 +131,7 @@ class SellStopMin extends ActionAbstract
     {
         $this->order = OrderModel::byProductId($this->product->id)
             ->byWalletId($this->row->id)
+            ->bySide('sell')
             ->orderByLast()
             ->first();
     }
