@@ -101,6 +101,16 @@ class Product extends BuilderAbstract
     }
 
     /**
+     * @param bool $tracking = true
+     *
+     * @return self
+     */
+    public function whereTracking(bool $tracking = true): self
+    {
+        return $this->where('tracking', $tracking);
+    }
+
+    /**
      * @param bool $trade = true
      *
      * @return self

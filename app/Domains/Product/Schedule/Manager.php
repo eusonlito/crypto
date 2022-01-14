@@ -3,6 +3,7 @@
 namespace App\Domains\Product\Schedule;
 
 use App\Domains\Product\Command\SyncAll as SyncAllCommand;
+use App\Domains\Product\Command\TrackingCheck as TrackingCheckCommand;
 use App\Domains\Shared\Schedule\ScheduleAbstract;
 
 class Manager extends ScheduleAbstract
@@ -13,5 +14,6 @@ class Manager extends ScheduleAbstract
     public function handle(): void
     {
         $this->command(SyncAllCommand::class, 'product-sync-all')->hourly();
+        $this->command(TrackingCheckCommand::class, 'product-tracking-check')->hourly();
     }
 }

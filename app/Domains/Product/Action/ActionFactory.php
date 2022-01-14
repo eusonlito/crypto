@@ -75,4 +75,12 @@ class ActionFactory extends ActionFactoryAbstract
     {
         $this->actionHandle(Sync::class, [], ...func_get_args());
     }
+
+    /**
+     * @return void
+     */
+    public function trackingCheck(): void
+    {
+        $this->actionHandle(TrackingCheck::class);
+    }
 }
