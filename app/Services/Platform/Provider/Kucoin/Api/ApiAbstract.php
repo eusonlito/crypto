@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform\Provider\Kucoin\Api;
 
+use Throwable;
 use Illuminate\Support\Collection;
 use App\Services\Platform\Provider\Kucoin\Error;
 use App\Services\Platform\Provider\Kucoin\Request\Auth as AuthRequest;
@@ -72,6 +73,18 @@ abstract class ApiAbstract
     }
 
     /**
+     * @return mixed
+     */
+    protected function request()
+    {
+        try {
+            return $this->requestSend(...func_get_args());
+        } catch (Throwable $e) {
+            Error::exception($e);
+        }
+    }
+
+    /**
      * @param string $method
      * @param string $path
      * @param array $query
@@ -80,7 +93,7 @@ abstract class ApiAbstract
      *
      * @return mixed
      */
-    protected function request(RequestAbstract $request, string $method, string $path, array $query, array $post, int $cache)
+    protected function requestSend(RequestAbstract $request, string $method, string $path, array $query, array $post, int $cache)
     {
         return $request->config($this->config)
             ->method($method)

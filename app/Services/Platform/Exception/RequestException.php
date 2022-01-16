@@ -2,6 +2,6 @@
 
 namespace App\Services\Platform\Exception;
 
-class InsufficientFundsException extends GenericException
+class RequestException extends GenericException
 {
 }

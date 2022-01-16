@@ -2,7 +2,9 @@
 
 namespace App\Services\Platform\Provider\Binance;
 
-use App\Exceptions\UnexpectedValueException;
+use Throwable;
+use App\Services\Platform\Exception\InsufficientFundsException;
+use App\Services\Platform\Exception\RequestException;
 
 class Error
 {
@@ -14,23 +16,38 @@ class Error
     public static function check($response)
     {
         if ($response === null) {
-            throw new UnexpectedValueException(__('binance.error.empty'));
+            throw new RequestException(__('binance.error.empty'));
         }
 
         if (isset($response->msg) && empty($response->success)) {
-            static::errors($response->msg);
+            static::errors($response->msg, (int)$response->code);
         }
 
         return $response;
     }
 
     /**
-     * @param string $error
+     * @param \Throwable $e
      *
      * @return void
      */
-    protected static function errors(string $error): void
+    public static function exception(Throwable $e): void
     {
-        throw new UnexpectedValueException($error);
+        static::errors($e->getMessage(), $e->getCode());
+    }
+
+    /**
+     * @param string $error
+     * @param int $code
+     *
+     * @return void
+     */
+    protected static function errors(string $error, int $code): void
+    {
+        if (str_contains(strtolower($error), 'insufficient balance')) {
+            throw new InsufficientFundsException($error, $code);
+        }
+
+        throw new RequestException($error, $code);
     }
 }

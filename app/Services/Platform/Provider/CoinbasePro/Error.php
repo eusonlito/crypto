@@ -2,7 +2,9 @@
 
 namespace App\Services\Platform\Provider\CoinbasePro;
 
-use App\Exceptions\UnexpectedValueException;
+use Throwable;
+use App\Services\Platform\Exception\InsufficientFundsException;
+use App\Services\Platform\Exception\RequestException;
 
 class Error
 {
@@ -14,7 +16,7 @@ class Error
     public static function check($response)
     {
         if ($response === null) {
-            throw new UnexpectedValueException(__('coinbase-pro.error.empty'));
+            throw new RequestException(__('coinbase-pro.error.empty'));
         }
 
         if (isset($response->message)) {
@@ -25,12 +27,26 @@ class Error
     }
 
     /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    public static function exception(Throwable $e): void
+    {
+        static::errors($e->getMessage());
+    }
+
+    /**
      * @param string $error
      *
      * @return void
      */
     protected static function errors(string $error): void
     {
-        throw new UnexpectedValueException($error);
+        if (str_contains(strtolower($error), 'enough funds')) {
+            throw new InsufficientFundsException($error);
+        }
+
+        throw new RequestException($error);
     }
 }

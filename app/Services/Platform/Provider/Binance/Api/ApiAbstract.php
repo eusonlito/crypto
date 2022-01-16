@@ -4,7 +4,6 @@ namespace App\Services\Platform\Provider\Binance\Api;
 
 use Throwable;
 use Illuminate\Support\Collection;
-use App\Services\Platform\Exception\InsufficientFundsException;
 use App\Services\Platform\Provider\Binance\Error;
 use App\Services\Platform\Provider\Binance\Request\Auth as AuthRequest;
 use App\Services\Platform\Provider\Binance\Request\Guest as GuestRequest;
@@ -74,6 +73,18 @@ abstract class ApiAbstract
     }
 
     /**
+     * @return mixed
+     */
+    protected function request()
+    {
+        try {
+            return $this->requestSend(...func_get_args());
+        } catch (Throwable $e) {
+            Error::exception($e);
+        }
+    }
+
+    /**
      * @param string $method
      * @param string $path
      * @param array $query
@@ -82,7 +93,7 @@ abstract class ApiAbstract
      *
      * @return mixed
      */
-    protected function request(RequestAbstract $request, string $method, string $path, array $query, array $post, int $cache)
+    protected function requestSend(RequestAbstract $request, string $method, string $path, array $query, array $post, int $cache)
     {
         return $request->config($this->config)
             ->method($method)
@@ -93,22 +104,6 @@ abstract class ApiAbstract
             ->cache($cache)
             ->log(config('logging.channels.curl.enabled') ?: $this->log)
             ->send();
-    }
-
-    /**
-     * @param \Throwable $e
-     *
-     * @return void
-     */
-    protected function exception(Throwable $e): void
-    {
-        $message = $e->getMessage();
-
-        if (str_contains($message, 'insufficient balance')) {
-            throw new InsufficientFundsException($message, $e->getCode(), $e);
-        }
-
-        throw $e;
     }
 
     /**
