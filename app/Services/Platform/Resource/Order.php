@@ -2,12 +2,8 @@
 
 namespace App\Services\Platform\Resource;
 
-use App\Services\Platform\Resource\Traits\Properties;
-
-class Order
+class Order extends ResourceAbstract
 {
-    use Properties;
-
     /**
      * @var string
      */
@@ -72,14 +68,4 @@ class Order
      * @var string
      */
     public string $updatedAt;
-
-    /**
-     * @param array $attributes
-     *
-     * @return self
-     */
-    public function __construct(array $attributes)
-    {
-        $this->properties($attributes);
-    }
 }

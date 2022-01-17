@@ -11,6 +11,14 @@ use App\Services\Platform\Resource\Order as OrderResource;
 class ApiFactory extends ApiFactoryAbstract
 {
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function candles(string $symbol, string $interval, string $start): Collection
+    {
+        return $this->handle(Candles::class, func_get_args());
+    }
+
+    /**
      * @return bool
      */
     public function check(): bool

@@ -2,12 +2,8 @@
 
 namespace App\Services\Platform\Resource;
 
-use App\Services\Platform\Resource\Traits\Properties;
-
-class Product
+class Product extends ResourceAbstract
 {
-    use Properties;
-
     /**
      * @var string
      */
@@ -62,14 +58,4 @@ class Product
      * @var string
      */
     public string $currencyQuote;
-
-    /**
-     * @param array $attributes
-     *
-     * @return self
-     */
-    public function __construct(array $attributes)
-    {
-        $this->properties($attributes);
-    }
 }

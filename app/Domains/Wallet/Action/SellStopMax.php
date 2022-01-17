@@ -116,7 +116,7 @@ class SellStopMax extends ActionAbstract
         try {
             $this->orderCreateSend();
         } catch (InsufficientFundsException $e) {
-            $this->orderCreateRecover();
+            $this->insufficientFunds();
         } catch (Throwable $e) {
             throw $e;
         }
@@ -139,6 +139,15 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
+    protected function insufficientFunds(): void
+    {
+        $this->orderCreateRecover();
+        $this->setSellStopMinByOrder();
+    }
+
+    /**
+     * @return void
+     */
     protected function orderCreateRecover(): void
     {
         $this->order = OrderModel::byProductId($this->product->id)
@@ -146,6 +155,16 @@ class SellStopMax extends ActionAbstract
             ->bySide('sell')
             ->orderByLast()
             ->first();
+    }
+
+    /**
+     * @return void
+     */
+    protected function setSellStopMinByOrder(): void
+    {
+        $this->row->sell_stop_min_exchange = $this->order->price;
+        $this->row->sell_stop_min_at = $this->order->created_at;
+        $this->row->sell_stop_min_executable = true;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform\Resource\Traits;
 
+use BadMethodCallException;
 use ReflectionClass;
 
 trait Properties
@@ -18,10 +19,29 @@ trait Properties
      */
     protected function properties(array $attributes): void
     {
-        foreach ($this->propertiesCached() as $name) {
-            if (array_key_exists($name, $attributes)) {
-                $this->$name = $attributes[$name];
-            }
+        $this->propertiesCheck($attributes);
+
+        foreach ($attributes as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return void
+     */
+    protected function propertiesCheck(array $attributes): void
+    {
+        $properties = $this->propertiesCached();
+        $keys = array_keys($attributes);
+
+        if ($diff = array_diff($keys, $properties)) {
+            throw new BadMethodCallException(sprintf('Invalid attributes %s on %s', implode(', ', $diff), $this::class));
+        }
+
+        if ($diff = array_diff($properties, $keys)) {
+            throw new BadMethodCallException(sprintf('Required attributes %s on %s', implode(', ', $diff), $this::class));
         }
     }
 
@@ -30,6 +50,17 @@ trait Properties
      */
     protected function propertiesCached(): array
     {
-        return static::$properties ??= array_map(static fn ($value) => $value->getName(), (new ReflectionClass($this))->getProperties());
+        return static::$properties[$this::class] ??= $this->propertiesMap();
+    }
+
+    /**
+     * @return array
+     */
+    protected function propertiesMap(): array
+    {
+        return array_values(array_filter(array_map(
+            static fn ($value) => $value->isPublic() ? $value->getName() : null,
+            (new ReflectionClass($this))->getProperties()
+        )));
     }
 }

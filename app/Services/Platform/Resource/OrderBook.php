@@ -2,12 +2,8 @@
 
 namespace App\Services\Platform\Resource;
 
-use App\Services\Platform\Resource\Traits\Properties;
-
-class OrderBook
+class OrderBook extends ResourceAbstract
 {
-    use Properties;
-
     /**
      * @var array
      */
@@ -17,16 +13,6 @@ class OrderBook
      * @var array
      */
     public array $bids;
-
-    /**
-     * @param array $attributes
-     *
-     * @return self
-     */
-    public function __construct(array $attributes)
-    {
-        $this->properties($attributes);
-    }
 
     /**
      * @param string $type

@@ -2,12 +2,8 @@
 
 namespace App\Services\Platform\Resource;
 
-use App\Services\Platform\Resource\Traits\Properties;
-
-class Currency
+class Currency extends ResourceAbstract
 {
-    use Properties;
-
     /**
      * @var string
      */
@@ -27,14 +23,4 @@ class Currency
      * @var int
      */
     public int $precision;
-
-    /**
-     * @param array $attributes
-     *
-     * @return self
-     */
-    public function __construct(array $attributes)
-    {
-        $this->properties($attributes);
-    }
 }

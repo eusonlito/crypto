@@ -2,12 +2,8 @@
 
 namespace App\Services\Platform\Resource;
 
-use App\Services\Platform\Resource\Traits\Properties;
-
-class Exchange
+class Exchange extends ResourceAbstract
 {
-    use Properties;
-
     /**
      * @var string
      */
@@ -22,16 +18,6 @@ class Exchange
      * @var string
      */
     public string $createdAt;
-
-    /**
-     * @param array $attributes
-     *
-     * @return self
-     */
-    public function __construct(array $attributes)
-    {
-        $this->properties($attributes);
-    }
 
     /**
      * @param \App\Services\Platform\Resource\Exchange $resource
