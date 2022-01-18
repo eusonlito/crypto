@@ -74,9 +74,9 @@ composer deploy
 
 # Capturas
 
-![crypto-01](https://user-images.githubusercontent.com/644551/149986618-bd4927bd-ae63-45fd-917e-4e79c3532a5b.png)
-![crypto-02](https://user-images.githubusercontent.com/644551/149986615-5170bac2-4e3b-4ac3-b044-f88eb185f1a3.png)
-![crypto-03](https://user-images.githubusercontent.com/644551/149986613-61e64584-609b-4d81-afad-9445fabfe28a.png)
 ![crypto-04](https://user-images.githubusercontent.com/644551/149986612-6303a6fd-9aec-426e-8499-37a0e7e011fe.png)
+![crypto-03](https://user-images.githubusercontent.com/644551/149986613-61e64584-609b-4d81-afad-9445fabfe28a.png)
+![crypto-02](https://user-images.githubusercontent.com/644551/149986615-5170bac2-4e3b-4ac3-b044-f88eb185f1a3.png)
+![crypto-01](https://user-images.githubusercontent.com/644551/149986618-bd4927bd-ae63-45fd-917e-4e79c3532a5b.png)
 
 Listo!
