@@ -74,11 +74,9 @@ composer deploy
 
 # Capturas
 
-![crypto-1](https://user-images.githubusercontent.com/644551/140419472-b1da492f-2cbc-4a29-83b8-c194594ba9dc.png)
-![crypto-2](https://user-images.githubusercontent.com/644551/140419495-575e4b66-8704-4111-8886-8b062453c04c.png)
-![crypto-3](https://user-images.githubusercontent.com/644551/140419508-7632c08d-ef85-4dc7-a719-2b9eccab8e4e.png)
-![crypto-4](https://user-images.githubusercontent.com/644551/140419549-9952fb2e-f07c-4ece-bbb4-7d27c37ed23c.png)
-![crypto-5](https://user-images.githubusercontent.com/644551/140419926-651c16c1-bc2f-4c14-987b-d829d3cce79a.png)
-![crypto-6](https://user-images.githubusercontent.com/644551/140419742-feb5bb67-29d9-4ff0-bc34-aed2bf98b063.png)
+![crypto-01](https://user-images.githubusercontent.com/644551/149986618-bd4927bd-ae63-45fd-917e-4e79c3532a5b.png)
+![crypto-02](https://user-images.githubusercontent.com/644551/149986615-5170bac2-4e3b-4ac3-b044-f88eb185f1a3.png)
+![crypto-03](https://user-images.githubusercontent.com/644551/149986613-61e64584-609b-4d81-afad-9445fabfe28a.png)
+![crypto-04](https://user-images.githubusercontent.com/644551/149986612-6303a6fd-9aec-426e-8499-37a0e7e011fe.png)
 
 Listo!
