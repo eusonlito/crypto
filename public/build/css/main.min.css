@@ -8,7 +8,6 @@
   stroke-linejoin: round;
   fill: none;
 }
-
 /*
  |--------------------------------------------------------------------------
  | TailwindCSS Directives
@@ -822,7 +821,7 @@ video {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
-.form-check-input[type="checkbox"] {
+.form-check-input[type=checkbox] {
   width: 16px;
   height: 16px;
   border-radius: 0.2em;
@@ -837,13 +836,13 @@ video {
   border-color: rgba(226, 232, 240, var(--tw-border-opacity));
 }
 
-.form-check-input[type="checkbox"] {
+.form-check-input[type=checkbox] {
   padding: 0px;
   --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.form-check-input[type="checkbox"]:before {
+.form-check-input[type=checkbox]:before {
   content: "";
   transition: all 0.2s ease-in-out;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
@@ -861,27 +860,27 @@ video {
   opacity: 0;
 }
 
-.form-check-input[type="checkbox"]:checked {
+.form-check-input[type=checkbox]:checked {
   --tw-border-opacity: 1;
   border-color: rgba(20, 46, 113, var(--tw-border-opacity));
 }
 
-.form-check-input[type="checkbox"]:checked {
+.form-check-input[type=checkbox]:checked {
   --tw-bg-opacity: 1;
   background-color: rgba(20, 46, 113, var(--tw-bg-opacity));
 }
 
-.form-check-input[type="checkbox"]:checked:before {
+.form-check-input[type=checkbox]:checked:before {
   opacity: 1;
 }
 
-.form-check-input[type="checkbox"]:disabled:not(:checked) {
+.form-check-input[type=checkbox]:disabled:not(:checked) {
   cursor: not-allowed;
   --tw-bg-opacity: 1;
   background-color: rgba(247, 250, 252, var(--tw-bg-opacity));
 }
 
-.form-check-input[type="checkbox"]:disabled:checked {
+.form-check-input[type=checkbox]:disabled:checked {
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -1111,7 +1110,7 @@ video {
 }
 
 .input-group > .input-group-text:not(:first-child),
-      .input-group > .form-control:not(:first-child) {
+.input-group > .form-control:not(:first-child) {
   border-left-color: transparent;
 }
 
@@ -1187,7 +1186,7 @@ video {
   position: relative;
 }
 
-.modal .modal-dialog .modal-content > [data-dismiss="modal"] {
+.modal .modal-dialog .modal-content > [data-dismiss=modal] {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -5601,7 +5600,7 @@ video {
   line-height: 1.4;
   white-space: normal;
   outline: 0;
-  transition-property: transform,visibility,opacity;
+  transition-property: transform, visibility, opacity;
 }
 
 .tippy-box[data-placement^=top] > .tippy-arrow {
@@ -5785,8 +5784,7 @@ video {
   padding: calc( 8px - 2px - 0) 8px calc( 8px - 2px - 3px - 0);
 }
 
-.ts-input.disabled,
-  .ts-input.disabled * {
+.ts-input.disabled, .ts-input.disabled * {
   cursor: default !important;
 }
 
@@ -5874,8 +5872,8 @@ video {
 }
 
 .ts-dropdown .option,
-  .ts-dropdown .no-results,
-  .ts-dropdown .create {
+.ts-dropdown .no-results,
+.ts-dropdown .create {
   padding: 5px 8px;
 }
 
@@ -5890,15 +5888,15 @@ video {
 }
 
 .ts-dropdown .create:hover,
-  .ts-dropdown .option:hover,
-  .ts-dropdown .active {
+.ts-dropdown .option:hover,
+.ts-dropdown .active {
   background-color: #f5fafd;
   color: #495c68;
 }
 
 .ts-dropdown .create:hover.create,
-    .ts-dropdown .option:hover.create,
-    .ts-dropdown .active.create {
+.ts-dropdown .option:hover.create,
+.ts-dropdown .active.create {
   color: #495c68;
 }
 
@@ -6431,7 +6429,6 @@ html body {
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 }
-
 html, body, .main {
   padding: 0;
 }
@@ -6549,7 +6546,6 @@ select {
 table[data-table-sort] thead th {
   cursor: pointer;
 }
-
 .content {
   min-height: calc(100vh - 2.5rem);
 }
