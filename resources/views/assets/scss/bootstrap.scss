@@ -50,6 +50,13 @@ select {
     border-bottom: 1px solid #CCC;
     box-shadow: 20px 3px 20px #0000000b;
     background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+    z-index: 1;
+}
+
+.header-sticky table thead th:first-child, .header-sticky table tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
 }
 
 .table-report img {
