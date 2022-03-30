@@ -105,6 +105,7 @@ return [
     'redis' => [
 
         'client' => env('REDIS_CLIENT', 'phpredis'),
+        'cluster' => false,
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
