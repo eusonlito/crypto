@@ -35,6 +35,8 @@ class Logger
             mkdir($dir, 0755, true);
         }
 
-        file_put_contents($file, (string)$event->message);
+        $message = $event->message;
+
+        file_put_contents($file, $message->getHeaders()->toString()."\n\n".$message->getBody()->bodyToString());
     }
 }

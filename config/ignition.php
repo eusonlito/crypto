@@ -9,8 +9,9 @@ return [
     |
     | Choose your preferred editor to use when clicking any edit button.
     |
-    | Supported: "phpstorm", "vscode", "vscode-insiders",
-    |            "sublime", "atom"
+    | Supported: "phpstorm", "vscode", "vscode-insiders", "textmate", "emacs",
+    |            "sublime", "atom", "nova", "macvim", "idea", "netbeans",
+    |            "xdebug"
     |
     */
 
@@ -59,6 +60,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Solution Providers
+    |--------------------------------------------------------------------------
+    |
+    | You may specify a list of solution providers (as fully qualified class
+    | names) that shouldn't be loaded. Ignition will ignore these classes
+    | and possible solutions provided by them will never be displayed.
+    |
+    */
+
+    'solution_providers' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Ignored Solution Providers
     |--------------------------------------------------------------------------
     |
@@ -69,7 +83,7 @@ return [
     */
 
     'ignored_solution_providers' => [
-        //
+
     ],
 
     /*
@@ -78,12 +92,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | Some solutions that Ignition displays are runnable and can perform
-    | various tasks. Runnable solutions are enabled when your app has
-    | debug mode enabled. You may also fully disable this feature.
+    | various tasks. By default, runnable solutions are enabled when your app
+    | has debug mode enabled. You may also fully disable this feature.
+    |
+    | Default: env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', env('APP_DEBUG', false))
     |
     */
 
-    'enable_runnable_solutions' => env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', null),
+    'enable_runnable_solutions' => env('IGNITION_ENABLE_RUNNABLE_SOLUTIONS', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -108,7 +124,7 @@ return [
     |
     */
 
-    'remote_sites_path' => env('IGNITION_REMOTE_SITES_PATH', ''),
+    'remote_sites_path' => env('IGNITION_REMOTE_SITES_PATH', base_path()),
     'local_sites_path' => env('IGNITION_LOCAL_SITES_PATH', ''),
 
     /*
