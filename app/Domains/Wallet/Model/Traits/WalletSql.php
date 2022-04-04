@@ -106,6 +106,44 @@ trait WalletSql
     protected static function updateBySqlBuyStop(): string
     {
         return '
+            `buy_stop_reference` = IF (
+                (
+                    `buy_stop`
+                    AND `buy_stop_max_follow`
+                    AND `buy_stop_reference`
+                    AND `buy_stop_min_at` IS NULL
+                    AND `current_exchange` >= `buy_stop_reference`
+                ), `current_exchange`, `buy_stop_reference`
+            ),
+
+            `buy_stop_min_exchange` = IF (
+                (
+                    `buy_stop`
+                    AND `buy_stop_reference`
+                    AND `buy_stop_max_follow`
+                    AND `buy_stop_min_exchange`
+                    AND `buy_stop_min_percent`
+                    AND `buy_stop_min_at` IS NULL
+                    AND `current_exchange` >= `buy_stop_reference`
+                ),
+                `buy_stop_reference` * (1 - (`buy_stop_min_percent` / 100)),
+                `buy_stop_min_exchange`
+            ),
+
+            `buy_stop_max_exchange` = IF (
+                (
+                    `buy_stop`
+                    AND `buy_stop_reference`
+                    AND `buy_stop_max_follow`
+                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_max_percent`
+                    AND `buy_stop_min_at` IS NULL
+                    AND `current_exchange` >= `buy_stop_reference`
+                ),
+                `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
+                `buy_stop_max_exchange`
+            ),
+
             `buy_stop_min_exchange` = IF (
                 (
                     `buy_stop`

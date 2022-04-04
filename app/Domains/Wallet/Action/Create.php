@@ -62,6 +62,7 @@ class Create extends ActionAbstract
             'buy_stop_max_exchange' => $this->data['buy_stop_max_exchange'],
             'buy_stop_max_value' => $this->data['buy_stop_max_value'],
             'buy_stop_max_percent' => $this->data['buy_stop_max_percent'],
+            'buy_stop_max_follow' => $this->data['buy_stop_max_follow'],
 
             'buy_stop_min_exchange' => $this->data['buy_stop_min_exchange'],
             'buy_stop_min_value' => $this->data['buy_stop_min_value'],

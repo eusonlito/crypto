@@ -5,6 +5,7 @@
     'buy_stop_amount' => 'Comprando',
     'buy_stop_max_at' => 'Máximo Alcanzado',
     'buy_stop_max_exchange' => 'Cambio Máximo',
+    'buy_stop_max_follow' => 'Acompañar en Subida',
     'buy_stop_max_percent' => 'Porcentaje Máximo',
     'buy_stop_max_value' => 'Valor Máximo',
     'buy_stop_min_at' => 'Mínimo Alcanzado',
@@ -17,5 +18,5 @@
     'current_exchange' => 'Cambio Actual',
     'current_value' => 'Valor Actual',
     'send' => 'Guardar',
-    'title' => 'Compra en Bajada',
+    'title' => 'Compra en Bajada » Subida',
 ];

@@ -17,5 +17,5 @@
     'sell_stop_min_value' => 'Valor Mínimo',
     'sell_stop_reference' => 'Cambio de Referencia',
     'send' => 'Guardar',
-    'title' => 'Venta en Subida',
+    'title' => 'Venta en Subida » Bajada',
 ];

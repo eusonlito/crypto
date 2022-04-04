@@ -79,6 +79,7 @@ class Update extends ActionAbstract
         $this->row->buy_stop_max_exchange = $this->data['buy_stop_max_exchange'];
         $this->row->buy_stop_max_value = $this->data['buy_stop_max_value'];
         $this->row->buy_stop_max_percent = $this->data['buy_stop_max_percent'];
+        $this->row->buy_stop_max_follow = $this->data['buy_stop_max_follow'];
         $this->row->buy_stop_max_at = $this->data['buy_stop_max_at'];
 
         $this->row->buy_stop_min_exchange = $this->data['buy_stop_min_exchange'];
