@@ -32,7 +32,10 @@ class Simulator extends ControllerAbstract
 
         $this->row($id);
         $this->row->load(['product', 'platform']);
-        $this->requestMergeWithRow();
+
+        if ($this->request->isMethod('get')) {
+            $this->requestMergeWithRow();
+        }
     }
 
     /**

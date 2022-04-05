@@ -55,7 +55,7 @@ class Simulator
      */
     protected function row(Model $row, array $input): void
     {
-        $this->row = json_decode(json_encode(array_map([$this, 'rowMap'], $input) + $row->toArray()));
+        $this->row = $this->rowData($row, $input);
 
         $this->row->buy_stop_min_at = null;
         $this->row->buy_stop_max_at = null;
@@ -69,11 +69,67 @@ class Simulator
     }
 
     /**
+     * @param \App\Domains\Wallet\Model\Wallet $row
+     * @param array $input
+     *
+     * @return \stdClass
+     */
+    protected function rowData(Model $row, array $input): stdClass
+    {
+        return json_decode(json_encode(array_map([$this, 'rowDataMap'], $input + [
+            'id' => '',
+            'address' => '',
+            'name' => '',
+
+            'amount' => 0,
+            'buy_exchange' => 0,
+            'current_exchange' => 0,
+            'buy_value' => 0,
+            'current_value' => 0,
+
+            'sell_stop' => 0,
+            'sell_stop_amount' => 0,
+            'sell_stop_reference' => 0,
+            'sell_stop_max_percent' => 0,
+            'sell_stop_min_percent' => 0,
+            'sell_stop_max_exchange' => 0,
+            'sell_stop_min_exchange' => 0,
+            'sell_stop_max_value' => 0,
+            'sell_stop_min_value' => 0,
+
+            'buy_stop' => 0,
+            'buy_stop_amount' => 0,
+            'buy_stop_reference' => 0,
+            'buy_stop_max_follow' => 0,
+            'buy_stop_min_percent' => 0,
+            'buy_stop_min_exchange' => 0,
+            'buy_stop_min_value' => 0,
+            'buy_stop_max_percent' => 0,
+            'buy_stop_max_exchange' => 0,
+            'buy_stop_max_value' => 0,
+
+            'buy_market' => 0,
+            'buy_market_amount' => 0,
+            'buy_market_reference' => 0,
+            'buy_market_percent' => 0,
+            'buy_market_exchange' => 0,
+            'buy_market_value' => 0,
+
+            'sell_stoploss' => 0,
+            'sell_stoploss_percent' => 0,
+            'sell_stoploss_exchange' => 0,
+            'sell_stoploss_value' => 0,
+
+            'exchange_reverse' => 0,
+        ] + $row->toArray())));
+    }
+
+    /**
      * @param mixed $value
      *
      * @return mixed
      */
-    protected function rowMap(mixed $value): mixed
+    protected function rowDataMap(mixed $value): mixed
     {
         if (is_string($value) === false) {
             return $value;
@@ -97,7 +153,7 @@ class Simulator
     {
         $this->exchanges = ExchangeModel::byProductId($this->row->product->id)
             ->pluck('exchange', 'created_at')
-            ->when(isset($this->row->exchange_reverse), static fn ($collection) => $collection->reverse());
+            ->when($this->row->exchange_reverse, static fn ($collection) => $collection->reverse());
     }
 
     /**
@@ -339,8 +395,41 @@ class Simulator
      */
     protected function exchangeBuyStop(): void
     {
+        $this->exchangeBuyStopFollow();
         $this->exchangeBuyStopMax();
         $this->exchangeBuyStopMin();
+    }
+
+    /**
+     * @return void
+     */
+    protected function exchangeBuyStopFollow(): void
+    {
+        if ($this->exchangeBuyStopFollowExecutable() === false) {
+            return;
+        }
+
+        $this->row->buy_stop_reference = $this->exchange;
+
+        if ($this->row->buy_stop_min_exchange && $this->row->buy_stop_min_percent) {
+            $this->row->buy_stop_min_exchange = $this->row->buy_stop_reference * (1 - ($this->row->buy_stop_min_percent / 100));
+        }
+
+        if ($this->row->buy_stop_max_exchange && $this->row->buy_stop_max_percent) {
+            $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function exchangeBuyStopFollowExecutable(): bool
+    {
+        return $this->row->buy_stop
+            AND $this->row->buy_stop_reference
+            AND $this->row->buy_stop_max_follow
+            AND empty($this->row->buy_stop_min_at)
+            AND ($this->exchange >= $this->row->buy_stop_reference);
     }
 
     /**

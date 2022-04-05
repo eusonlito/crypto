@@ -109,8 +109,8 @@ trait WalletSql
             `buy_stop_reference` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_max_follow`
                     AND `buy_stop_reference`
+                    AND `buy_stop_max_follow`
                     AND `buy_stop_min_at` IS NULL
                     AND `current_exchange` >= `buy_stop_reference`
                 ), `current_exchange`, `buy_stop_reference`
@@ -121,10 +121,10 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_reference`
                     AND `buy_stop_max_follow`
-                    AND `buy_stop_min_exchange`
-                    AND `buy_stop_min_percent`
                     AND `buy_stop_min_at` IS NULL
                     AND `current_exchange` >= `buy_stop_reference`
+                    AND `buy_stop_min_exchange`
+                    AND `buy_stop_min_percent`
                 ),
                 `buy_stop_reference` * (1 - (`buy_stop_min_percent` / 100)),
                 `buy_stop_min_exchange`
@@ -135,10 +135,10 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_reference`
                     AND `buy_stop_max_follow`
-                    AND `buy_stop_max_exchange`
-                    AND `buy_stop_max_percent`
                     AND `buy_stop_min_at` IS NULL
                     AND `current_exchange` >= `buy_stop_reference`
+                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_max_percent`
                 ),
                 `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
                 `buy_stop_max_exchange`

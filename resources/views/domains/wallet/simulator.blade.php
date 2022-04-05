@@ -11,7 +11,7 @@
 @if (isset($row))
 
 <form method="post" data-change-event-change>
-    <input type="hidden" name="_action" value="percent" />
+    <input type="hidden" name="_action" value="simulator" />
 
     <div class="box p-5 mt-5">
         <div class="grid grid-cols-12 gap-2">
@@ -176,6 +176,13 @@
                     <div class="form-check">
                         <input type="checkbox" name="buy_stop" value="1" class="form-check-switch" id="wallet-buy_stop" {{ $REQUEST->input('buy_stop') ? 'checked' : '' }}>
                         <label for="wallet-buy_stop" class="form-check-label">{{ __('wallet-create.buy_stop') }}</label>
+                    </div>
+                </div>
+
+                <div class="flex-initial p-4">
+                    <div class="form-check">
+                        <input type="checkbox" name="buy_stop_max_follow" value="1" class="form-check-switch" id="wallet-buy_stop_max_follow" {{ $REQUEST->input('buy_stop_max_follow') ? 'checked' : '' }}>
+                        <label for="wallet-buy_stop_max_follow" class="form-check-label">{{ __('wallet-create.buy_stop_max_follow') }}</label>
                     </div>
                 </div>
             </div>
