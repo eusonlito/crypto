@@ -60,10 +60,23 @@ class Detail extends ControllerAbstract
     protected function product(int $product_id): void
     {
         $this->product = ProductModel::byId($product_id)
-            ->withExchangesChart($this->time, $this->request->input('start_at'), $this->request->input('end_at'))
+            ->withExchangesChart(...$this->productExchangesData())
             ->firstOr(static function () {
                 throw new NotFoundException(__('exchange.error.product-not-found'));
             });
+    }
+
+    /**
+     * @return array
+     */
+    protected function productExchangesData(): array
+    {
+        return [
+            $this->time,
+            $this->request->input('start_at'),
+            $this->request->input('end_at'),
+            (bool)$this->request->input('detail'),
+        ];
     }
 
     /**

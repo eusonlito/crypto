@@ -8,6 +8,7 @@
     'clear' => 'Limpiar',
     'created_at' => 'Fecha',
     'difference' => 'Diferencia',
+    'detail' => 'Detalle',
     'end_at' => 'Fin (yyyy-mm-dd hh:mm:ss)',
     'exchange' => 'Cambio',
     'filter' => 'Filtrar',

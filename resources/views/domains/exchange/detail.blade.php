@@ -79,6 +79,13 @@
                 <input type="text" name="end_at" value="{{ $REQUEST->input('end_at') }}" class="form-control form-control-lg" placeholder="{{ __('exchange-detail.end_at') }}" />
             </div>
 
+            <div class="p-2 flex">
+                <div class="form-check">
+                    <input type="checkbox" name="detail" value="1" class="form-check-switch" id="exchange-detail" {{ $REQUEST->input('detail') ? 'checked' : '' }}>
+                    <label for="exchange-detail" class="form-check-label">{{ __('exchange-detail.detail') }}</label>
+                </div>
+            </div>
+
             <div class="p-2">
                 <button type="submit" class="btn form-select-lg">{{ __('exchange-detail.filter') }}</button>
             </div>
