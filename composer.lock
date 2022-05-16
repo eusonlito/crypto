@@ -1574,16 +1574,16 @@
         },
         {
             "name": "eusonlito/laravel-meta",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eusonlito/laravel-Meta.git",
-                "reference": "73edf12cebf0c8a1a6a1b77dd0cd0213073d817d"
+                "reference": "104c7f6273f953b6b82bd1c0f0aa2d5afb739721"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eusonlito/laravel-Meta/zipball/73edf12cebf0c8a1a6a1b77dd0cd0213073d817d",
-                "reference": "73edf12cebf0c8a1a6a1b77dd0cd0213073d817d",
+                "url": "https://api.github.com/repos/eusonlito/laravel-Meta/zipball/104c7f6273f953b6b82bd1c0f0aa2d5afb739721",
+                "reference": "104c7f6273f953b6b82bd1c0f0aa2d5afb739721",
                 "shasum": ""
             },
             "require": {
@@ -1627,9 +1627,9 @@
             ],
             "support": {
                 "issues": "https://github.com/eusonlito/laravel-Meta/issues",
-                "source": "https://github.com/eusonlito/laravel-Meta/tree/v3.2.2"
+                "source": "https://github.com/eusonlito/laravel-Meta/tree/v3.2.3"
             },
-            "time": "2022-05-10T07:47:51+00:00"
+            "time": "2022-05-13T08:13:41+00:00"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
@@ -2535,16 +2535,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "32a49eb2b38fe5e5c417ab748a45d0beaab97955"
+                "reference": "cb36fee279f7fca01d5d9399ddd1b37e48e2eca1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/32a49eb2b38fe5e5c417ab748a45d0beaab97955",
-                "reference": "32a49eb2b38fe5e5c417ab748a45d0beaab97955",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/cb36fee279f7fca01d5d9399ddd1b37e48e2eca1",
+                "reference": "cb36fee279f7fca01d5d9399ddd1b37e48e2eca1",
                 "shasum": ""
             },
             "require": {
@@ -2637,7 +2637,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-07T22:37:05+00:00"
+            "time": "2022-05-14T15:37:39+00:00"
         },
         {
             "name": "league/config",
