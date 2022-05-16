@@ -84,10 +84,11 @@ class Status
         $sell = $list->where('side', 'sell');
 
         $buy_count = $buy->count();
-        $buy_average = (float)$buy->avg('price');
+        $buy_average = $this->average($buy);
 
         $sell_count = $sell->count();
-        $sell_average = (float)$sell->avg('price');
+        $sell_average = $this->average($sell);
+
         $sell_pending = $this->sellPending($list);
         $sell_pending_average = $this->sellPendingAverage($sell_pending);
 
@@ -189,17 +190,19 @@ class Status
      */
     protected function balance(Collection $list): float
     {
-        $list = $list->skipWhile(static fn ($value) => $value->side !== 'buy')
-            ->reverse()
-            ->skipWhile(static fn ($value) => $value->side !== 'sell');
+        $buy = $list->where('side', 'buy')->sum('value');
+        $sell = $list->where('side', 'sell')->sum('value');
 
-        $sell = $list->where('side', 'sell');
-        $buy = $list->where('side', 'buy');
+        return ($sell - $buy) + ($list->first()->wallet->current_value ?? 0);
+    }
 
-        if ($sell->isEmpty() || $buy->isEmpty()) {
-            return 0;
-        }
-
-        return $sell->sum('value') - $buy->sum('value');
+    /**
+     * @param \Illuminate\Support\Collection $list
+     *
+     * @return float
+     */
+    protected function average(Collection $list): float
+    {
+        return $list->sum('value') / ($list->sum('amount') ?: 1);
     }
 }
