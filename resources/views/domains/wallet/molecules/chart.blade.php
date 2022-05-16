@@ -117,7 +117,7 @@ charts.push({
                     steppedLine: false,
                     fill: false,
                     pointRadius: 0,
-                    pointHitRadius: 5,
+                    pointHitRadius: 0,
                     borderWidth: 0,
                     data: @json($exchanges->map(static fn ($value) => $value->exchange * $row->amount)),
                     tooltip: {

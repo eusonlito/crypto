@@ -1131,7 +1131,7 @@ video {
 .modal {
   margin-top: -10000px;
   margin-left: -10000px;
-  background: #000000a6;
+  background: rgba(0, 0, 0, 0.6509803922);
   transition: visibility 0s linear 0.2s, opacity 0.2s 0s;
   visibility: hidden;
   position: fixed;
@@ -1143,7 +1143,7 @@ video {
 }
 
 .modal.modal-overlap {
-  background: #000000a6;
+  background: rgba(0, 0, 0, 0.6509803922);
 }
 
 .modal.modal-static .modal-content {
@@ -1352,7 +1352,7 @@ video {
 }
 
 .pagination li .pagination__link.pagination__link--active {
-  box-shadow: 0px 3px 20px #0000000b;
+  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.0431372549);
   position: relative;
   border-radius: 0.375rem;
   border-color: transparent;
@@ -1412,7 +1412,7 @@ video {
 }
 
 .box {
-  box-shadow: 0px 3px 20px #0000000b;
+  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.0431372549);
   position: relative;
   border-radius: 0.375rem;
   border-color: transparent;
@@ -3203,7 +3203,7 @@ video {
 }
 
 .table-report:not(.table-report--bordered):not(.table-report--tabulator) td {
-  box-shadow: 20px 3px 20px #0000000b;
+  box-shadow: 20px 3px 20px rgba(0, 0, 0, 0.0431372549);
 }
 
 .table-report:not(.table-report--bordered):not(.table-report--tabulator) td:first-child {
@@ -3379,7 +3379,7 @@ video {
 
 .login .login__input {
   min-width: 350px;
-  box-shadow: 0px 3px 5px #00000007;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.0274509804);
 }
 
 @media (max-width: 1279px) {
@@ -6485,7 +6485,7 @@ select {
   position: sticky;
   top: 0px;
   border-bottom: 1px solid #CCC;
-  box-shadow: 20px 3px 20px #0000000b;
+  box-shadow: 20px 3px 20px rgba(0, 0, 0, 0.0431372549);
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   z-index: 1;
 }
@@ -6585,7 +6585,7 @@ table[data-table-sort] thead th {
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: #e2e8f0;
+  border-color: rgb(226, 232, 240);
   display: flex;
   align-items: center;
   border-radius: 9999px;
@@ -6593,7 +6593,7 @@ table[data-table-sort] thead th {
   font-size: 0.75rem;
   line-height: 1rem;
   font-weight: 500;
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .external {
