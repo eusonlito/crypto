@@ -1,6 +1,10 @@
 <?php return [
     'amount' => 'Cantidad',
     'buy' => 'Compra',
+    'create' => 'Crear',
+    'custom-all' => 'Personalización',
+    'custom-no' => 'Originales',
+    'custom-yes' => 'Personalizadas',
     'date' => 'Fecha',
     'date_end' => 'Fecha Inicio',
     'date_start' => 'Fecha Fin',

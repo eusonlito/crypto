@@ -27,11 +27,19 @@
         </div>
 
         <div class="flex-grow mt-2 sm:mt-0">
+            <x-select name="custom" :options="$custom_options" :selected="$filters['custom']" :placeholder="__('order-index.custom-all')" data-change-submit></x-select>
+        </div>
+
+        <div class="flex-grow mt-2 sm:mt-0">
             <x-select name="platform_id" value="id" text="name" :options="$platforms->toArray()" :selected="$filters['platform_id']" :placeholder="__('order-index.platforms-all')" data-change-submit></x-select>
         </div>
     </div>
 </form>
 
 @include ('domains.order.molecules.list')
+
+<div class="mt-5 text-right">
+    <a href="{{ route('order.create') }}" class="btn btn-primary">{{ __('order-index.create') }}</a>
+</div>
 
 @stop

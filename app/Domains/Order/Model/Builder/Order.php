@@ -99,6 +99,16 @@ class Order extends BuilderAbstract
     }
 
     /**
+     * @param bool $custom = true
+     *
+     * @return self
+     */
+    public function whereCustom(bool $custom = true): self
+    {
+        return $this->where('custom', $custom);
+    }
+
+    /**
      * @param bool $filled = true
      *
      * @return self

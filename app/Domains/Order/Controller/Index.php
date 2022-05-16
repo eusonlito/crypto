@@ -22,6 +22,7 @@ class Index extends ControllerAbstract
             'list' => (new IndexService($this->auth, $this->request))->get(),
             'filled_options' => $this->filledOptions(),
             'side_options' => $this->sideOptions(),
+            'custom_options' => $this->customOptions(),
             'platforms' => PlatformModel::list()->get(),
             'filled' => (bool)$this->request->input('filled'),
         ]);
@@ -50,6 +51,17 @@ class Index extends ControllerAbstract
     }
 
     /**
+     * @return array
+     */
+    protected function customOptions(): array
+    {
+        return [
+            '1' => __('order-index.custom-yes'),
+            '0' => __('order-index.custom-no'),
+        ];
+    }
+
+    /**
      * @return void
      */
     protected function filters(): void
@@ -58,6 +70,7 @@ class Index extends ControllerAbstract
             'platform_id' => (int)$this->auth->preference('order-index-platform_id', $this->request->input('platform_id'), 0),
             'filled' => $this->auth->preference('order-index-filled', $this->request->input('filled'), ''),
             'side' => $this->auth->preference('order-index-side', $this->request->input('side'), ''),
+            'custom' => $this->auth->preference('order-index-custom', $this->request->input('custom'), ''),
             'date_start' => $this->auth->preference('order-index-date_start', $this->request->input('date_start'), ''),
             'date_end' => $this->auth->preference('order-index-date_end', $this->request->input('date_end'), ''),
         ]);

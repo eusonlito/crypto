@@ -50,6 +50,10 @@ class Index
             $q->bySide($filter);
         }
 
+        if (strlen($filter = $this->request->input('custom'))) {
+            $q->whereCustom((bool)$filter);
+        }
+
         if ($filter = helper()->dateToDate($this->request->input('date_start', ''))) {
             $q->byCreatedAtStart($filter);
         }

@@ -426,10 +426,10 @@ class Simulator
     protected function exchangeBuyStopFollowExecutable(): bool
     {
         return $this->row->buy_stop
-            AND $this->row->buy_stop_reference
-            AND $this->row->buy_stop_max_follow
-            AND empty($this->row->buy_stop_min_at)
-            AND ($this->exchange >= $this->row->buy_stop_reference);
+            and $this->row->buy_stop_reference
+            and $this->row->buy_stop_max_follow
+            and empty($this->row->buy_stop_min_at)
+            and ($this->exchange >= $this->row->buy_stop_reference);
     }
 
     /**

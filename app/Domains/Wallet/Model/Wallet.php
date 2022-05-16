@@ -96,4 +96,12 @@ class Wallet extends ModelAbstract
     {
         return $this->belongsTo(UserModel::class, UserModel::FOREIGN);
     }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->product->acronym.' - '.$this->platform->name;
+    }
 }

@@ -107,6 +107,16 @@ class Helper
     }
 
     /**
+     * @param string $key
+     *
+     * @return string
+     */
+    public function arrayKeyDot(string $key): string
+    {
+        return rtrim(str_replace(['][', '[', ']'], ['.', '.', ''], $key), '.');
+    }
+
+    /**
      * @param array $query
      *
      * @return string
@@ -284,6 +294,26 @@ class Helper
         }
 
         return trim(implode('-', $day).' '.$time);
+    }
+
+    /**
+     * @param array $array
+     *
+     * @return string
+     */
+    public function arrayHtmlAttributes(array $array): string
+    {
+        return implode(' ', array_filter(array_map(function ($key, $value) {
+            if (is_bool($value)) {
+                return $key;
+            }
+
+            if (is_string($value) || ($value instanceof Stringable)) {
+                return $key . '=' . htmlentities((string)$value);
+            }
+
+            return '';
+        }, array_keys($array), $array)));
     }
 
     /**

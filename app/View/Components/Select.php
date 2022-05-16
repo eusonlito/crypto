@@ -2,11 +2,18 @@
 
 namespace App\View\Components;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
 class Select extends Component
 {
+    /**
+     * @var \Illuminate\Http\Request
+     */
+    public Request $request;
+
     /**
      * @var string
      */
@@ -23,9 +30,9 @@ class Select extends Component
     public array $options;
 
     /**
-     * @var string
+     * @var string|array
      */
-    public string $selected;
+    public string|array $selected;
 
     /**
      * @var string
@@ -43,36 +50,84 @@ class Select extends Component
     public string $id;
 
     /**
-     * @param array $options,
-     * @param string $value,
-     * @param mixed $text,
+     * @var bool
+     */
+    public bool $valueOnly;
+
+    /**
+     * @var bool
+     */
+    public bool $optionsWithAttributes;
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param array|\Illuminate\Support\Collection $options,
+     * @param string $value = '',
+     * @param string|int|array $text = '',
      * @param string $label = '',
-     * @param mixed $selected = '',
      * @param string $name = '',
      * @param string $id = '',
      * @param string $placeholder = ''
+     * @param bool $valueOnly = false
+     * @param bool $optionsWithAttributes = false
      *
      * @return self
      */
     public function __construct(
-        array $options,
+        Request $request,
+        array|Collection $options,
         string $value = '',
-        $text = '',
+        string|int|array $text = '',
         string $label = '',
-        $selected = '',
         string $name = '',
         string $id = '',
-        string $placeholder = ''
+        string $placeholder = '',
+        bool $valueOnly = false,
+        bool $optionsWithAttributes = false,
     ) {
+        $this->request = $request;
+        $this->name = $name;
         $this->value = $value;
-        $this->text = (array)$text;
-        $this->selected = (string)$selected;
+        $this->valueOnly = $valueOnly;
+        $this->optionsWithAttributes = $optionsWithAttributes;
+        $this->text = array_filter((array)$text);
+        $this->selected = $this->selected();
         $this->options = $this->options($options);
         $this->label = $label;
-        $this->name = $name;
-        $this->id = $id ?: 'input-'.uniqid();
-
+        $this->id = $id ?: 'input-' . uniqid();
         $this->placeholder($placeholder);
+    }
+
+    /**
+     * @return string|array
+     */
+    protected function selected(): string|array
+    {
+        $selected = $this->request->input(helper()->arrayKeyDot($this->name));
+
+        return is_array($selected) ? $selected : strval($selected);
+    }
+
+    /**
+     * @param array|\Illuminate\Support\Collection $options
+     *
+     * @return array
+     */
+    protected function options(array|Collection $options): array
+    {
+        if ($options instanceof Collection) {
+            $options = $options->toArray();
+        }
+
+        if ($this->valueOnly) {
+            return $this->optionsValue($options);
+        }
+
+        if (empty($this->value) || empty($this->text)) {
+            return $this->optionsKeyValue($options);
+        }
+
+        return $this->optionsAssociative($options);
     }
 
     /**
@@ -80,13 +135,37 @@ class Select extends Component
      *
      * @return array
      */
-    protected function options(array $options): array
+    protected function optionsValue(array $options): array
     {
-        if (empty($this->value) || empty($this->text)) {
-            return $this->optionsKeyValue($options);
+        return array_map(fn ($value) => $this->optionsValueOption($value), $options);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return array
+     */
+    protected function optionsValueOption($value): array
+    {
+        return [
+            'value' => $value,
+            'text' => $value,
+            'selected' => $this->optionsValueOptionSelected($value),
+        ];
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    protected function optionsValueOptionSelected($value): bool
+    {
+        if (is_array($this->selected)) {
+            return in_array($value, $this->selected);
         }
 
-        return $this->optionsAssociative($options);
+        return strval($value) === $this->selected;
     }
 
     /**
@@ -121,6 +200,10 @@ class Select extends Component
      */
     protected function optionsKeyValueOptionSelected($key): bool
     {
+        if (is_array($this->selected)) {
+            return in_array($key, $this->selected);
+        }
+
         return strval($key) === $this->selected;
     }
 
@@ -145,6 +228,7 @@ class Select extends Component
             'value' => $this->optionsAssociativeOptionValue($option),
             'text' => $this->optionsAssociativeOptionText($option),
             'selected' => $this->optionsAssociativeOptionSelected($option),
+            'attributes' => $this->optionsAssociativeOptionAttributes($option),
         ];
     }
 
@@ -175,7 +259,28 @@ class Select extends Component
      */
     protected function optionsAssociativeOptionSelected(array $option): bool
     {
-        return strval($option[$this->value] ?? '') === $this->selected;
+        $key = $option[$this->value] ?? '';
+
+        if (is_array($this->selected)) {
+            return in_array($key, $this->selected);
+        }
+
+        return strval($key) === $this->selected;
+    }
+    /**
+     * @param array $option
+     *
+     * @return string
+     */
+    protected function optionsAssociativeOptionAttributes(array $option): string
+    {
+        if ($this->optionsWithAttributes === false) {
+            return '';
+        }
+
+        $option = array_diff_key($option, array_flip(array_merge([$this->value, 'selected'], $this->text)));
+
+        return helper()->arrayHtmlAttributes(array_filter($option));
     }
 
     /**

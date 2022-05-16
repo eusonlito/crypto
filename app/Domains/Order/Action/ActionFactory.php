@@ -21,6 +21,14 @@ class ActionFactory extends ActionFactoryAbstract
     }
 
     /**
+     * @return \App\Domains\Order\Model\Order
+     */
+    public function createSimple(): Model
+    {
+        return $this->actionHandle(CreateSimple::class, $this->validate()->createSimple());
+    }
+
+    /**
      * @return void
      */
     public function syncAll(): void
@@ -58,5 +66,13 @@ class ActionFactory extends ActionFactoryAbstract
     public function syncByWallets(): void
     {
         $this->actionHandle(SyncByWallets::class, [], ...func_get_args());
+    }
+
+    /**
+     * @return \App\Domains\Order\Model\Order
+     */
+    public function update(): Model
+    {
+        return $this->actionHandle(Update::class, $this->validate()->update());
     }
 }

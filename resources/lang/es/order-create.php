@@ -1,0 +1,15 @@
+<?php return [
+    'amount' => 'Cantidad',
+    'created_at' => 'Fecha',
+    'fee' => 'Comisión',
+    'meta-title' => 'Alta de Orden',
+    'price' => 'Precio',
+    'save' => 'Guardar',
+    'side' => 'Dirección',
+    'side-placeholder' => 'Selecciona una Dirección',
+    'success' => 'La Orden ha sido creada correctamente',
+    'type' => 'Tipo',
+    'type-placeholder' => 'Selecciona un Tipo',
+    'wallet' => 'Cartera',
+    'wallet-placeholder' => 'Selecciona una Cartera',
+];

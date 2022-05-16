@@ -107,6 +107,7 @@ return new class extends MigrationAbstract {
             $table->string('side');
 
             $table->boolean('filled')->default(0);
+            $table->boolean('custom')->default(0);
 
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
