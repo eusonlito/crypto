@@ -56,13 +56,18 @@
             </tr>
 
             @endforeach
-        </tbody>
 
-        <tfoot>
             <tr class="text-right">
-                <th colspan="13">{{ __('order-status.total') }}</th>
-                <th><span class="block">@number($list->sum('balance'))</span></th>
+                <td></td>
+                <td colspan="2"></td>
+                <td class="text-center"><span class="block">@number($list->sum('buy_count'), 0)</span></td>
+                <td class="text-center"><span class="block">@number($list->sum('sell_count'), 0)</span></td>
+                <td colspan="4"></td>
+                <td><span class="block">@number($list->sum('buy_value'))</span></td>
+                <td><span class="block">@number($list->sum('sell_value'))</span></td>
+                <td colspan="2"></td>
+                <td><span class="block">@number($list->sum('balance'))</span></td>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
 </div>
