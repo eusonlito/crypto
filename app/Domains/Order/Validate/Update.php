@@ -16,7 +16,7 @@ class Update extends ValidateAbstract
             'amount' => ['bail', 'required', 'numeric'],
             'price' => ['bail', 'required', 'numeric'],
             'fee' => ['bail', 'numeric'],
-            'type' => ['bail', 'required', 'in:LIMIT,MARKET,STOP_LOSS,STOP_LOSS_LIMIT,TAKE_PROFIT,TAKE_PROFIT_LIMIT,LIMIT_MAKER'],
+            'type' => ['bail', 'required', 'in:limit,market,stop_loss,stop_loss_limit,take_profit,take_profit_limit,limit_maker'],
             'side' => ['bail', 'required', 'in:buy,sell'],
             'wallet_id' => ['bail', 'required', 'integer'],
         ];

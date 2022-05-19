@@ -37,11 +37,11 @@
             </div>
 
             <div class="flex-auto p-1 mt-1">
-                <x-select name="type" :options="$types" :placeholder="__('order-create.type-placeholder')" :label="__('order-create.type')" :selected="$REQUEST->input('type')" value-only required></x-select>
+                <x-select name="type" :options="$types" :placeholder="__('order-create.type-placeholder')" :label="__('order-create.type')" :selected="$REQUEST->input('type')" required></x-select>
             </div>
 
             <div class="flex-auto p-1 mt-1">
-                <x-select name="side" :options="$sides" :placeholder="__('order-create.side-placeholder')" :label="__('order-create.side')" :selected="$REQUEST->input('side')" value-only required></x-select>
+                <x-select name="side" :options="$sides" :placeholder="__('order-create.side-placeholder')" :label="__('order-create.side')" :selected="$REQUEST->input('side')" required></x-select>
             </div>
         </div>
     </div>

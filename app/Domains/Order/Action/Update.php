@@ -29,5 +29,7 @@ class Update extends ActionAbstract
         $this->row->product_id = $this->product->id;
         $this->row->user_id = $this->auth->id;
         $this->row->wallet_id = $this->wallet->id;
+
+        $this->row->save();
     }
 }

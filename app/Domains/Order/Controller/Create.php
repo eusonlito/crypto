@@ -55,7 +55,15 @@ class Create extends ControllerAbstract
      */
     protected function types(): array
     {
-        return ['LIMIT', 'MARKET', 'STOP_LOSS', 'STOP_LOSS_LIMIT', 'TAKE_PROFIT', 'TAKE_PROFIT_LIMIT', 'LIMIT_MAKER'];
+        return [
+            'limit' => 'LIMIT',
+            'market' => 'MARKET',
+            'stop_loss' => 'STOP_LOSS',
+            'stop_loss_limit' => 'STOP_LOSS_LIMIT',
+            'take_profit' => 'TAKE_PROFIT',
+            'take_profit_limit' => 'TAKE_PROFIT_LIMIT',
+            'limit_maker' => 'LIMIT_MAKER',
+        ];
     }
 
     /**
@@ -63,7 +71,10 @@ class Create extends ControllerAbstract
      */
     protected function sides(): array
     {
-        return ['buy', 'sell'];
+        return [
+            'buy' => __('order-create.side-buy'),
+            'sell' => __('order-create.side-sell'),
+        ];
     }
 
     /**

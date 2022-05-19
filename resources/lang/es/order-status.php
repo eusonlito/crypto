@@ -21,7 +21,6 @@
     'sell-price-average-description' => 'Precio Medio de Venta',
     'sell-value' => 'TV',
     'sell-value-description' => 'Acumulado Total de Ventas',
-    'total' => 'Total',
     'wallet' => 'Cartera',
     'wallet-price-value' => 'En Cartera',
     'wallet-price-value-description' => 'Valor Actual de la Cartera',

@@ -12,7 +12,7 @@ class Create extends ValidateAbstract
     public function rules(): array
     {
         return [
-            'type' => ['bail', 'required', 'in:LIMIT,MARKET,STOP_LOSS,STOP_LOSS_LIMIT,TAKE_PROFIT,TAKE_PROFIT_LIMIT,LIMIT_MAKER'],
+            'type' => ['bail', 'required', 'in:limit,market,stop_loss,stop_loss_limit,take_profit,take_profit_limit,limit_maker'],
             'side' => ['bail', 'required', 'in:buy,sell'],
             'amount' => ['bail', 'required', 'numeric'],
             'price' => ['bail', 'numeric'],
