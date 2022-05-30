@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-span-12 mb-2 xl:col-span-4">
-                <x-select name="product_id" value="id" :text="['name']" :options="$products->toArray()" :label="__('wallet-update.product')" :selected="$row->product_id"></x-select>
+                <x-select name="product_id" value="id" :text="['acronym', 'name']" :options="$products->toArray()" :label="__('wallet-update.product')" :selected="$row->product_id"></x-select>
             </div>
 
             <div class="col-span-12 xl:col-span-4">

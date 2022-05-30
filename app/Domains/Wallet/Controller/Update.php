@@ -40,7 +40,7 @@ class Update extends ControllerAbstract
     protected function products()
     {
         return ProductModel::byPlatformId($this->row->platform_id)
-            ->orderBy('name', 'ASC')
+            ->orderBy('acronym', 'ASC')
             ->get();
     }
 

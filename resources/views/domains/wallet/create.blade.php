@@ -16,7 +16,7 @@
     <div class="box p-5 mt-5">
         <div class="grid grid-cols-12 gap-2">
             <div class="col-span-12 mb-2">
-                <x-select name="product_id" value="id" :text="['name']" :options="$products->toArray()" :label="__('wallet-create.product')" :selected="$REQUEST->input('product_id')"></x-select>
+                <x-select name="product_id" value="id" :text="['acronym', 'name']" :options="$products->toArray()" :label="__('wallet-create.product')" :selected="$REQUEST->input('product_id')"></x-select>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">

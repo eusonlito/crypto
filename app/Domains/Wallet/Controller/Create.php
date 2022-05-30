@@ -30,7 +30,7 @@ class Create extends ControllerAbstract
         $data = ['platforms' => PlatformModel::list()->get()];
 
         if ($platform_id = $this->request->input('platform_id')) {
-            $data['products'] = ProductModel::byPlatformId($platform_id)->orderBy('name', 'ASC')->get();
+            $data['products'] = ProductModel::byPlatformId($platform_id)->orderBy('acronym', 'ASC')->get();
         } else {
             $data['products'] = null;
         }
