@@ -218,8 +218,8 @@ class Simulator
     {
         return [
             'exchanges' => ($exchanges = $this->getExchanges()),
-            'exchangeFirst' => $exchanges->first()['average'],
-            'exchangeLast' => $exchanges->last()['average'],
+            'exchangeFirst' => $exchanges->first()['average'] ?? 0,
+            'exchangeLast' => $exchanges->last()['average'] ?? 0,
             'orders' => ($orders = $this->getOrders()),
             'ordersCompleted' => ($ordersCompleted = $orders->where('filled', true)),
             'ordersCompletedBuy' => ($ordersCompletedBuy = $ordersCompleted->where('side', 'buy')),
