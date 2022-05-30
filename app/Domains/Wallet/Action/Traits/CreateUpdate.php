@@ -52,11 +52,29 @@ trait CreateUpdate
      */
     protected function dataExchange(): float
     {
+        return $this->dataExchangeLast()
+            ?: $this->dataExchangeCurrent()
+            ?: 0;
+    }
+
+    /**
+     * @return float
+     */
+    protected function dataExchangeLast(): float
+    {
         return ExchangeModel::select('exchange')
             ->byProductId($this->product->id)
             ->orderBy('id', 'DESC')
             ->first()
             ->exchange ?? 0;
+    }
+
+    /**
+     * @return float
+     */
+    protected function dataExchangeCurrent(): float
+    {
+        return $this->row->current_exchange ?? 0;
     }
 
     /**

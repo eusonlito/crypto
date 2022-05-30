@@ -57,6 +57,9 @@ class Update extends ActionAbstract
         $this->row->buy_exchange = $this->data['buy_exchange'];
         $this->row->buy_value = $this->data['buy_value'];
 
+        $this->row->current_exchange = $this->data['current_exchange'];
+        $this->row->current_value = $this->data['current_value'];
+
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
