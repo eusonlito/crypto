@@ -82,8 +82,10 @@ class Create extends ControllerAbstract
      */
     protected function create(): RedirectResponse
     {
+        $row = $this->action()->createSimple();
+
         service()->message()->success(__('order-create.success'));
 
-        return redirect()->route('order.update', $this->action()->createSimple()->id);
+        return redirect()->route('order.update', $row->id);
     }
 }

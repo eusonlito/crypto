@@ -49,9 +49,10 @@ class Update extends ActionAbstract
      */
     protected function storeCrypto(): void
     {
-        if ($this->row->custom) {
-            $this->storeCryptoCustom();
-        }
+        $this->row->address = $this->data['address'];
+        $this->row->name = $this->data['name'];
+
+        $this->row->amount = $this->data['amount'];
 
         $this->row->buy_exchange = $this->data['buy_exchange'];
         $this->row->buy_value = $this->data['buy_value'];
@@ -102,17 +103,6 @@ class Update extends ActionAbstract
         $this->row->sell_stoploss_value = $this->data['sell_stoploss_value'];
         $this->row->sell_stoploss_percent = $this->data['sell_stoploss_percent'];
         $this->row->sell_stoploss_at = $this->data['sell_stoploss_at'];
-    }
-
-    /**
-     * @return void
-     */
-    protected function storeCryptoCustom(): void
-    {
-        $this->row->address = $this->data['address'];
-        $this->row->name = $this->data['name'];
-
-        $this->row->amount = $this->data['amount'];
     }
 
     /**

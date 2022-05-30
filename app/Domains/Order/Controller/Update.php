@@ -88,8 +88,10 @@ class Update extends ControllerAbstract
      */
     protected function update(): RedirectResponse
     {
+        $row = $this->action()->update();
+
         service()->message()->success(__('order-update.success'));
 
-        return redirect()->route('order.update', $this->action()->update()->id);
+        return redirect()->route('order.update', $row->id);
     }
 }

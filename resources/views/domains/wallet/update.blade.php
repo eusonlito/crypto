@@ -45,12 +45,12 @@
 
             <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-address" class="form-label">{{ __('wallet-update.address') }}</label>
-                <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $row->address }}" {{ $row->custom ? '' : 'readonly' }}>
+                <input type="text" name="address" class="form-control form-control-lg" id="wallet-address" value="{{ $row->address }}" />
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-name" class="form-label">{{ __('wallet-update.name') }}</label>
-                <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $row->name }}" {{ $row->custom ? '' : 'readonly' }}>
+                <input type="text" name="name" class="form-control form-control-lg" id="wallet-name" value="{{ $row->name }}" />
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-4">
@@ -60,7 +60,7 @@
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-amount" class="form-label">{{ __('wallet-update.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="@numberString($REQUEST->input('amount'))" {{ $row->custom ? '' : 'readonly' }}>
+                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="@numberString($REQUEST->input('amount'))" />
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">
