@@ -41,12 +41,12 @@ class Products extends ApiAbstract
 
             'precision' => 8,
 
-            'priceMin' => (float)$row->quote_increment,
-            'priceMax' => (float)$row->max_market_funds,
+            'priceMin' => 0,
+            'priceMax' => 10000000,
             'priceDecimal' => strpos(str_replace('.', '', $row->quote_increment), '1'),
 
-            'quantityMin' => (float)$row->base_min_size,
-            'quantityMax' => (float)$row->base_max_size,
+            'quantityMin' => 0,
+            'quantityMax' => 10000000,
             'quantityDecimal' => strpos(str_replace('.', '', $row->base_increment), '1'),
 
             'currencyBase' => $row->base_currency,
