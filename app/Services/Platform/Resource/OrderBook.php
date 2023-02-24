@@ -25,7 +25,7 @@ class OrderBook extends ResourceAbstract
             return [];
         }
 
-        $reference = $this->groupReference($this->$type[0][0]);
+        $reference = $this->groupReference($this->{$type}[0][0]);
         $decimals = strpos(strrev(strval($reference)), '.') ?: 0;
         $float = is_float($reference);
         $values = [];

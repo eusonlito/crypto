@@ -1,10 +1,10 @@
 {
-    "name": "crypto/api",
+    "name": "eusonlito/crypto",
     "type": "project",
-    "description": "PROJECT",
-    "license": "proprietary",
+    "description": "Plataforma multiusuario para gestión de cryptos",
+    "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "bacon/bacon-qr-code": "master-dev",
         "composer/composer": "^2.2",
         "doctrine/dbal": "^3.0",
@@ -13,19 +13,20 @@
         "laravel/framework": "^9.5",
         "laravel/helpers": "^1.2",
         "pragmarx/google2fa-qrcode": "master-dev",
-        "predis/predis": "^1.1",
-        "sentry/sentry-laravel": "^2.0"
+        "predis/predis": "^2.1",
+        "sentry/sentry-laravel": "^3.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "brianium/paratest": "^6.2",
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.13",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/phpinsights": "dev-master",
+        "phpcompatibility/php-compatibility": "^9.3",
         "phpstan/phpstan": "^1.4",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "spatie/laravel-ignition": "^1.0"
     },
     "config": {
         "optimize-autoloader": true,
