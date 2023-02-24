@@ -3,20 +3,16 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as KernelVendor;
-
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Session\Middleware\StartSession;
-
 use App\Domains\Language\Middleware\Request as LanguageRequest;
-
 use App\Domains\User\Middleware\Admin as UserAdmin;
 use App\Domains\User\Middleware\Auth as UserAuth;
 use App\Domains\User\Middleware\AuthRedirect as UserAuthRedirect;
 use App\Domains\User\Middleware\AuthTFA as UserAuthTFA;
-
 use App\Http\Middleware\RequestLogger;
 use App\Http\Middleware\Reset;
 use App\Http\Middleware\MessagesShareFromSession;

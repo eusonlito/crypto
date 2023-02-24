@@ -94,7 +94,7 @@ class Select extends Component
         $this->selected = $this->selected();
         $this->options = $this->options($options);
         $this->label = $label;
-        $this->id = $id ?: 'input-' . uniqid();
+        $this->id = $id ?: 'input-'.uniqid();
         $this->placeholder($placeholder);
     }
 
@@ -267,6 +267,7 @@ class Select extends Component
 
         return strval($key) === $this->selected;
     }
+
     /**
      * @param array $option
      *

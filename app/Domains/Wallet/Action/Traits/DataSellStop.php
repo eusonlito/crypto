@@ -18,6 +18,7 @@ trait DataSellStop
 
         if ($this->dataSellStopIsEmpty()) {
             $this->dataSellStopZero();
+
             return;
         }
 

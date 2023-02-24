@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -47,7 +46,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'timezone'  => null,
+            'timezone' => null,
             'options' => [],
             'log' => env('DB_LOG', false),
         ],
@@ -66,7 +65,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'timezone'  => null,
+            'timezone' => null,
             'options' => [],
             'log' => env('DB_DUMP_LOG', false),
         ],

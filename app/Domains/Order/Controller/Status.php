@@ -12,7 +12,7 @@ class Status extends ControllerAbstract
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function __invoke(): Response | JsonResponse
+    public function __invoke(): Response|JsonResponse
     {
         $this->filters();
 

@@ -14,5 +14,5 @@ return [
     'kucoin' => [
         'endpoint' => env('PLATFORM_KUCOIN_ENDPOINT'),
         'socket' => env('PLATFORM_KUCOIN_SOCKET'),
-    ]
+    ],
 ];

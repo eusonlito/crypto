@@ -29,7 +29,7 @@ class Artisan
      */
     protected static function command(string $command, string $log): string
     {
-        return 'nohup '.PHP_BINARY.' '.base_path('artisan').' '.$command .' >> '.$log.' 2>&1 &';
+        return 'nohup '.PHP_BINARY.' '.base_path('artisan').' '.$command.' >> '.$log.' 2>&1 &';
     }
 
     /**

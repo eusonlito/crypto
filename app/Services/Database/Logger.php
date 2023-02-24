@@ -74,7 +74,7 @@ class Logger
             if ($binding instanceof DateTime) {
                 $bindings[$i] = $binding->format('Y-m-d H:i:s');
             } elseif (is_string($binding)) {
-                $bindings[$i] = "'${binding}'";
+                $bindings[$i] = "'{$binding}'";
             } elseif (is_bool($binding)) {
                 $bindings[$i] = $binding ? 'true' : 'false';
             }
@@ -101,7 +101,7 @@ class Logger
         clearstatcache(true, $dir);
 
         if (is_dir($dir) === false) {
-            mkdir($dir, 0755, true);
+            mkdir($dir, 0o755, true);
         }
     }
 

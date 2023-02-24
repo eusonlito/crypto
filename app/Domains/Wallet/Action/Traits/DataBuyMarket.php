@@ -15,6 +15,7 @@ trait DataBuyMarket
 
         if ($this->dataBuyMarketIsEmpty()) {
             $this->dataBuyMarketZero();
+
             return;
         }
 

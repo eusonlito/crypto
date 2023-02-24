@@ -19,7 +19,8 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "fakerphp/faker": "^1.13",
-        "mockery/mockery": "^1.4.2",
+        "friendsofphp/php-cs-fixer": "^3.14.3",
+        "laravel/pint": "^1.4.1",
         "nunomaduro/collision": "^7.0",
         "nunomaduro/phpinsights": "dev-master",
         "phpcompatibility/php-compatibility": "^9.3",
@@ -97,6 +98,11 @@
             "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
             "@php artisan migrate --force --ansi",
             "@php artisan maintenance:opcache:preload"
+        ],
+
+        "fix": [
+            "@php ./vendor/bin/php-cs-fixer fix -v --ansi",
+            "@php ./vendor/bin/pint -v"
         ],
 
         "quality": [

@@ -18,6 +18,7 @@ trait DataBuyStop
 
         if ($this->dataBuyStopIsEmpty()) {
             $this->dataBuyStopZero();
+
             return;
         }
 

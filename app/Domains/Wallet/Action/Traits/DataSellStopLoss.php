@@ -13,6 +13,7 @@ trait DataSellStopLoss
 
         if ($this->dataSellStopLossIsEmpty()) {
             $this->dataSellStopLossZero();
+
             return;
         }
 

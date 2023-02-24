@@ -3,6 +3,7 @@
 namespace App\Services\Helper;
 
 use App\Exceptions\NotFoundException;
+use Stringable;
 
 class Helper
 {
@@ -309,7 +310,7 @@ class Helper
             }
 
             if (is_string($value) || ($value instanceof Stringable)) {
-                return $key . '=' . htmlentities((string)$value);
+                return $key.'='.htmlentities((string)$value);
             }
 
             return '';

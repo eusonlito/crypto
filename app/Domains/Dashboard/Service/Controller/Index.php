@@ -5,7 +5,6 @@ namespace App\Domains\Dashboard\Service\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Ticker\Model\Ticker as TickerModel;

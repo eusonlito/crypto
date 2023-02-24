@@ -49,8 +49,8 @@ trait OrderResource
         $row->status = strtolower($row->status);
         $row->type = strtolower($row->type);
         $row->side = strtolower($row->side);
-        $row->time = $row->time ?? $row->transactTime;
-        $row->updateTime = $row->updateTime ?? $row->transactTime;
+        $row->time ??= $row->transactTime;
+        $row->updateTime ??= $row->transactTime;
 
         return $row;
     }

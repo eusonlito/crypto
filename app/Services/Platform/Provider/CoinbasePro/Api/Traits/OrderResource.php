@@ -48,7 +48,7 @@ trait OrderResource
         $row->executed_value = (float)$row->executed_value;
         $row->filled_size = (float)$row->filled_size;
         $row->fill_fees = (float)$row->fill_fees;
-        $row->done_at = $row->done_at ?? $row->created_at;
+        $row->done_at ??= $row->created_at;
 
         return $row;
     }
