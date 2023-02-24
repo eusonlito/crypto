@@ -1,7 +1,7 @@
 # Requisitos
 
-* PHP 8.0
-* Apache 2.4.51 +-
+* PHP >= 8.1
+* Apache/nginx
 * MySQL 8.0
 * Composer 2
 

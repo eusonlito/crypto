@@ -10,7 +10,7 @@
         "doctrine/dbal": "^3.0",
         "eusonlito/laravel-meta": "^3.1",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "laravel/framework": "^9.5",
+        "laravel/framework": "^10.0",
         "laravel/helpers": "^1.2",
         "pragmarx/google2fa-qrcode": "master-dev",
         "predis/predis": "^2.1",
@@ -18,15 +18,13 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
-        "brianium/paratest": "^6.2",
         "fakerphp/faker": "^1.13",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^6.1",
+        "nunomaduro/collision": "^7.0",
         "nunomaduro/phpinsights": "dev-master",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpstan/phpstan": "^1.4",
-        "phpunit/phpunit": "^9.3",
-        "spatie/laravel-ignition": "^1.0"
+        "spatie/laravel-ignition": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -49,7 +47,7 @@
             "app/Services/Helper/functions.php"
         ]
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "pre-install-cmd": [

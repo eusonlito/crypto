@@ -1,3 +1,4 @@
+/.phpunit.cache
 /public/hot
 /public/storage
 /resources/views/assets/node_modules

@@ -28,9 +28,21 @@ class Kernel extends KernelVendor
      */
     protected function schedule(Schedule $schedule)
     {
+        $this->scheduleCachePrune($schedule);
+
         (new CurrencyScheduleManager($schedule))->handle();
         (new ExchangeScheduleManager($schedule))->handle();
         (new MaintenanceScheduleManager($schedule))->handle();
         (new ProductScheduleManager($schedule))->handle();
+    }
+
+    /**
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
+     * @return void
+     */
+    protected function scheduleCachePrune(Schedule $schedule): void
+    {
+        $schedule->command('cache:prune-stale-tags')->hourly();
     }
 }
