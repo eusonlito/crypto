@@ -26,7 +26,7 @@ class Currencies extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestGuest('GET', '/gateway-api/v2/public/asset/asset/get-all-asset');
+        return $this->requestGuest('GET', '/bapi/asset/v2/public/asset/asset/get-all-asset');
     }
 
     /**
