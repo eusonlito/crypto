@@ -99,6 +99,31 @@ class UpdatePlatform extends ActionAbstract
      */
     protected function iteratePlatformRelate(PlatformModel $platform, array $data): void
     {
+        $this->iteratePlatformRelateSet($platform, $data);
+        $this->iteratePlatformRelateAction($platform, $data);
+    }
+
+    /**
+     * @param \App\Domains\Platform\Model\Platform $platform
+     * @param array $data
+     *
+     * @return void
+     */
+    protected function iteratePlatformRelateSet(PlatformModel $platform, array $data): void
+    {
+        if ($platform->userPivot) {
+            $platform->userPivot->settings = $data + $platform->userPivot->settings;
+        }
+    }
+
+    /**
+     * @param \App\Domains\Platform\Model\Platform $platform
+     * @param array $data
+     *
+     * @return void
+     */
+    protected function iteratePlatformRelateAction(PlatformModel $platform, array $data): void
+    {
         $this->factory('Platform', $platform)->action($data)->relate($this->row);
     }
 }
