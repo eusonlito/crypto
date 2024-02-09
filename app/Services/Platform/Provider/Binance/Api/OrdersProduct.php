@@ -15,11 +15,6 @@ class OrdersProduct extends ApiAbstract
     protected string $product;
 
     /**
-     * @var bool
-     */
-    protected bool $log = true;
-
-    /**
      * @param string $product
      *
      * @return self
