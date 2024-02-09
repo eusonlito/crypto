@@ -103,7 +103,7 @@ class BuyStop extends ActionAbstract
     protected function orderCreate(): void
     {
         $this->order = $this->factory('Order')->action([
-            'type' => 'TAKE_PROFIT_LIMIT',
+            'type' => 'take_profit_limit',
             'side' => 'buy',
             'amount' => $this->row->buy_stop_amount,
             'price' => $this->row->buy_stop_max_exchange,

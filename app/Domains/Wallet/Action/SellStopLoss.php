@@ -107,7 +107,7 @@ class SellStopLoss extends ActionAbstract
     protected function orderCreate(): void
     {
         $this->order = $this->factory('Order')->action([
-            'type' => 'MARKET',
+            'type' => 'market',
             'side' => 'sell',
             'amount' => $this->row->amount,
         ])->create($this->product);

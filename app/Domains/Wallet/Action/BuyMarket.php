@@ -127,7 +127,7 @@ class BuyMarket extends ActionAbstract
     protected function orderCreate(): void
     {
         $this->order = $this->factory('Order')->action([
-            'type' => 'MARKET',
+            'type' => 'market',
             'side' => 'buy',
             'amount' => $this->row->buy_market_amount,
         ])->create($this->product);

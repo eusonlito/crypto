@@ -114,9 +114,9 @@ class BuyStopMin extends ActionAbstract
         try {
             $this->orderCreateSend();
         } catch (InsufficientFundsException $e) {
-            $this->insufficientFunds();
+            $this->orderCreateInsufficientFunds($e);
         } catch (Throwable $e) {
-            throw $e;
+            $this->orderCreateError($e);
         }
     }
 
@@ -126,7 +126,7 @@ class BuyStopMin extends ActionAbstract
     protected function orderCreateSend(): void
     {
         $this->order = $this->factory('Order')->action([
-            'type' => 'STOP_LOSS_LIMIT',
+            'type' => 'stop_loss_limit',
             'side' => 'buy',
             'amount' => $this->row->buy_stop_amount,
             'price' => $this->row->buy_stop_max_exchange,
@@ -135,18 +135,25 @@ class BuyStopMin extends ActionAbstract
     }
 
     /**
+     * @param \App\Services\Platform\Exception\InsufficientFundsException $e
+     *
      * @return void
      */
-    protected function insufficientFunds(): void
+    protected function orderCreateInsufficientFunds(InsufficientFundsException $e): void
     {
-        $this->orderCreateRecover();
-        $this->setBuyStopMaxByOrder();
+        $this->log('error', [
+            'detail' => __FUNCTION__,
+            'exception' => $e->getMessage(),
+        ]);
+
+        $this->orderCreateInsufficientFundsRecover();
+        $this->orderCreateInsufficientFundsSetSellStopMin();
     }
 
     /**
      * @return void
      */
-    protected function orderCreateRecover(): void
+    protected function orderCreateInsufficientFundsRecover(): void
     {
         $this->order = OrderModel::byProductId($this->product->id)
             ->byWalletId($this->row->id)
@@ -158,11 +165,28 @@ class BuyStopMin extends ActionAbstract
     /**
      * @return void
      */
-    protected function setBuyStopMaxByOrder(): void
+    protected function orderCreateInsufficientFundsSetSellStopMin(): void
     {
         $this->row->buy_stop_max_exchange = $this->order->price;
         $this->row->buy_stop_max_at = $this->order->created_at;
         $this->row->buy_stop_max_executable = true;
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateError(Throwable $e): void
+    {
+        $this->log('error', [
+            'detail' => __FUNCTION__,
+            'exception' => $e->getMessage(),
+        ]);
+
+        report($e);
+
+        throw $e;
     }
 
     /**

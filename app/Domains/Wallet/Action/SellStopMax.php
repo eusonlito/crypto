@@ -116,9 +116,9 @@ class SellStopMax extends ActionAbstract
         try {
             $this->orderCreateSend();
         } catch (InsufficientFundsException $e) {
-            $this->insufficientFunds();
+            $this->orderCreateInsufficientFunds($e);
         } catch (Throwable $e) {
-            throw $e;
+            $this->orderCreateError($e);
         }
     }
 
@@ -127,8 +127,10 @@ class SellStopMax extends ActionAbstract
      */
     protected function orderCreateSend(): void
     {
+        $this->log('info', ['detail' => __FUNCTION__]);
+
         $this->order = $this->factory('Order')->action([
-            'type' => 'STOP_LOSS_LIMIT',
+            'type' => 'stop_loss_limit',
             'side' => 'sell',
             'amount' => $this->row->sell_stop_amount,
             'price' => $this->row->sell_stop_min_exchange,
@@ -137,18 +139,25 @@ class SellStopMax extends ActionAbstract
     }
 
     /**
+     * @param \App\Services\Platform\Exception\InsufficientFundsException $e
+     *
      * @return void
      */
-    protected function insufficientFunds(): void
+    protected function orderCreateInsufficientFunds(InsufficientFundsException $e): void
     {
-        $this->orderCreateRecover();
-        $this->setSellStopMinByOrder();
+        $this->log('error', [
+            'detail' => __FUNCTION__,
+            'exception' => $e->getMessage(),
+        ]);
+
+        $this->orderCreateInsufficientFundsRecover();
+        $this->orderCreateInsufficientFundsSetSellStopMin();
     }
 
     /**
      * @return void
      */
-    protected function orderCreateRecover(): void
+    protected function orderCreateInsufficientFundsRecover(): void
     {
         $this->order = OrderModel::byProductId($this->product->id)
             ->byWalletId($this->row->id)
@@ -160,11 +169,28 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function setSellStopMinByOrder(): void
+    protected function orderCreateInsufficientFundsSetSellStopMin(): void
     {
         $this->row->sell_stop_min_exchange = $this->order->price;
         $this->row->sell_stop_min_at = $this->order->created_at;
         $this->row->sell_stop_min_executable = true;
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateError(Throwable $e): void
+    {
+        $this->log('error', [
+            'detail' => __FUNCTION__,
+            'exception' => $e->getMessage(),
+        ]);
+
+        report($e);
+
+        throw $e;
     }
 
     /**
