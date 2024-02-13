@@ -50,6 +50,17 @@ class Product extends BuilderAbstract
     }
 
     /**
+     * @param int $currency_base_id
+     * @param int $currency_quote_id
+     *
+     * @return self
+     */
+    public function byCurrencyBaseIdAndCurrencyQuoteId(int $currency_base_id, int $currency_quote_id): self
+    {
+        return $this->byCurrencyBaseId($currency_base_id)->byCurrencyQuoteId($currency_quote_id);
+    }
+
+    /**
      * @param int $currency_quote_id
      *
      * @return self

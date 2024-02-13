@@ -6,6 +6,7 @@ use App\Domains\Order\Model\Order as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
+use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -113,7 +114,34 @@ class Create extends ActionAbstract
      */
     protected function orderAmount(): float
     {
-        return helper()->roundFixed($this->data['amount'], $this->product->quantity_decimal);
+        $amount = $this->data['amount'];
+        $decimal = $this->product->quantity_decimal;
+
+        $wallet = $this->orderAmountWallet();
+
+        if (empty($wallet)) {
+            return helper()->roundFixed($amount, $decimal);
+        }
+
+        $value = $amount * $this->data['price'];
+        $max = $wallet->current_value * 0.995;
+
+        if ($value > $max) {
+            $amount = $max * $amount / $value;
+        }
+
+        return helper()->roundFixed($amount, $decimal);
+    }
+
+    /**
+     * @return ?\App\Domains\Wallet\Model\Wallet
+     */
+    protected function orderAmountWallet(): ?WalletModel
+    {
+        return WalletModel::query()
+            ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
+            ->byPlatformId($this->platform->id)
+            ->first();
     }
 
     /**

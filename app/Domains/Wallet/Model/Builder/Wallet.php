@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Model\Builder;
 
+use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Shared\Model\Builder\BuilderAbstract;
 
 class Wallet extends BuilderAbstract
@@ -34,6 +35,17 @@ class Wallet extends BuilderAbstract
     public function byProductId(int $product_id): self
     {
         return $this->where('product_id', $product_id);
+    }
+
+    /**
+     * @param int $currency_base_id
+     * @param int $currency_quote_id
+     *
+     * @return self
+     */
+    public function byProductCurrencyBaseIdAndCurrencyQuoteId(int $currency_base_id, int $currency_quote_id): self
+    {
+        return $this->whereIn('product_id', ProductModel::select('id')->byCurrencyBaseIdAndCurrencyQuoteId($currency_base_id, $currency_quote_id));
     }
 
     /**
