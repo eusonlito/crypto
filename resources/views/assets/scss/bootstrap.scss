@@ -127,15 +127,3 @@ select {
 table[data-table-sort] thead th {
     cursor: pointer;
 }
-
-@layer utilities {
-    @variants responsive {
-        .masonry {
-            column-count: 2;
-        }
-
-        .break-inside {
-            break-inside: avoid;
-        }
-    }
-}
