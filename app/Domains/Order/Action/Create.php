@@ -13,11 +13,6 @@ use App\Services\Platform\Resource\Order as OrderResource;
 class Create extends ActionAbstract
 {
     /**
-     * @const float
-     */
-    protected const LIMIT_MARGIN = 0.002;
-
-    /**
      * @var \App\Services\Platform\ApiFactoryAbstract
      */
     protected ApiFactoryAbstract $api;
@@ -114,34 +109,7 @@ class Create extends ActionAbstract
      */
     protected function orderAmount(): float
     {
-        $amount = $this->data['amount'];
-        $decimal = $this->product->quantity_decimal;
-
-        $wallet = $this->orderAmountWallet();
-
-        if (empty($wallet)) {
-            return helper()->roundFixed($amount, $decimal);
-        }
-
-        $value = $amount * $this->data['price'];
-        $max = $wallet->current_value * 0.995;
-
-        if ($value > $max) {
-            $amount = $max * $amount / $value;
-        }
-
-        return helper()->roundFixed($amount, $decimal);
-    }
-
-    /**
-     * @return ?\App\Domains\Wallet\Model\Wallet
-     */
-    protected function orderAmountWallet(): ?WalletModel
-    {
-        return WalletModel::query()
-            ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
-            ->byPlatformId($this->platform->id)
-            ->first();
+        return helper()->roundFixed($this->data['amount'], $this->product->quantity_decimal);
     }
 
     /**
@@ -157,29 +125,7 @@ class Create extends ActionAbstract
      */
     protected function orderLimit(): float
     {
-        return helper()->roundFixed($this->orderLimitValue(), $this->product->price_decimal);
-    }
-
-    /**
-     * @return float
-     */
-    protected function orderLimitValue(): float
-    {
-        $limit = $this->data['limit'];
-
-        if (empty($limit) || ($limit !== $this->data['price'])) {
-            return $limit;
-        }
-
-        $margin = $limit * static::LIMIT_MARGIN;
-
-        if ($this->data['side'] === 'buy') {
-            $limit -= $margin;
-        } else {
-            $limit += $margin;
-        }
-
-        return $limit;
+        return helper()->roundFixed($this->data['limit'], $this->product->price_decimal);
     }
 
     /**

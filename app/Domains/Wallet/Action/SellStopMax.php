@@ -129,10 +129,47 @@ class SellStopMax extends ActionAbstract
         $this->order = $this->factory('Order')->action([
             'type' => 'stop_loss_limit',
             'side' => 'sell',
-            'amount' => $this->row->sell_stop_amount,
-            'price' => $this->row->sell_stop_min_exchange,
-            'limit' => $this->row->sell_stop_min_exchange,
+            'amount' => $this->orderCreateSendAmount(),
+            'price' => $this->orderCreateSendPrice(),
+            'limit' => $this->orderCreateSendLimit(),
         ])->create($this->product);
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderCreateSendAmount(): float
+    {
+        return $this->row->sell_stop_amount;
+    }
+
+    /**
+     * @return ?\App\Domains\Wallet\Model\Wallet
+     */
+    protected function orderCreateSendAmountWalletQuote(): ?Model
+    {
+        return Model::query()
+            ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
+            ->byPlatformId($this->platform->id)
+            ->value('current_value');
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderCreateSendPrice(): float
+    {
+        return $this->row->sell_stop_min_exchange;
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderCreateSendLimit(): float
+    {
+        $limit = $this->row->sell_stop_min_exchange;
+
+        return ($limit + ($limit * 0.002));
     }
 
     /**
