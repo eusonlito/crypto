@@ -8,7 +8,6 @@ use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
-use App\Services\Platform\Exception\InsufficientFundsException;
 
 class SellStopMax extends ActionAbstract
 {
@@ -115,8 +114,6 @@ class SellStopMax extends ActionAbstract
     {
         try {
             $this->orderCreateSend();
-        } catch (InsufficientFundsException $e) {
-            $this->orderCreateInsufficientFunds($e);
         } catch (Throwable $e) {
             $this->orderCreateError($e);
         }
@@ -139,56 +136,18 @@ class SellStopMax extends ActionAbstract
     }
 
     /**
-     * @param \App\Services\Platform\Exception\InsufficientFundsException $e
-     *
-     * @return void
-     */
-    protected function orderCreateInsufficientFunds(InsufficientFundsException $e): void
-    {
-        $this->log('error', [
-            'detail' => __FUNCTION__,
-            'exception' => $e->getMessage(),
-        ]);
-
-        $this->orderCreateInsufficientFundsRecover();
-        $this->orderCreateInsufficientFundsSetSellStopMin();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCreateInsufficientFundsRecover(): void
-    {
-        $this->order = OrderModel::byProductId($this->product->id)
-            ->byWalletId($this->row->id)
-            ->bySide('sell')
-            ->orderByLast()
-            ->first();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCreateInsufficientFundsSetSellStopMin(): void
-    {
-        $this->row->sell_stop_min_exchange = $this->order->price;
-        $this->row->sell_stop_min_at = $this->order->created_at;
-        $this->row->sell_stop_min_executable = true;
-    }
-
-    /**
      * @param \Throwable $e
      *
      * @return void
      */
     protected function orderCreateError(Throwable $e): void
     {
+        report($e);
+
         $this->log('error', [
             'detail' => __FUNCTION__,
             'exception' => $e->getMessage(),
         ]);
-
-        report($e);
 
         throw $e;
     }
