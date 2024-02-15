@@ -3,8 +3,7 @@
 use App\Domains\Shared\Migration\MigrationAbstract;
 use App\Domains\Platform\Seeder\Platform as PlatformSeeder;
 
-return new class extends MigrationAbstract
-{
+return new class extends MigrationAbstract {
     /**
      * @return void
      */

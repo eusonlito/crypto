@@ -144,17 +144,6 @@ class SellStopMax extends ActionAbstract
     }
 
     /**
-     * @return ?\App\Domains\Wallet\Model\Wallet
-     */
-    protected function orderCreateSendAmountWalletQuote(): ?Model
-    {
-        return Model::query()
-            ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
-            ->byPlatformId($this->platform->id)
-            ->value('current_value');
-    }
-
-    /**
      * @return float
      */
     protected function orderCreateSendPrice(): float
@@ -169,7 +158,7 @@ class SellStopMax extends ActionAbstract
     {
         $limit = $this->row->sell_stop_min_exchange;
 
-        return ($limit + ($limit * 0.002));
+        return $limit + ($limit * 0.002);
     }
 
     /**

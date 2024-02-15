@@ -136,13 +136,29 @@ class BuyStopMin extends ActionAbstract
      */
     protected function orderCreateSendAmount(): float
     {
-        return $this->row->buy_stop_amount;
+        $amount = $this->row->buy_stop_amount;
+        $decimal = $this->product->quantity_decimal;
+
+        $cash = $this->orderCreateSendAmountWalletQuote();
+
+        if ($cash === null) {
+            return helper()->roundFixed($amount, $decimal);
+        }
+
+        $value = $amount * $this->row->buy_stop_max_exchange;
+        $max = $cash * 0.995;
+
+        if ($value > $max) {
+            $amount = $max * $amount / $value;
+        }
+
+        return helper()->roundFixed($amount, $decimal);
     }
 
     /**
-     * @return ?\App\Domains\Wallet\Model\Wallet
+     * @return ?float
      */
-    protected function orderCreateSendAmountWalletQuote(): ?Model
+    protected function orderCreateSendAmountWalletQuote(): ?float
     {
         return Model::query()
             ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
@@ -165,7 +181,7 @@ class BuyStopMin extends ActionAbstract
     {
         $limit = $this->row->buy_stop_max_exchange;
 
-        return ($limit - ($limit * 0.002));
+        return $limit - ($limit * 0.002);
     }
 
     /**

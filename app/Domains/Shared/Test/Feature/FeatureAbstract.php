@@ -44,7 +44,7 @@ abstract class FeatureAbstract extends TestAbstract
      *
      * @return void
      */
-    protected function userConfirm(bool $confirm, UserModel $user = null): void
+    protected function userConfirm(bool $confirm, ?UserModel $user = null): void
     {
         $user = $user ?: $this->user();
         $user->confirmed_at = $confirm ? date('Y-m-d H:i:s') : null;

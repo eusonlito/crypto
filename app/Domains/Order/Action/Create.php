@@ -6,7 +6,6 @@ use App\Domains\Order\Model\Order as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
-use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Order as OrderResource;
 

@@ -46,7 +46,7 @@ abstract class TestAbstract extends TestCase
      *
      * @return self
      */
-    protected function auth(Authenticatable $user = null): self
+    protected function auth(?Authenticatable $user = null): self
     {
         parent::actingAs($user ?: $this->user());
 

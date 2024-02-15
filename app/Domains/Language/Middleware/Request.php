@@ -9,8 +9,8 @@ use App\Domains\Shared\Middleware\MiddlewareAbstract;
 class Request extends MiddlewareAbstract
 {
     /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      *
      * @return mixed
      */
