@@ -14,14 +14,14 @@
         "laravel/helpers": "^1.2",
         "pragmarx/google2fa-qrcode": "master-dev",
         "predis/predis": "^2.1",
-        "sentry/sentry-laravel": "^3.2"
+        "sentry/sentry-laravel": "^4.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "fakerphp/faker": "^1.13",
         "friendsofphp/php-cs-fixer": "^3.14.3",
         "laravel/pint": "^1.4.1",
-        "nunomaduro/collision": "^7.0",
+        "nunomaduro/collision": "^7.10",
         "nunomaduro/phpinsights": "dev-master",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpstan/phpstan": "^1.4",
