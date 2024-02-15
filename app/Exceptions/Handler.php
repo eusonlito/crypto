@@ -91,7 +91,7 @@ class Handler extends HandlerVendor
         }
 
         if (config('app.debug')) {
-            return $this->renderDebug($request, $e->getPrevious() ?: $e);
+            return parent::render($request, $e->getPrevious() ?: $e);
         }
 
         return app(ErrorController::class)($e);
