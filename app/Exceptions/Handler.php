@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as HandlerVendor;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseSymfony;
+use Sentry\Laravel\Integration;
 use App\Domains\Error\Controller\Index as ErrorController;
 use App\Services\Request\Logger;
 
@@ -20,23 +20,37 @@ class Handler extends HandlerVendor
         \Illuminate\Validation\ValidationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \App\Exceptions\GenericException::class,
-        \App\Services\Validator\Exception::class,
     ];
+
+    /**
+     * @return void
+     */
+    public function register(): void
+    {
+        $this->reportable(static function (Throwable $e) {
+            Integration::captureUnhandledException($e);
+        });
+    }
 
     /**
      * @param \Throwable $e
      *
      * @return void
      */
-    public function report(Throwable $e)
+    public function report(Throwable $e): void
     {
+        $this->reportParent($e);
         $this->reportRequest($e);
+    }
 
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function reportParent(Throwable $e): void
+    {
         parent::report($e);
-
-        if ($this->shouldReport($e)) {
-            $this->reportSentry($e);
-        }
     }
 
     /**
@@ -52,15 +66,14 @@ class Handler extends HandlerVendor
     }
 
     /**
-     * @param \Throwable $e
-     *
-     * @return void
+     * @return array
      */
-    protected function reportSentry(Throwable $e)
+    protected function context(): array
     {
-        if (app()->bound('sentry')) {
-            app('sentry')->captureException($e);
-        }
+        return parent::context() + [
+            'url' => request()->fullUrl(),
+            'method' => request()->getMethod(),
+        ];
     }
 
     /**
@@ -71,32 +84,17 @@ class Handler extends HandlerVendor
      */
     public function render($request, Throwable $e)
     {
-        if (config('app.debug')) {
-            return $this->renderDebug($request, $e);
-        }
-
         $e = Response::fromException($e);
 
         if ($request->ajax() || $request->expectsJson()) {
             return $this->renderJson($e);
         }
 
-        return app(ErrorController::class)($e);
-    }
-
-    /**
-     * @param mixed $request
-     * @param \Throwable $e
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function renderDebug($request, Throwable $e): ResponseSymfony
-    {
-        if ($request->ajax() || $request->expectsJson()) {
-            return $this->renderJson(Response::fromException($e));
+        if (config('app.debug')) {
+            return $this->renderDebug($request, $e->getPrevious() ?: $e);
         }
 
-        return parent::render($request, $e);
+        return app(ErrorController::class)($e);
     }
 
     /**
@@ -106,10 +104,21 @@ class Handler extends HandlerVendor
      */
     protected function renderJson(Throwable $e): JsonResponse
     {
-        return response()->json([
+        return response()->json($this->renderJsonData($e), $e->getCode());
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return array
+     */
+    protected function renderJsonData(Throwable $e): array
+    {
+        return [
             'code' => $e->getCode(),
             'status' => $e->getStatus(),
             'message' => $e->getMessage(),
-        ], $e->getCode());
+            'details' => $e->getDetails(),
+        ];
     }
 }
