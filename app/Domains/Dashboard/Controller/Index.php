@@ -11,7 +11,6 @@ class Index extends ControllerAbstract
      */
     public function __invoke()
     {
-        throw new \Exception('Error!');
         if ($this->hasWallets() === false) {
             return redirect()->route('dashboard.start');
         }
