@@ -175,6 +175,8 @@ class SellStopMax extends ActionAbstract
             'exception' => $e->getMessage(),
         ]);
 
+        $this->factory()->action()->updateSync();
+
         throw $e;
     }
 

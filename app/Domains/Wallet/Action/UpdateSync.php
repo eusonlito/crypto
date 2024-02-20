@@ -89,34 +89,34 @@ class UpdateSync extends ActionAbstract
      */
     protected function wallet(): void
     {
-        $this->syncOne($this->row);
-
-        $this->walletSameCurrency($this->product->currency_base_id);
-        $this->walletSameCurrency($this->product->currency_quote_id);
+        $this->walletSameCurrency($this->product->currency_base_id, $this->product->currency_quote_id);
+        $this->walletSameCurrency($this->product->currency_quote_id, $this->product->currency_quote_id);
     }
 
     /**
-     * @param int $currency_id
+     * @param int $currency_base_id
+     * @param int $currency_quote_id
      *
      * @return void
      */
-    protected function walletSameCurrency(int $currency_id): void
+    protected function walletSameCurrency(int $currency_base_id, int $currency_quote_id): void
     {
-        foreach ($this->walletSameCurrencyList($currency_id) as $row) {
+        foreach ($this->walletSameCurrencyList($currency_base_id, $currency_quote_id) as $row) {
             $this->syncOne($row);
         }
     }
 
     /**
-     * @param int $currency_id
+     * @param int $currency_base_id
+     * @param int $currency_quote_id
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function walletSameCurrencyList(int $currency_id): Collection
+    protected function walletSameCurrencyList(int $currency_base_id, int $currency_quote_id): Collection
     {
-        return Model::byIdNot($this->row->id)
+        return Model::query()
             ->byUserId($this->auth->id)
-            ->byCurrencyId($currency_id)
+            ->byProductCurrencyBaseIdAndCurrencyQuoteId($currency_base_id, $currency_quote_id)
             ->get();
     }
 

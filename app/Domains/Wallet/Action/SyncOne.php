@@ -161,8 +161,7 @@ class SyncOne extends ActionAbstract
         $this->row->buy_exchange = OrderModel::byProductId($this->product->id)
             ->byUserId($this->auth->id)
             ->orderByLast()
-            ->first()
-            ->price ?? 0;
+            ->value('price') ?: 0;
     }
 
     /**

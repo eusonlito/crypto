@@ -198,6 +198,8 @@ class BuyStopMin extends ActionAbstract
             'exception' => $e->getMessage(),
         ]);
 
+        $this->factory()->action()->updateSync();
+
         throw $e;
     }
 
