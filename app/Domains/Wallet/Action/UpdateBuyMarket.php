@@ -33,6 +33,8 @@ class UpdateBuyMarket extends ActionAbstract
      */
     protected function store(): void
     {
+        $this->row->processing = false;
+
         $this->row->buy_market = $this->data['buy_market'];
 
         $this->row->buy_market_amount = $this->data['buy_market_amount'];

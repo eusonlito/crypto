@@ -42,6 +42,8 @@ class UpdateSellStop extends ActionAbstract
      */
     protected function store(): void
     {
+        $this->row->processing = false;
+
         $this->row->sell_stop = $this->data['sell_stop'];
 
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
