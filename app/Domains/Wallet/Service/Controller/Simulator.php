@@ -311,6 +311,8 @@ class Simulator
             return;
         }
 
+        $this->row->sell_stop_amount = min($this->row->amount, $this->row->sell_stop_amount);
+
         $profit = ($this->row->sell_stop_amount * $this->exchange) - ($this->row->sell_stop_amount * $this->row->buy_exchange);
 
         $this->row->amount -= $this->row->sell_stop_amount;
@@ -454,6 +456,7 @@ class Simulator
 
         if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
             $this->row->sell_stop = true;
+            $this->row->sell_stop_amount = $this->row->sell_stop_amount ?: $this->row->buy_stop_amount;
         }
 
         $this->row->sell_stop_reference = $this->row->buy_exchange;
