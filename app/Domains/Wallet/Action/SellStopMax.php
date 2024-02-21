@@ -158,7 +158,7 @@ class SellStopMax extends ActionAbstract
     {
         $limit = $this->row->sell_stop_min_exchange;
 
-        return $limit - ($limit * 0.0005);
+        return $limit - ($limit * 0.0001);
     }
 
     /**

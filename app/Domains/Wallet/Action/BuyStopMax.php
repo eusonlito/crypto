@@ -49,15 +49,10 @@ class BuyStopMax extends ActionAbstract
         $this->sync();
         $this->order();
 
-        if ($this->isPending()) {
-            $this->logIsPending();
-            $this->finish();
-        } else {
-            $this->update();
-            $this->finish();
-            $this->logSuccess();
-            $this->mail();
-        }
+        $this->update();
+        $this->finish();
+        $this->logSuccess();
+        $this->mail();
 
         return $this->row;
     }
@@ -133,15 +128,6 @@ class BuyStopMax extends ActionAbstract
             ->bySide('buy')
             ->orderByLast()
             ->first();
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isPending(): bool
-    {
-        return ((float)$this->row->amount === (float)$this->previous->amount)
-            || empty($this->order->filled);
     }
 
     /**
@@ -261,14 +247,6 @@ class BuyStopMax extends ActionAbstract
      * @return void
      */
     protected function logNotExecutable(): void
-    {
-        $this->log('error', ['detail' => __FUNCTION__]);
-    }
-
-    /**
-     * @return void
-     */
-    protected function logIsPending(): void
     {
         $this->log('error', ['detail' => __FUNCTION__]);
     }
