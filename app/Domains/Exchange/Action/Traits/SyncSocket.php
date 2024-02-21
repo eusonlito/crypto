@@ -75,7 +75,17 @@ trait SyncSocket
             } catch (Throwable $e) {
                 $this->reconnect($e);
             }
+
+            $this->sleep();
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function sleep(): void
+    {
+        sleep($this->products->firstWhere('tracking') ? 5 : 10);
     }
 
     /**

@@ -153,7 +153,7 @@ class SyncByProducts extends ActionAbstract
 
             'filled' => $resource->filled,
 
-            'created_at' => $resource->createdAt,
+            'created_at' => $resource->updatedAt,
             'updated_at' => $resource->updatedAt,
 
             'platform_id' => $this->platform->id,
@@ -182,6 +182,7 @@ class SyncByProducts extends ActionAbstract
 
         $row->filled = $resource->filled;
 
+        $row->created_at = $resource->updatedAt;
         $row->updated_at = $resource->updatedAt;
 
         $row->save();

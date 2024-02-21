@@ -46,7 +46,5 @@ class SyncSocket extends ActionAbstract
         foreach ($this->api->exchanges() as $each) {
             $this->readValue($each);
         }
-
-        sleep(10);
     }
 }

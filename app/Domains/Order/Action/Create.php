@@ -147,7 +147,7 @@ class Create extends ActionAbstract
 
             'filled' => $this->resource->filled,
 
-            'created_at' => $this->resource->createdAt,
+            'created_at' => $this->resource->updatedAt,
             'updated_at' => $this->resource->updatedAt,
 
             'platform_id' => $this->platform->id,
