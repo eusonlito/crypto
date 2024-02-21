@@ -43,6 +43,7 @@ class SellStopMax extends ActionAbstract
         $this->order();
         $this->update();
         $this->finish();
+        $this->sync();
         $this->logSuccess();
 
         return $this->row;
@@ -104,7 +105,6 @@ class SellStopMax extends ActionAbstract
     {
         $this->orderCreate();
         $this->orderUpdate();
-        $this->orderSync();
     }
 
     /**
@@ -158,7 +158,7 @@ class SellStopMax extends ActionAbstract
     {
         $limit = $this->row->sell_stop_min_exchange;
 
-        return $limit + ($limit * 0.002);
+        return $limit + ($limit * 0.001);
     }
 
     /**
@@ -168,16 +168,34 @@ class SellStopMax extends ActionAbstract
      */
     protected function orderCreateError(Throwable $e): void
     {
-        report($e);
+        $this->orderCreateErrorReport($e);
+        $this->orderCreateErrorLog($e);
+        $this->sync();
 
+        throw $e;
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateErrorReport(Throwable $e): void
+    {
+        report($e);
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateErrorLog(Throwable $e): void
+    {
         $this->log('error', [
             'detail' => __FUNCTION__,
             'exception' => $e->getMessage(),
         ]);
-
-        $this->factory()->action()->updateSync();
-
-        throw $e;
     }
 
     /**
@@ -192,7 +210,24 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function orderSync(): void
+    protected function sync(): void
+    {
+        $this->syncUpdate();
+        $this->syncOrder();
+    }
+
+    /**
+     * @return void
+     */
+    protected function syncUpdate(): void
+    {
+        $this->factory()->action()->updateSync();
+    }
+
+    /**
+     * @return void
+     */
+    protected function syncOrder(): void
     {
         $this->factory('Order')->action()->syncByProduct($this->product);
     }

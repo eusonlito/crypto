@@ -43,6 +43,7 @@ class BuyStopMin extends ActionAbstract
         $this->order();
         $this->update();
         $this->finish();
+        $this->sync();
         $this->logSuccess();
 
         return $this->row;
@@ -102,7 +103,6 @@ class BuyStopMin extends ActionAbstract
     {
         $this->orderCreate();
         $this->orderUpdate();
-        $this->orderSync();
     }
 
     /**
@@ -181,7 +181,7 @@ class BuyStopMin extends ActionAbstract
     {
         $limit = $this->row->buy_stop_max_exchange;
 
-        return $limit - ($limit * 0.002);
+        return $limit - ($limit * 0.001);
     }
 
     /**
@@ -191,16 +191,34 @@ class BuyStopMin extends ActionAbstract
      */
     protected function orderCreateError(Throwable $e): void
     {
-        report($e);
+        $this->orderCreateErrorReport($e);
+        $this->orderCreateErrorLog($e);
+        $this->sync();
 
+        throw $e;
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateErrorReport(Throwable $e): void
+    {
+        report($e);
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return void
+     */
+    protected function orderCreateErrorLog(Throwable $e): void
+    {
         $this->log('error', [
             'detail' => __FUNCTION__,
             'exception' => $e->getMessage(),
         ]);
-
-        $this->factory()->action()->updateSync();
-
-        throw $e;
     }
 
     /**
@@ -210,14 +228,6 @@ class BuyStopMin extends ActionAbstract
     {
         $this->order->wallet_id = $this->row->id;
         $this->order->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderSync(): void
-    {
-        $this->factory('Order')->action()->syncByProduct($this->product);
     }
 
     /**
@@ -241,6 +251,31 @@ class BuyStopMin extends ActionAbstract
         $this->row->buy_stop_min_executable = false;
         $this->row->processing = false;
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function sync(): void
+    {
+        $this->syncUpdate();
+        $this->syncOrder();
+    }
+
+    /**
+     * @return void
+     */
+    protected function syncUpdate(): void
+    {
+        $this->factory()->action()->updateSync();
+    }
+
+    /**
+     * @return void
+     */
+    protected function syncOrder(): void
+    {
+        $this->factory('Order')->action()->syncByProduct($this->product);
     }
 
     /**
