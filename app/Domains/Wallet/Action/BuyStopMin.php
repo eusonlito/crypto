@@ -181,7 +181,7 @@ class BuyStopMin extends ActionAbstract
     {
         $limit = $this->row->buy_stop_max_exchange;
 
-        return $limit - ($limit * 0.001);
+        return $limit + ($limit * 0.0005);
     }
 
     /**
