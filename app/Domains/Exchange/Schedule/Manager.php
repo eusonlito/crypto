@@ -3,7 +3,7 @@
 namespace App\Domains\Exchange\Schedule;
 
 use App\Domains\Exchange\Command\ClearOld as ClearOldCommand;
-use App\Domains\Shared\Schedule\ScheduleAbstract;
+use App\Domains\Core\Schedule\ScheduleAbstract;
 
 class Manager extends ScheduleAbstract
 {

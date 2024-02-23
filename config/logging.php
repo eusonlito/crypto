@@ -1,5 +1,9 @@
 <?php
 
+use App\Services\Logger\DeprecationsDaily as DeprecationsLogger;
+use App\Services\Logger\LaravelDaily as LaravelLogger;
+use App\Services\Logger\Mail as MailLogger;
+
 return [
 
     /*
@@ -14,6 +18,35 @@ return [
     */
 
     'default' => env('LOG_CHANNEL', 'stack'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Deprecations Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the log channel that should be used to log warnings
+    | regarding deprecated PHP and library features. This allows you to get
+    | your application ready for upcoming major versions of dependencies.
+    |
+    */
+
+    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'deprecations'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Maintenance Log Settings
+    |--------------------------------------------------------------------------
+    |
+    | 'zip' is responsible for generating zip files of logs after X days, and
+    | 'clean' handles the deletion of log files after X days, leveraging
+    | respective environment variables for configuration.
+    |
+    */
+
+    'maintenance' => [
+        'zip' => intval(env('LOG_ZIP', 15)),
+        'clean' => intval(env('LOG_CLEAN', 360)),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -38,10 +71,13 @@ return [
         ],
 
         'daily' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
-            'days' => 14,
+            'driver' => 'custom',
+            'via' => LaravelLogger::class,
+        ],
+
+        'deprecations' => [
+            'driver' => 'custom',
+            'via' => DeprecationsLogger::class,
         ],
 
         'request' => [
@@ -53,6 +89,8 @@ return [
         ],
 
         'mail' => [
+            'driver' => 'custom',
+            'via' => MailLogger::class,
             'enabled' => env('LOG_MAIL', true),
         ],
 

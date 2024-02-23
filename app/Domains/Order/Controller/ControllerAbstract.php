@@ -3,7 +3,7 @@
 namespace App\Domains\Order\Controller;
 
 use App\Domains\Order\Model\Order as Model;
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 use App\Exceptions\NotFoundException;
 
 abstract class ControllerAbstract extends ControllerWebAbstract

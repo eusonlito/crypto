@@ -3,7 +3,7 @@
 namespace App\Domains\Exchange\Action;
 
 use App\Domains\Exchange\Model\Exchange as Model;
-use App\Domains\Shared\Action\ActionFactoryAbstract;
+use App\Domains\Core\Action\ActionFactoryAbstract;
 
 class ActionFactory extends ActionFactoryAbstract
 {

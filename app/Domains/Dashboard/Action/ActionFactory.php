@@ -2,7 +2,7 @@
 
 namespace App\Domains\Dashboard\Action;
 
-use App\Domains\Shared\Action\ActionFactoryAbstract;
+use App\Domains\Core\Action\ActionFactoryAbstract;
 
 class ActionFactory extends ActionFactoryAbstract
 {

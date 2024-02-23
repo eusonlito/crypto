@@ -2,11 +2,11 @@
 
 namespace App\Domains\Order\Command;
 
-use App\Domains\Shared\Command\CommandAbstract as CommandAbstractShared;
+use App\Domains\Core\Command\CommandAbstract as CommandAbstractCore;
 use App\Domains\Order\Model\Order as Model;
 use App\Domains\Product\Model\Product as ProductModel;
 
-abstract class CommandAbstract extends CommandAbstractShared
+abstract class CommandAbstract extends CommandAbstractCore
 {
     /**
      * @var \App\Domains\Order\Model\Order

@@ -10,11 +10,6 @@ use App\Services\Logger\RotatingFileAbstract;
 class Logger extends RotatingFileAbstract
 {
     /**
-     * @var string
-     */
-    protected static string $name = 'requests';
-
-    /**
      * @var array
      */
     protected static array $exclude = [
@@ -31,6 +26,22 @@ class Logger extends RotatingFileAbstract
     protected static array $excludeTest = ['cookie'];
 
     /**
+     * @return string
+     */
+    protected static function folder(): string
+    {
+        return 'requests';
+    }
+
+    /**
+     * @return string
+     */
+    protected static function path(): string
+    {
+        return date('Y/m/Y-m-d');
+    }
+
+    /**
      * @param \Illuminate\Http\Request $request
      *
      * @return void
@@ -41,12 +52,7 @@ class Logger extends RotatingFileAbstract
             return;
         }
 
-        static::info($request->url(), [
-            'ip' => $request->ip(),
-            'method' => $request->method(),
-            'headers' => static::headers($request),
-            'input' => static::input($request),
-        ]);
+        static::info($request->url(), static::data($request));
     }
 
     /**
@@ -61,13 +67,9 @@ class Logger extends RotatingFileAbstract
             return;
         }
 
-        static::info($request->url(), [
-            'ip' => $request->ip(),
-            'method' => $request->method(),
-            'headers' => static::headers($request),
-            'input' => static::input($request),
+        static::info($request->url(), static::data($request, [
             'response' => static::response($response),
-        ]);
+        ]));
     }
 
     /**
@@ -78,16 +80,32 @@ class Logger extends RotatingFileAbstract
      */
     public static function fromException(Request $request, Throwable $e): void
     {
-        static::error($request->url(), [
+        static::error($request->url(), static::data($request, [
+            'class' => $e::class,
+            'code' => static::exceptionCode($e),
+            'status' => static::exceptionStatus($e),
+            'message' => $e->getMessage(),
+        ]));
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param array $data = []
+     *
+     * @psalm-suppress UndefinedConstant
+     *
+     * @return array
+     */
+    protected static function data(Request $request, array $data = []): array
+    {
+        return [
             'ip' => $request->ip(),
             'method' => $request->method(),
             'headers' => static::headers($request),
             'input' => static::input($request),
-            'class' => get_class($e),
-            'code' => static::exceptionCode($e),
-            'status' => static::exceptionStatus($e),
-            'message' => $e->getMessage(),
-        ]);
+            'execution_time' => sprintf('%.3f', microtime(true) - LARAVEL_START),
+            'memory_usage' => round(memory_get_peak_usage(false) / 1024 / 1024, 2),
+        ] + $data;
     }
 
     /**

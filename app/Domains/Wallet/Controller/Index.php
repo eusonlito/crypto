@@ -37,7 +37,7 @@ class Index extends ControllerAbstract
         }
 
         if (strlen($filter = $this->request->input('enabled'))) {
-            $q->whereEnabled((bool)$filter);
+            $q->enabled((bool)$filter);
         }
 
         if (strlen($filter = $this->request->input('visible'))) {

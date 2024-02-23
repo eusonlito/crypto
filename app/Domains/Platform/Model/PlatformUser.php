@@ -4,7 +4,7 @@ namespace App\Domains\Platform\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Domains\Platform\Model\Builder\PlatformUser as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\User\Model\User as UserModel;
 
 class PlatformUser extends ModelAbstract
@@ -32,7 +32,7 @@ class PlatformUser extends ModelAbstract
     ];
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $hidden = ['settings'];
 

@@ -1,9 +1,9 @@
 @php ($dates = $exchanges->pluck('created_at'))
 
 @if ($dates->first() < date('Y-m-d H:i:s', strtotime('-1 day')))
-    @php ($dates = $dates->map(fn ($value) => strftime('%a %R', strtotime($value))))
+    @php ($dates = $dates->map(fn ($value) => date('D H:i', strtotime($value))))
 @else
-    @php ($dates = $dates->map(fn ($value) => strftime('%R', strtotime($value))))
+    @php ($dates = $dates->map(fn ($value) => date('H:i', strtotime($value))))
 @endif
 
 <script>

@@ -9,29 +9,83 @@ class Html
     /**
      * @var array
      */
-    protected static array $asset = [];
+    protected static array $query;
 
     /**
-     * @var array
+     * @param ?string $path
+     *
+     * @return string
      */
-    protected static array $query;
+    public static function asset(?string $path): string
+    {
+        static $cache = [];
+
+        if (empty($path)) {
+            return '';
+        }
+
+        if (str_starts_with($path, 'data:')) {
+            return $path;
+        }
+
+        if (isset($cache[$path])) {
+            return $cache[$path];
+        }
+
+        if (is_file($file = public_path($path))) {
+            $path .= '?v'.filemtime($file);
+        }
+
+        return $cache[$path] = asset($path);
+    }
 
     /**
      * @param string $path
      *
      * @return string
      */
-    public static function asset(string $path): string
+    public static function assetManifest(string $path): string
     {
-        if (isset(static::$asset[$path])) {
-            return static::$asset[$path];
+        if (config('app.debug')) {
+            return $path;
         }
 
-        if (is_file($file = public_path($path))) {
-            $path .= '?'.filemtime($file);
+        $manifest = public_path('build/rev-manifest.json');
+
+        if (is_file($manifest) === false) {
+            return asset($path);
         }
 
-        return static::$asset[$path] = asset($path);
+        return json_decode(file_get_contents($manifest), true)[$path] ?? asset($path);
+    }
+
+    /**
+     * @param ?string $path
+     * @param bool $cache = true
+     * @param bool $image = false
+     *
+     * @return string
+     */
+    public static function inline(?string $path, bool $cache = true, bool $image = false): string
+    {
+        static $cache = [];
+
+        if (empty($path)) {
+            return '';
+        }
+
+        if ($cache && isset($cache[$path])) {
+            return $cache[$path];
+        }
+
+        $file = public_path($path);
+        $contents = is_file($file) ? file_get_contents($file) : '';
+
+        if ($image) {
+            $contents = 'data:image/'.pathinfo($file, PATHINFO_EXTENSION).';base64,'.base64_encode($contents);
+        }
+
+        return $cache ? ($cache[$path] = $contents) : $contents;
     }
 
     /**
@@ -43,59 +97,6 @@ class Html
     public static function icon(string $name, string $class = ''): string
     {
         return '<svg class="feather '.$class.'"><use xlink:href="'.static::asset('build/images/feather-sprite.svg').'#'.$name.'" /></svg>';
-    }
-
-    /**
-     * @param array $query
-     *
-     * @return string
-     */
-    public static function query(array $query): string
-    {
-        return helper()->query($query);
-    }
-
-    /**
-     * @param float|string|null $value
-     * @param ?int $decimals = null
-     *
-     * @return string
-     */
-    public static function number(float|string|null $value, ?int $decimals = null): string
-    {
-        return helper()->number($value, $decimals);
-    }
-
-    /**
-     * @param float|string|null $value
-     *
-     * @return string
-     */
-    public static function numberString(float|string|null $value): string
-    {
-        return helper()->numberString($value);
-    }
-
-    /**
-     * @param float|string|null $value
-     * @param ?int $decimals = null
-     *
-     * @return string
-     */
-    public static function money(float|string|null $value, ?int $decimals = null): string
-    {
-        return helper()->money($value, $decimals);
-    }
-
-    /**
-     * @param float $first
-     * @param float $second
-     *
-     * @return string
-     */
-    public static function percent(float $first, float $second): string
-    {
-        return helper()->percent($first, $second, false);
     }
 
     /**

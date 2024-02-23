@@ -3,7 +3,7 @@
 namespace App\Domains\Platform\Action;
 
 use App\Domains\Platform\Model\Platform as Model;
-use App\Domains\Shared\Action\ActionFactoryAbstract;
+use App\Domains\Core\Action\ActionFactoryAbstract;
 
 class ActionFactory extends ActionFactoryAbstract
 {

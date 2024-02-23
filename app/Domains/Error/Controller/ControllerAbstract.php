@@ -2,7 +2,7 @@
 
 namespace App\Domains\Error\Controller;
 
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 
 abstract class ControllerAbstract extends ControllerWebAbstract
 {

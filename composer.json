@@ -67,7 +67,7 @@
         ],
 
         "post-update-cmd": [
-            "@php artisan maintenance:opcache:preload"
+            "@php artisan core:maintenance:opcache:preload"
         ],
 
         "post-autoload-dump": [
@@ -98,7 +98,7 @@
             "git pull",
             "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
             "@php artisan migrate --force --ansi",
-            "@php artisan maintenance:opcache:preload"
+            "@php artisan core:maintenance:opcache:preload"
         ],
 
         "fix": [
@@ -112,9 +112,9 @@
         ],
 
         "translation": [
-            "@php artisan translation:fix --ansi",
-            "@php artisan translation:fill --ansi",
-            "@php artisan translation:clean --ansi",
+            "@php artisan core:translation:fix --ansi",
+            "@php artisan core:translation:fill --ansi",
+            "@php artisan core:translation:clean --ansi",
             "git checkout resources/lang/*/validation.php"
         ]
     }

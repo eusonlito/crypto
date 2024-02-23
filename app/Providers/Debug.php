@@ -3,13 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Symfony\Component\VarDumper\VarDumper;
 use App\Services\Database\Logger as LoggerDatabase;
 use App\Services\Mail\Logger as LoggerMail;
 
@@ -18,7 +18,7 @@ class Debug extends ServiceProvider
     /**
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->queue();
         $this->logging();
@@ -31,7 +31,7 @@ class Debug extends ServiceProvider
     protected function queue(): void
     {
         Queue::failing(static function (JobFailed $event) {
-            Log::error($event->exception->getMessage());
+            report($event->exception);
         });
     }
 
@@ -42,6 +42,7 @@ class Debug extends ServiceProvider
     {
         $this->loggingDatabase();
         $this->loggingMail();
+        $this->disableQueryLog();
     }
 
     /**
@@ -49,7 +50,7 @@ class Debug extends ServiceProvider
      */
     protected function loggingDatabase(): void
     {
-        LoggerDatabase::listen();
+        LoggerDatabase::new()->listen();
     }
 
     /**
@@ -57,7 +58,17 @@ class Debug extends ServiceProvider
      */
     protected function loggingMail(): void
     {
-        LoggerMail::listen();
+        LoggerMail::new()->listen();
+    }
+
+    /**
+     * @return void
+     */
+    protected function disableQueryLog(): void
+    {
+        if ($this->app->isProduction()) {
+            DB::connection()->disableQueryLog();
+        }
     }
 
     /**

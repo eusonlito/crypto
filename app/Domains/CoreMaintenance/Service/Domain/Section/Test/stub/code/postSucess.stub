@@ -1,0 +1,11 @@
+$data = $this->factoryMake()->toArray();
+
+$this->post($this->routeToController(), $data + $this->action())
+    ->assertStatus(302)
+    ->assertRedirect(route($this->route, $this->rowLast()->id));
+
+$row = $this->rowLast();
+
+foreach ($data as $key => $value) {
+    $this->assertEquals($value, $row->$key);
+}

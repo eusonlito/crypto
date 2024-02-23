@@ -2,7 +2,7 @@
 
 namespace App\Domains\User\Controller;
 
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 use App\Domains\User\Model\User as Model;
 
 abstract class ControllerAbstract extends ControllerWebAbstract

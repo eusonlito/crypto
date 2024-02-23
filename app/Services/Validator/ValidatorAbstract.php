@@ -2,30 +2,35 @@
 
 namespace App\Services\Validator;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\Validator as ValidatorService;
+use App\Exceptions\ValidatorException;
 
 abstract class ValidatorAbstract
 {
-    /**
-     * @var array
-     */
-    protected array $data;
-
     /**
      * @return array
      */
     abstract public function rules(): array;
 
     /**
+     * @return self
+     */
+    public static function new(): self
+    {
+        return new static(...func_get_args());
+    }
+
+    /**
+     * @param ?\Illuminate\Http\Request $request
      * @param array $data
      *
      * @return self
      */
-    public function __construct(array $data)
+    public function __construct(protected ?Request $request, protected array $data)
     {
-        $this->data = $data;
     }
 
     /**
@@ -39,7 +44,7 @@ abstract class ValidatorAbstract
     /**
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [];
     }
@@ -53,13 +58,13 @@ abstract class ValidatorAbstract
 
         $this->check($validator);
 
-        return (new Data($validator->validated(), $this->rules()))->get();
+        return Data::new($validator->validated(), $this->rules())->get();
     }
 
     /**
      * @param \Illuminate\Validation\Validator $validator
      *
-     * @throws \App\Services\Validator\Exception
+     * @throws \App\Exceptions\ValidatorException
      *
      * @return void
      */
@@ -69,13 +74,13 @@ abstract class ValidatorAbstract
             return;
         }
 
-        $errors = $validator->errors();
-
-        $this->notify($errors);
-        $this->throwException($errors);
+        $this->notify($validator->errors());
+        $this->throwException($validator);
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param \Illuminate\Support\MessageBag $errors
      *
      * @return void
@@ -85,34 +90,78 @@ abstract class ValidatorAbstract
     }
 
     /**
-     * @param \Illuminate\Support\MessageBag $errors
+     * @param \Illuminate\Validation\Validator $validator
      *
-     * @throws \App\Services\Validator\Exception
+     * @throws \App\Exceptions\ValidatorException
      *
      * @return void
      */
-    protected function throwException(MessageBag $errors): void
+    protected function throwException(ValidatorService $validator): void
     {
-        throw new Exception($this->exceptionMessage($errors), null, null, $this->exceptionStatus($errors));
+        throw new ValidatorException(
+            message: $this->exceptionMessage($validator),
+            code: $this->exceptionCode(),
+            status: $this->exceptionStatus(),
+            details: $this->exceptionDetails($validator)
+        );
     }
 
     /**
-     * @param \Illuminate\Support\MessageBag $errors
+     * @param \Illuminate\Validation\Validator $validator
      *
      * @return string
      */
-    protected function exceptionMessage(MessageBag $errors): string
+    protected function exceptionMessage(ValidatorService $validator): string
     {
-        return implode("\n", array_merge([], ...array_values($errors->messages())));
+        return implode("\n", array_merge([], ...array_values($validator->errors()->messages())));
     }
 
     /**
-     * @param \Illuminate\Support\MessageBag $errors
-     *
+     * @return int
+     */
+    protected function exceptionCode(): int
+    {
+        return 422;
+    }
+
+    /**
      * @return string
      */
-    protected function exceptionStatus(MessageBag $errors): string
+    protected function exceptionStatus(): string
     {
-        return implode('|', array_keys($errors->messages()));
+        return 'validator';
+    }
+
+    /**
+     * @param \Illuminate\Validation\Validator $validator
+     *
+     * @return array
+     */
+    protected function exceptionDetails(ValidatorService $validator): array
+    {
+        $failed = $validator->failed();
+
+        $response = [];
+
+        foreach ($validator->errors()->messages() as $key => $messages) {
+            $response[] = $this->exceptionDetailsMessages($key, $failed[$key] ?? [], $messages);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string $key
+     * @param array $messages
+     * @param array $codes
+     *
+     * @return array
+     */
+    protected function exceptionDetailsMessages(string $key, array $codes, array $messages): array
+    {
+        return [
+            'key' => $key,
+            'messages' => array_combine(array_map('str_slug', array_keys($codes)), $messages),
+        ];
     }
 }

@@ -1,0 +1,26 @@
+<?php declare(strict_types=1);
+
+namespace App\Domains\{{ domain }}\Test\Controller;
+
+class {{ controller }} extends ControllerAbstract
+{
+    /**
+     * @var string
+     */
+    protected string $route = '{{ route }}';
+
+    /**
+     * @var string
+     */
+    protected string $action = '{{ action }}';
+
+    {{ function/testGetGuestEmptySuccess }}
+
+    {{ function/testGetGuestSuccess }}
+
+    {{ function/testPostGuestEmptySuccess }}
+
+    {{ function/testPostGuestSuccess }}
+
+    {{ function/routeToController }}
+}

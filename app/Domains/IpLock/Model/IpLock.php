@@ -3,7 +3,7 @@
 namespace App\Domains\IpLock\Model;
 
 use App\Domains\IpLock\Model\Builder\IpLock as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class IpLock extends ModelAbstract
 {

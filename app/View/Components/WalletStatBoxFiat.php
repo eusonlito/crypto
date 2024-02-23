@@ -24,14 +24,18 @@ class WalletStatBoxFiat extends Component
     }
 
     /**
-     * @return ?\Illuminate\View\View
+     * @return bool
      */
-    public function render(): ?View
+    public function shouldRender(): bool
     {
-        if ($this->list->isEmpty()) {
-            return null;
-        }
+        return boolval($this->list->isNotEmpty());
+    }
 
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function render(): View
+    {
         return view('domains.wallet.modules.stat-box-fiat', [
             'list' => $this->list,
         ]);

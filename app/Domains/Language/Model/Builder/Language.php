@@ -2,7 +2,7 @@
 
 namespace App\Domains\Language\Model\Builder;
 
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 
 class Language extends BuilderAbstract
 {

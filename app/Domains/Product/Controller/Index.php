@@ -41,7 +41,7 @@ class Index extends ControllerAbstract
         }
 
         if (strlen($filter = $this->request->input('enabled'))) {
-            $q->whereEnabled((bool)$filter);
+            $q->enabled((bool)$filter);
         }
 
         return $q->get()->sort(static function ($a, $b) {

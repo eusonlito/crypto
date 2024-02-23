@@ -3,7 +3,7 @@
 namespace App\Domains\Exchange\Model\Builder;
 
 use App\Domains\Exchange\Model\Exchange as Model;
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 
 class Exchange extends BuilderAbstract
 {

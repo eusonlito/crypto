@@ -3,7 +3,7 @@
 namespace App\Domains\UserSession\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\UserSession\Model\Builder\UserSession as Builder;
 

@@ -3,7 +3,7 @@
 namespace App\Domains\Platform\Seeder;
 
 use App\Domains\Platform\Model\Platform as Model;
-use App\Domains\Shared\Seeder\SeederAbstract;
+use App\Domains\Core\Seeder\SeederAbstract;
 
 class Platform extends SeederAbstract
 {

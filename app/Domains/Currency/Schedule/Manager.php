@@ -3,7 +3,7 @@
 namespace App\Domains\Currency\Schedule;
 
 use App\Domains\Currency\Command\SyncAll as SyncAllCommand;
-use App\Domains\Shared\Schedule\ScheduleAbstract;
+use App\Domains\Core\Schedule\ScheduleAbstract;
 
 class Manager extends ScheduleAbstract
 {

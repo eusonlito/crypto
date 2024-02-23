@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
+use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\Wallet\Model\Builder\Wallet as Builder;
 use App\Domains\Wallet\Model\Traits\WalletSql as WalletSqlTrait;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class Wallet extends ModelAbstract
 {
@@ -71,6 +72,14 @@ class Wallet extends ModelAbstract
     public function exchanges(): HasMany
     {
         return $this->hasMany(ExchangeModel::class, ProductModel::FOREIGN, ProductModel::FOREIGN);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(OrderModel::class, static::FOREIGN);
     }
 
     /**

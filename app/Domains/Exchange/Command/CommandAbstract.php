@@ -3,9 +3,9 @@
 namespace App\Domains\Exchange\Command;
 
 use App\Domains\Platform\Model\Platform as PlatformModel;
-use App\Domains\Shared\Command\CommandAbstract as CommandAbstractShared;
+use App\Domains\Core\Command\CommandAbstract as CommandAbstractCore;
 
-abstract class CommandAbstract extends CommandAbstractShared
+abstract class CommandAbstract extends CommandAbstractCore
 {
     /**
      * @return \App\Domains\Platform\Model\Platform

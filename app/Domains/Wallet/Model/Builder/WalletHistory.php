@@ -2,7 +2,7 @@
 
 namespace App\Domains\Wallet\Model\Builder;
 
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 
 class WalletHistory extends BuilderAbstract
 {

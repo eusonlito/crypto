@@ -1,0 +1,10 @@
+/**
+ * @return void
+ */
+public function testGetAuthSuccess(): void
+{
+    $this->authUser();
+
+    $this->get($this->routeToController())
+        ->assertStatus(200);
+}

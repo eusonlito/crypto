@@ -2,8 +2,8 @@
 
 namespace App\Domains\Monitor\Service\Controller;
 
-use App\Domains\Shared\Service\Controller\ControllerAbstract as ControllerAbstractShared;
+use App\Domains\Core\Service\Controller\ControllerAbstract as ControllerAbstractCore;
 
-abstract class ControllerAbstract extends ControllerAbstractShared
+abstract class ControllerAbstract extends ControllerAbstractCore
 {
 }

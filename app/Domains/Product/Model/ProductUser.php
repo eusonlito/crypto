@@ -4,7 +4,7 @@ namespace App\Domains\Product\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Domains\Product\Model\Builder\ProductUser as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\User\Model\User as UserModel;
 
 class ProductUser extends ModelAbstract

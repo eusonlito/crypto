@@ -2,10 +2,10 @@
 
 namespace App\Domains\Ticker\Action;
 
-use App\Domains\Shared\Action\ActionAbstract as ActionAbstractShared;
+use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
 use App\Domains\Ticker\Model\Ticker as Model;
 
-abstract class ActionAbstract extends ActionAbstractShared
+abstract class ActionAbstract extends ActionAbstractCore
 {
     /**
      * @var ?\App\Domains\Ticker\Model\Ticker

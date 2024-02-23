@@ -3,13 +3,25 @@
 namespace App\Domains\Wallet\Service\Logger;
 
 use App\Domains\Wallet\Model\Wallet as Model;
+use App\Services\Logger\RotatingFileAbstract;
 
-class Action extends LoggerAbstract
+class Action extends RotatingFileAbstract
 {
     /**
-     * @var string
+     * @return string
      */
-    protected static string $name = 'wallet-action';
+    protected static function folder(): string
+    {
+        return 'wallet';
+    }
+
+    /**
+     * @return string
+     */
+    protected static function path(): string
+    {
+        return date('Y/m/Y-m-d');
+    }
 
     /**
      * @param string $status

@@ -5,27 +5,26 @@ namespace App\Services\Filesystem;
 use Generator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use RegexIterator;
 use SplFileInfo;
 
 class Directory
 {
     /**
      * @param string $dir
-     * @param array $extensions = []
-     * @param array $exclude = []
+     * @param ?string $include = null
+     * @param ?string $exclude = null
      *
      * @return \Generator
      */
-    public static function files(string $dir, array $extensions = [], array $exclude = []): Generator
+    public static function files(string $dir, ?string $include = null, ?string $exclude = null): Generator
     {
         if (is_dir($dir) === false) {
             return [];
         }
 
-        $extensions = array_map('strtolower', $extensions);
-
-        foreach (static::directoryIterator($dir) as $file) {
-            if (static::filesValid($file, $extensions, $exclude)) {
+        foreach (static::directoryIterator($dir, $include) as $file) {
+            if (static::filesValid($file, $exclude)) {
                 yield $file->getPathName();
             }
         }
@@ -33,26 +32,75 @@ class Directory
 
     /**
      * @param string $dir
+     * @param ?string $include = null
+     * @param ?string $exclude = null
      *
-     * @return \RecursiveIteratorIterator
+     * @return array
      */
-    protected static function directoryIterator(string $dir): RecursiveIteratorIterator
+    public static function directories(string $dir, ?string $include = null, ?string $exclude = null): array
     {
-        return new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+        if (is_dir($dir) === false) {
+            return [];
+        }
+
+        $directories = [];
+
+        foreach (static::directoryIterator($dir, $include) as $file) {
+            if (static::directoriesValid($file, $exclude)) {
+                $directories[] = $file->getPathName();
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
+     * @param string $dir
+     * @param ?string $include
+     *
+     * @return \RecursiveIteratorIterator|\RegexIterator
+     */
+    protected static function directoryIterator(string $dir, ?string $include): RecursiveIteratorIterator|RegexIterator
+    {
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+
+        if ($include) {
+            $iterator = new RegexIterator($iterator, $include);
+        }
+
+        return $iterator;
     }
 
     /**
      * @param \SplFileInfo $file
-     * @param array $extensions
-     * @param array $exclude
+     * @param ?string $exclude
      *
      * @return bool
      */
-    protected static function filesValid(SplFileInfo $file, array $extensions, array $exclude): bool
+    protected static function filesValid(SplFileInfo $file, ?string $exclude): bool
     {
-        return $file->isFile()
-            && (empty($extensions) || in_array(strtolower($file->getExtension()), $extensions))
-            && (empty($exclude) || ($file->getPathName() === str_replace($exclude, '', $file->getPathName())));
+        if ($file->isDir()) {
+            return false;
+        }
+
+        return empty($exclude)
+            || (preg_match($exclude, $file->getPathName()) === 0);
+    }
+
+    /**
+     * @param \SplFileInfo $file
+     * @param ?string $exclude
+     *
+     * @return bool
+     */
+    protected static function directoriesValid(SplFileInfo $file, ?string $exclude): bool
+    {
+        if ($file->isFile()) {
+            return false;
+        }
+
+        return empty($exclude)
+            || (preg_match($exclude, $file->getPathName()) === 0);
     }
 
     /**
@@ -63,16 +111,6 @@ class Directory
      */
     public static function create(string $dir, bool $file = false): string
     {
-        if ($file) {
-            $dir = dirname($dir);
-        }
-
-        clearstatcache(true, $dir);
-
-        if (is_dir($dir) === false) {
-            mkdir($dir, 0o755, true);
-        }
-
-        return $dir;
+        return helper()->mkdir($dir, $file);
     }
 }

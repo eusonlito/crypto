@@ -2,7 +2,7 @@
 
 namespace App\Domains\Currency\Command;
 
-use App\Domains\Shared\Command\CommandAbstract;
+use App\Domains\Core\Command\CommandAbstract;
 
 class SyncAll extends CommandAbstract
 {

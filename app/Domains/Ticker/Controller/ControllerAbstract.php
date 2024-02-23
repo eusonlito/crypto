@@ -3,7 +3,7 @@
 namespace App\Domains\Ticker\Controller;
 
 use App\Domains\Ticker\Model\Ticker as Model;
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 use App\Exceptions\NotFoundException;
 
 abstract class ControllerAbstract extends ControllerWebAbstract

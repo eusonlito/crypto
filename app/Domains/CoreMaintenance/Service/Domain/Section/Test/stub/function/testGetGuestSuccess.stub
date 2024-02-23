@@ -1,0 +1,10 @@
+/**
+ * @return void
+ */
+public function testGetGuestSuccess(): void
+{
+    $this->factoryCreate();
+
+    $this->get($this->routeToController())
+        ->assertStatus(200);
+}

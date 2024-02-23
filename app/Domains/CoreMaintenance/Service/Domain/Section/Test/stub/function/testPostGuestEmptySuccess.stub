@@ -1,0 +1,7 @@
+/**
+ * @return void
+ */
+public function testPostGuestSuccess(): void
+{
+    {{ code/postSucess }}
+}

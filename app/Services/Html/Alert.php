@@ -2,13 +2,8 @@
 
 namespace App\Services\Html;
 
-use Error;
-use ErrorException;
-use LogicException;
-use RuntimeException;
 use Throwable;
 use Illuminate\Http\Request;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use App\Services\Request\Response;
 
 class Alert
@@ -52,7 +47,7 @@ class Alert
      */
     public static function exception(Request $request, Throwable $e): bool
     {
-        if (static::isExceptionSystem($e)) {
+        if (helper()->isExceptionSystem($e)) {
             report($e);
         }
 
@@ -85,7 +80,7 @@ class Alert
         $trace = ['['.str_replace($base, '', $e->getFile()).' - '.$e->getLine().'] '.$message];
 
         foreach ($e->getTrace() as $line) {
-            if (empty($line['file']) || strpos($line['file'] ?? '', '/vendor/')) {
+            if (empty($line['file']) || str_contains($line['file'], '/vendor/')) {
                 continue;
             }
 
@@ -108,7 +103,7 @@ class Alert
     {
         $message = $e->getMessage();
 
-        if (strpos($message, '{') !== 0) {
+        if (str_starts_with($message, '{') === false) {
             return $message;
         }
 
@@ -130,7 +125,7 @@ class Alert
      */
     protected static function messageFix(string $message): string
     {
-        if (strstr($message, 'SQLSTATE') === false) {
+        if (str_contains($message, 'SQLSTATE') === false) {
             return $message;
         }
 
@@ -146,19 +141,5 @@ class Alert
     protected static function setMessage(string $status, string $message)
     {
         service()->message()->$status($message);
-    }
-
-    /**
-     * @param \Throwable $e
-     *
-     * @return bool
-     */
-    protected static function isExceptionSystem(Throwable $e): bool
-    {
-        return ($e instanceof Error)
-            || ($e instanceof ErrorException)
-            || ($e instanceof FatalThrowableError)
-            || ($e instanceof LogicException)
-            || ($e instanceof RuntimeException);
     }
 }

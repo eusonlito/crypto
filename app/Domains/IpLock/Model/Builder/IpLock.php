@@ -2,7 +2,7 @@
 
 namespace App\Domains\IpLock\Model\Builder;
 
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 
 class IpLock extends BuilderAbstract
 {

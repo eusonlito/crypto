@@ -2,7 +2,7 @@
 
 namespace App\Domains\Exchange\Validate;
 
-use App\Domains\Shared\Validate\ValidateFactoryAbstract;
+use App\Domains\Core\Validate\ValidateFactoryAbstract;
 
 class ValidateFactory extends ValidateFactoryAbstract
 {

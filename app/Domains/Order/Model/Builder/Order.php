@@ -3,7 +3,7 @@
 namespace App\Domains\Order\Model\Builder;
 
 use App\Domains\Product\Model\Product as ProductModel;
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 class Order extends BuilderAbstract

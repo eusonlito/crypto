@@ -3,7 +3,7 @@
 namespace App\Domains\Platform\Model\Builder;
 
 use App\Domains\Platform\Model\PlatformUser as PlatformUserModel;
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 
 class Platform extends BuilderAbstract
 {

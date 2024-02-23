@@ -8,15 +8,31 @@ use Illuminate\Support\Facades\Event;
 class Logger
 {
     /**
+     * @return self
+     */
+    public static function new(): self
+    {
+        return new static(...func_get_args());
+    }
+
+    /**
      * @return void
      */
-    public static function listen(): void
+    public function listen(): void
     {
-        if (config('logging.channels.mail.enabled') !== true) {
+        if ($this->enabled() !== true) {
             return;
         }
 
-        Event::listen(MessageSending::class, static fn ($event) => static::store($event));
+        Event::listen(MessageSending::class, $this->store(...));
+    }
+
+    /**
+     * @return bool
+     */
+    protected function enabled(): bool
+    {
+        return config('logging.channels.mail.enabled') === true;
     }
 
     /**
@@ -24,19 +40,57 @@ class Logger
      *
      * @return void
      */
-    protected static function store(MessageSending $event): void
+    protected function store(MessageSending $event): void
     {
-        $file = storage_path('logs/mails/'.date('Y-m-d/H-i-s').'-'.uniqid().'.log');
-        $dir = dirname($file);
+        $file = $this->file();
 
-        clearstatcache(true, $dir);
+        helper()->mkdir($file, true);
 
-        if (is_dir($dir) === false) {
-            mkdir($dir, 0o755, true);
-        }
+        file_put_contents($file, $this->contents($event));
+    }
 
-        $message = $event->message;
+    /**
+     * @return string
+     */
+    protected function file(): string
+    {
+        return storage_path('logs/mail/'.$this->path().'.log');
+    }
 
-        file_put_contents($file, $message->getHeaders()->toString()."\n\n".$message->getBody()->bodyToString());
+    /**
+     * @return string
+     */
+    protected function path(): string
+    {
+        return date('Y/m/d/H-i-s').'-'.microtime(true);
+    }
+
+    /**
+     * @param \Illuminate\Mail\Events\MessageSending $event
+     *
+     * @return string
+     */
+    protected function contents(MessageSending $event): string
+    {
+        $raw = $event->message->toString();
+
+        return str_contains($raw, 'Content-Transfer-Encoding: quoted-printable')
+            ? $this->contentsQuotedPrintable($raw)
+            : $string;
+    }
+
+    /**
+     * @param string $raw
+     *
+     * @return string
+     */
+    protected function contentsQuotedPrintable(string $raw): string
+    {
+        [$headers, $content] = explode("\r\n\r\n", $raw, 2);
+
+        return implode("\r\n\r\n", [
+            $headers,
+            quoted_printable_decode($content),
+        ]);
     }
 }

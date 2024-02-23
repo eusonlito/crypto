@@ -2,10 +2,10 @@
 
 namespace App\Domains\Wallet\Action;
 
-use App\Domains\Shared\Action\ActionAbstract as ActionAbstractShared;
+use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
 use App\Domains\Wallet\Model\Wallet as Model;
 
-abstract class ActionAbstract extends ActionAbstractShared
+abstract class ActionAbstract extends ActionAbstractCore
 {
     /**
      * @var ?\App\Domains\Wallet\Model\Wallet

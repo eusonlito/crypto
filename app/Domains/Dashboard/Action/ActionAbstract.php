@@ -2,8 +2,8 @@
 
 namespace App\Domains\Dashboard\Action;
 
-use App\Domains\Shared\Action\ActionAbstract as ActionAbstractShared;
+use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
 
-abstract class ActionAbstract extends ActionAbstractShared
+abstract class ActionAbstract extends ActionAbstractCore
 {
 }

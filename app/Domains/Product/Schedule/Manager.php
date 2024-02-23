@@ -4,7 +4,7 @@ namespace App\Domains\Product\Schedule;
 
 use App\Domains\Product\Command\SyncAll as SyncAllCommand;
 use App\Domains\Product\Command\TrackingCheck as TrackingCheckCommand;
-use App\Domains\Shared\Schedule\ScheduleAbstract;
+use App\Domains\Core\Schedule\ScheduleAbstract;
 
 class Manager extends ScheduleAbstract
 {

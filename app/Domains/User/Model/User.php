@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Domains\Language\Model\Language as LanguageModel;
 use App\Domains\Platform\Model\PlatformUser as PlatformUserModel;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\User\Model\Builder\User as Builder;
 
 class User extends ModelAbstract implements Authenticatable

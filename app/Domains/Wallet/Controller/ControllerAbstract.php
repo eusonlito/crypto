@@ -3,7 +3,7 @@
 namespace App\Domains\Wallet\Controller;
 
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 use App\Exceptions\NotFoundException;
 
 abstract class ControllerAbstract extends ControllerWebAbstract

@@ -1,0 +1,9 @@
+/**
+ * @return void
+ */
+public function testPostAuthSuccess(): void
+{
+    $this->authUser();
+
+    {{ code/postSucess }}
+}

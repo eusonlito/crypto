@@ -11,7 +11,7 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\Ticker\Model\Builder\Ticker as Builder;
 use App\Domains\Ticker\Model\Traits\TickerSql as TickerSqlTrait;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class Ticker extends ModelAbstract
 {

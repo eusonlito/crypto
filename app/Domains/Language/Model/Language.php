@@ -3,7 +3,7 @@
 namespace App\Domains\Language\Model;
 
 use App\Domains\Language\Model\Builder\Language as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class Language extends ModelAbstract
 {

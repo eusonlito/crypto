@@ -4,7 +4,7 @@ namespace App\Domains\Forecast\Action;
 
 use Illuminate\Support\Collection;
 use App\Domains\Forecast\Model\Forecast as Model;
-use App\Domains\Shared\Action\ActionFactoryAbstract;
+use App\Domains\Core\Action\ActionFactoryAbstract;
 
 class ActionFactory extends ActionFactoryAbstract
 {

@@ -10,65 +10,144 @@ use Illuminate\Support\Facades\Request;
 class Logger
 {
     /**
+     * @var bool
+     */
+    protected static bool $listen = false;
+
+    /**
+     * @var string
+     */
+    protected string $base;
+
+    /**
      * @var array
      */
-    protected static array $file = [];
+    protected array $files = [];
+
+    /**
+     * @var array
+     */
+    protected array $connections = [];
+
+    /**
+     * @return self
+     */
+    public static function new(): self
+    {
+        return new static(...func_get_args());
+    }
+
+    /**
+     * @return self
+     */
+    public function __construct()
+    {
+        $this->base();
+        $this->connections();
+    }
 
     /**
      * @return void
      */
-    public static function listen(): void
+    protected function base(): void
     {
-        if (config('logging.channels.database.enabled') !== true) {
+        $this->base = base_path();
+    }
+
+    /**
+     * @return void
+     */
+    protected function connections(): void
+    {
+        if ($this->enabled() !== true) {
             return;
         }
 
         foreach (config('database.connections') as $name => $config) {
-            static::listenConnection($name, $config);
+            if ($this->connectionEnabled($config)) {
+                $this->connections[$name] = $config;
+            }
         }
     }
 
     /**
-     * @param string $name
-     * @param array $config
-     *
-     * @return void
+     * @return bool
      */
-    protected static function listenConnection(string $name, array $config): void
+    protected function enabled(): bool
     {
-        if (static::listenConnectionLogEnabled($name, $config) === false) {
-            return;
-        }
-
-        static::listenConnectionLoad($name);
-        static::listenConnectionWrite($name, '['.date('Y-m-d H:i:s').'] ['.Request::method().'] '.Request::fullUrl());
-
-        DB::connection($name)->listen(static function ($sql) use ($name) {
-            static::listenConnectionLog($name, $sql);
-        });
+        return (static::$listen === false)
+            && (config('logging.channels.database.enabled') === true);
     }
 
     /**
-     * @param string $name
      * @param array $config
      *
      * @return bool
      */
-    protected static function listenConnectionLogEnabled(string $name, array $config): bool
+    protected function connectionEnabled(array $config): bool
     {
-        return empty(static::$file[$name]) && (($config['log'] ?? false) === true);
+        return ($config['log'] ?? false) === true;
+    }
+
+    /**
+     * @return void
+     */
+    public function listen(): void
+    {
+        $this->listenSetup();
+        $this->listenStart();
+
+        static::$listen = true;
+    }
+
+    /**
+     * @return void
+     */
+    protected function listenSetup(): void
+    {
+        foreach (array_keys($this->connections) as $name) {
+            $this->listenSetupConnection($name);
+        }
     }
 
     /**
      * @param string $name
-     * @param \Illuminate\Database\Events\QueryExecuted $sql
      *
      * @return void
      */
-    protected static function listenConnectionLog(string $name, QueryExecuted $sql): void
+    protected function listenSetupConnection(string $name): void
     {
-        $query = $sql->sql;
-        $bindings = $sql->bindings;
+        $this->file($name);
+
+        helper()->mkdir($this->files[$name], true);
+
+        $this->write($name, '['.date('Y-m-d H:i:s').'] ['.Request::method().'] '.Request::fullUrl());
+    }
+
+    /**
+     * @return void
+     */
+    public function listenStart(): void
+    {
+        DB::listen(fn ($query) => $this->listenConnectionLog($query->connectionName, $query));
+    }
+
+    /**
+     * @param string $name
+     * @param \Illuminate\Database\Events\QueryExecuted $query
+     *
+     * @return void
+     */
+    protected function listenConnectionLog(string $name, QueryExecuted $query): void
+    {
+        $connection = $this->connections[$name] ?? null;
+
+        if (empty($connection)) {
+            return;
+        }
+
+        $sql = $query->sql;
+        $bindings = $query->bindings;
 
         foreach ($bindings as $i => $binding) {
             if ($binding instanceof DateTime) {
@@ -80,29 +159,66 @@ class Logger
             }
 
             if (is_string($i)) {
-                $query = str_replace(':'.$i, (string)$bindings[$i], $query);
+                $sql = str_replace(':'.$i, (string)$bindings[$i], $sql);
             }
         }
 
-        static::listenConnectionWrite($name, vsprintf(str_replace(['%', '?'], ['%%', '%s'], $query), $bindings));
-    }
+        $log = [];
 
-    /**
-     * @param string $name
-     *
-     * @return void
-     */
-    protected static function listenConnectionLoad(string $name): void
-    {
-        static::file($name);
-
-        $dir = dirname(static::$file[$name]);
-
-        clearstatcache(true, $dir);
-
-        if (is_dir($dir) === false) {
-            mkdir($dir, 0o755, true);
+        if ($connection['log_backtrace']) {
+            $log[] = '# '.$this->backtrace();
         }
+
+        if ($connection['log_time']) {
+            $log[] = '# Time: '.sprintf('%0.5f', $query->time / 1000);
+        }
+
+        $log[] = "\n".$this->normalizeSql($sql, $bindings);
+
+        $this->write($name, implode("\n", $log));
+    }
+
+    /**
+     * @return string
+     */
+    protected function backtrace(): string
+    {
+        $backtrace = current(array_filter(debug_backtrace(2), fn ($line) => $this->backtraceIsValid($line)));
+
+        if (empty($backtrace)) {
+            return '';
+        }
+
+        return str_replace($this->base, '', $backtrace['file']).'#'.$backtrace['line'];
+    }
+
+    /**
+     * @param array $line
+     *
+     * @return bool
+     */
+    protected function backtraceIsValid(array $line): bool
+    {
+        $file = $line['file'] ?? null;
+
+        if (empty($file) || ($file === __FILE__)) {
+            return false;
+        }
+
+        return str_starts_with($file, $this->base.'/app/')
+            || str_starts_with($file, $this->base.'/config/')
+            || str_starts_with($file, $this->base.'/database/');
+    }
+
+    /**
+     * @param string $sql
+     * @param array $bindings
+     *
+     * @return string
+     */
+    protected function normalizeSql(string $sql, array $bindings): string
+    {
+        return preg_replace(["/\n+/", "/\n\s+/"], ["\n", ' '], vsprintf(str_replace(['%', '?'], ['%%', '%s'], $sql), $bindings));
     }
 
     /**
@@ -110,12 +226,12 @@ class Logger
      *
      * @return void
      */
-    protected static function file(string $name): void
+    protected function file(string $name): void
     {
         $file = array_filter(explode('-', preg_replace('/[^a-z0-9]+/i', '-', Request::path())));
-        $file = implode('-', array_map(static fn ($value) => substr($value, 0, 20), $file)) ?: '-';
+        $file = implode('-', array_map(fn ($value) => substr($value, 0, 20), $file)) ?: '-';
 
-        static::$file[$name] = storage_path('logs/query/'.$name.'/'.date('Y-m-d').'/'.substr($file, 0, 150).'.log');
+        $this->files[$name] = storage_path('logs/query/'.$name.'/'.date('Y/m/d').'/'.substr($file, 0, 150).'.log');
     }
 
     /**
@@ -124,8 +240,8 @@ class Logger
      *
      * @return void
      */
-    protected static function listenConnectionWrite(string $name, string $message): void
+    protected function write(string $name, string $message): void
     {
-        file_put_contents(static::$file[$name], "\n\n".$message, FILE_APPEND | LOCK_EX);
+        file_put_contents($this->files[$name], "\n".$message."\n", FILE_APPEND | LOCK_EX);
     }
 }

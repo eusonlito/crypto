@@ -4,9 +4,9 @@ namespace App\Domains\Product\Command;
 
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as Model;
-use App\Domains\Shared\Command\CommandAbstract as CommandAbstractShared;
+use App\Domains\Core\Command\CommandAbstract as CommandAbstractCore;
 
-abstract class CommandAbstract extends CommandAbstractShared
+abstract class CommandAbstract extends CommandAbstractCore
 {
     /**
      * @var \App\Domains\Product\Model\Product

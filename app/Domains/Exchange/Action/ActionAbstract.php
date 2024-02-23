@@ -2,10 +2,10 @@
 
 namespace App\Domains\Exchange\Action;
 
-use App\Domains\Shared\Action\ActionAbstract as ActionAbstractShared;
+use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
 use App\Domains\Exchange\Model\Exchange as Model;
 
-abstract class ActionAbstract extends ActionAbstractShared
+abstract class ActionAbstract extends ActionAbstractCore
 {
     /**
      * @var ?\App\Domains\Exchange\Model\Exchange

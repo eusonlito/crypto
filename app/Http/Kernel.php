@@ -13,9 +13,10 @@ use App\Domains\User\Middleware\Admin as UserAdmin;
 use App\Domains\User\Middleware\Auth as UserAuth;
 use App\Domains\User\Middleware\AuthRedirect as UserAuthRedirect;
 use App\Domains\User\Middleware\AuthTFA as UserAuthTFA;
+use App\Http\Middleware\MessagesShareFromSession;
 use App\Http\Middleware\RequestLogger;
 use App\Http\Middleware\Reset;
-use App\Http\Middleware\MessagesShareFromSession;
+use App\Http\Middleware\Test;
 
 class Kernel extends KernelVendor
 {
@@ -48,6 +49,7 @@ class Kernel extends KernelVendor
      * @var array
      */
     protected $middlewareAliases = [
+        'test' => Test::class,
         'user.admin' => UserAdmin::class,
         'user.auth' => UserAuth::class,
         'user.auth.redirect' => UserAuthRedirect::class,

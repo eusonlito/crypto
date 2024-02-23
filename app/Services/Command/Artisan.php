@@ -7,63 +7,178 @@ use App\Services\Filesystem\Directory;
 class Artisan
 {
     /**
-     * @param string $command
-     *
-     * @return void
+     * @const string
      */
-    public static function exec(string $command): void
+    protected const LOG = '/dev/null';
+
+    /**
+     * @var string
+     */
+    protected string $log = '/dev/null';
+
+    /**
+     * @var bool
+     */
+    protected bool $logDaily = false;
+
+    /**
+     * @var string
+     */
+    protected string $cmd;
+
+    /**
+     * @return self
+     */
+    public static function new(): self
     {
-        $log = static::logFile($command);
-        $command = static::command($command, $log);
-
-        static::logWrite($log, $command);
-
-        static::launch($command);
+        return new static(...func_get_args());
     }
 
     /**
      * @param string $command
-     * @param string $log
+     *
+     * @return self
+     */
+    public function __construct(protected string $command)
+    {
+    }
+
+    /**
+     * @param string|bool $path = true
+     *
+     * @return self
+     */
+    public function log(string|bool $path = true): self
+    {
+        $this->logFile($path);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $logDaily = true
+     *
+     * @return self
+     */
+    public function logDaily(bool $logDaily = true): self
+    {
+        $this->logDaily = $logDaily;
+        $this->log($logDaily);
+
+        return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function exec(): void
+    {
+        $this->cmd();
+        $this->logOpen();
+        $this->launch();
+    }
+
+    /**
+     * @param string|bool $path
      *
      * @return string
      */
-    protected static function command(string $command, string $log): string
+    protected function logFile(string|bool $path): string
     {
-        return 'nohup '.PHP_BINARY.' '.base_path('artisan').' '.$command.' >> '.$log.' 2>&1 &';
+        $this->log = $this->logFilePath($path);
+
+        Directory::create($this->log, true);
+
+        return $this->log;
     }
 
     /**
-     * @param string $command
-     *
-     * @return void
-     */
-    protected static function launch(string $command): void
-    {
-        exec($command);
-    }
-
-    /**
-     * @param string $command
+     * @param string|bool $path
      *
      * @return string
      */
-    protected static function logFile(string $command): string
+    protected function logFilePath(string|bool $path): string
     {
-        $file = storage_path('logs/artisan/'.date('Y-m-d/H-i-s').'-'.uniqid().'-'.str_slug($command).'.log');
+        if (empty($path)) {
+            return static::LOG;
+        }
 
-        Directory::create($file, true);
+        if ($path === true) {
+            $path = $this->command;
+        }
 
-        return $file;
+        if (str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        return storage_path('logs/artisan/'.$this->logFileDatePrefix().$this->logFileCommand($path));
     }
 
     /**
-     * @param string $file
-     * @param string $message
+     * @return string
+     */
+    protected function logFileDatePrefix(): string
+    {
+        return date_create()->format('Y/m/d/'.($this->logDaily ? '' : 'H_i_s_u-'));
+    }
+
+    /**
+     * @param string $path
      *
+     * @return string
+     */
+    protected function logFileCommand(string $path): string
+    {
+        return str_slug(preg_replace('/\W/', '-', $path)).'.log';
+    }
+
+    /**
      * @return void
      */
-    protected static function logWrite(string $file, string $message): void
+    protected function cmd(): void
     {
-        file_put_contents($file, $message."\n\n", LOCK_EX);
+        $this->cmd = 'nohup '.$this->php().' '.base_path('artisan').' '.$this->command
+            .' >> '.$this->log.' 2>&1 &';
+    }
+
+    /**
+     * @return string
+     */
+    protected function php(): string
+    {
+        if ($this->phpIsCli()) {
+            return PHP_BINARY;
+        }
+
+        $version = PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;
+
+        $cmd = 'type php'.$version.' 2>/dev/null || type php 2>/dev/null';
+        $php = Exec::cmdArray($cmd);
+
+        return end($php);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function phpIsCli(): bool
+    {
+        return (PHP_SAPI === 'cli') || defined('STDIN');
+    }
+
+    /**
+     * @return void
+     */
+    protected function logOpen(): void
+    {
+        file_put_contents($this->log, "\n".$this->cmd."\n\n", FILE_APPEND);
+    }
+
+    /**
+     * @return void
+     */
+    protected function launch(): void
+    {
+        exec($this->cmd);
     }
 }

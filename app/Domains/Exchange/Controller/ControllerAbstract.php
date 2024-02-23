@@ -3,7 +3,7 @@
 namespace App\Domains\Exchange\Controller;
 
 use App\Domains\Exchange\Model\Exchange as Model;
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 
 abstract class ControllerAbstract extends ControllerWebAbstract
 {

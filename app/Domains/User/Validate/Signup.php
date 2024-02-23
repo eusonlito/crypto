@@ -2,8 +2,8 @@
 
 namespace App\Domains\User\Validate;
 
-use App\Domains\Shared\Validate\ValidateAbstract;
-use App\Domains\Shared\Validate\Rule\CSRF;
+use App\Domains\Core\Validate\ValidateAbstract;
+use App\Domains\Core\Validate\Rule\CSRF;
 
 class Signup extends ValidateAbstract
 {

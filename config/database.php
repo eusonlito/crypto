@@ -49,6 +49,8 @@ return [
             'timezone' => null,
             'options' => [],
             'log' => env('DB_LOG', false),
+            'log_backtrace' => (bool)env('DB_LOG_BACKTRACE', true),
+            'log_time' => (bool)env('DB_LOG_TIME', true),
         ],
 
         'dump' => [
@@ -68,6 +70,8 @@ return [
             'timezone' => null,
             'options' => [],
             'log' => env('DB_DUMP_LOG', false),
+            'log_backtrace' => (bool)env('DB_DUMP_LOG_BACKTRACE', false),
+            'log_time' => (bool)env('DB_DUMP_LOG_TIME', false),
         ],
 
         'test' => [

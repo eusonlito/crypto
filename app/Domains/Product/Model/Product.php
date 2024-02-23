@@ -9,7 +9,7 @@ use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Builder\Product as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class Product extends ModelAbstract
 {

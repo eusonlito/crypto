@@ -2,14 +2,18 @@
 
 namespace App\Services\Http\Curl;
 
+use Closure;
+use CurlFile;
 use CurlHandle;
 use Throwable;
-use Illuminate\Cache\Repository as RepositoryCache;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class Curl
 {
+    /**
+     * @var ?string
+     */
+    protected static ?string $fake = null;
+
     /**
      * @var \CurlHandle
      */
@@ -28,6 +32,11 @@ class Curl
     /**
      * @var string
      */
+    protected string $urlRequest = '';
+
+    /**
+     * @var string
+     */
     protected string $method = 'GET';
 
     /**
@@ -41,24 +50,34 @@ class Curl
     protected array $query = [];
 
     /**
-     * @var int
+     * @var bool
      */
-    protected int $cacheTTL = 0;
+    protected bool $cachePost = false;
 
     /**
-     * @var string
+     * @var \App\Services\Http\Curl\Cache
      */
-    protected string $cachePrefix = '';
-
-    /**
-     * @var string
-     */
-    protected string $cacheKey = '';
+    protected Cache $cache;
 
     /**
      * @var mixed
      */
-    protected $body;
+    protected mixed $body;
+
+    /**
+     * @var array
+     */
+    protected array $bodyFiles = [];
+
+    /**
+     * @var mixed
+     */
+    protected mixed $bodyRequest;
+
+    /**
+     * @var int
+     */
+    protected int $sleep = 0;
 
     /**
      * @var bool
@@ -68,7 +87,27 @@ class Curl
     /**
      * @var bool
      */
+    protected bool $isJsonResponse = false;
+
+    /**
+     * @var bool
+     */
+    protected bool $isMultipart = false;
+
+    /**
+     * @var string
+     */
+    protected string $boundary;
+
+    /**
+     * @var bool
+     */
     protected bool $exception = true;
+
+    /**
+     * @var bool
+     */
+    protected bool $errorReport = true;
 
     /**
      * @var bool
@@ -76,9 +115,44 @@ class Curl
     protected bool $log = false;
 
     /**
-     * @var string|bool
+     * @var bool
      */
-    protected $response = '';
+    protected bool $logContents = true;
+
+    /**
+     * @var bool
+     */
+    protected bool $logBody = true;
+
+    /**
+     * @var ?\Closure
+     */
+    protected ?Closure $sendSuccess = null;
+
+    /**
+     * @var int
+     */
+    protected int $retry = 0;
+
+    /**
+     * @var int
+     */
+    protected int $retryWait = 1000;
+
+    /**
+     * @var ?int
+     */
+    protected ?int $retryCount = null;
+
+    /**
+     * @var ?string
+     */
+    protected ?string $response = '';
+
+    /**
+     * @var array
+     */
+    protected array $responseHeaders = [];
 
     /**
      * @var array
@@ -88,19 +162,63 @@ class Curl
     /**
      * @return self
      */
+    public static function new(): self
+    {
+        return new static(...func_get_args());
+    }
+
+    /**
+     * @param ?string $fake = null
+     *
+     * @return void
+     */
+    public static function fake(?string $fake = null): void
+    {
+        static::$fake = $fake;
+    }
+
+    /**
+     * @return self
+     */
     public function __construct()
+    {
+        $this->initCurl();
+        $this->initCache();
+    }
+
+    /**
+     * @return self
+     */
+    protected function initCurl(): self
     {
         $this->curl = curl_init();
 
-        $this->setOption(CURLOPT_TIMEOUT, $this->timeout);
-        $this->setOption(CURLOPT_MAXREDIRS, 5);
+        $this->setOption(CURLOPT_COOKIESESSION, false);
         $this->setOption(CURLOPT_FOLLOWLOCATION, true);
+        $this->setOption(CURLOPT_FORBID_REUSE, true);
+        $this->setOption(CURLOPT_FRESH_CONNECT, true);
+        $this->setOption(CURLOPT_HEADER, true);
+        $this->setOption(CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        $this->setOption(CURLOPT_MAXREDIRS, 5);
         $this->setOption(CURLOPT_RETURNTRANSFER, true);
         $this->setOption(CURLOPT_SSL_VERIFYPEER, false);
         $this->setOption(CURLOPT_SSL_VERIFYHOST, false);
-        $this->setOption(CURLOPT_COOKIESESSION, false);
+        $this->setOption(CURLOPT_TIMEOUT, $this->timeout);
 
         $this->setHeader('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36');
+        $this->setHeader('Connection', 'close');
+
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    protected function initCache(): self
+    {
+        $this->cache = new Cache();
+
+        return $this;
     }
 
     /**
@@ -149,7 +267,7 @@ class Curl
      */
     public function setQuery(array $query): self
     {
-        $this->query = $query;
+        $this->query = array_merge($this->query, $query);
 
         return $this;
     }
@@ -159,9 +277,39 @@ class Curl
      *
      * @return self
      */
-    public function setBody($body): self
+    public function setBody(mixed $body): self
     {
         $this->body = $body;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $body
+     *
+     * @return self
+     */
+    public function setNoBody(bool $body): self
+    {
+        $this->setOption(CURLOPT_NOBODY, $body);
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param string $file
+     * @param ?string $mime = null
+     *
+     * @return self
+     */
+    public function setBodyFile(string $name, string $file, ?string $mime = null): self
+    {
+        $this->bodyFiles[] = [
+            'name' => $name,
+            'file' => $file,
+            'mime' => (($mime === null) ? mime_content_type($file) : $mime),
+        ];
 
         return $this;
     }
@@ -204,6 +352,20 @@ class Curl
     }
 
     /**
+     * @param string $file
+     *
+     * @return self
+     */
+    public function setCookieFile(string $file): self
+    {
+        $this->setOption(CURLOPT_COOKIESESSION, true);
+        $this->setOption(CURLOPT_COOKIEFILE, $file);
+        $this->setOption(CURLOPT_COOKIEJAR, $file);
+
+        return $this;
+    }
+
+    /**
      * @param ?string $token
      * @param bool $bearer = true
      *
@@ -232,14 +394,50 @@ class Curl
     }
 
     /**
+     * @param bool $json = true
+     *
      * @return self
      */
-    public function setJson(): self
+    public function setJson(bool $json = true): self
     {
-        $this->isJson = true;
+        $this->isJson = $json;
 
-        $this->setHeader('Accept', 'application/json');
-        $this->setHeader('Content-Type', 'application/json');
+        if ($this->isJson) {
+            $this->setHeader('Content-Type', 'application/json');
+        }
+
+        $this->setJsonResponse($json);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $jsonResponse = true
+     *
+     * @return self
+     */
+    public function setJsonResponse(bool $jsonResponse = true): self
+    {
+        $this->isJsonResponse = $jsonResponse;
+
+        if ($this->isJsonResponse) {
+            $this->setHeader('Accept', 'application/json');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param bool $multipart = true
+     *
+     * @return self
+     */
+    public function setMultipart(bool $multipart = true): self
+    {
+        $this->isMultipart = $multipart;
+        $this->boundary = md5(uniqid());
+
+        $this->setHeader('Content-Type', 'multipart/form-data; boundary='.$this->boundary);
 
         return $this;
     }
@@ -263,13 +461,24 @@ class Curl
     {
         $this->setHeader('Content-Type', 'application/octet-stream');
 
-        $this->setOption(CURLOPT_WRITEFUNCTION, function ($curl, $string) {
-            echo $string;
-
-            return strlen($string);
-        });
+        $this->setOption(CURLOPT_WRITEFUNCTION, [$this, 'setStreamWriteFunction']);
 
         return $this;
+    }
+
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
+     * @param \CurlHandle $curl
+     * @param string $string
+     *
+     * @return int
+     */
+    protected function setStreamWriteFunction(CurlHandle $curl, string $string): int
+    {
+        echo $string;
+
+        return strlen($string);
     }
 
     /**
@@ -292,6 +501,18 @@ class Curl
     }
 
     /**
+     * @param int $sleep
+     *
+     * @return self
+     */
+    public function setSleep(int $sleep): self
+    {
+        $this->sleep = $sleep;
+
+        return $this;
+    }
+
+    /**
      * @param bool $exception = true
      *
      * @return self
@@ -304,15 +525,37 @@ class Curl
     }
 
     /**
-     * @param int $ttl
-     * @param string $prefix
+     * @param bool $errorReport = true
      *
      * @return self
      */
-    public function setCache(int $ttl, string $prefix): self
+    public function setErrorReport(bool $errorReport = true): self
     {
-        $this->cacheTTL = $ttl;
-        $this->cachePrefix = $prefix;
+        $this->errorReport = $errorReport;
+
+        return $this;
+    }
+
+    /**
+     * @param int $ttl
+     *
+     * @return self
+     */
+    public function setCache(int $ttl): self
+    {
+        $this->cache->setTTL($ttl);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $cache = true
+     *
+     * @return self
+     */
+    public function setCachePost(bool $cache = true): self
+    {
+        $this->cachePost = $cache;
 
         return $this;
     }
@@ -325,6 +568,56 @@ class Curl
     public function setLog(bool $log = true): self
     {
         $this->log = $log;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $logContents = true
+     *
+     * @return self
+     */
+    public function setLogContents(bool $logContents = true): self
+    {
+        $this->logContents = $logContents;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $logBody = true
+     *
+     * @return self
+     */
+    public function setLogBody(bool $logBody = true): self
+    {
+        $this->logBody = $logBody;
+
+        return $this;
+    }
+
+    /**
+     * @param ?callable $sendSuccess
+     *
+     * @return self
+     */
+    public function setSendSuccess(?callable $sendSuccess): self
+    {
+        $this->sendSuccess = $sendSuccess;
+
+        return $this;
+    }
+
+    /**
+     * @param int $ttl
+     * @param int $wait = 1000
+     *
+     * @return self
+     */
+    public function setRetry(int $ttl, int $wait = 1000): self
+    {
+        $this->retry = $ttl;
+        $this->retryWait = ($wait > 10) ? $wait : ($wait * 1000);
 
         return $this;
     }
@@ -352,15 +645,11 @@ class Curl
      */
     public function send(): self
     {
-        $this->cacheKey();
+        $this->cacheSetData();
 
-        if ($this->cacheExists()) {
-            $this->response = $this->cacheGet();
-        } else {
+        if ($this->cacheGet() === false) {
             $this->sendExec();
         }
-
-        curl_close($this->curl);
 
         if ($this->sendSuccess()) {
             $this->success();
@@ -368,23 +657,63 @@ class Curl
             $this->error();
         }
 
+        curl_close($this->curl);
+
         return $this;
     }
 
     /**
      * @return self
      */
-    public function sendExec(): self
+    protected function sendExec(): self
     {
+        if ($this->sleep) {
+            sleep($this->sleep);
+        }
+
         $this->writeHeaders();
 
         $this->sendUrl();
         $this->sendPost();
 
-        $this->response = curl_exec($this->curl);
-        $this->info = curl_getinfo($this->curl);
+        if ($response = static::$fake) {
+            $this->info = [];
+        } else {
+            $response = curl_exec($this->curl);
+            $this->info = curl_getinfo($this->curl);
+        }
+
+        $this->responseHeaders = [];
+
+        if (is_string($response) === false) {
+            return $this;
+        }
+
+        [$headers, $this->response] = explode("\r\n\r\n", $response, 2) + ['', null];
+
+        $this->responseHeaders($headers);
 
         return $this;
+    }
+
+    /**
+     * @param string $headers
+     *
+     * @return void
+     */
+    protected function responseHeaders(string $headers): void
+    {
+        $this->responseHeaders = [];
+
+        $headers = explode("\n", $headers);
+
+        array_shift($headers);
+
+        foreach ($headers as $header) {
+            if (preg_match('#^([^:]+):\s*(.+)$#', $header, $matches)) {
+                $this->responseHeaders[strtolower($matches[1])] = trim($matches[2]);
+            }
+        }
     }
 
     /**
@@ -392,17 +721,27 @@ class Curl
      */
     public function sendSuccess(): bool
     {
-        return empty($this->info) || (($this->info['http_code'] >= 200) && ($this->info['http_code'] <= 299));
+        if ($this->sendSuccessCheck() === false) {
+            return false;
+        }
+
+        if (empty($this->info)) {
+            return true;
+        }
+
+        return in_array($this->info['http_code'], [200, 201, 204, 304]);
     }
 
     /**
-     * @param string $key = ''
-     *
-     * @return mixed
+     * @return bool
      */
-    public function info(string $key = '')
+    public function sendSuccessCheck(): bool
     {
-        return $key ? $this->info[$key] : $this->info;
+        if ($this->sendSuccess === null) {
+            return true;
+        }
+
+        return call_user_func($this->sendSuccess, $this->getBody());
     }
 
     /**
@@ -410,26 +749,41 @@ class Curl
      *
      * @return mixed
      */
-    public function getBody(?string $format = null)
+    public function getBody(?string $format = null): mixed
     {
-        if ($this->response === false) {
+        if (empty($this->response)) {
             return null;
         }
 
-        if ($this->isJson && ($format === null)) {
+        if ($this->isJsonResponse && ($format === null)) {
             $format = 'object';
         }
 
-        switch ($format) {
-            case 'array':
-                return json_decode($this->response, true);
+        return match ($format) {
+            'array' => json_decode($this->response, true),
+            'object' => json_decode($this->response),
+            default => $this->response,
+        };
+    }
 
-            case 'object':
-                return json_decode($this->response);
+    /**
+     * @param string $key = ''
+     *
+     * @return mixed
+     */
+    public function getHeaders(string $key = ''): mixed
+    {
+        return $key ? ($this->responseHeaders[$key] ?? null) : $this->responseHeaders;
+    }
 
-            default:
-                return $this->response;
-        }
+    /**
+     * @param string $key = ''
+     *
+     * @return mixed
+     */
+    public function getInfo(string $key = ''): mixed
+    {
+        return $key ? ($this->info[$key] ?? null) : $this->info;
     }
 
     /**
@@ -447,11 +801,22 @@ class Curl
      */
     protected function sendUrlString(): string
     {
-        if (empty($this->query)) {
-            return $this->url;
+        return $this->urlRequest = $this->urlWithQuery($this->url, $this->query);
+    }
+
+    /**
+     * @param string $url
+     * @param array $query
+     *
+     * @return string
+     */
+    protected function urlWithQuery(string $url, array $query): string
+    {
+        if ($query) {
+            $url .= (str_contains($url, '?') ? '&' : '?').http_build_query($query, '', '&');
         }
 
-        return $this->url .= (strpos($this->url, '?') ? '&' : '?').http_build_query($this->query, '', '&');
+        return $url;
     }
 
     /**
@@ -463,29 +828,116 @@ class Curl
             return $this;
         }
 
-        if ($this->body === false) {
+        if (empty($this->body)) {
             return $this;
         }
 
-        if ($this->body && $this->isJson) {
-            $body = json_encode($this->body, JSON_PARTIAL_OUTPUT_ON_ERROR);
-        } elseif ($this->body === null) {
-            $body = 'null';
-        } else {
-            $body = $this->body;
-        }
-
-        $this->setOption(CURLOPT_POSTFIELDS, $body);
-
-        return $this;
+        return match (gettype($this->body)) {
+            'string' => $this->sendPostString(),
+            'boolean' => $this->sendPostBoolean(),
+            default => $this->sendPostArray(),
+        };
     }
 
     /**
-     * @return \Illuminate\Cache\Repository
+     * @return self
      */
-    protected function cache(): RepositoryCache
+    protected function sendPostString(): self
     {
-        return Cache::tags([$this->cachePrefix]);
+        return $this->setOption(CURLOPT_POSTFIELDS, $this->body);
+    }
+
+    /**
+     * @return self
+     */
+    protected function sendPostArray(): self
+    {
+        if ($this->bodyFiles) {
+            $this->bodyRequest = $this->sendPostArrayFiles();
+        } elseif ($this->isJson) {
+            $this->bodyRequest = $this->sendPostArrayJson();
+        } elseif ($this->isMultipart) {
+            $this->bodyRequest = $this->sendPostArrayMultipart();
+        } else {
+            $this->bodyRequest = $this->sendPostArrayString();
+        }
+
+        return $this->setOption(CURLOPT_POSTFIELDS, $this->bodyRequest);
+    }
+
+    /**
+     * @return array
+     */
+    protected function sendPostArrayFiles(): array
+    {
+        $files = [];
+
+        foreach ($this->bodyFiles as $file) {
+            $files[$file['name']] = new CurlFile($file['file'], $file['mime']);
+        }
+
+        return $files + $this->body;
+    }
+
+    /**
+     * @return string
+     */
+    protected function sendPostArrayJson(): string
+    {
+        return json_encode($this->body);
+    }
+
+    /**
+     * @return string
+     */
+    protected function sendPostArrayMultipart(): string
+    {
+        $body = '';
+
+        foreach ($this->body as $name => $value) {
+            $body .= $this->sendPostArrayMultipartInput($name, $value);
+        }
+
+        return $body;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return string
+     */
+    protected function sendPostArrayMultipartInput(string $name, mixed $value): string
+    {
+        $header = '--'.$this->boundary."\r\n"
+            .'Content-Disposition: form-data; name="'.$name.'"'."\r\n";
+
+        if (is_array($value) || is_object($value)) {
+            $header .= 'Content-Type: application/json;charset=utf-8'."\r\n";
+            $value = json_encode($value);
+        } elseif (is_bool($value)) {
+            $value = $value ? 'true' : 'false';
+        } else {
+            $value = strval($value);
+        }
+
+        return $header."\r\n".$value."\r\n".'--'.$this->boundary.'--'."\r\n";
+    }
+
+    /**
+     * @return string
+     */
+    protected function sendPostArrayString(): string
+    {
+        return http_build_query($this->body, '', '&');
+    }
+
+    /**
+     * @return self
+     */
+    protected function sendPostBoolean(): self
+    {
+        return $this;
     }
 
     /**
@@ -493,43 +945,45 @@ class Curl
      */
     protected function cacheEnabled(): bool
     {
-        return ($this->method === 'GET') && $this->cacheTTL && $this->cachePrefix;
+        return (($this->method === 'GET') || $this->cachePost)
+            && $this->cache->getEnabled();
     }
 
     /**
      * @return void
      */
-    protected function cacheKey(): void
+    protected function cacheSetData(): void
     {
         if ($this->cacheEnabled()) {
-            $this->cacheKey = $this->cachePrefix.'-'.$this->cacheKeyHash();
+            $this->cache->setData($this->getVars());
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function cacheKeyHash(): string
-    {
-        return md5(serialize(array_filter(get_object_vars($this), static function ($value) {
-            return (is_object($value) === false) && (is_callable($value) === false);
-        })));
     }
 
     /**
      * @return bool
      */
-    protected function cacheExists(): bool
+    protected function cacheGet(): bool
     {
-        return $this->cacheEnabled() ? $this->cache()->has($this->cacheKey) : false;
+        if ($this->cacheGetEnabled() === false) {
+            return false;
+        }
+
+        $cached = $this->cache->get();
+
+        $this->response = $cached['response'] ?? null;
+        $this->responseHeaders = $cached['responseHeaders'] ?? null;
+        $this->info = $cached['info'] ?? null;
+
+        return true;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    protected function cacheGet()
+    protected function cacheGetEnabled(): bool
     {
-        return $this->cacheEnabled() ? $this->cache()->get($this->cacheKey) : null;
+        return $this->cacheEnabled()
+            && $this->cache->exists();
     }
 
     /**
@@ -537,21 +991,19 @@ class Curl
      */
     protected function cacheSet(): void
     {
-        if (($this->cacheExists() === false) && $this->response && is_string($this->response)) {
-            $this->cache()->put($this->cacheKey, $this->response, $this->cacheTTL);
+        if ($this->cacheSetEnabled()) {
+            $this->cache->set($this->getVars());
         }
     }
 
     /**
-     * @return self
+     * @return bool
      */
-    public function cacheFlush(): self
+    protected function cacheSetEnabled(): bool
     {
-        if ($this->cacheEnabled()) {
-            $this->cache()->flush();
-        }
-
-        return $this;
+        return $this->cacheEnabled()
+            && is_string($this->response)
+            && ($this->cache->exists() === false);
     }
 
     /**
@@ -559,26 +1011,78 @@ class Curl
      */
     protected function success(): void
     {
-        $this->log();
+        $this->logSet();
         $this->cacheSet();
     }
 
     /**
-     * @throws \App\Services\Http\Curl\CurlException
-     *
      * @return void
      */
     protected function error(): void
     {
-        $this->log('error', $e = $this->exception());
+        $this->logSet('error', $e = $this->exception());
 
-        if (app()->bound('sentry')) {
+        if ($this->errorReport && app()->bound('sentry')) {
             app('sentry')->captureException($e);
         }
 
-        if ($this->exception) {
+        $this->retry($e);
+    }
+
+    /**
+     * @param \App\Services\Http\Curl\CurlException $e
+     *
+     * @return void
+     */
+    protected function retry(CurlException $e): void
+    {
+        if (is_int($this->retryCount)) {
+            return;
+        }
+
+        $success = false;
+
+        for ($this->retryCount = 0; $this->retryCount < $this->retry; $this->retryCount++) {
+            if ($success = $this->retryExec()) {
+                break;
+            }
+
+            usleep($this->retryWait * 1000);
+        }
+
+        $this->retryCount = null;
+
+        if (($success === false) && $this->exception) {
             throw $e;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function retryExec(): bool
+    {
+        $this->sendExec();
+
+        if ($success = $this->sendSuccess()) {
+            $this->success();
+        } else {
+            $this->error();
+        }
+
+        return $success;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getVars(): array
+    {
+        $vars = get_object_vars($this);
+
+        unset($vars['curl']);
+
+        return $vars;
     }
 
     /**
@@ -586,10 +1090,10 @@ class Curl
      */
     protected function exception(): CurlException
     {
-        $message = $this->exceptionMessage((string)$this->response);
-        $code = $this->exceptionCode((string)$this->response, $this->info['http_code']);
+        $message = $this->exceptionMessage(strval($this->response));
+        $code = $this->exceptionCode(strval($this->response), $this->info['http_code']);
 
-        return new CurlException($message, $code);
+        return new CurlException(substr($message, 0, 1024), $code);
     }
 
     /**
@@ -599,7 +1103,7 @@ class Curl
      */
     protected function exceptionMessage(string $message): string
     {
-        if (strpos($message, '{') !== 0) {
+        if (str_starts_with($message, '{') === false) {
             return $message;
         }
 
@@ -607,7 +1111,11 @@ class Curl
             return $message;
         }
 
-        return $json['message'] ?? $json['msg'] ?? $message;
+        return $json['message']
+            ?? $json['error']['message']
+            ?? $json['error']
+            ?? $json['msg']
+            ?? $message;
     }
 
     /**
@@ -636,24 +1144,24 @@ class Curl
      */
     protected function isAuthException(string $message): bool
     {
-        return (strpos($message, 'invalid_grant') !== false)
-            || (strpos($message, 'invalid_request') !== false)
-            || (strpos($message, 'unsupported_grant_type') !== false)
-            || (strpos($message, 'unauthorized_client') !== false);
+        return str_contains($message, 'invalid_grant')
+            || str_contains($message, 'invalid_request')
+            || str_contains($message, 'unsupported_grant_type')
+            || str_contains($message, 'unauthorized_client');
     }
 
     /**
-     * @param string $status = 'info'
+     * @param string $status = 'success'
      * @param ?\Throwable $e = null
      *
      * @return void
      */
-    protected function log(string $status = 'info', ?Throwable $e = null): void
+    protected function logSet(string $status = 'success', ?Throwable $e = null): void
     {
         $this->logFile($status);
 
         if ($e) {
-            Log::error($e);
+            report($e);
         }
     }
 
@@ -668,28 +1176,18 @@ class Curl
             return;
         }
 
-        $dir = storage_path('logs/curl/'.date('Y-m-d'));
-        $file = date('H-i-s').'-'.microtime(true).'-'.$status.'-'.substr(str_slug($this->url, '-'), 0, 200).'.json';
+        $data = $this->getVars();
 
-        clearstatcache(true, $dir);
-
-        if (is_dir($dir) === false) {
-            mkdir($dir, 0o755, true);
+        if ($this->logBody === false) {
+            $data['body'] = 'NO-LOG-BODY';
         }
 
-        $data = get_object_vars($this);
-        $data['created_at'] = date('Y-m-d H:i:s');
-
-        unset($data['curl']);
-
-        if ($this->isJson && $data['response']) {
+        if ($this->logContents === false) {
+            $data['response'] = 'NO-LOG-CONTENTS';
+        } elseif ($this->isJsonResponse && $data['response']) {
             $data['response'] = json_decode($data['response']);
         }
 
-        file_put_contents($dir.'/'.$file, json_encode(
-            $data,
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_LINE_TERMINATORS | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE |
-            JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR
-        ), LOCK_EX);
+        Log::write($this->url, $status, $data);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Dashboard\Controller;
 
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 abstract class ControllerAbstract extends ControllerWebAbstract

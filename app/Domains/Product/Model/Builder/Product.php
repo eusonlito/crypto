@@ -4,7 +4,7 @@ namespace App\Domains\Product\Model\Builder;
 
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Product\Model\ProductUser as ProductUserModel;
-use App\Domains\Shared\Model\Builder\BuilderAbstract;
+use App\Domains\Core\Model\Builder\BuilderAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 class Product extends BuilderAbstract

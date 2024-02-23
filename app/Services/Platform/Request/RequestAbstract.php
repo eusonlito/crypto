@@ -170,6 +170,6 @@ abstract class RequestAbstract
             ->setUrl($this->endpoint.$this->path)
             ->setQuery($this->query)
             ->setBody($this->post)
-            ->setCache($this->cache, $this->cacheName);
+            ->setCache($this->cache);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Domains\Currency\Model\Builder\Currency as Builder;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 
 class Currency extends ModelAbstract
 {

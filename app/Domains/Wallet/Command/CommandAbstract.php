@@ -2,10 +2,10 @@
 
 namespace App\Domains\Wallet\Command;
 
-use App\Domains\Shared\Command\CommandAbstract as CommandAbstractShared;
+use App\Domains\Core\Command\CommandAbstract as CommandAbstractCore;
 use App\Domains\Wallet\Model\Wallet as Model;
 
-abstract class CommandAbstract extends CommandAbstractShared
+abstract class CommandAbstract extends CommandAbstractCore
 {
     /**
      * @var \App\Domains\Wallet\Model\Wallet

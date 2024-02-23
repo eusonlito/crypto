@@ -3,7 +3,7 @@
 namespace App\Domains\Error\Action;
 
 use Throwable;
-use App\Domains\Shared\Action\ActionFactoryAbstract;
+use App\Domains\Core\Action\ActionFactoryAbstract;
 
 class ActionFactory extends ActionFactoryAbstract
 {

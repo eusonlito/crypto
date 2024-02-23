@@ -3,7 +3,7 @@
 namespace App\Domains\Forecast\Controller;
 
 use App\Domains\Forecast\Model\Forecast as Model;
-use App\Domains\Shared\Controller\ControllerWebAbstract;
+use App\Domains\Core\Controller\ControllerWebAbstract;
 
 abstract class ControllerAbstract extends ControllerWebAbstract
 {

@@ -2,7 +2,7 @@
 
 namespace App\Domains\Product\Fractal;
 
-use App\Domains\Shared\Fractal\FractalAbstract;
+use App\Domains\Core\Fractal\FractalAbstract;
 use App\Domains\Product\Model\Product as Model;
 
 class FractalFactory extends FractalAbstract

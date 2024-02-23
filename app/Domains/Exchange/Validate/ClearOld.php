@@ -2,7 +2,7 @@
 
 namespace App\Domains\Exchange\Validate;
 
-use App\Domains\Shared\Validate\ValidateAbstract;
+use App\Domains\Core\Validate\ValidateAbstract;
 
 class ClearOld extends ValidateAbstract
 {

@@ -2,6 +2,8 @@
 
 namespace App\Services\Validator;
 
+use Stringable;
+
 class Data
 {
     /**
@@ -18,6 +20,14 @@ class Data
      * @var bool
      */
     protected bool $all = true;
+
+    /**
+     * @return self
+     */
+    public static function new(): self
+    {
+        return new static(...func_get_args());
+    }
 
     /**
      * @param array $data
@@ -48,9 +58,7 @@ class Data
      */
     public function data(array $data): array
     {
-        return array_filter($data, static function ($key): bool {
-            return strpos((string)$key, '_') !== 0;
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter($data, static fn ($key) => str_starts_with((string)$key, '_') === false, ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -99,9 +107,9 @@ class Data
      * @param string|int $key
      * @param string|array $rule
      *
-     * @return mixed
+     * @return array
      */
-    protected function castRule(array $data, $key, $rule)
+    protected function castRule(array $data, string|int $key, string|array $rule): array
     {
         $value = $data[$key] ?? null;
 
@@ -118,14 +126,18 @@ class Data
 
     /**
      * @param array $data
-     * @param array $rules
+     * @param array|string $rules
      *
-     * @return mixed
+     * @return array
      */
-    protected function castRulesArray(array $data, array $rules)
+    protected function castRulesArray(array $data, array|string $rules): array
     {
         if (empty($data)) {
             return [];
+        }
+
+        if (is_string($rules)) {
+            return $this->castRulesArrayString($data, $rules);
         }
 
         foreach ($data as &$values) {
@@ -138,21 +150,40 @@ class Data
     }
 
     /**
+     * @param array $data
+     * @param string $rules
+     *
+     * @return array
+     */
+    protected function castRulesArrayString(array $data, string $rules): array
+    {
+        $rules = explode('|', $rules);
+
+        foreach ($data as &$values) {
+            foreach ($rules as $rule) {
+                $values = $this->cast($values, $rule);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * @param mixed $value
      * @param string $rule
      *
      * @return mixed
      */
-    protected function cast($value, string $rule)
+    protected function cast(mixed $value, string $rule): mixed
     {
         $rule = explode('|', $rule);
 
-        if (in_array('boolean', $rule, true)) {
-            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        if ($this->castIsNullable($value, $rule)) {
+            return null;
         }
 
-        if (empty($value) && in_array('nullable', $rule, true)) {
-            return null;
+        if (in_array('boolean', $rule, true)) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
         }
 
         if (in_array('integer', $rule, true)) {
@@ -172,5 +203,32 @@ class Data
         }
 
         return $value;
+    }
+
+    /**
+     * @param mixed $value
+     * @param array $rule
+     *
+     * @return bool
+     */
+    protected function castIsNullable(mixed $value, array $rule): bool
+    {
+        if ($value) {
+            return false;
+        }
+
+        if (in_array('nullable', $rule, true) === false) {
+            return false;
+        }
+
+        if (is_null($value)) {
+            return true;
+        }
+
+        if ((is_string($value) === false) && (($value instanceof Stringable) === false)) {
+            return false;
+        }
+
+        return strlen(strval($value)) === 0;
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Order\Model\Builder\Order as Builder;
-use App\Domains\Shared\Model\ModelAbstract;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 class Order extends ModelAbstract
