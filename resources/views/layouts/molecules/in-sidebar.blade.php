@@ -136,6 +136,47 @@
             </a>
         </li>
 
+        @php ($active = str_starts_with($ROUTE, 'monitor.'))
+
+        <li>
+            <a href="javascript:;" class="side-menu {{ $active ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('activity')</div>
+                <div class="side-menu__title">
+                    {{ __('in-sidebar.monitor') }} <div class="side-menu__sub-icon {{ $active ? 'transform rotate-180' : '' }}">@icon('chevron-down')</div>
+                </div>
+            </a>
+
+            <ul class="{{ $active ? 'side-menu__sub-open' : '' }}">
+                <li>
+                    <a href="{{ route('monitor.index') }}" class="side-menu {{ ($ROUTE === 'monitor.index') ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('server')</div>
+                        <div class="side-menu__title">{{ __('in-sidebar.monitor-index') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.installation') }}" class="side-menu {{ ($ROUTE === 'monitor.installation') ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('check-circle')</div>
+                        <div class="side-menu__title">{{ __('in-sidebar.monitor-installation') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.database') }}" class="side-menu {{ ($ROUTE === 'monitor.database') ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('database')</div>
+                        <div class="side-menu__title">{{ __('in-sidebar.monitor-database') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.log') }}" class="side-menu {{ ($ROUTE === 'monitor.log') ? 'side-menu--active' : '' }}">
+                        <div class="side-menu__icon">@icon('file-text')</div>
+                        <div class="side-menu__title">{{ __('in-sidebar.monitor-log') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         @endif
 
         <li>

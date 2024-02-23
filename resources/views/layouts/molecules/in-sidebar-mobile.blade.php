@@ -142,6 +142,47 @@
             </a>
         </li>
 
+        @php ($active = str_starts_with($ROUTE, 'monitor.'))
+
+        <li>
+            <a href="javascript:;" class="menu {{ $active ? 'menu--active' : '' }}">
+                <div class="menu__icon">@icon('activity')</div>
+                <div class="menu__title">
+                    {{ __('in-sidebar.monitor') }} <div class="menu__sub-icon {{ $active ? 'transform rotate-180' : '' }}">@icon('chevron-down')</div>
+                </div>
+            </a>
+
+            <ul class="{{ $active ? 'menu__sub-open' : '' }}">
+                <li>
+                    <a href="{{ route('monitor.index') }}" class="menu {{ ($ROUTE === 'monitor.index') ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('server')</div>
+                        <div class="menu__title">{{ __('in-sidebar.monitor-index') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.installation') }}" class="menu {{ ($ROUTE === 'monitor.installation') ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('check-circle')</div>
+                        <div class="menu__title">{{ __('in-sidebar.monitor-installation') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.database') }}" class="menu {{ ($ROUTE === 'monitor.database') ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('database')</div>
+                        <div class="menu__title">{{ __('in-sidebar.monitor-database') }}</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('monitor.log') }}" class="menu {{ ($ROUTE === 'monitor.log') ? 'menu--active' : '' }}">
+                        <div class="menu__icon">@icon('file-text')</div>
+                        <div class="menu__title">{{ __('in-sidebar.monitor-log') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         @endif
 
         <li>

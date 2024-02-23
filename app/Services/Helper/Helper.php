@@ -258,6 +258,27 @@ class Helper
     }
 
     /**
+     * @param int $bytes
+     * @param int $decimals = 2
+     *
+     * @return string
+     */
+    public function sizeHuman(int $bytes, int $decimals = 2): string
+    {
+        $e = floor(log($bytes, 1024));
+        $pow = pow(1024, $e);
+
+        if ($pow === 0.0) {
+            return '0 B';
+        }
+
+        $size = round($bytes / $pow, $decimals);
+        $unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'][$e];
+
+        return $this->number($size, $decimals).' '.$unit;
+    }
+
+    /**
      * @param string $date
      *
      * @return ?string

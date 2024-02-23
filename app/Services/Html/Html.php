@@ -216,4 +216,33 @@ class Html
             return helper()->number($value['amount']).' ('.helper()->number($value['price']).')';
         }, $sells));
     }
+
+    /**
+     * @param float $percent
+     * @param string $class = 'h-3'
+     *
+     * @return string
+     */
+    public static function progressbar(float $percent, string $class = 'h-3'): string
+    {
+        if ($percent >= 90) {
+            $color = '#F15B38';
+        } elseif ($percent >= 70) {
+            $color = '#EDBE38';
+        } else {
+            $color = '#1E3A8A';
+        }
+
+        $html = trim('
+            <div class="w-full bg-slate-200 rounded overflow-hidden :class">
+                <div role="progressbar" aria-valuenow=":percent" aria-valuemin="0" aria-valuemax="100" class="h-full rounded flex justify-center items-center" style="background-color: :color; width: :percent%"></div>
+            </div>
+        ');
+
+        return strtr($html, [
+            ':class' => $class,
+            ':percent' => $percent,
+            ':color' => $color,
+        ]);
+    }
 }

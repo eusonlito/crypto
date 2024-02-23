@@ -44,10 +44,6 @@ class View extends ServiceProvider
             return "<?= \App\Services\Html\Html::numberColor($expression); ?>";
         });
 
-        Blade::directive('value', function (string $expression) {
-            return "<?= \App\Services\Html\Html::value($expression); ?>";
-        });
-
         Blade::directive('money', function (string $expression) {
             return "<?= \App\Services\Html\Html::money($expression); ?>";
         });
@@ -56,12 +52,24 @@ class View extends ServiceProvider
             return "<?= \App\Services\Html\Html::percent($expression); ?>";
         });
 
+        Blade::directive('progressbar', function (string $expression) {
+            return "<?= \App\Services\Html\Html::progressbar($expression); ?>";
+        });
+
+        Blade::directive('sizeHuman', function (string $expression) {
+            return "<?= helper()->sizeHuman($expression); ?>";
+        });
+
         Blade::directive('status', function (string $expression) {
             return "<?= \App\Services\Html\Html::status($expression); ?>";
         });
 
         Blade::directive('query', function (string $expression) {
             return "<?= \App\Services\Html\Html::query($expression); ?>";
+        });
+
+        Blade::directive('value', function (string $expression) {
+            return "<?= \App\Services\Html\Html::value($expression); ?>";
         });
     }
 }
