@@ -1,13 +1,117 @@
+:root {
+    --color-primary: 30 58 138;
+    --color-secondary: 226 232 240;
+    --color-success: 13 148 136;
+    --color-info: 6 182 212;
+    --color-warning: 245 158 11;
+    --color-pending: 249 115 22;
+    --color-danger: 185 28 28;
+    --color-light: 241 245 249;
+    --color-dark: 30 41 59;
+    --color-slate-50: 248 250 252;
+    --color-slate-100: 241 245 249;
+    --color-slate-200: 226 232 240;
+    --color-slate-300: 203 213 225;
+    --color-slate-400: 148 163 184;
+    --color-slate-500: 100 116 139;
+    --color-slate-600: 71 85 105;
+    --color-slate-700: 51 65 85;
+    --color-slate-800: 30 41 59;
+    --color-slate-900: 15 23 42;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-success:hover {
+    color: white;
+}
+
+.d-t-m-o {
+    display: block;
+    white-space: nowrap;
+
+    @media (hover: none) {
+        overflow: auto;
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+            width: 0px;
+            background: transparent;
+        }
+    }
+
+    @media (hover: hover) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.overflow-auto.scroll-visible {
+    scrollbar-color: white #999;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+        display: block;
+        height: 20px;
+        width: 20px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: white;
+        border-radius: 100px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 100px;
+        border: 5px solid transparent;
+        background-clip: content-box;
+        background-color: #999;
+    }
+}
+
+.progress-bar {
+    background-color: rgb(var(--color-primary) / var(--tw-bg-opacity));
+    justify-content: left;
+    font-weight: 700;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.table .w-1 {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.text-danger {
+    --tw-text-opacity: 1;
+    color: rgb(var(--color-danger) / var(--tw-text-opacity));
+}
+
+.text-primary {
+    --tw-text-opacity: 1;
+    color: rgb(var(--color-primary) / var(--tw-text-opacity));
+}
+
+.text-success {
+    --tw-text-opacity: 1;
+    color: rgb(var(--color-success) / var(--tw-text-opacity));
+}
+
+.text-warning {
+    --tw-text-opacity: 1;
+    color: rgb(var(--color-warning) / var(--tw-text-opacity));
+}
+
 .content {
     min-height: calc(100vh - 2.5rem);
 }
 
 .btn.form-select-lg {
     padding-right: 1rem;
-}
-
-.h-600px {
-    height: 600px;
 }
 
 .is-favorite {
