@@ -56,7 +56,8 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)
+        $this->current = Model::query()
+            ->byPlatformId($this->platform->id)
             ->get()
             ->keyBy('code');
     }
@@ -66,7 +67,8 @@ class Sync extends ActionAbstract
      */
     protected function currencies(): void
     {
-        $this->currencies = CurrencyModel::byPlatformId($this->platform->id)
+        $this->currencies = CurrencyModel::query()
+            ->byPlatformId($this->platform->id)
             ->get()
             ->keyBy('code');
     }
@@ -156,12 +158,14 @@ class Sync extends ActionAbstract
      */
     protected function update(array $ids): void
     {
-        Model::byPlatformId($this->platform->id)->byIds($ids)->update([
-            'trade' => true,
-        ]);
+        Model::query()
+            ->byPlatformId($this->platform->id)
+            ->byIds($ids)
+            ->update(['trade' => true]);
 
-        Model::byPlatformId($this->platform->id)->byIdsNot($ids)->update([
-            'trade' => false,
-        ]);
+        Model::query()
+            ->byPlatformId($this->platform->id)
+            ->byIdsNot($ids)
+            ->update(['trade' => false]);
     }
 }

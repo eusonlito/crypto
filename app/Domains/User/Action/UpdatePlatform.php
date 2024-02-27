@@ -38,7 +38,7 @@ class UpdatePlatform extends ActionAbstract
      */
     protected function platforms(): void
     {
-        $this->platforms = PlatformModel::list()->withUserPivot($this->row->id)->get();
+        $this->platforms = PlatformModel::query()->list()->withUserPivot($this->row->id)->get();
     }
 
     /**

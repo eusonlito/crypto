@@ -88,7 +88,7 @@ class Exchange extends BuilderAbstract
     {
         $date = date('Y-m-d H:i:s', strtotime('-1 hour'));
 
-        return $this->afterDate($date)->whereIn('id', Model::selectRaw('MAX(id)')->afterDate($date)->groupByProductId());
+        return $this->afterDate($date)->whereIn('id', Model::query()->selectRaw('MAX(id)')->afterDate($date)->groupByProductId());
     }
 
     /**
@@ -98,7 +98,7 @@ class Exchange extends BuilderAbstract
      */
     public function lastByProductBeforDate(string $date): self
     {
-        return $this->afterDate($date)->whereIn('id', Model::selectRaw('MIN(id)')->afterDate($date)->groupByProductId());
+        return $this->afterDate($date)->whereIn('id', Model::query()->selectRaw('MIN(id)')->afterDate($date)->groupByProductId());
     }
 
     /**

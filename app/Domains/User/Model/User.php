@@ -6,9 +6,9 @@ use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Language\Model\Language as LanguageModel;
 use App\Domains\Platform\Model\PlatformUser as PlatformUserModel;
-use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\User\Model\Builder\User as Builder;
 
 class User extends ModelAbstract implements Authenticatable
@@ -31,7 +31,7 @@ class User extends ModelAbstract implements Authenticatable
     public const FOREIGN = 'user_id';
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'admin' => 'boolean',
@@ -40,16 +40,18 @@ class User extends ModelAbstract implements Authenticatable
     ];
 
     /**
-     * @var array
+     * @var array<int, string>
      */
-    protected $hidden = ['code', 'password', 'preferences', 'remember_token', 'tfa_secret'];
+    protected $hidden = [
+        'code', 'password', 'preferences', 'remember_token', 'tfa_secret',
+    ];
 
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\User\Model\Builder\User
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

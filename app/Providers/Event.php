@@ -7,7 +7,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 class Event extends EventServiceProvider
 {
     /**
-     * @var array
+     * @var array<string, array<int, string>>
      */
     protected $listen = [
     ];

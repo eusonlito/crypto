@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('product.index', [
             'filters' => $this->request->input(),
             'list' => $this->list(),
-            'platforms' => PlatformModel::list()->get(),
+            'platforms' => PlatformModel::query()->list()->get(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class Index extends ControllerAbstract
      */
     protected function list(): Collection
     {
-        $q = Model::withPlatform()->withUserPivotFavoriteByUserId($this->auth->id);
+        $q = Model::query()->withPlatform()->withUserPivotFavoriteByUserId($this->auth->id);
 
         if ($filter = $this->request->input('platform_id')) {
             $q->byPlatformId($filter);

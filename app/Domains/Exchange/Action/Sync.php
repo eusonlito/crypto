@@ -47,7 +47,8 @@ class Sync extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProductModel::byPlatformId($this->platform->id)
+        $this->products = ProductModel::query()
+            ->byPlatformId($this->platform->id)
             ->whereTrade()
             ->whereCrypto()
             ->whereWallet()
@@ -81,7 +82,7 @@ class Sync extends ActionAbstract
             return null;
         }
 
-        return Model::create([
+        return Model::query()->create([
             'exchange' => $resource->price,
             'platform_id' => $this->platform->id,
             'product_id' => $product->id,

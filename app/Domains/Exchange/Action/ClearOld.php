@@ -40,6 +40,6 @@ class ClearOld extends ActionAbstract
      */
     protected function delete(): void
     {
-        Model::where('created_at', '<=', $this->data['datetime'])->delete();
+        Model::query()->where('created_at', '<=', $this->data['datetime'])->delete();
     }
 }

@@ -5,11 +5,11 @@ namespace App\Domains\Product\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Builder\Product as Builder;
-use App\Domains\Core\Model\ModelAbstract;
 
 class Product extends ModelAbstract
 {
@@ -34,16 +34,16 @@ class Product extends ModelAbstract
     protected static function booted()
     {
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->whereIn('platform_id', PlatformModel::select('id'));
+            $builder->whereIn('platform_id', PlatformModel::query()->select('id'));
         });
     }
 
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Product\Model\Builder\Product
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

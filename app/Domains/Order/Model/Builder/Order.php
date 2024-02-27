@@ -45,7 +45,7 @@ class Order extends BuilderAbstract
      */
     public function byProductWalletId(int $wallet_id): self
     {
-        return $this->whereIn('product_id', WalletModel::select('product_id')->byId($wallet_id));
+        return $this->whereIn('product_id', WalletModel::query()->select('product_id')->byId($wallet_id));
     }
 
     /**
@@ -133,7 +133,7 @@ class Order extends BuilderAbstract
      */
     public function whereProductCrypto(bool $crypto = true): self
     {
-        return $this->whereIn('product_id', ProductModel::select('id')->whereCrypto($crypto));
+        return $this->whereIn('product_id', ProductModel::query()->select('id')->whereCrypto($crypto));
     }
 
     /**

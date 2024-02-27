@@ -3,11 +3,11 @@
 namespace App\Domains\Exchange\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Builder\Exchange as Builder;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
-use App\Domains\Core\Model\ModelAbstract;
 
 class Exchange extends ModelAbstract
 {
@@ -29,9 +29,9 @@ class Exchange extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Exchange\Model\Builder\Exchange
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

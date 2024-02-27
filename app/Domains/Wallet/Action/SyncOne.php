@@ -119,7 +119,7 @@ class SyncOne extends ActionAbstract
      */
     protected function storeUpdateHistory(): void
     {
-        WalletHistoryModel::create([
+        WalletHistoryModel::query()->create([
             'address' => $this->row->address,
             'name' => $this->row->name,
 
@@ -158,7 +158,8 @@ class SyncOne extends ActionAbstract
      */
     protected function storeDefaultBuyExchange(): void
     {
-        $this->row->buy_exchange = OrderModel::byProductId($this->product->id)
+        $this->row->buy_exchange = OrderModel::query()
+            ->byProductId($this->product->id)
             ->byUserId($this->auth->id)
             ->orderByLast()
             ->value('price') ?: 0;

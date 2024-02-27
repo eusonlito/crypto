@@ -20,7 +20,7 @@ trait CreateUpdate
      */
     protected function product(): void
     {
-        $this->product = ProductModel::byId($this->data['product_id'])
+        $this->product = ProductModel::query()->byId($this->data['product_id'])
             ->byPlatformId($this->row->platform_id ?? $this->data['platform_id'])
             ->firstOr(static function () {
                 throw new ValidatorException(__('wallet.error.product-exists'));
@@ -62,11 +62,10 @@ trait CreateUpdate
      */
     protected function dataExchangeLast(): float
     {
-        return ExchangeModel::select('exchange')
+        return ExchangeModel::query()
             ->byProductId($this->product->id)
             ->orderBy('id', 'DESC')
-            ->first()
-            ->exchange ?? 0;
+            ->value('exchange') ?: 0;
     }
 
     /**

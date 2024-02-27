@@ -43,7 +43,10 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::query()
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -67,7 +70,7 @@ class Sync extends ActionAbstract
             return;
         }
 
-        Model::insert([
+        Model::query()->insert([
             'code' => $resource->code,
             'name' => $resource->name,
             'symbol' => $resource->symbol,

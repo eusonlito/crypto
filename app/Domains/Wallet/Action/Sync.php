@@ -80,7 +80,8 @@ class Sync extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byUserId($this->auth->id)
+        $this->current = Model::query()
+            ->byUserId($this->auth->id)
             ->byPlatformId($this->platform->id)
             ->get()
             ->keyBy('address');
@@ -91,7 +92,10 @@ class Sync extends ActionAbstract
      */
     protected function currencies(): void
     {
-        $this->currencies = CurrencyModel::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->currencies = CurrencyModel::query()
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -99,7 +103,8 @@ class Sync extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProductModel::byPlatformId($this->platform->id)
+        $this->products = ProductModel::query()
+            ->byPlatformId($this->platform->id)
             ->withCurrencies()
             ->withExchange()
             ->get();
@@ -118,7 +123,8 @@ class Sync extends ActionAbstract
      */
     protected function orders(): void
     {
-        $this->orders = OrderModel::byUserId($this->auth->id)
+        $this->orders = OrderModel::query()
+            ->byUserId($this->auth->id)
             ->byPlatformId($this->platform->id)
             ->withProduct()
             ->bySide('buy')
@@ -188,7 +194,7 @@ class Sync extends ActionAbstract
      */
     protected function storeUpdateHistory(Model $row): void
     {
-        WalletHistoryModel::create([
+        WalletHistoryModel::query()->create([
             'address' => $row->address,
             'name' => $row->name,
 
@@ -405,7 +411,7 @@ class Sync extends ActionAbstract
         $row->current_exchange = $row->buy_exchange;
         $row->current_value = $row->amount;
 
-        $row->sell_stop = 0;
+        $row->sell_stop = false;
 
         $row->sell_stop_amount = 0;
         $row->sell_stop_reference = 0;
@@ -418,7 +424,7 @@ class Sync extends ActionAbstract
         $row->sell_stop_min_exchange = 0;
         $row->sell_stop_min_value = 0;
 
-        $row->buy_stop = 0;
+        $row->buy_stop = false;
 
         $row->buy_stop_amount = 0;
         $row->buy_stop_reference = 0;
@@ -431,7 +437,7 @@ class Sync extends ActionAbstract
         $row->buy_stop_min_exchange = 0;
         $row->buy_stop_min_value = 0;
 
-        $row->buy_market = 0;
+        $row->buy_market = false;
 
         $row->buy_market_amount = 0;
         $row->buy_market_reference = 0;
@@ -439,7 +445,7 @@ class Sync extends ActionAbstract
         $row->buy_market_exchange = 0;
         $row->buy_market_value = 0;
 
-        $row->sell_stoploss = 0;
+        $row->sell_stoploss = false;
         $row->sell_stoploss_percent = 0;
         $row->sell_stoploss_exchange = 0;
         $row->sell_stoploss_value = 0;

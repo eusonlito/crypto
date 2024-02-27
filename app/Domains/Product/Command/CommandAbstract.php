@@ -23,7 +23,7 @@ abstract class CommandAbstract extends CommandAbstractCore
      */
     protected function row(): void
     {
-        $this->row = Model::findOrFail($this->checkOption('id'));
+        $this->row = Model::query()->findOrFail($this->checkOption('id'));
     }
 
     /**
@@ -31,6 +31,6 @@ abstract class CommandAbstract extends CommandAbstractCore
      */
     protected function platform(): void
     {
-        $this->platform = PlatformModel::findOrFail($this->checkOption('platform_id'));
+        $this->platform = PlatformModel::query()->findOrFail($this->checkOption('platform_id'));
     }
 }

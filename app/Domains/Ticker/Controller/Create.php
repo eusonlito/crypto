@@ -27,10 +27,10 @@ class Create extends ControllerAbstract
      */
     protected function data(): array
     {
-        $data = ['platforms' => PlatformModel::list()->get()];
+        $data = ['platforms' => PlatformModel::query()->list()->get()];
 
         if ($platform_id = $this->request->input('platform_id')) {
-            $data['products'] = ProductModel::byPlatformId($platform_id)->list()->get();
+            $data['products'] = ProductModel::query()->byPlatformId($platform_id)->list()->get();
         } else {
             $data['products'] = null;
         }

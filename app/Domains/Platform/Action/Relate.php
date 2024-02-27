@@ -60,7 +60,7 @@ class Relate extends ActionAbstract
      */
     protected function store(): void
     {
-        PlatformUserModel::updateOrCreate([
+        PlatformUserModel::query()->updateOrCreate([
             'platform_id' => $this->row->id,
             'user_id' => $this->user->id,
         ], ['settings' => $this->data]);

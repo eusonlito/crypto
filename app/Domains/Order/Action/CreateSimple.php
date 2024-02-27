@@ -14,7 +14,7 @@ class CreateSimple extends ActionAbstract
      */
     protected function store(): void
     {
-        $this->row = Model::create([
+        $this->row = Model::query()->create([
             'code' => $this->data['code'],
 
             'amount' => $this->data['amount'],

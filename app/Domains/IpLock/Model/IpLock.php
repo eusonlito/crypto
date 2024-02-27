@@ -2,8 +2,8 @@
 
 namespace App\Domains\IpLock\Model;
 
-use App\Domains\IpLock\Model\Builder\IpLock as Builder;
 use App\Domains\Core\Model\ModelAbstract;
+use App\Domains\IpLock\Model\Builder\IpLock as Builder;
 
 class IpLock extends ModelAbstract
 {
@@ -25,9 +25,9 @@ class IpLock extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\IpLock\Model\Builder\IpLock
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

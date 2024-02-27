@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('forecast.index', [
             'filters' => $this->request->input(),
             'list' => $this->list(),
-            'wallets' => WalletModel::listSelect()->get(),
+            'wallets' => WalletModel::query()->listSelect()->get(),
             'selected_options' => $this->selectedOptions(),
             'side_options' => $this->sideOptions(),
         ]);
@@ -32,7 +32,11 @@ class Index extends ControllerAbstract
      */
     protected function list(): LengthAwarePaginator
     {
-        $q = Model::byUserId($this->auth->id)->whereValid()->withRelations()->list();
+        $q = Model::query()
+            ->byUserId($this->auth->id)
+            ->whereValid()
+            ->withRelations()
+            ->list();
 
         if (strlen($filter = $this->request->input('selected'))) {
             $q->whereSelected((bool)$filter);

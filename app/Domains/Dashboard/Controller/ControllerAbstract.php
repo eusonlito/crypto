@@ -12,6 +12,8 @@ abstract class ControllerAbstract extends ControllerWebAbstract
      */
     protected function hasWallets(): bool
     {
-        return (bool)WalletModel::byUserId($this->auth->id)->limit(1)->count();
+        return WalletModel::query()
+            ->byUserId($this->auth->id)
+            ->exists();
     }
 }

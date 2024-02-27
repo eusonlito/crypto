@@ -64,7 +64,8 @@ class SyncByWallets extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byUserId($this->auth->id)
+        $this->current = Model::query()
+            ->byUserId($this->auth->id)
             ->byPlatformId($this->platform->id)
             ->get()
             ->keyBy('code');
@@ -75,7 +76,8 @@ class SyncByWallets extends ActionAbstract
      */
     protected function products(): void
     {
-        $this->products = ProductModel::byPlatformId($this->platform->id)
+        $this->products = ProductModel::query()
+            ->byPlatformId($this->platform->id)
             ->whereWalletsByUserId($this->auth->id)
             ->get()
             ->keyBy('code');
@@ -124,7 +126,7 @@ class SyncByWallets extends ActionAbstract
      */
     protected function storeCreate(ProductModel $product, OrderResource $resource): void
     {
-        Model::insert([
+        Model::query()->insert([
             'code' => $resource->id,
 
             'amount' => $resource->amount,

@@ -158,7 +158,7 @@ class Index
      */
     protected function last(): Collection
     {
-        $list = Model::lastByProduct();
+        $list = Model::query()->lastByProduct();
 
         if ($this->platformId) {
             $list->byPlatformId($this->platformId);
@@ -172,7 +172,7 @@ class Index
      */
     protected function previous(): Collection
     {
-        $list = Model::lastByProductBeforDate($this->datetime);
+        $list = Model::query()->lastByProductBeforDate($this->datetime);
 
         if ($this->platformId) {
             $list->byPlatformId($this->platformId);
@@ -222,12 +222,12 @@ class Index
      */
     protected function relations(Collection $list): Collection
     {
-        $platforms = PlatformModel::get()->keyBy('id');
+        $platforms = PlatformModel::query()->get()->keyBy('id');
 
         if ($this->top) {
-            $products = ProductModel::byIds($list->pluck('product_id')->toArray())->get()->keyBy('id');
+            $products = ProductModel::query()->byIds($list->pluck('product_id')->toArray())->get()->keyBy('id');
         } else {
-            $products = ProductModel::get()->keyBy('id');
+            $products = ProductModel::query()->get()->keyBy('id');
         }
 
         foreach ($list as $each) {

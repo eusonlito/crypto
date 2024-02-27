@@ -29,7 +29,7 @@ class Success extends ActionAbstract
      */
     protected function store(): void
     {
-        Model::create([
+        Model::query()->create([
             'auth' => $this->user->email,
             'ip' => $this->request->ip(),
             'success' => true,

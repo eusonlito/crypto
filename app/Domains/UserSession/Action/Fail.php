@@ -30,7 +30,7 @@ class Fail extends ActionAbstract
      */
     protected function store(): void
     {
-        Model::insert([
+        Model::query()->insert([
             'ip' => $this->ip,
             'success' => false,
         ]);
@@ -49,7 +49,8 @@ class Fail extends ActionAbstract
      */
     protected function count(): int
     {
-        return Model::where('success', false)
+        return Model::query()
+            ->where('success', false)
             ->where('ip', $this->ip)
             ->where('created_at', '>=', $this->authLockCheckDate())
             ->count();

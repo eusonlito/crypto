@@ -39,7 +39,8 @@ class Update extends ControllerAbstract
      */
     protected function products()
     {
-        return ProductModel::byPlatformId($this->row->platform_id)
+        return ProductModel::query()
+            ->byPlatformId($this->row->platform_id)
             ->orderBy('acronym', 'ASC')
             ->get();
     }
@@ -49,7 +50,7 @@ class Update extends ControllerAbstract
      */
     protected function platforms()
     {
-        return PlatformModel::list()->get();
+        return PlatformModel::query()->list()->get();
     }
 
     /**
@@ -57,7 +58,8 @@ class Update extends ControllerAbstract
      */
     protected function orders()
     {
-        return OrderModel::byProductId($this->row->product_id)
+        return OrderModel::query()
+            ->byProductId($this->row->product_id)
             ->byUserId($this->auth->id)
             ->whereFilled()
             ->list()

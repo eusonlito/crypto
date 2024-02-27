@@ -38,7 +38,8 @@ class Update extends ControllerAbstract
      */
     protected function wallets(): Collection
     {
-        return WalletModel::byUserId($this->auth->id)
+        return WalletModel::query()
+            ->byUserId($this->auth->id)
             ->with(['platform', 'product'])
             ->orderBy('name', 'ASC')
             ->get()
@@ -50,7 +51,8 @@ class Update extends ControllerAbstract
      */
     protected function wallet(): ?WalletModel
     {
-        return WalletModel::byUserId($this->auth->id)
+        return WalletModel::query()
+            ->byUserId($this->auth->id)
             ->byId((int)$this->request->input('wallet_id'))
             ->with(['platform', 'product'])
             ->first();

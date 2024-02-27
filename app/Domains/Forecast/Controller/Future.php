@@ -40,7 +40,7 @@ class Future extends ControllerAbstract
     {
         $list = collect();
 
-        foreach (WalletModel::enabled()->whereVisible()->withCurrency()->get() as $each) {
+        foreach (WalletModel::query()->enabled()->whereVisible()->withCurrency()->get() as $each) {
             if ($row = $this->action()->selected($each->currency)) {
                 $list->push($row->setRelation('wallet', $each));
             }

@@ -192,7 +192,10 @@ class Values extends VersionValuesAbstract
      */
     protected function exchangesAverageHours(): void
     {
-        $this->exchangesAverageHours = (float)$this->filterKeyByDate($this->exchanges, date('Y-m-d H:i:s', strtotime('-36 hours')))->avg();
+        $this->exchangesAverageHours = (float)$this->filterKeyByDate(
+            $this->exchanges,
+            date('Y-m-d H:i:s', strtotime('-36 hours'))
+        )->avg();
     }
 
     /**
@@ -200,7 +203,10 @@ class Values extends VersionValuesAbstract
      */
     protected function exchanges30Minutes(): void
     {
-        $this->exchanges30Minutes = $this->filterKeyByDate($this->exchanges, date('Y-m-d H:i:s', strtotime('-30 minutes')));
+        $this->exchanges30Minutes = $this->filterKeyByDate(
+            $this->exchanges,
+            date('Y-m-d H:i:s', strtotime('-30 minutes'))
+        );
     }
 
     /**
@@ -208,7 +214,10 @@ class Values extends VersionValuesAbstract
      */
     protected function exchanges10Minutes(): void
     {
-        $this->exchanges10Minutes = $this->filterKeyByDate($this->exchanges30Minutes, date('Y-m-d H:i:s', strtotime('-10 minutes')));
+        $this->exchanges10Minutes = $this->filterKeyByDate(
+            $this->exchanges30Minutes,
+            date('Y-m-d H:i:s', strtotime('-10 minutes'))
+        );
     }
 
     /**

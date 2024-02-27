@@ -28,7 +28,10 @@ class Favorite extends ActionAbstract
      */
     protected function related(): void
     {
-        $this->related = (bool)$this->row->userPivot()->byUserId($this->auth->id)->count();
+        $this->related = (bool)$this->row
+            ->userPivot()
+            ->byUserId($this->auth->id)
+            ->count();
     }
 
     /**
@@ -56,7 +59,7 @@ class Favorite extends ActionAbstract
      */
     protected function create(): void
     {
-        ProductUserModel::insert([
+        ProductUserModel::query()->insert([
             'favorite' => true,
             'platform_id' => $this->row->platform_id,
             'product_id' => $this->row->id,

@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('wallet.index', [
             'list' => $this->list(),
             'filters' => $this->request->input(),
-            'platforms' => PlatformModel::list()->get(),
+            'platforms' => PlatformModel::query()->list()->get(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class Index extends ControllerAbstract
      */
     protected function list(): Collection
     {
-        $q = Model::byUserId($this->auth->id)->list();
+        $q = Model::query()->byUserId($this->auth->id)->list();
 
         if ($filter = $this->request->input('platform_id')) {
             $q->byPlatformId($filter);

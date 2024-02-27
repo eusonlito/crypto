@@ -3,8 +3,8 @@
 namespace App\Domains\Product\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Domains\Product\Model\Builder\ProductUser as Builder;
 use App\Domains\Core\Model\ModelAbstract;
+use App\Domains\Product\Model\Builder\ProductUser as Builder;
 use App\Domains\User\Model\User as UserModel;
 
 class ProductUser extends ModelAbstract
@@ -27,9 +27,9 @@ class ProductUser extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Product\Model\Builder\ProductUser
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

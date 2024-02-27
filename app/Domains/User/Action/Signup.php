@@ -69,7 +69,7 @@ class Signup extends ActionAbstract
      */
     protected function checkLast(): void
     {
-        if (Model::byIp($this->request->ip())->byCreatedAtRecent($this->checkLastDate())->count()) {
+        if (Model::query()->byIp($this->request->ip())->byCreatedAtRecent($this->checkLastDate())->count()) {
             $this->fail(__('user-signup.error.ip-limit'));
         }
     }
@@ -87,7 +87,7 @@ class Signup extends ActionAbstract
      */
     protected function checkEmail(): void
     {
-        if (Model::byEmail($this->data['email'])->count()) {
+        if (Model::query()->byEmail($this->data['email'])->count()) {
             $this->fail(__('user-signup.error.email-unique'));
         }
     }
@@ -111,7 +111,7 @@ class Signup extends ActionAbstract
      */
     protected function create(): void
     {
-        $this->row = Model::create([
+        $this->row = Model::query()->create([
             'email' => $this->data['email'],
             'password' => $this->data['password'],
             'code' => $this->data['code'],

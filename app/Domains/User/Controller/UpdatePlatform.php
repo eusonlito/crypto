@@ -21,7 +21,7 @@ class UpdatePlatform extends ControllerAbstract
         $this->meta('title', __('user-update-platform.meta-title'));
 
         return $this->page('user.update-platform', [
-            'platforms' => PlatformModel::list()->withUserPivot($this->auth->id)->get(),
+            'platforms' => PlatformModel::query()->list()->withUserPivot($this->auth->id)->get(),
         ]);
     }
 

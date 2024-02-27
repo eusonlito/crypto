@@ -123,7 +123,8 @@ class BuyStopMax extends ActionAbstract
      */
     protected function order(): void
     {
-        $this->order = OrderModel::byProductId($this->product->id)
+        $this->order = OrderModel::query()
+            ->byProductId($this->product->id)
             ->byWalletId($this->row->id)
             ->bySide('buy')
             ->orderByLast()
@@ -210,7 +211,7 @@ class BuyStopMax extends ActionAbstract
             return;
         }
 
-        if (Model::byProductId($this->product->id)->whereBuyOrSellPending()->count() > 1) {
+        if (Model::query()->byProductId($this->product->id)->whereBuyOrSellPending()->count() > 1) {
             return;
         }
 

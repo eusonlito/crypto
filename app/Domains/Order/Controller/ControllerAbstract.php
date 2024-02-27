@@ -20,7 +20,7 @@ abstract class ControllerAbstract extends ControllerWebAbstract
      */
     protected function row(int $id): void
     {
-        $this->row = Model::byId($id)->byUserId($this->auth->id)->where('custom', true)->firstOr(static function () {
+        $this->row = Model::query()->byId($id)->byUserId($this->auth->id)->where('custom', true)->firstOr(static function () {
             throw new NotFoundException(__('order.error.not-found'));
         });
     }

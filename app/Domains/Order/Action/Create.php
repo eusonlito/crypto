@@ -132,7 +132,7 @@ class Create extends ActionAbstract
      */
     protected function create(): void
     {
-        $this->row = Model::create([
+        $this->row = Model::query()->create([
             'code' => $this->resource->id,
 
             'amount' => $this->resource->amount,

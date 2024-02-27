@@ -48,27 +48,27 @@ trait SyncRelation
      */
     protected function relationsWalletsBuySell(Model $row): void
     {
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopLossActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereSellStopLossActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:sell-stop-loss --id=%s', $each))->logDaily()->exec();
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMinActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereSellStopMinActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:sell-stop:min --id=%s', $each))->logDaily()->exec();
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereSellStopMaxActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereSellStopMaxActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:sell-stop:max --id=%s', $each))->logDaily()->exec();
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMaxActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereBuyStopMaxActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:buy-stop:max --id=%s', $each))->logDaily()->exec();
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereBuyStopMinActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereBuyStopMinActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:buy-stop:min --id=%s', $each))->logDaily()->exec();
         }
 
-        foreach (WalletModel::byProductId($row->product_id)->whereBuyMarketActivated()->pluck('id') as $each) {
+        foreach (WalletModel::query()->byProductId($row->product_id)->whereBuyMarketActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:buy-market --id=%s', $each))->logDaily()->exec();
         }
     }

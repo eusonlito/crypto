@@ -4,6 +4,7 @@ namespace App\Domains\Wallet\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Order\Model\Order as OrderModel;
@@ -12,7 +13,6 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\Wallet\Model\Builder\Wallet as Builder;
 use App\Domains\Wallet\Model\Traits\WalletSql as WalletSqlTrait;
-use App\Domains\Core\Model\ModelAbstract;
 
 class Wallet extends ModelAbstract
 {
@@ -34,7 +34,7 @@ class Wallet extends ModelAbstract
     public const FOREIGN = 'wallet_id';
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'buy_stop' => 'boolean',
@@ -53,7 +53,7 @@ class Wallet extends ModelAbstract
      *
      * @return \App\Domains\Wallet\Model\Builder\Wallet
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

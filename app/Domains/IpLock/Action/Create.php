@@ -21,7 +21,7 @@ class Create extends ActionAbstract
      */
     protected function store(): void
     {
-        $this->row = Model::current()->updateOrCreate(
+        $this->row = Model::query()->current()->updateOrCreate(
             ['ip' => $this->request->ip()],
             ['end_at' => date('Y-m-d H:i:s', strtotime('+'.(int)config('auth.lock.check').' seconds'))]
         );

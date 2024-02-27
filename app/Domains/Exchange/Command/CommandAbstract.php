@@ -12,6 +12,6 @@ abstract class CommandAbstract extends CommandAbstractCore
      */
     public function platform(): PlatformModel
     {
-        return PlatformModel::findOrFail($this->checkOption('platform_id'));
+        return PlatformModel::query()->findOrFail($this->checkOption('platform_id'));
     }
 }

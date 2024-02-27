@@ -45,7 +45,7 @@ class Wallet extends BuilderAbstract
      */
     public function byProductCurrencyBaseIdAndCurrencyQuoteId(int $currency_base_id, int $currency_quote_id): self
     {
-        return $this->whereIn('product_id', ProductModel::select('id')->byCurrencyBaseIdAndCurrencyQuoteId($currency_base_id, $currency_quote_id));
+        return $this->whereIn('product_id', ProductModel::query()->select('id')->byCurrencyBaseIdAndCurrencyQuoteId($currency_base_id, $currency_quote_id));
     }
 
     /**

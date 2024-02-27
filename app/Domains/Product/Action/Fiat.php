@@ -49,7 +49,10 @@ class Fiat extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::query()
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -57,7 +60,11 @@ class Fiat extends ActionAbstract
      */
     protected function currencies(): void
     {
-        $this->currencies = CurrencyModel::byPlatformId($this->platform->id)->byCodes(static::CURRENCIES)->get()->keyBy('code');
+        $this->currencies = CurrencyModel::query()
+            ->byPlatformId($this->platform->id)
+            ->byCodes(static::CURRENCIES)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -83,7 +90,7 @@ class Fiat extends ActionAbstract
             return null;
         }
 
-        return Model::create([
+        return Model::query()->create([
             'code' => $currency->code,
             'name' => $currency->name,
             'acronym' => $currency->code,
@@ -113,7 +120,7 @@ class Fiat extends ActionAbstract
      */
     protected function exchange(Model $row): void
     {
-        ExchangeModel::insert([
+        ExchangeModel::query()->insert([
             'exchange' => 1,
             'platform_id' => $this->platform->id,
             'product_id' => $row->id,

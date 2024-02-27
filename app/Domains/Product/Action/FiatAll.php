@@ -19,7 +19,7 @@ class FiatAll extends ActionAbstract
      */
     protected function iterate(): void
     {
-        foreach (PlatformModel::get() as $each) {
+        foreach (PlatformModel::query()->get() as $each) {
             $this->factory()->action()->fiat($each);
         }
     }

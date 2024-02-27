@@ -52,7 +52,7 @@ class Request extends ActionAbstract
      */
     protected function rowCachedIso(): ?Model
     {
-        return Model::enabled()->where('iso', $this->iso)->first();
+        return Model::query()->enabled()->where('iso', $this->iso)->first();
     }
 
     /**
@@ -60,7 +60,7 @@ class Request extends ActionAbstract
      */
     protected function rowCachedDefault(): Model
     {
-        return Model::enabled()->where('default', 1)->first();
+        return Model::query()->enabled()->where('default', 1)->first();
     }
 
     /**

@@ -27,7 +27,7 @@ class Sync extends ControllerAbstract
         return $this->page('order.sync', [
             'filters' => $this->request->input(),
             'products' => $this->products(),
-            'platforms' => PlatformModel::list()->get(),
+            'platforms' => PlatformModel::query()->list()->get(),
         ]);
     }
 
@@ -36,7 +36,8 @@ class Sync extends ControllerAbstract
      */
     protected function syncByProducts(): RedirectResponse
     {
-        $products = ProductModel::byIds((array)$this->request->input('product_ids'))
+        $products = ProductModel::query()
+            ->byIds((array)$this->request->input('product_ids'))
             ->withPlatformAndPivot($this->auth->id)
             ->get();
 
@@ -60,7 +61,10 @@ class Sync extends ControllerAbstract
      */
     protected function products(): Collection
     {
-        $q = ProductModel::whereCrypto()->withPlatform()->withUserPivotFavoriteByUserId($this->auth->id);
+        $q = ProductModel::query()
+            ->whereCrypto()
+            ->withPlatform()
+            ->withUserPivotFavoriteByUserId($this->auth->id);
 
         if ($filter = $this->request->input('platform_id')) {
             $q->byPlatformId($filter);
@@ -106,7 +110,8 @@ class Sync extends ControllerAbstract
      */
     protected function productIdsByOrders(): array
     {
-        return Model::byUserId($this->auth->id)
+        return Model::query()
+            ->byUserId($this->auth->id)
             ->whereProductCrypto()
             ->groupByProductId()
             ->pluck('product_id')
@@ -118,7 +123,8 @@ class Sync extends ControllerAbstract
      */
     protected function productsIdsByWallets(): array
     {
-        return WalletModel::byUserId($this->auth->id)
+        return WalletModel::query()
+            ->byUserId($this->auth->id)
             ->whereCrypto()
             ->groupByProductId()
             ->pluck('product_id')

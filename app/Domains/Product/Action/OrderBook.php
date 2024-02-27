@@ -45,7 +45,10 @@ class OrderBook extends ActionAbstract
      */
     protected function current(): void
     {
-        $this->current = Model::byPlatformId($this->platform->id)->get()->keyBy('code');
+        $this->current = Model::query()
+            ->byPlatformId($this->platform->id)
+            ->get()
+            ->keyBy('code');
     }
 
     /**
@@ -61,7 +64,7 @@ class OrderBook extends ActionAbstract
      */
     protected function iterate(): void
     {
-        foreach (Model::byPlatformId($this->platform->id)->whereWalletsActive()->withExchange()->get() as $each) {
+        foreach (Model::query()->byPlatformId($this->platform->id)->whereWalletsActive()->withExchange()->get() as $each) {
             $this->store($each, $this->api->orderBook($each->code));
         }
     }

@@ -3,11 +3,11 @@
 namespace App\Domains\Forecast\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Domains\Core\Model\ModelAbstract;
+use App\Domains\Forecast\Model\Builder\Forecast as Builder;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
-use App\Domains\Forecast\Model\Builder\Forecast as Builder;
-use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 class Forecast extends ModelAbstract
@@ -28,7 +28,7 @@ class Forecast extends ModelAbstract
     public const FOREIGN = 'forecast_id';
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'keys' => 'array',
@@ -40,9 +40,9 @@ class Forecast extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Forecast\Model\Builder\Forecast
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

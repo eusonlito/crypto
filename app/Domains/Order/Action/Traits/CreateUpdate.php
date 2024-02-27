@@ -44,7 +44,8 @@ trait CreateUpdate
      */
     protected function wallet(): void
     {
-        $this->wallet = WalletModel::byUserId($this->auth->id)
+        $this->wallet = WalletModel::query()
+            ->byUserId($this->auth->id)
             ->byId($this->data['wallet_id'])
             ->with(['product', 'platform'])
             ->firstOrFail();

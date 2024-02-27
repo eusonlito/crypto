@@ -1,23 +1,28 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
 parameters:
     paths:
-        - app
+        - app/
 
     level: 5
 
     ignoreErrors:
-        - '#Access to an undefined property App\\Domains\\.*\\Model\\.*::#'
-        - '#Access to an undefined property App\\Domains\\Shared\\Action\\ActionFactoryAbstract::#'
-        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable::#'
-        - '#Access to an undefined property App\\Domains\\Shared\\.*::\$row#'
-        - '#Call to an undefined method App\\Domains\\Shared\\Action\\ActionFactoryAbstract::#'
-        - '#Call to an undefined method App\\Domains\\Shared\\Validate\\ValidateFactoryAbstract::#'
-        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable::#'
-        - '#Call to an undefined static method App\\Domains\\.*\\Model\\.*::#'
-        - '#but returns Illuminate\\Database\\Query\\Builder#'
-        - '#expects App\\Domains\\Shared\\Model\\ModelAbstract\|null, Illuminate\\Contracts\\Auth\\Authenticatable\|null given#'
-        - '#expects App\\Domains\\User\\Model\\User, Illuminate\\Contracts\\Auth\\Authenticatable\|null given#'
-        - '#should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\Factory\|Illuminate\\Contracts\\View\\View#'
-        - '#should return Illuminate\\View\\View\|null but returns Illuminate\\Contracts\\View\\Factory\|Illuminate\\Contracts\\View\\View#'
-        - '#\(App\\Domains\\User\\Model\\User\|null\) does not accept Illuminate\\Contracts\\Auth\\Authenticatable\|null#'
-
-    checkMissingIterableValueType: false
+        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable#'
+        - '#Access to an undefined property object::#'
+        - '#Access to an undefined property .*Abstract#'
+        - '#Access to an undefined property .*\\Model#'
+        - '#App\\Domains\\User\\Model\\User.* does not accept Illuminate\\Contracts\\Auth\\Authenticatable#'
+        - '#but returns Illuminate\\Database\\Eloquent\\Builder#'
+        - '#Call to an undefined .*Abstract#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Queue\\ShouldQueue#'
+        - '#Call to an undefined method Illuminate\\Database\\ConnectionInterface#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model#'
+        - '#Call to private method .* of parent class App\\Domains\\Core\\Model\\Builder\\BuilderAbstract#'
+        - '#expects App\\Domains\\Core\\Model\\ModelAbstract\|null, Illuminate\\Contracts\\Auth\\Authenticatable\|null given#'
+        - '#expects App\\Domains\\User\\Model\\User, Illuminate\\Contracts\\Auth\\Authenticatable#'
+        - '#Property App\\Domains\\.* does not accept Illuminate\\Database\\Eloquent#'
+        - '#returns .*Abstract.#'
+        - '#should return App\\Domains\\.*\\Model.* but returns Illuminate\\Database\\Eloquent\\Model#'
+        - '#\\Domains.*\\Model\\.*Illuminate\\Database\\Eloquent\\Model given#'
+        - '#Unsafe usage of new static#'

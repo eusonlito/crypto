@@ -37,7 +37,8 @@ class Status
      */
     public function get(): Collection
     {
-        $q = Model::byUserId($this->user->id)
+        $q = Model::query()
+            ->byUserId($this->user->id)
             ->withRelations()
             ->withWallet()
             ->whereFilled()

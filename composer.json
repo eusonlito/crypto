@@ -17,15 +17,18 @@
         "sentry/sentry-laravel": "^4.2"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
-        "fakerphp/faker": "^1.13",
-        "friendsofphp/php-cs-fixer": "^3.14.3",
-        "laravel/pint": "^1.4.1",
-        "nunomaduro/collision": "^7.10",
+        "barryvdh/laravel-debugbar": "^3.9",
+        "brianium/paratest": "7.x-dev",
+        "friendsofphp/php-cs-fixer": "^3.48",
+        "larastan/larastan": "2.x-dev",
+        "laravel/pint": "dev-main",
+        "nunomaduro/collision": "^7.0",
         "nunomaduro/phpinsights": "dev-master",
         "phpcompatibility/php-compatibility": "^9.3",
-        "phpstan/phpstan": "^1.4",
-        "spatie/laravel-ignition": "^2.0"
+        "phpunit/phpunit": "^10.0",
+        "psalm/plugin-laravel": "^2.8",
+        "spatie/laravel-ignition": "dev-main",
+        "vimeo/psalm": "^5.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -94,10 +97,22 @@
         ],
 
         "deploy": [
+            "Composer\\Config::disableProcessTimeout",
+            "rm -f bootstrap/cache/*.php",
             "git checkout .",
             "git pull",
             "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
             "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --force --ansi --class=\"Database\\Seeders\\Database\"",
+            "@php artisan core:maintenance:opcache:preload"
+        ],
+
+        "deploy-dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "rm -f bootstrap/cache/*.php",
+            "@composer install --optimize-autoloader --classmap-authoritative --ansi",
+            "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --force --ansi --class=\"Database\\Seeders\\Database\"",
             "@php artisan core:maintenance:opcache:preload"
         ],
 

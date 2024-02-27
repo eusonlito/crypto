@@ -21,7 +21,7 @@ use App\Http\Middleware\Test;
 class Kernel extends KernelVendor
 {
     /**
-     * @var array
+     * @var array<int, string>
      */
     protected $middleware = [
         CheckForMaintenanceMode::class,
@@ -36,7 +36,7 @@ class Kernel extends KernelVendor
     ];
 
     /**
-     * @var array
+     * @var array<string, array<int, string>>
      */
     protected $middlewareGroups = [
         'user-auth' => [
@@ -46,7 +46,7 @@ class Kernel extends KernelVendor
     ];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $middlewareAliases = [
         'test' => Test::class,

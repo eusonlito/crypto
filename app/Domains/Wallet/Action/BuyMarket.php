@@ -242,7 +242,7 @@ class BuyMarket extends ActionAbstract
             return;
         }
 
-        if (Model::byProductId($this->product->id)->whereBuyOrSellPending()->count() > 1) {
+        if (Model::query()->byProductId($this->product->id)->whereBuyOrSellPending()->count() > 1) {
             return;
         }
 

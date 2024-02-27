@@ -161,7 +161,7 @@ class SellStopLoss extends ActionAbstract
      */
     protected function updateOrder(): void
     {
-        $this->order = OrderModel::findOrFail($this->order->id);
+        $this->order = OrderModel::query()->findOrFail($this->order->id);
     }
 
     /**

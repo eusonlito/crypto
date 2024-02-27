@@ -108,7 +108,15 @@ class Product extends BuilderAbstract
      */
     public function whereCurrencyQuoteTrade(): self
     {
-        return $this->whereIn('currency_quote_id', CurrencyModel::select('id')->where('trade', true));
+        return $this->whereIn('currency_quote_id', CurrencyModel::query()->select('id')->where('trade', true));
+    }
+
+    /**
+     * @return self
+     */
+    public function whereFavorite(): self
+    {
+        return $this->whereIn('id', ProductUserModel::query()->select('product_id')->whereFavorite());
     }
 
     /**
@@ -138,7 +146,7 @@ class Product extends BuilderAbstract
      */
     public function whereUserPivotFavoriteByUserId(int $user_id): self
     {
-        return $this->whereIn('id', ProductUserModel::select('product_id')->byUserId($user_id)->whereFavorite());
+        return $this->whereIn('id', ProductUserModel::query()->select('product_id')->byUserId($user_id)->whereFavorite());
     }
 
     /**
@@ -148,7 +156,7 @@ class Product extends BuilderAbstract
      */
     public function whereWalletsByUserId(int $user_id): self
     {
-        return $this->whereIn('id', WalletModel::select('product_id')->byUserId($user_id)->whereCrypto());
+        return $this->whereIn('id', WalletModel::query()->select('product_id')->byUserId($user_id)->whereCrypto());
     }
 
     /**
@@ -156,7 +164,21 @@ class Product extends BuilderAbstract
      */
     public function whereWallet(): self
     {
-        return $this->whereIn('id', WalletModel::select('product_id')->whereCrypto());
+        return $this->whereIn('id', WalletModel::query()->select('product_id')->whereCrypto());
+    }
+
+    /**
+     * @return self
+     */
+    public function whereWalletOrFavorite(): self
+    {
+        return $this->where(
+            static fn ($q) => $q->orWhere(
+                static fn ($q) => $q->whereIn('id', WalletModel::query()->select('product_id')->whereCrypto())
+            )->orWhere(
+                static fn ($q) => $q->whereIn('id', ProductUserModel::query()->select('product_id')->whereFavorite())
+            ),
+        );
     }
 
     /**
@@ -164,7 +186,7 @@ class Product extends BuilderAbstract
      */
     public function whereWalletsActive(): self
     {
-        return $this->whereIn('id', WalletModel::select('product_id')->enabled()->withAmount()->whereCrypto());
+        return $this->whereIn('id', WalletModel::query()->select('product_id')->enabled()->withAmount()->whereCrypto());
     }
 
     /**

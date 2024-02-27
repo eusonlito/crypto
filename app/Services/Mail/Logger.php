@@ -76,7 +76,7 @@ class Logger
 
         return str_contains($raw, 'Content-Transfer-Encoding: quoted-printable')
             ? $this->contentsQuotedPrintable($raw)
-            : $string;
+            : $raw;
     }
 
     /**

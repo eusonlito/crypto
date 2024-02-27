@@ -32,7 +32,7 @@ class Platform extends BuilderAbstract
      */
     public function byUserId(int $user_id): self
     {
-        return $this->whereIn('id', PlatformUserModel::select('platform_id')->where('user_id', $user_id));
+        return $this->whereIn('id', PlatformUserModel::query()->select('platform_id')->where('user_id', $user_id));
     }
 
     /**

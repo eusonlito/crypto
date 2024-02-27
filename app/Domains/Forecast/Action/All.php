@@ -51,7 +51,9 @@ class All extends ActionAbstract
      */
     protected function products(): void
     {
-        $q = ProductModel::byCurrencyTradeAllowed($this->currency->id)->withCurrencies();
+        $q = ProductModel::query()
+            ->byCurrencyTradeAllowed($this->currency->id)
+            ->withCurrencies();
 
         if ($this->data['favorite']) {
             $q->whereUserPivotFavoriteByUserId($this->auth->id);
@@ -91,7 +93,8 @@ class All extends ActionAbstract
      */
     protected function iterateProductExchanges(ProductModel $product): Collection
     {
-        return ExchangeModel::byProductId($product->id)
+        return ExchangeModel::query()
+            ->byProductId($product->id)
             ->afterDate(date('Y-m-d H:i:s', strtotime('-1 week')))
             ->orderByFirst()
             ->pluck('exchange', 'created_at');

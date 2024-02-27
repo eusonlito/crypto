@@ -151,7 +151,8 @@ class Simulator
      */
     protected function exchanges(): void
     {
-        $this->exchanges = ExchangeModel::byProductId($this->row->product->id)
+        $this->exchanges = ExchangeModel::query()
+            ->byProductId($this->row->product->id)
             ->pluck('exchange', 'created_at')
             ->when($this->row->exchange_reverse, static fn ($collection) => $collection->reverse());
     }

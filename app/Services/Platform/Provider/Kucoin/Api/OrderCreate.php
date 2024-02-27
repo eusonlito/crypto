@@ -83,9 +83,9 @@ class OrderCreate extends ApiAbstract
     }
 
     /**
-     * @return ?array
+     * @return array
      */
-    protected function queryDataByType(): ?array
+    protected function queryDataByType(): array
     {
         return match ($this->type) {
             'LIMIT' => $this->queryDataLimit(),
@@ -95,6 +95,7 @@ class OrderCreate extends ApiAbstract
             'TAKE_PROFIT' => $this->queryDataLimit(),
             'TAKE_PROFIT_LIMIT' => $this->queryDataLimit(),
             'LIMIT_MAKER' => $this->queryDataLimit(),
+            default => [],
         };
     }
 

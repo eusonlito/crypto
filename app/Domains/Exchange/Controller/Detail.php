@@ -59,7 +59,8 @@ class Detail extends ControllerAbstract
      */
     protected function product(int $product_id): void
     {
-        $this->product = ProductModel::byId($product_id)
+        $this->product = ProductModel::query()
+            ->byId($product_id)
             ->withExchangesChart(...$this->productExchangesData())
             ->firstOr(static function () {
                 throw new NotFoundException(__('exchange.error.product-not-found'));

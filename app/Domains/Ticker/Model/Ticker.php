@@ -4,6 +4,7 @@ namespace App\Domains\Ticker\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Currency\Model\Currency as CurrencyModel;
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
@@ -11,7 +12,6 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\Ticker\Model\Builder\Ticker as Builder;
 use App\Domains\Ticker\Model\Traits\TickerSql as TickerSqlTrait;
-use App\Domains\Core\Model\ModelAbstract;
 
 class Ticker extends ModelAbstract
 {
@@ -33,7 +33,7 @@ class Ticker extends ModelAbstract
     public const FOREIGN = 'ticker_id';
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'enabled' => 'boolean',
@@ -42,9 +42,9 @@ class Ticker extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Ticker\Model\Builder\Ticker
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

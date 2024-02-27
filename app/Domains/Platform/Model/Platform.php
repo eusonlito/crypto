@@ -3,8 +3,8 @@
 namespace App\Domains\Platform\Model;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Domains\Platform\Model\Builder\Platform as Builder;
 use App\Domains\Core\Model\ModelAbstract;
+use App\Domains\Platform\Model\Builder\Platform as Builder;
 use App\Domains\User\Model\User as UserModel;
 
 class Platform extends ModelAbstract
@@ -37,9 +37,9 @@ class Platform extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Platform\Model\Builder\Platform
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }

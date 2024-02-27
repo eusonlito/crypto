@@ -86,7 +86,8 @@ class Index
      */
     protected function wallets(): void
     {
-        $this->wallets = WalletModel::byUserId($this->auth->id)
+        $this->wallets = WalletModel::query()
+            ->byUserId($this->auth->id)
             ->enabled()
             ->whereVisible()
             ->list()
@@ -98,7 +99,8 @@ class Index
      */
     protected function tickers(): void
     {
-        $this->tickers = TickerModel::byUserId($this->auth->id)
+        $this->tickers = TickerModel::query()
+            ->byUserId($this->auth->id)
             ->enabled()
             ->list()
             ->get();
@@ -118,7 +120,8 @@ class Index
      */
     protected function exchangesGet(): void
     {
-        $this->exchanges = ExchangeModel::byProductIds($this->wallets->pluck('product_id')->merge($this->tickers->pluck('product_id')))
+        $this->exchanges = ExchangeModel::query()
+            ->byProductIds($this->wallets->pluck('product_id')->merge($this->tickers->pluck('product_id')))
             ->chart($this->request->input('time'))
             ->toBase()
             ->get()
@@ -144,7 +147,8 @@ class Index
      */
     protected function orders(): Collection
     {
-        return OrderModel::byUserId($this->auth->id)
+        return OrderModel::query()
+            ->byUserId($this->auth->id)
             ->whereFilled()
             ->list()
             ->limit(10)
@@ -156,6 +160,6 @@ class Index
      */
     protected function walletsValues(): Collection
     {
-        return WalletModel::byUserId($this->auth->id)->get();
+        return WalletModel::query()->byUserId($this->auth->id)->get();
     }
 }

@@ -26,7 +26,7 @@ class TrackingCheck extends ActionAbstract
      */
     protected function ids(): void
     {
-        $this->ids = WalletModel::whereBuyOrSellPending()->pluck('product_id')->toArray();
+        $this->ids = WalletModel::query()->whereBuyOrSellPending()->pluck('product_id')->toArray();
     }
 
     /**
@@ -34,6 +34,6 @@ class TrackingCheck extends ActionAbstract
      */
     protected function update(): void
     {
-        Model::byIdsNot($this->ids)->update(['tracking' => false]);
+        Model::query()->byIdsNot($this->ids)->update(['tracking' => false]);
     }
 }

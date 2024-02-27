@@ -32,7 +32,7 @@ class UpdateBoolean extends ControllerAbstract
      */
     protected function row(int $id): void
     {
-        $this->row = Model::byId($id)->firstOr(static function () {
+        $this->row = Model::query()->byId($id)->firstOr(static function () {
             throw new NotFoundException(__('user-update-boolean.error.not-found'));
         });
     }

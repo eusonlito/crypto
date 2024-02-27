@@ -2,8 +2,8 @@
 
 namespace App\Domains\Language\Model;
 
-use App\Domains\Language\Model\Builder\Language as Builder;
 use App\Domains\Core\Model\ModelAbstract;
+use App\Domains\Language\Model\Builder\Language as Builder;
 
 class Language extends ModelAbstract
 {
@@ -25,9 +25,9 @@ class Language extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \App\Domains\Language\Model\Builder\Language
      */
-    public function newEloquentBuilder($q)
+    public function newEloquentBuilder($q): Builder
     {
         return new Builder($q);
     }
