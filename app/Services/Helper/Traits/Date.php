@@ -150,23 +150,19 @@ trait Date
 
     /**
      * @param ?string $date = null
-     *
-     * @return \DateTime
-     */
-    public function dateWithAppTimezone(?string $date = null): DateTime
-    {
-        return $this->dateWithTimezone($date, config('app.timezone'));
-    }
-
-    /**
-     * @param ?string $date = null
      * @param ?string $timezone = null
      *
      * @return \DateTime
      */
     public function dateWithTimezone(?string $date = null, ?string $timezone = null): DateTime
     {
-        return date_create($date ?: 'now')->setTimezone($this->dateTimeZone($timezone));
+        $timezone = $this->dateTimeZone($timezone);
+
+        try {
+            return new DateTime($date ?: 'now', $timezone);
+        } catch (Exception $e) {
+            return new DateTime('now', $timezone);
+        }
     }
 
     /**
