@@ -19,4 +19,12 @@ class ActionFactory extends ActionFactoryAbstract
     {
         $this->actionHandle(Request::class);
     }
+
+    /**
+     * @return void
+     */
+    public function set(): void
+    {
+        $this->actionHandle(Set::class);
+    }
 }

@@ -55,6 +55,14 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\User\Model\User
      */
+    public function set(): Model
+    {
+        return $this->actionHandle(Set::class);
+    }
+
+    /**
+     * @return \App\Domains\User\Model\User
+     */
     public function signup(): Model
     {
         return $this->actionHandle(Signup::class, $this->validate()->signup());
