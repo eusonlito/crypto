@@ -60,7 +60,7 @@ trait SyncSocket
             ->byPlatformId($this->platform->id)
             ->whereTrade()
             ->whereCrypto()
-            ->whereWalletOrFavorite()
+            ->whereWallet()
             ->get()
             ->keyBy('code');
     }
@@ -96,7 +96,7 @@ trait SyncSocket
      */
     protected function reconnect(Throwable $e): void
     {
-        Log::error($e);
+        report($e);
 
         $this->connect();
     }
