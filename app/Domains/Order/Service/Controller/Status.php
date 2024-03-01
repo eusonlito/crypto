@@ -106,8 +106,8 @@ class Status
         $sell_count = $sell->count();
         $sell_average = $this->average($sell);
 
-        $sell_pending = $first->wallet->amount;
-        $sell_pending_value = $first->wallet->current_value;
+        $sell_pending = $first->wallet?->amount;
+        $sell_pending_value = $first->wallet?->current_value;
 
         $balance = $sell->sum('value') - $buy->sum('value');
 
