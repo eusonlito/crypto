@@ -66,7 +66,7 @@ class Status
 
         return $q->get()
             ->groupBy('product_id')
-            ->map(fn ($list) => $this->map($list))
+            ->map($this->map(...))
             ->filter()
             ->sortByDesc('balance')
             ->values();
@@ -79,6 +79,22 @@ class Status
      */
     protected function map(Collection $list): ?stdClass
     {
+        while ($list->isNotEmpty() && ($list->first()->side === 'sell')) {
+            $list = $list->slice(1);
+        }
+
+        if ($list->isEmpty()) {
+            return null;
+        }
+
+        while ($list->isNotEmpty() && ($list->last()->side === 'buy')) {
+            $list = $list->slice(0, -1);
+        }
+
+        if ($list->isEmpty()) {
+            return null;
+        }
+
         $first = $list->first();
 
         $buy = $list->where('side', 'buy');
@@ -90,8 +106,10 @@ class Status
         $sell_count = $sell->count();
         $sell_average = $this->average($sell);
 
-        $sell_pending = $this->sellPending($list);
-        $sell_pending_average = $this->sellPendingAverage($sell_pending);
+        $sell_pending = $first->wallet->amount;
+        $sell_pending_value = $first->wallet->current_value;
+
+        $balance = $sell->sum('value') - $buy->sum('value');
 
         $dates = $list->pluck('created_at')->sort();
 
@@ -107,94 +125,14 @@ class Status
             'sell_count' => $sell_count,
             'sell_average' => $sell_average,
             'sell_pending' => $sell_pending,
-            'sell_pending_average' => $sell_pending_average,
-            'balance' => $this->balance($list),
+            'sell_pending_value' => $sell_pending_value,
+            'balance' => $balance,
             'date_first' => $dates->first(),
             'date_last' => $dates->last(),
             'platform' => $first->platform,
             'product' => $first->product,
             'wallet' => $first->wallet,
         ];
-    }
-
-    /**
-     * @param \Illuminate\Support\Collection $list
-     *
-     * @return array
-     */
-    protected function sellPending(Collection $list): array
-    {
-        $buys = [];
-
-        foreach ($list as $row) {
-            $buys = $this->sellPendingRow($row, $buys);
-        }
-
-        return array_values($buys);
-    }
-
-    /**
-     * @param \App\Domains\Order\Model\Order $row
-     * @param array $buys
-     *
-     * @return array
-     */
-    protected function sellPendingRow(Model $row, array $buys): array
-    {
-        if (empty($buys) && ($row->side === 'sell')) {
-            return $buys;
-        }
-
-        if ($row->side === 'buy') {
-            $buys[] = ['amount' => $row->amount, 'price' => $row->price];
-
-            return $buys;
-        }
-
-        $amount = $row->amount;
-
-        foreach ($buys as $index => $each) {
-            if ($each['amount'] > $amount) {
-                $buys[$index]['amount'] -= $amount;
-                break;
-            }
-
-            $amount -= $each['amount'];
-
-            unset($buys[$index]);
-
-            if ($amount <= 0) {
-                break;
-            }
-        }
-
-        return $buys;
-    }
-
-    /**
-     * @param array $buys
-     *
-     * @return float
-     */
-    protected function sellPendingAverage(array $buys): float
-    {
-        $total = array_sum(array_map(static fn ($value) => $value['amount'] * $value['price'], $buys));
-        $price = array_sum(array_column($buys, 'amount'));
-
-        return ($total && $price) ? ($total / $price) : 0;
-    }
-
-    /**
-     * @param \Illuminate\Support\Collection $list
-     *
-     * @return float
-     */
-    protected function balance(Collection $list): float
-    {
-        $buy = $list->where('side', 'buy')->sum('value');
-        $sell = $list->where('side', 'sell')->sum('value');
-
-        return ($sell - $buy) + ($list->first()->wallet->current_value ?? 0);
     }
 
     /**

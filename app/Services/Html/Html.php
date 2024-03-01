@@ -207,18 +207,6 @@ class Html
     }
 
     /**
-     * @param array $sells
-     *
-     * @return string
-     */
-    public static function orderSellPendingTitle(array $sells): string
-    {
-        return implode(' + ', array_map(static function ($value) {
-            return helper()->number($value['amount']).' ('.helper()->number($value['price']).')';
-        }, $sells));
-    }
-
-    /**
      * @param float $percent
      * @param string $class = 'h-3'
      *

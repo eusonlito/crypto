@@ -7,9 +7,6 @@
         'query' => 'Error del Sistema',
         'system' => 'Error del Sistema',
     ],
-    'meta' => [
-        'title' => '',
-    ],
     'show' => 'Mostrar',
     'time' => [
         'day' => ':day Día',

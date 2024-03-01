@@ -14,7 +14,7 @@
                 <th class="text-center" title="{{ __('order-status.buy-value-description') }}">{{ __('order-status.buy-value') }}</th>
                 <th class="text-center" title="{{ __('order-status.sell-value-description') }}">{{ __('order-status.sell-value') }}</th>
                 <th class="text-center" title="{{ __('order-status.wallet-price-value-description') }}">{{ __('order-status.wallet-price-value') }}</th>
-                <th class="text-center" title="{{ __('order-status.sell-pending-average-description') }}">{{ __('order-status.sell-pending-average') }}</th>
+                <th class="text-center" title="{{ __('order-status.sell-pending-value-description') }}">{{ __('order-status.sell-pending-value') }}</th>
                 <th class="text-center">{{ __('order-status.balance') }}</th>
             </tr>
         </thead>
@@ -51,7 +51,7 @@
                 <td>-</td>
                 @endif
 
-                <td><span class="block" title="{{ Html::orderSellPendingTitle($row->sell_pending) }}">@number($row->sell_pending_average)</span></td>
+                <td><span class="block">@number($row->sell_pending_value)</span></td>
                 <td><span class="block">@number($row->balance, 2)</span></td>
             </tr>
 
