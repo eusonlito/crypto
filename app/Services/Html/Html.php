@@ -202,7 +202,11 @@ class Html
     public static function orderBuySellTitle(Collection $list): string
     {
         return $list->map(static function ($value) {
-            return helper()->number($value->amount).' ('.helper()->number($value->price).')';
+            return '('
+                .helper()->number($value->amount)
+                .' * '.helper()->number($value->price)
+                .' = '.helper()->number($value->value)
+            .')';
         })->implode(' + ');
     }
 

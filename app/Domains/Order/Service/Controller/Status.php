@@ -100,14 +100,8 @@ class Status
         $buy = $list->where('side', 'buy');
         $sell = $list->where('side', 'sell');
 
-        $buy_count = $buy->count();
         $buy_average = $this->average($buy);
-
-        $sell_count = $sell->count();
         $sell_average = $this->average($sell);
-
-        $sell_pending = $first->wallet?->amount;
-        $sell_pending_value = $first->wallet?->current_value;
 
         $balance = $sell->sum('value') - $buy->sum('value');
 
@@ -117,15 +111,17 @@ class Status
             'buy' => $buy->values(),
             'buy_prices' => $buy->pluck('price'),
             'buy_value' => $buy->sum('value'),
-            'buy_count' => $buy_count,
+            'buy_count' => $buy->count(),
+            'buy_amount' => $buy->sum('amount'),
             'buy_average' => $buy_average,
             'sell' => $sell->values(),
             'sell_prices' => $sell->pluck('price'),
             'sell_value' => $sell->sum('value'),
-            'sell_count' => $sell_count,
+            'sell_count' => $sell->count(),
+            'sell_amount' => $sell->sum('amount'),
             'sell_average' => $sell_average,
-            'sell_pending' => $sell_pending,
-            'sell_pending_value' => $sell_pending_value,
+            'wallet_amount' => $first->wallet?->amount,
+            'wallet_value' => $first->wallet?->current_value,
             'balance' => $balance,
             'date_first' => $dates->first(),
             'date_last' => $dates->last(),
