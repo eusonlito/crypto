@@ -105,8 +105,6 @@ class Status
 
         $balance = $sell->sum('value') - $buy->sum('value');
 
-        $dates = $list->pluck('created_at')->sort();
-
         return (object)[
             'buy' => $buy->values(),
             'buy_prices' => $buy->pluck('price'),
@@ -123,8 +121,8 @@ class Status
             'wallet_amount' => $first->wallet?->amount,
             'wallet_value' => $first->wallet?->current_value,
             'balance' => $balance,
-            'date_first' => $dates->first(),
-            'date_last' => $dates->last(),
+            'date_first' => $first->created_at,
+            'date_last' => $list->last()->created_at,
             'platform' => $first->platform,
             'product' => $first->product,
             'wallet' => $first->wallet,
