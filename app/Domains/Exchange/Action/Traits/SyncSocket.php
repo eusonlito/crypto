@@ -86,7 +86,7 @@ trait SyncSocket
      */
     protected function sleep(): void
     {
-        sleep(5);
+        sleep($this->products->firstWhere('tracking') ? 2 : 5);
     }
 
     /**
