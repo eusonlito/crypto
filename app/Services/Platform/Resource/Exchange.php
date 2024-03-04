@@ -51,7 +51,7 @@ class Exchange extends ResourceAbstract
      */
     protected function pricePercentReference(): float
     {
-        return 0.10;
+        return 0.05;
     }
 
     /**
