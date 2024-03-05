@@ -4,7 +4,6 @@ namespace App\Domains\Exchange\Action\Traits;
 
 use Throwable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use App\Domains\Exchange\Model\Exchange as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
