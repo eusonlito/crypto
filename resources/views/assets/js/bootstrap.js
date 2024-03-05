@@ -28,6 +28,7 @@ import './modal';
 import './zoom';
 
 import './form-number';
+import './datepicker.js';
 import './product';
 import './product-chart';
 import './wallet';

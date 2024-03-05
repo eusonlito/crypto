@@ -7,15 +7,15 @@
 
     <div class="sm:flex sm:space-x-4">
         <div class="flex-grow mt-2 sm:mt-0">
-            <input type="search" name="search" class="form-control form-control-lg" placeholder="{{ __('order-index.search') }}" />
+            <input type="search" name="search" class="form-control form-control-lg" value="{{ $filters['search'] }}" placeholder="{{ __('order-index.search') }}" />
         </div>
 
         <div class="flex-grow mt-2 sm:mt-0">
-            <input type="text" name="date_start" class="form-control form-control-lg" value="{{ $filters['date_start'] }}" placeholder="{{ __('order-index.date_start') }}" />
+            <input type="text" name="date_start" class="form-control form-control-lg" value="{{ $filters['date_start'] }}" placeholder="{{ __('order-index.date_start') }}" data-datepicker data-change-submit />
         </div>
 
         <div class="flex-grow mt-2 sm:mt-0">
-            <input type="text" name="date_end" class="form-control form-control-lg" value="{{ $filters['date_end'] }}" placeholder="{{ __('order-index.date_end') }}" />
+            <input type="text" name="date_end" class="form-control form-control-lg" value="{{ $filters['date_end'] }}" placeholder="{{ __('order-index.date_end') }}" data-datepicker data-change-submit />
         </div>
 
         <div class="flex-grow mt-2 sm:mt-0">

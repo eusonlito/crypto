@@ -67,12 +67,13 @@ class Index extends ControllerAbstract
     protected function filters(): void
     {
         $this->request->merge([
+            'search' => $this->request->input('search', ''),
+            'date_start' => $this->auth->preference('order-index-date_start', $this->request->input('date_start'), ''),
+            'date_end' => $this->auth->preference('order-index-date_end', $this->request->input('date_end'), ''),
             'platform_id' => (int)$this->auth->preference('order-index-platform_id', $this->request->input('platform_id'), 0),
             'filled' => $this->auth->preference('order-index-filled', $this->request->input('filled'), ''),
             'side' => $this->auth->preference('order-index-side', $this->request->input('side'), ''),
             'custom' => $this->auth->preference('order-index-custom', $this->request->input('custom'), ''),
-            'date_start' => $this->auth->preference('order-index-date_start', $this->request->input('date_start'), ''),
-            'date_end' => $this->auth->preference('order-index-date_end', $this->request->input('date_end'), ''),
         ]);
     }
 }
