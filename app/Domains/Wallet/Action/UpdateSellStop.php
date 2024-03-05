@@ -17,7 +17,6 @@ class UpdateSellStop extends ActionAbstract
         $this->data();
         $this->check();
         $this->store();
-        $this->orderCanceOpen();
 
         return $this->row;
     }
@@ -61,15 +60,5 @@ class UpdateSellStop extends ActionAbstract
         $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
 
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCanceOpen(): void
-    {
-        if (empty($this->row->sell_stop)) {
-            $this->factory('Order')->action()->cancelOpen($this->row->product);
-        }
     }
 }
