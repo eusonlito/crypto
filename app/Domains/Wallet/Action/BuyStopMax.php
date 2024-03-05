@@ -140,6 +140,7 @@ class BuyStopMax extends ActionAbstract
         $this->updateBuyStop();
         $this->updateBuyMarket();
         $this->updateSellStop();
+        $this->updateSellStopLoss();
         $this->updateProduct();
     }
 
@@ -200,6 +201,21 @@ class BuyStopMax extends ActionAbstract
         $this->row->sell_stop_min_value = $this->row->sell_stop_amount * $this->row->sell_stop_min_exchange;
         $this->row->sell_stop_min_at = null;
         $this->row->sell_stop_min_executable = 0;
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateSellStopLoss(): void
+    {
+        if (empty($this->row->sell_stoploss_percent)) {
+            return;
+        }
+
+        $this->row->sell_stoploss = true;
+        $this->row->sell_stoploss_exchange = $this->row->buy_exchange * (1 - ($this->row->sell_stoploss_percent / 100));
+        $this->row->sell_stoploss_value = $this->row->amount * $this->row->sell_stoploss_exchange;
+        $this->row->sell_stoploss_at = null;
     }
 
     /**

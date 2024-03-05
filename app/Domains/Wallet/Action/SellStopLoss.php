@@ -154,7 +154,9 @@ class SellStopLoss extends ActionAbstract
     protected function update(): void
     {
         $this->updateOrder();
+        $this->updateBuy();
         $this->updateSellStopLoss();
+        $this->updateBuyStop();
     }
 
     /**
@@ -168,11 +170,43 @@ class SellStopLoss extends ActionAbstract
     /**
      * @return void
      */
+    protected function updateBuy(): void
+    {
+        $this->row->amount = $this->order->amount;
+        $this->row->buy_exchange = $this->order->price;
+        $this->row->buy_value = $this->row->amount * $this->row->buy_exchange;
+    }
+
+    /**
+     * @return void
+     */
     protected function updateSellStopLoss(): void
     {
         $this->row->sell_stoploss = false;
         $this->row->sell_stoploss_at = null;
         $this->row->sell_stoploss_executable = false;
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuyStop(): void
+    {
+        if ($this->row->buy_stop_min_percent && $this->row->buy_stop_max_percent) {
+            $this->row->buy_stop = true;
+        }
+
+        $this->row->buy_stop_reference = $this->row->buy_exchange;
+
+        $this->row->buy_stop_min_exchange = $this->row->buy_stop_reference * (1 - ($this->row->buy_stop_min_percent / 100));
+        $this->row->buy_stop_min_value = $this->row->buy_stop_amount * $this->row->buy_stop_min_exchange;
+        $this->row->buy_stop_min_at = null;
+        $this->row->buy_stop_min_executable = 0;
+
+        $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
+        $this->row->buy_stop_max_value = $this->row->buy_stop_amount * $this->row->buy_stop_max_exchange;
+        $this->row->buy_stop_max_at = null;
+        $this->row->buy_stop_max_executable = 0;
     }
 
     /**
