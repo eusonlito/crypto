@@ -161,6 +161,7 @@ class SyncOne extends ActionAbstract
         return OrderModel::query()
             ->byProductId($this->product->id)
             ->byUserId($this->auth->id)
+            ->whereFilled()
             ->orderByLast()
             ->value('price');
     }
