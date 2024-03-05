@@ -4,6 +4,7 @@ namespace App\Domains\Order\Service\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as Model;
 use App\Domains\User\Model\User as UserModel;
 
@@ -32,9 +33,9 @@ class Index
     }
 
     /**
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return \Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection
      */
-    public function get(): LengthAwarePaginator
+    public function get(): LengthAwarePaginator|Collection
     {
         $q = Model::query()->byUserId($this->user->id)->list();
 
@@ -66,16 +67,32 @@ class Index
             $q->byCreatedAtEnd($filter);
         }
 
+        if ($this->isPaginated()) {
+            return $q->get()->map($this->map(...));
+        }
+
         $list = $q->paginate(50);
-        $list->getCollection()->transform(fn ($list) => $this->map($list));
+        $list->getCollection()->transform($this->map(...));
 
         return $list;
     }
 
     /**
+     * @param bool
+     *
+     * @return bool
+     */
+    protected function isPaginated(): bool
+    {
+        return $this->request->input('search')
+            || $this->request->input('date_start')
+            || $this->request->input('date_end');
+    }
+
+    /**
      * @param \App\Domains\Order\Model\Order $row
      *
-     * @return Model
+     * @return \App\Domains\Order\Model\Order
      */
     protected function map(Model $row): Model
     {
