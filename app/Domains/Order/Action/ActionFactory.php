@@ -13,6 +13,14 @@ class ActionFactory extends ActionFactoryAbstract
     protected ?Model $row;
 
     /**
+     * @return void
+     */
+    public function cancelOpen(): void
+    {
+        $this->actionHandle(CancelOpen::class, [], ...func_get_args());
+    }
+
+    /**
      * @return \App\Domains\Order\Model\Order
      */
     public function create(): Model
