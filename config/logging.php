@@ -78,6 +78,7 @@ return [
         'deprecations' => [
             'driver' => 'custom',
             'via' => DeprecationsLogger::class,
+            'trace' => true,
         ],
 
         'request' => [
