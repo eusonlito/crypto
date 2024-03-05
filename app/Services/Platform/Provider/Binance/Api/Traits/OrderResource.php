@@ -40,12 +40,12 @@ trait OrderResource
      */
     protected function resourceMap(stdClass $row): stdClass
     {
-        $row->orderId = (string)$row->orderId;
-        $row->origQty = (float)$row->origQty;
-        $row->price = (float)$row->price;
-        $row->executedQty = (float)$row->executedQty;
-        $row->cummulativeQuoteQty = (float)$row->cummulativeQuoteQty;
-        $row->stopPrice = (float)$row->stopPrice;
+        $row->orderId = strval($row->orderId);
+        $row->origQty = floatval($row->origQty);
+        $row->price = floatval($row->price);
+        $row->executedQty = floatval($row->executedQty);
+        $row->cummulativeQuoteQty = floatval($row->cummulativeQuoteQty);
+        $row->stopPrice = floatval($row?->stopPrice);
         $row->status = strtolower($row->status);
         $row->type = strtolower($row->type);
         $row->side = strtolower($row->side);
