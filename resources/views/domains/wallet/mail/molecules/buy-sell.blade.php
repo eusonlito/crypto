@@ -99,6 +99,8 @@
         </td>
     </tr>
 
+    @if (isset($previous))
+
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
         <td valign="middle">
             <div class="product-entry bg_white">
@@ -184,6 +186,8 @@
             </div>
         </td>
     </tr>
+
+    @endif
 
     <tr style="border-bottom: 1px solid rgba(0,0,0,.05);">
         <td valign="middle">
