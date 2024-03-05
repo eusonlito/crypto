@@ -7,7 +7,7 @@
 
     <div class="sm:flex sm:space-x-4">
         <div class="flex-grow mt-2 sm:mt-0">
-            <input type="search" class="form-control form-control-lg" placeholder="{{ __('order-index.search') }}" data-table-search="#order-list-table" />
+            <input type="search" name="search" class="form-control form-control-lg" placeholder="{{ __('order-index.search') }}" />
         </div>
 
         <div class="flex-grow mt-2 sm:mt-0">
@@ -32,6 +32,10 @@
 
         <div class="flex-grow mt-2 sm:mt-0">
             <x-select name="platform_id" value="id" text="name" :options="$platforms->toArray()" :selected="$filters['platform_id']" :placeholder="__('order-index.platforms-all')" data-change-submit></x-select>
+        </div>
+
+        <div class="flex mt-2 sm:mt-0">
+            <button type="submit" class="btn form-select-lg bg-white">{{ __('common.send') }}</button>
         </div>
     </div>
 </form>

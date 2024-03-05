@@ -39,6 +39,16 @@ class Order extends BuilderAbstract
     }
 
     /**
+     * @param string $search
+     *
+     * @return self
+     */
+    public function byProductSearch(string $search): self
+    {
+        return $this->whereIn('product_id', ProductModel::query()->select('id')->searchLike(['code', 'name'], $search));
+    }
+
+    /**
      * @param int $wallet_id
      *
      * @return self

@@ -38,6 +38,10 @@ class Index
     {
         $q = Model::query()->byUserId($this->user->id)->list();
 
+        if ($filter = $this->request->input('search')) {
+            $q->byProductSearch($filter);
+        }
+
         if ($filter = $this->request->input('platform_id')) {
             $q->byPlatformId($filter);
         }
