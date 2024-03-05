@@ -137,11 +137,17 @@ trait SyncSocket
             return false;
         }
 
-        if ($product->tracking) {
+        $previous = $this->fromCache($resource);
+
+        if ($previous === null) {
             return (bool)$this->toCache($resource);
         }
 
-        if (($previous = $this->fromCache($resource)) === null) {
+        if ($resource->price === $previous->price) {
+            return false;
+        }
+
+        if ($product->tracking) {
             return (bool)$this->toCache($resource);
         }
 

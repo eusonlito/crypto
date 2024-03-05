@@ -140,8 +140,8 @@ class SyncOne extends ActionAbstract
     {
         $this->row->amount = $this->resource->amount;
 
-        if (empty($this->row->buy_exchange) && $this->row->amount) {
-            $this->storeDefaultBuyExchange();
+        if ($buy_exchange = $this->storeDefaultBuyExchange()) {
+            $this->row->buy_exchange = $buy_exchange;
         }
 
         if ($this->row->crypto) {
@@ -154,15 +154,15 @@ class SyncOne extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return ?float
      */
-    protected function storeDefaultBuyExchange(): void
+    protected function storeDefaultBuyExchange(): ?float
     {
-        $this->row->buy_exchange = OrderModel::query()
+        return OrderModel::query()
             ->byProductId($this->product->id)
             ->byUserId($this->auth->id)
             ->orderByLast()
-            ->value('price') ?: 0;
+            ->value('price');
     }
 
     /**
