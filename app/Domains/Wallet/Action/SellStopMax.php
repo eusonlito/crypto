@@ -85,7 +85,6 @@ class SellStopMax extends ActionAbstract
             && $this->row->sell_stop_max_executable
             && $this->row->sell_stop_min_exchange
             && ($this->row->sell_stop_min_at === null)
-            && ($this->row->sell_stop_amount <= $this->row->amount)
             && ($this->row->sell_stop_amount >= $this->product->quantity_min)
             && ($this->row->sell_stop_min_exchange >= $this->product->price_min);
     }
@@ -141,7 +140,7 @@ class SellStopMax extends ActionAbstract
      */
     protected function orderCreateSendAmount(): float
     {
-        return $this->row->sell_stop_amount;
+        return min($this->row->amount, $this->row->sell_stop_amount);
     }
 
     /**
