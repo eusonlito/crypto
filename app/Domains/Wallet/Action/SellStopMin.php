@@ -50,9 +50,9 @@ class SellStopMin extends ActionAbstract
         $this->order();
 
         $this->update();
-        $this->finish();
         $this->logSuccess();
         $this->mail();
+        $this->finish();
 
         return $this->row;
     }

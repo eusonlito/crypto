@@ -42,10 +42,9 @@ class SellStopMax extends ActionAbstract
         $this->start();
         $this->order();
         $this->update();
-        $this->finish();
         $this->sync();
         $this->logSuccess();
-        $this->mail();
+        $this->finish();
 
         return $this->row;
     }
@@ -253,14 +252,6 @@ class SellStopMax extends ActionAbstract
         $this->row->sell_stop_max_executable = false;
         $this->row->processing = false;
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function mail(): void
-    {
-        $this->factory()->mail()->sellStopMax($this->row, $this->order);
     }
 
     /**

@@ -42,10 +42,9 @@ class BuyStopMin extends ActionAbstract
         $this->start();
         $this->order();
         $this->update();
-        $this->finish();
         $this->sync();
         $this->logSuccess();
-        $this->mail();
+        $this->finish();
 
         return $this->row;
     }
@@ -277,14 +276,6 @@ class BuyStopMin extends ActionAbstract
     protected function syncOrder(): void
     {
         $this->factory('Order')->action()->syncByProduct($this->product);
-    }
-
-    /**
-     * @return void
-     */
-    protected function mail(): void
-    {
-        $this->factory()->mail()->buyStopMin($this->row, $this->order);
     }
 
     /**
