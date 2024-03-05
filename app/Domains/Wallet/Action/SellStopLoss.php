@@ -80,6 +80,7 @@ class SellStopLoss extends ActionAbstract
             && $this->row->sell_stoploss_exchange
             && $this->row->sell_stoploss_at
             && $this->row->sell_stoploss_executable
+            && ($this->row->sell_stoploss_value > 1)
             && ($this->row->amount >= $this->product->quantity_min);
     }
 

@@ -252,6 +252,7 @@ trait WalletSql
                     AND `sell_stoploss_exchange`
                     AND `sell_stoploss_at` IS NULL
                     AND `current_exchange` <= `sell_stoploss_exchange`
+                    AND `current_value` > 1
                 ), NOW(), `sell_stoploss_at`
             ),
 
@@ -261,6 +262,7 @@ trait WalletSql
                     AND `sell_stoploss_exchange`
                     AND `sell_stoploss_at` IS NOT NULL
                     AND `current_exchange` <= `sell_stoploss_exchange`
+                    AND `current_value` > 1
                 ), TRUE, `sell_stoploss_executable`
             )
         ';

@@ -169,7 +169,7 @@
 
             @endif
 
-            @if ($sell_stoploss_exchange)
+            @if ($sell_stoploss_exchange && ($current_value > 1))
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
