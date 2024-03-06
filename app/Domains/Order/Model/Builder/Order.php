@@ -2,12 +2,33 @@
 
 namespace App\Domains\Order\Model\Builder;
 
+use App\Domains\Order\Model\Order as Model;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Core\Model\Builder\BuilderAbstract;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
 class Order extends BuilderAbstract
 {
+    /**
+     * @param string $date
+     *
+     * @return self
+     */
+    public function byCreatedAtStart(string $date): self
+    {
+        return $this->where('created_at', '>=', $date);
+    }
+
+    /**
+     * @param string $date
+     *
+     * @return self
+     */
+    public function byCreatedAtEnd(string $date): self
+    {
+        return $this->where('created_at', '<=', $date);
+    }
+
     /**
      * @param int $platform_id
      *
@@ -59,16 +80,6 @@ class Order extends BuilderAbstract
     }
 
     /**
-     * @param int $wallet_id
-     *
-     * @return self
-     */
-    public function byWalletId(int $wallet_id): self
-    {
-        return $this->where('wallet_id', $wallet_id);
-    }
-
-    /**
      * @param string $side
      *
      * @return self
@@ -76,6 +87,16 @@ class Order extends BuilderAbstract
     public function bySide(string $side): self
     {
         return $this->where('side', $side);
+    }
+
+    /**
+     * @param string $side
+     *
+     * @return self
+     */
+    public function bySideNot(string $side): self
+    {
+        return $this->whereNot('side', $side);
     }
 
     /**
@@ -89,23 +110,58 @@ class Order extends BuilderAbstract
     }
 
     /**
-     * @param string $date
+     * @param string $type
      *
      * @return self
      */
-    public function byCreatedAtStart(string $date): self
+    public function byType(string $type): self
     {
-        return $this->where('created_at', '>=', $date);
+        return $this->where('type', $type);
     }
 
     /**
-     * @param string $date
+     * @param int $wallet_id
      *
      * @return self
      */
-    public function byCreatedAtEnd(string $date): self
+    public function byWalletId(int $wallet_id): self
     {
-        return $this->where('created_at', '<=', $date);
+        return $this->where('wallet_id', $wallet_id);
+    }
+
+    /**
+     * @param \App\Domains\Order\Model\Order $row
+     *
+     * @return self
+     */
+    public function lastSame(Model $row): self
+    {
+        return $this->lastSameWalletIdSideAndType($row->wallet_id, $row->side, $row->type);
+    }
+
+    /**
+     * @param int $wallet_id
+     * @param string $side
+     * @param string $type
+     *
+     * @return self
+     */
+    public function lastSameWalletIdSideAndType(int $wallet_id, string $side, string $type): self
+    {
+        $query = Model::query()
+            ->select('id')
+            ->byWalletId($wallet_id)
+            ->byType($type)
+            ->bySideNot($side)
+            ->whereFilled()
+            ->orderByLast()
+            ->limit(1);
+
+        return $this->byWalletId($wallet_id)
+            ->byType($type)
+            ->bySide($side)
+            ->whereFilled()
+            ->where('id', '>=', $query);
     }
 
     /**

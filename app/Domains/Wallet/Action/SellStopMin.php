@@ -53,6 +53,7 @@ class SellStopMin extends ActionAbstract
 
         $this->previous();
         $this->sync();
+        $this->refresh();
         $this->order();
         $this->update();
         $this->finish();
@@ -137,6 +138,14 @@ class SellStopMin extends ActionAbstract
     protected function sync(): void
     {
         $this->factory()->action()->updateSync();
+    }
+
+    /**
+     * @return void
+     */
+    protected function refresh(): void
+    {
+        $this->row = $this->row->fresh();
     }
 
     /**

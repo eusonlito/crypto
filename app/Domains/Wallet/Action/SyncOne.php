@@ -159,8 +159,7 @@ class SyncOne extends ActionAbstract
     protected function storeDefaultBuyExchange(): ?float
     {
         return OrderModel::query()
-            ->byProductId($this->product->id)
-            ->byUserId($this->auth->id)
+            ->byWalletId($this->row->id)
             ->whereFilled()
             ->orderByLast()
             ->value('price');

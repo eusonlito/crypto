@@ -49,6 +49,7 @@ class SellStopMax extends ActionAbstract
         $this->order();
         $this->update();
         $this->sync();
+        $this->refresh();
         $this->finish();
 
         $this->logSuccess();
@@ -250,6 +251,14 @@ class SellStopMax extends ActionAbstract
     protected function syncOrder(): void
     {
         $this->factory('Order')->action()->syncByProduct($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function refresh(): void
+    {
+        $this->row = $this->row->fresh();
     }
 
     /**

@@ -47,6 +47,7 @@ class SellStopLoss extends ActionAbstract
 
         $this->order();
         $this->sync();
+        $this->refresh();
         $this->update();
         $this->finish();
 
@@ -168,6 +169,14 @@ class SellStopLoss extends ActionAbstract
     protected function syncWallet(): void
     {
         $this->factory()->action()->syncOne();
+    }
+
+    /**
+     * @return void
+     */
+    protected function refresh(): void
+    {
+        $this->row = $this->row->fresh();
     }
 
     /**
