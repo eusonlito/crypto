@@ -7,13 +7,13 @@ use App\Domains\Core\Model\Builder\BuilderAbstract;
 class Language extends BuilderAbstract
 {
     /**
-     * @param string $code
+     * @param string $iso
      *
      * @return self
      */
-    public function byCode(string $code): self
+    public function byCode(string $iso): self
     {
-        return $this->where('code', $code);
+        return $this->where('iso', $iso);
     }
 
     /**
@@ -21,7 +21,7 @@ class Language extends BuilderAbstract
      */
     public function selectSession(): self
     {
-        return $this->select('id', 'code', 'name', 'locale');
+        return $this->select('id', 'iso', 'name', 'locale');
     }
 
     /**
@@ -39,6 +39,6 @@ class Language extends BuilderAbstract
      */
     public function whereDefault(): self
     {
-        return $this->where($this->addTable('code'), config('app.locale'));
+        return $this->where($this->addTable('iso'), config('app.locale'));
     }
 }
