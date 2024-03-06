@@ -78,8 +78,6 @@ class Index
     }
 
     /**
-     * @param bool
-     *
      * @return bool
      */
     protected function isPaginated(): bool

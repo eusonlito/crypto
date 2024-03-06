@@ -31,22 +31,42 @@ class BuyStopMin extends ActionAbstract
      */
     public function handle(): Model
     {
-        $this->platform();
-        $this->product();
-        $this->logBefore();
-
-        if ($this->executable() === false) {
-            return tap($this->row, fn () => $this->logNotExecutable());
+        if ($this->row->processing) {
+            return $this->row;
         }
 
         $this->start();
+
+        $this->platform();
+        $this->product();
+
+        $this->logBefore();
+
+        if ($this->executable() === false) {
+            return $this->row;
+        }
+
+        if ($this->executed()) {
+            return $this->row;
+        }
+
         $this->order();
         $this->update();
         $this->sync();
-        $this->logSuccess();
         $this->finish();
 
+        $this->logSuccess();
+
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function start(): void
+    {
+        $this->row->processing = true;
+        $this->row->save();
     }
 
     /**
@@ -72,8 +92,22 @@ class BuyStopMin extends ActionAbstract
      */
     protected function executable(): bool
     {
+        if ($this->executableStatus()) {
+            return true;
+        }
+
+        $this->logNotExecutable();
+        $this->finish();
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function executableStatus(): bool
+    {
         return (bool)$this->platform->userPivot
-            && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->buy_stop
@@ -88,12 +122,47 @@ class BuyStopMin extends ActionAbstract
     }
 
     /**
+     * @return bool
+     */
+    protected function executed(): bool
+    {
+        $this->order = $this->executedOrder();
+
+        if (empty($this->order)) {
+            return false;
+        }
+
+        $this->logWasExecuted();
+        $this->executedReset();
+        $this->finish();
+
+        return false;
+    }
+
+    /**
+     * @return ?\App\Domains\Order\Model\Order
+     */
+    protected function executedOrder(): ?OrderModel
+    {
+        return OrderModel::query()
+            ->byProductId($this->product->id)
+            ->byWalletId($this->row->id)
+            ->bySide('buy')
+            ->byUpdatedAtAfter(date('Y-m-d H:i:s', strtotime('-1 minute')))
+            ->whereFilled()
+            ->first();
+    }
+
+    /**
      * @return void
      */
-    protected function start(): void
+    protected function executedReset(): void
     {
-        $this->row->processing = true;
-        $this->row->save();
+        $this->row->updateBuy($this->order->exchange);
+        $this->row->updateBuyStopDisable();
+        $this->row->updateBuyMarketDisable();
+        $this->row->updateSellStopEnable();
+        $this->row->updateSellStopLossEnable();
     }
 
     /**
@@ -290,6 +359,14 @@ class BuyStopMin extends ActionAbstract
      * @return void
      */
     protected function logNotExecutable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logWasExecuted(): void
     {
         $this->log('error', ['detail' => __FUNCTION__]);
     }

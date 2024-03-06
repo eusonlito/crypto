@@ -13,10 +13,11 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\User\Model\User as UserModel;
 use App\Domains\Wallet\Model\Builder\Wallet as Builder;
 use App\Domains\Wallet\Model\Traits\WalletSql as WalletSqlTrait;
+use App\Domains\Wallet\Model\Traits\WalletUpdate as WalletUpdateTrait;
 
 class Wallet extends ModelAbstract
 {
-    use WalletSqlTrait;
+    use WalletSqlTrait, WalletUpdateTrait;
 
     /**
      * @var string

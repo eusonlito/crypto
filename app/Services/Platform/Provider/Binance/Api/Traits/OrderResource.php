@@ -45,7 +45,7 @@ trait OrderResource
         $row->price = floatval($row->price);
         $row->executedQty = floatval($row->executedQty);
         $row->cummulativeQuoteQty = floatval($row->cummulativeQuoteQty);
-        $row->stopPrice = floatval($row?->stopPrice);
+        $row->stopPrice = floatval($row->stopPrice ?? null);
         $row->status = strtolower($row->status);
         $row->type = strtolower($row->type);
         $row->side = strtolower($row->side);

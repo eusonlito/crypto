@@ -36,23 +36,29 @@ class BuyStopMax extends ActionAbstract
      */
     public function handle(): Model
     {
+        if ($this->row->processing) {
+            return $this->row;
+        }
+
+        $this->start();
+
         $this->platform();
         $this->product();
+
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return tap($this->row, fn () => $this->logNotExecutable());
+            return $this->row;
         }
 
         $this->previous();
-        $this->start();
         $this->sync();
         $this->order();
-
         $this->update();
+        $this->finish();
+
         $this->logSuccess();
         $this->mail();
-        $this->finish();
 
         return $this->row;
     }
@@ -80,8 +86,22 @@ class BuyStopMax extends ActionAbstract
      */
     protected function executable(): bool
     {
+        if ($this->executableStatus()) {
+            return true;
+        }
+
+        $this->logNotExecutable();
+        $this->finish();
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function executableStatus(): bool
+    {
         return (bool)$this->platform->userPivot
-            && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->buy_stop
@@ -136,7 +156,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function update(): void
     {
-        $this->updateExchange();
+        $this->updateBuy();
         $this->updateBuyStop();
         $this->updateBuyMarket();
         $this->updateSellStop();
@@ -147,10 +167,9 @@ class BuyStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function updateExchange(): void
+    protected function updateBuy(): void
     {
-        $this->row->buy_exchange = $this->row->buy_stop_max_exchange;
-        $this->row->buy_value = $this->row->buy_exchange * $this->row->amount;
+        $this->row->updateBuy($this->order->price);
     }
 
     /**
@@ -158,13 +177,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateBuyStop(): void
     {
-        $this->row->buy_stop = false;
-
-        $this->row->buy_stop_min_at = null;
-        $this->row->buy_stop_min_executable = 0;
-
-        $this->row->buy_stop_max_at = null;
-        $this->row->buy_stop_max_executable = 0;
+        $this->row->updateBuyStopDisable();
     }
 
     /**
@@ -172,9 +185,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateBuyMarket(): void
     {
-        $this->row->buy_market = false;
-        $this->row->buy_market_at = null;
-        $this->row->buy_market_executable = 0;
+        $this->row->updateBuyMarketDisable();
     }
 
     /**
@@ -182,25 +193,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateSellStop(): void
     {
-        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
-            if ($this->row->sell_stop_amount > $this->row->amount) {
-                $this->row->sell_stop_amount = $this->row->amount;
-            }
-
-            $this->row->sell_stop = true;
-        }
-
-        $this->row->sell_stop_reference = $this->row->buy_exchange;
-
-        $this->row->sell_stop_max_exchange = $this->row->sell_stop_reference * (1 + ($this->row->sell_stop_max_percent / 100));
-        $this->row->sell_stop_max_value = $this->row->sell_stop_amount * $this->row->sell_stop_max_exchange;
-        $this->row->sell_stop_max_at = null;
-        $this->row->sell_stop_max_executable = 0;
-
-        $this->row->sell_stop_min_exchange = $this->row->sell_stop_max_exchange * (1 - ($this->row->sell_stop_min_percent / 100));
-        $this->row->sell_stop_min_value = $this->row->sell_stop_amount * $this->row->sell_stop_min_exchange;
-        $this->row->sell_stop_min_at = null;
-        $this->row->sell_stop_min_executable = 0;
+        $this->row->updateSellStopEnable();
     }
 
     /**
@@ -208,14 +201,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateSellStopLoss(): void
     {
-        if (empty($this->row->sell_stoploss_percent)) {
-            return;
-        }
-
-        $this->row->sell_stoploss = true;
-        $this->row->sell_stoploss_exchange = $this->row->buy_exchange * (1 - ($this->row->sell_stoploss_percent / 100));
-        $this->row->sell_stoploss_value = $this->row->amount * $this->row->sell_stoploss_exchange;
-        $this->row->sell_stoploss_at = null;
+        $this->row->updateSellStopLossEnable();
     }
 
     /**

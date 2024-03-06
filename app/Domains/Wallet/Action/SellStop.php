@@ -30,18 +30,25 @@ class SellStop extends ActionAbstract
      */
     public function handle(): Model
     {
-        $this->platform();
-        $this->product();
-        $this->logBefore();
-
-        if ($this->executable() === false) {
-            return tap($this->row, fn () => $this->logNotExecutable());
+        if ($this->row->processing) {
+            return $this->row;
         }
 
         $this->start();
+
+        $this->platform();
+        $this->product();
+
+        $this->logBefore();
+
+        if ($this->executable() === false) {
+            return $this->row;
+        }
+
         $this->order();
         $this->update();
         $this->finish();
+
         $this->logSuccess();
 
         return $this->row;
@@ -70,8 +77,22 @@ class SellStop extends ActionAbstract
      */
     protected function executable(): bool
     {
+        if ($this->executableStatus()) {
+            return true;
+        }
+
+        $this->logNotExecutable();
+        $this->finish();
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function executableStatus(): bool
+    {
         return (bool)$this->platform->userPivot
-            && ($this->row->processing === false)
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->amount
