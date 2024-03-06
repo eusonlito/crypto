@@ -26,6 +26,6 @@
 
     <div class="flex-1 p-2 {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }}">
         <div class="text-gray-600 text-xs">{{ __('wallet-stat-global.difference') }}</div>
-        <div class="font-bold">@percent($investment, $current_value)</div>
+        <div class="font-bold">@percent($investment, $current_value)%</div>
     </div>
 </div>
