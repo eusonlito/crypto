@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Mon, 05 Mar 2024 20:37:27 GMT
+Content-Type: application/json; charset=UTF-8
+Connection: close
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+
+{"symbol":"BTCEUR","orderId":3491170532,"orderListId":-1,"clientOrderId":"3bqMA9mf1SEQA5Zb6JZRiW","transactTime":1709730539841,"price":"61290.72000000","origQty":"0.01700000","executedQty":"0.00000000","cummulativeQuoteQty":"0.00000000","status":"NEW","timeInForce":"GTC","type":"STOP_LOSS_LIMIT","side":"BUY","stopPrice":"61284.59000000","workingTime":-1,"fills":[],"selfTradePreventionMode":"EXPIRE_MAKER"}
