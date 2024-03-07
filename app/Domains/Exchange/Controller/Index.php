@@ -3,8 +3,7 @@
 namespace App\Domains\Exchange\Controller;
 
 use Illuminate\Http\Response;
-use App\Domains\Exchange\Service\Controller\Index as IndexService;
-use App\Domains\Platform\Model\Platform as PlatformModel;
+use App\Domains\Exchange\Service\Controller\Index as ControllerService;
 
 class Index extends ControllerAbstract
 {
@@ -13,26 +12,16 @@ class Index extends ControllerAbstract
      */
     public function __invoke(): Response
     {
-        $this->filters();
-
         $this->meta('title', __('exchange-index.meta-title'));
 
-        return $this->page('exchange.index', [
-            'list' => (new IndexService($this->request->input()))->get(),
-            'platforms' => PlatformModel::query()->list()->get(),
-            'filters' => $this->request->input(),
-        ]);
+        return $this->page('exchange.index', $this->data());
     }
 
     /**
-     * @return void
+     * @return array
      */
-    protected function filters(): void
+    protected function data(): array
     {
-        $this->request->merge([
-            'top' => $this->auth->preference('exchange-index-top', $this->request->input('top'), '50'),
-            'time' => (int)$this->auth->preference('exchange-index-time', $this->request->input('time'), 60),
-            'platform_id' => (int)$this->auth->preference('exchange-index-platform_id', $this->request->input('platform_id'), 0),
-        ]);
+        return ControllerService::new($this->request, $this->auth)->data();
     }
 }

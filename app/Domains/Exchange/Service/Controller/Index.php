@@ -2,12 +2,14 @@
 
 namespace App\Domains\Exchange\Service\Controller;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Domains\Exchange\Model\Exchange as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 
-class Index
+class Index extends ControllerAbstract
 {
     /**
      * @const
@@ -60,29 +62,69 @@ class Index
     protected Collection $products;
 
     /**
-     * @param array $options = []
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Contracts\Auth\Authenticatable $auth
      *
      * @return self
      */
-    public function __construct(array $options = [])
+    public function __construct(protected Request $request, protected Authenticatable $auth)
     {
-        $this->options($options);
+        $this->filters();
+        $this->options();
     }
 
     /**
-     * @param array $options
-     *
+     * @return void
+     */
+    protected function filters(): void
+    {
+        $this->request->merge([
+            'top' => $this->auth->preference('exchange-index-top', $this->request->input('top'), '50'),
+            'time' => (int)$this->auth->preference('exchange-index-time', $this->request->input('time'), 60),
+            'platform_id' => (int)$this->auth->preference('exchange-index-platform_id', $this->request->input('platform_id'), 0),
+        ]);
+    }
+
+    /**
      * @return self
      */
-    public function options(array $options): self
+    protected function options(): self
     {
-        $this->top($options['top'] ?? null);
-        $this->time($options['time'] ?? null);
-        $this->sort($options['sort'] ?? null);
-        $this->sortMode($options['sort_mode'] ?? null);
-        $this->platformId($options['platform_id'] ?? null);
+        $this->top($this->request->input('top'));
+        $this->time($this->requestInteger('time'));
+        $this->sort($this->request->input('sort'));
+        $this->sortMode($this->request->input('sort_mode'));
+        $this->platformId($this->request->input('platform_id'));
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function data(): array
+    {
+        return [
+            'list' => $this->list(),
+            'platforms' => $this->platforms(),
+            'filters' => $this->request->input(),
+        ];
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function list(): Collection
+    {
+        return $this->relations($this->calculate());
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function platforms(): Collection
+    {
+        return $this->cache(fn () => PlatformModel::query()->list()->get());
     }
 
     /**
@@ -90,7 +132,7 @@ class Index
      *
      * @return self
      */
-    public function top(?string $top): self
+    protected function top(?string $top): self
     {
         $this->top = intval(in_array($top, static::TOP_VALUES) ? $top : static::TOP_VALUES[0]);
 
@@ -102,7 +144,7 @@ class Index
      *
      * @return self
      */
-    public function time(?int $time): self
+    protected function time(?int $time): self
     {
         $this->datetime = date('Y-m-d H:i:s', strtotime('-'.($time ?: 12).' minutes'));
 
@@ -114,7 +156,7 @@ class Index
      *
      * @return self
      */
-    public function sort(?string $sort): self
+    protected function sort(?string $sort): self
     {
         $this->sort = in_array($sort, static::SORT_VALUES) ? $sort : static::SORT_VALUES[0];
 
@@ -126,7 +168,7 @@ class Index
      *
      * @return self
      */
-    public function sortMode(?string $sort_mode): self
+    protected function sortMode(?string $sort_mode): self
     {
         $this->sortMode = (strtolower((string)$sort_mode) === 'asc') ? 'asc' : 'desc';
 
@@ -138,19 +180,11 @@ class Index
      *
      * @return self
      */
-    public function platformId(?int $platform_id): self
+    protected function platformId(?int $platform_id): self
     {
         $this->platformId = $platform_id ?: null;
 
         return $this;
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function get(): Collection
-    {
-        return $this->relations($this->calculate());
     }
 
     /**
@@ -222,7 +256,7 @@ class Index
      */
     protected function relations(Collection $list): Collection
     {
-        $platforms = PlatformModel::query()->get()->keyBy('id');
+        $platforms = $this->platforms()->keyBy('id');
 
         if ($this->top) {
             $products = ProductModel::query()->byIds($list->pluck('product_id')->toArray())->get()->keyBy('id');
