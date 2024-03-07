@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -15,7 +15,6 @@ return new class extends MigrationAbstract {
         }
 
         $this->tables();
-        $this->keys();
     }
 
     /**
@@ -34,13 +33,6 @@ return new class extends MigrationAbstract {
         Schema::table('wallet', function (Blueprint $table) {
             $table->boolean('buy_stop_max_follow')->default(0)->after('buy_stop_max_executable');
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function keys()
-    {
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -15,7 +15,6 @@ return new class extends MigrationAbstract {
         }
 
         $this->tables();
-        $this->keys();
     }
 
     /**
@@ -44,13 +43,6 @@ return new class extends MigrationAbstract {
 
         $this->db()->statement('UPDATE `wallet` SET `sell_stop_exchange` = `buy_exchange`, `buy_stop_exchange` = `buy_exchange`;');
         $this->db()->statement('UPDATE `wallet_history` SET `sell_stop_exchange` = `buy_exchange`, `buy_stop_exchange` = `buy_exchange`;');
-    }
-
-    /**
-     * @return void
-     */
-    protected function keys()
-    {
     }
 
     /**

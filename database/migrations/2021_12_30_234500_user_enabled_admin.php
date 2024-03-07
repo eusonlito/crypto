@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -15,7 +15,6 @@ return new class extends MigrationAbstract {
         }
 
         $this->tables();
-        $this->keys();
     }
 
     /**
@@ -36,13 +35,6 @@ return new class extends MigrationAbstract {
             $table->boolean('admin')->default(0)->after('tfa_enabled');
             $table->boolean('enabled')->default(1)->after('tfa_enabled');
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function keys()
-    {
     }
 
     /**

@@ -60,30 +60,6 @@
 </li>
 
 <li>
-    <a href="javascript:;" class="side-menu {{ (strpos($ROUTE, 'forecast.') === 0) ? 'side-menu--active' : '' }}">
-        <div class="side-menu__icon">@icon('trello')</div>
-        <div class="side-menu__title">
-            {{ __('in-sidebar.future') }} <div class="side-menu__sub-icon">@icon('chevron-down')</div>
-        </div>
-    </a>
-
-    <ul class="{{ (strpos($ROUTE, 'forecast.') === 0) ? 'side-menu__sub-open' : '' }}">
-        <li>
-            <a href="{{ route('forecast.index') }}" class="side-menu {{ (strpos($ROUTE, 'forecast.index') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('list') </div>
-                <div class="side-menu__title">{{ __('in-sidebar.future-list') }}</div>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('forecast.future') }}" class="side-menu {{ (strpos($ROUTE, 'forecast.future') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('compass') </div>
-                <div class="side-menu__title">{{ __('in-sidebar.future-future') }}</div>
-            </a>
-        </li>
-    </ul>
-</li>
-
-<li>
     <a href="{{ route('exchange.index') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu--active' : '' }}">
         <div class="side-menu__icon">@icon('bar-chart')</div>
         <div class="side-menu__title">{{ __('in-sidebar.exchange') }}</div>

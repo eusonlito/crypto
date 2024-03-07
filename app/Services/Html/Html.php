@@ -153,48 +153,6 @@ class Html
     }
 
     /**
-     * @param array $config
-     * @param array $values
-     *
-     * @return string
-     */
-    public static function forecastValue(array $config, array $values): string
-    {
-        if ($config['list'] === false) {
-            return '';
-        }
-
-        $value = $values[$config['key']] ?? null;
-
-        if ($value === null) {
-            return '<td>-</td>';
-        }
-
-        $class = '';
-
-        switch ($config['format']) {
-            case 'float':
-                $print = helper()->number($value);
-                break;
-
-            case 'percent':
-                $print = helper()->number($value).'%';
-                $class = ($value > 0) ? 'text-theme-10' : 'text-theme-24';
-                break;
-
-            case 'bool':
-                $print = static::status($value);
-                break;
-
-            default:
-                $print = $value;
-                break;
-        }
-
-        return '<td title="'.$value.' - '.$config['description'].'"><span class="block '.$class.'">'.$print.'</span></td>';
-    }
-
-    /**
      * @param \Illuminate\Support\Collection $list
      *
      * @return string

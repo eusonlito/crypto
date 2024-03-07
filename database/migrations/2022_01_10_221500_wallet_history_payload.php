@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -15,7 +15,6 @@ return new class extends MigrationAbstract {
         }
 
         $this->tables();
-        $this->keys();
     }
 
     /**
@@ -110,13 +109,6 @@ return new class extends MigrationAbstract {
             $table->dropColumn('visible');
             $table->dropColumn('enabled');
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function keys()
-    {
     }
 
     /**

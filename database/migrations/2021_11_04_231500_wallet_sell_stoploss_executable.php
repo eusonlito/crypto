@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -15,7 +15,6 @@ return new class extends MigrationAbstract {
         }
 
         $this->tables();
-        $this->keys();
     }
 
     /**
@@ -38,13 +37,6 @@ return new class extends MigrationAbstract {
         Schema::table('wallet_history', function (Blueprint $table) {
             $table->boolean('sell_stoploss_executable')->default(0)->after('sell_stoploss_at');
         });
-    }
-
-    /**
-     * @return void
-     */
-    protected function keys()
-    {
     }
 
     /**

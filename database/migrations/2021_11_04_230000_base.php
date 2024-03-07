@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Domains\Shared\Migration\MigrationAbstract;
+use App\Domains\Core\Migration\MigrationAbstract;
 
 return new class extends MigrationAbstract {
     /**
@@ -45,29 +45,6 @@ return new class extends MigrationAbstract {
 
             $table->unsignedBigInteger('platform_id');
             $table->unsignedBigInteger('product_id');
-        });
-
-        Schema::create('forecast', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('side');
-
-            $table->unsignedSmallInteger('version');
-
-            $table->json('keys');
-            $table->json('values');
-
-            $table->boolean('valid')->default(0);
-            $table->boolean('selected')->default(0);
-
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
-
-            $table->unsignedBigInteger('order_id')->nullable();
-            $table->unsignedBigInteger('platform_id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('wallet_id')->nullable();
         });
 
         Schema::create('ip_lock', function (Blueprint $table) {
@@ -464,14 +441,6 @@ return new class extends MigrationAbstract {
 
             $this->foreignOnDeleteCascade($table, 'platform');
             $this->foreignOnDeleteCascade($table, 'product');
-        });
-
-        Schema::table('forecast', function (Blueprint $table) {
-            $this->foreignOnDeleteSetNull($table, 'order');
-            $this->foreignOnDeleteCascade($table, 'platform');
-            $this->foreignOnDeleteCascade($table, 'product');
-            $this->foreignOnDeleteCascade($table, 'user');
-            $this->foreignOnDeleteSetNull($table, 'wallet');
         });
 
         Schema::table('order', function (Blueprint $table) {
