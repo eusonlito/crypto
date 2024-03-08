@@ -222,10 +222,8 @@ class Variance extends ControllerAbstract
      */
     protected function listCalculate(ProductModel $product): ProductModel
     {
-        $previous = null;
-        $percents = [];
-
         $reference = $product->values['last'];
+        $percents = [];
 
         foreach ($product->values as $code => $value) {
             $percents[$code] = helper()->percent($value, $reference);
