@@ -54,17 +54,16 @@ class Variance extends ControllerAbstract
     protected function dates(): void
     {
         $this->dates = [
-            '2_days' => date('Y-m-d H:i:s', strtotime('-2 days')),
-            '1_day' => date('Y-m-d H:i:s', strtotime('-1 day')),
-            '12_hours' => date('Y-m-d H:i:s', strtotime('-12 hours')),
-            '6_hours' => date('Y-m-d H:i:s', strtotime('-6 hours')),
-            '4_hours' => date('Y-m-d H:i:s', strtotime('-4 hours')),
-            '2_hours' => date('Y-m-d H:i:s', strtotime('-2 hours')),
-            '1_hour' => date('Y-m-d H:i:s', strtotime('-1 hour')),
-            '30_minutes' => date('Y-m-d H:i:s', strtotime('-30 minutes')),
-            '10_minutes' => date('Y-m-d H:i:s', strtotime('-10 minutes')),
-            '5_minutes' => date('Y-m-d H:i:s', strtotime('-5 minutes')),
             'last' => date('Y-m-d H:i:s'),
+            '5_minutes' => date('Y-m-d H:i:s', strtotime('-5 minutes')),
+            '10_minutes' => date('Y-m-d H:i:s', strtotime('-10 minutes')),
+            '30_minutes' => date('Y-m-d H:i:s', strtotime('-30 minutes')),
+            '1_hour' => date('Y-m-d H:i:s', strtotime('-1 hour')),
+            '2_hours' => date('Y-m-d H:i:s', strtotime('-2 hours')),
+            '4_hours' => date('Y-m-d H:i:s', strtotime('-4 hours')),
+            '6_hours' => date('Y-m-d H:i:s', strtotime('-6 hours')),
+            '12_hours' => date('Y-m-d H:i:s', strtotime('-12 hours')),
+            '1_day' => date('Y-m-d H:i:s', strtotime('-1 day')),
         ];
     }
 
@@ -215,7 +214,7 @@ class Variance extends ControllerAbstract
      */
     protected function listFilter(ProductModel $product): bool
     {
-        return boolval($product->values);
+        return boolval($product->values['last'] ?? false);
     }
 
     /**
@@ -226,9 +225,10 @@ class Variance extends ControllerAbstract
         $previous = null;
         $percents = [];
 
+        $reference = $product->values['last'];
+
         foreach ($product->values as $code => $value) {
-            $percents[$code] = $previous ? helper()->percent($previous, $value) : 0;
-            $previous = $value;
+            $percents[$code] = helper()->percent($value, $reference);
         }
 
         $product->percents = $percents;

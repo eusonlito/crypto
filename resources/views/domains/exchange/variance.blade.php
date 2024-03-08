@@ -49,12 +49,24 @@
                 @php ($percent = $product->percents[$code] ?? 0)
                 @php ($value = $product->values[$code] ?? 0)
 
-                <td class="{{ ($percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} text-xs font-medium text-center" data-table-sort-value="{{ $percent }}">
+                @if ($code === 'last')
+
+                <td class="font-medium text-center" data-table-sort-value="{{ $percent }}">
                     <a href="{{ $link }}" class="block">
                         <div>@number($value)</div>
-                        <div>{{ $percent }}%</div>
                     </a>
                 </td>
+
+                @else
+
+                <td class="{{ ($percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-medium text-center" data-table-sort-value="{{ $percent }}">
+                    <a href="{{ $link }}" class="block">
+                        <div>@number($value)</div>
+                        <div class="text-xs">{{ $percent }}%</div>
+                    </a>
+                </td>
+
+                @endif
 
                 @endforeach
             </tr>
