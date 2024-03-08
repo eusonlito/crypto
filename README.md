@@ -1,9 +1,8 @@
 # Requisitos
 
-* PHP >= 8.1
+* PHP >= 8.2
 * Apache/nginx
 * MySQL 8.0
-* Composer 2
 
 # Instalación
 
@@ -23,7 +22,8 @@ cp .env.example .env
 vi .env
 
 # Instalamos las dependencias
-composer install --no-scripts --no-dev && composer install --no-dev
+./composer install --no-scripts --no-dev
+./composer install --no-dev
 
 # Generamos la clave de cifrado
 php artisan key:generate
@@ -33,7 +33,7 @@ php artisan migrate
 php artisan db:seed --class=Database\\Seeders\\Database
 
 # Desplegamos
-composer artisan-cache
+./composer deploy
 ````
 
 # Desactivación de plataformas
@@ -69,7 +69,7 @@ nohup php artisan exchange:ticker:socket --platform_id=3 > storage/logs/exchange
 # Actualización
 
 ```bash
-composer deploy
+./composer deploy
 ```
 
 # Capturas
