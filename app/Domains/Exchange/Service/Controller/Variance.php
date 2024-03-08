@@ -44,6 +44,7 @@ class Variance extends ControllerAbstract
     protected function request(): void
     {
         $this->request->merge([
+            'currency_quote_id' => (int)$this->auth->preference('exchange-variance-currency_quote_id', $this->request->input('currency_quote_id'), 0),
             'platform_id' => (int)$this->auth->preference('exchange-variance-platform_id', $this->request->input('platform_id'), 0),
         ]);
     }
