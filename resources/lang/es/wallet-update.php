@@ -7,10 +7,6 @@
     'current_value' => 'Valor Actual',
     'delete' => [
         'button' => 'Borrar',
-        'cancel' => 'Cancelar',
-        'delete' => 'Sí, borrar',
-        'message' => 'Recuerda que esta acción no puede deshacerse',
-        'title' => 'Deseas borrar esta cartera?',
     ],
     'enabled' => 'Activa',
     'error' => [
@@ -22,9 +18,10 @@
         'sell-stop-min-empty-max' => 'Se ha establecido un valor para el mínimo de Compra en Subida (:min) pero no para el máximo (:max)',
     ],
     'exchange-from-order-status' => 'Obtener cambio desde el estado de las órdenes',
+    'history' => 'Histórico',
     'name' => 'Nombre',
     'order' => 'Orden',
-    'orders' => 'Órdenes Ejecutadas',
+    'orders' => 'Órdenes',
     'platform' => 'Plataforma',
     'product' => 'Producto',
     'save' => 'Guardar',

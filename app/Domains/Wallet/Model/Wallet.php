@@ -78,6 +78,14 @@ class Wallet extends ModelAbstract
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function history(): HasMany
+    {
+        return $this->hasMany(WalletHistory::class, static::FOREIGN);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(OrderModel::class, static::FOREIGN);

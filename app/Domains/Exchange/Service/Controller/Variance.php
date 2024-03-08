@@ -193,9 +193,9 @@ class Variance extends ControllerAbstract
     protected function listExchangesBeforDate(string $date, array $product_ids): Collection
     {
         return Model::query()
-                ->byProductIds($product_ids)
-                ->lastByProductBeforDate($date)
-                ->get();
+            ->byProductIds($product_ids)
+            ->lastByProductBeforDate($date)
+            ->get();
     }
 
     /**
@@ -206,9 +206,9 @@ class Variance extends ControllerAbstract
     protected function listExchangesLast(array $product_ids): Collection
     {
         return Model::query()
-                ->byProductIds($product_ids)
-                ->lastByProduct()
-                ->get();
+            ->byProductIds($product_ids)
+            ->lastByProduct()
+            ->get();
     }
 
     /**

@@ -42,16 +42,16 @@
                 <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a></td>
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-center font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
                 <td><span class="block text-center">{{ ($row->side === 'sell') ? __('order-index.sell') : __('order-index.buy') }}</span></td>
-                <td data-table-sort-value="{{ $row->amount }}"><span class="block" title="{{ $row->amount }}">@number($row->amount)</span></td>
-                <td data-table-sort-value="{{ $row->price }}"><span class="block" title="{{ $row->price }}">@number($row->price)</span></td>
+                <td data-table-sort-value="{{ $row->amount }}" data-copy-value="{{ $row->amount }}"><span class="block" title="{{ $row->amount }}">@number($row->amount)</span></td>
+                <td data-table-sort-value="{{ $row->price }}" data-copy-value="{{ $row->price }}"><span class="block" title="{{ $row->price }}">@number($row->price)</span></td>
 
                 @if ($filled)
 
-                <td data-table-sort-value="{{ $row->exchange_current }}"><span class="block">@number($row->exchange_current)</span></td>
+                <td data-table-sort-value="{{ $row->exchange_current }}" data-copy-value="{{ $row->exchange_current }}"><span class="block">@number($row->exchange_current)</span></td>
 
                 @endif
 
-                <td data-table-sort-value="{{ $row->value }}"><span class="block" title="{{ $row->value }}">@number($row->value)</span></td>
+                <td data-table-sort-value="{{ $row->value }}" data-copy-value="{{ $row->value }}"><span class="block" title="{{ $row->value }}">@number($row->value)</span></td>
 
                 @if ($filled)
 
