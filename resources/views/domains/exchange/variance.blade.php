@@ -28,7 +28,7 @@
 
                 @foreach (array_keys($dates) as $code)
 
-                <th class="text-center">{{ $code }}</th>
+                <th class="text-center">{{ str_replace('_', ' ', $code) }}</th>
 
                 @endforeach
             </tr>
