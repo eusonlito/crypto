@@ -34,7 +34,7 @@ class Product extends ModelAbstract
     protected static function booted()
     {
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->whereIn('platform_id', PlatformModel::query()->select('id'));
+            $builder->whereIn('product.platform_id', PlatformModel::query()->select('id'));
         });
     }
 

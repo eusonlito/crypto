@@ -257,12 +257,13 @@ class Index extends ControllerAbstract
     protected function relations(Collection $list): Collection
     {
         $platforms = $this->platforms()->keyBy('id');
+        $products = ProductModel::query();
 
         if ($this->top) {
-            $products = ProductModel::query()->byIds($list->pluck('product_id')->toArray())->get()->keyBy('id');
-        } else {
-            $products = ProductModel::query()->get()->keyBy('id');
+            $products->byIds($list->pluck('product_id')->all());
         }
+
+        $products = $products->enabled()->get()->keyBy('id');
 
         foreach ($list as $each) {
             $each->setRelation('platform', $platforms->get($each->platform_id));

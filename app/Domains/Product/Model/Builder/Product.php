@@ -36,7 +36,7 @@ class Product extends BuilderAbstract
      */
     public function byPlatformId(int $platform_id): self
     {
-        return $this->where('platform_id', $platform_id);
+        return $this->where($this->addTable('platform_id'), $platform_id);
     }
 
     /**
@@ -71,6 +71,16 @@ class Product extends BuilderAbstract
     }
 
     /**
+     * @param array $currency_quote_ids
+     *
+     * @return self
+     */
+    public function byCurrencyQuoteIds(array $currency_quote_ids): self
+    {
+        return $this->whereIntegerInRaw('currency_quote_id', $currency_quote_ids);
+    }
+
+    /**
      * @param int $currency_id
      *
      * @return self
@@ -90,7 +100,27 @@ class Product extends BuilderAbstract
      */
     public function list(): self
     {
-        return $this->orderBy('code', 'ASC');
+        return $this->enabled()->orderBy('code', 'ASC');
+    }
+
+    /**
+     * @param ?int $currency_quote_id
+     *
+     * @return self
+     */
+    public function whenCurrencyQuoteId(?int $currency_quote_id): self
+    {
+        return $this->when($currency_quote_id, static fn ($q) => $q->byCurrencyQuoteId($currency_quote_id));
+    }
+
+    /**
+     * @param ?int $platform_id
+     *
+     * @return self
+     */
+    public function whenPlatformId(?int $platform_id): self
+    {
+        return $this->when($platform_id, static fn ($q) => $q->byPlatformId($platform_id));
     }
 
     /**
@@ -117,6 +147,17 @@ class Product extends BuilderAbstract
     public function whereFavorite(): self
     {
         return $this->whereIn('id', ProductUserModel::query()->select('product_id')->whereFavorite());
+    }
+
+    /**
+     * @return self
+     */
+    public function whereFiat(): self
+    {
+        return $this->whereTracking(false)
+            ->whereTrade(false)
+            ->whereCrypto(false)
+            ->whereColumn('currency_quote_id', 'currency_base_id');
     }
 
     /**
@@ -192,6 +233,22 @@ class Product extends BuilderAbstract
     /**
      * @return self
      */
+    public function withCurrencyBase(): self
+    {
+        return $this->with(['currencyBase']);
+    }
+
+    /**
+     * @return self
+     */
+    public function withCurrencies(): self
+    {
+        return $this->with(['currencyBase', 'currencyQuote']);
+    }
+
+    /**
+     * @return self
+     */
     public function withExchange(): self
     {
         return $this->with(['exchange']);
@@ -213,17 +270,9 @@ class Product extends BuilderAbstract
     /**
      * @return self
      */
-    public function withCurrencyBase(): self
+    public function withExchangesVariance(): self
     {
-        return $this->with(['currencyBase']);
-    }
-
-    /**
-     * @return self
-     */
-    public function withCurrencies(): self
-    {
-        return $this->with(['currencyBase', 'currencyQuote']);
+        return $this->with(['exchanges' => static fn ($q) => $q->variance()]);
     }
 
     /**

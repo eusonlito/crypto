@@ -57,9 +57,10 @@ trait SyncSocket
     {
         $this->products = ProductModel::query()
             ->byPlatformId($this->platform->id)
+            ->enabled()
             ->whereTrade()
             ->whereCrypto()
-            ->whereWallet()
+            ->whereWalletOrFavorite()
             ->get()
             ->keyBy('code');
     }

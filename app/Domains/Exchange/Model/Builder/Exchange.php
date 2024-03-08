@@ -74,11 +74,13 @@ class Exchange extends BuilderAbstract
     }
 
     /**
+     * @param string $mode = 'DESC'
+     *
      * @return self
      */
-    public function orderByCreated(): self
+    public function orderByCreated(string $mode = 'DESC'): self
     {
-        return $this->orderBy('created_at', 'DESC');
+        return $this->orderBy('created_at', ($mode === 'ASC') ? 'ASC' : 'DESC');
     }
 
     /**
@@ -153,5 +155,16 @@ class Exchange extends BuilderAbstract
     public function groupByMinutesProduct(int $minutes = 60): self
     {
         return $this->groupByRaw(sprintf('UNIX_TIMESTAMP(`created_at`) DIV %d, `product_id`', 300 * $minutes / 60 / 12));
+    }
+
+    /**
+     * @return self
+     */
+    public function variance(): self
+    {
+        return $this->selectRaw('`product_id`, AVG(`exchange`) `exchange`, DATE_FORMAT(`created_at`, "%Y-%m-%d %H:%i") `created_at`')
+            ->whereRaw('`created_at` > DATE_SUB(NOW(), INTERVAL 48 HOUR)')
+            ->groupBy('product_id', 'created_at')
+            ->orderBy('created_at', 'ASC');
     }
 }

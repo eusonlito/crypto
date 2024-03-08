@@ -49,6 +49,7 @@ class Sync extends ActionAbstract
     {
         $this->products = ProductModel::query()
             ->byPlatformId($this->platform->id)
+            ->enabled()
             ->whereTrade()
             ->whereCrypto()
             ->whereWallet()

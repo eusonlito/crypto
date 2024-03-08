@@ -6,5 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'user-auth'], static function () {
     Route::get('/exchange', Index::class)->name('exchange.index');
+    Route::get('/exchange/variance', Variance::class)->name('exchange.variance');
     Route::get('/exchange/{product_id}', Detail::class)->name('exchange.detail');
 });
