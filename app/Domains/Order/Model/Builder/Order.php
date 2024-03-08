@@ -56,7 +56,7 @@ class Order extends BuilderAbstract
      */
     public function byProductIds(array $product_ids): self
     {
-        return $this->whereIn('product_id', $product_ids);
+        return $this->whereIntegerInRaw('product_id', $product_ids);
     }
 
     /**
