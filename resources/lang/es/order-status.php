@@ -7,8 +7,6 @@
     'buy-price-average-description' => 'Precio Medio de Compra',
     'buy-value' => 'VC',
     'buy-value-description' => 'Acumulado Total de Compras',
-    'date_end' => 'Fecha Fin',
-    'date_start' => 'Fecha Inicio',
     'meta-title' => 'Órdenes > Balance',
     'platform' => 'Plataforma',
     'platforms-all' => 'Plataforma',
