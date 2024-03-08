@@ -23,6 +23,7 @@ class Route extends RouteServiceProvider
     protected function patterns(): void
     {
         RouteFacade::pattern('id', '[0-9]+');
+        RouteFacade::pattern('product_id', '[0-9]+');
     }
 
     /**
