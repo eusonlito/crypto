@@ -49,7 +49,12 @@
                 @php ($percent = $product->percents[$code] ?? 0)
                 @php ($value = $product->values[$code] ?? 0)
 
-                <td class="{{ ($percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-medium text-center" data-table-sort-value="{{ $percent }}"><a href="{{ $link }}" class="block">@number($value, 2) {{ $percent ? '('.$percent.')%' : '' }}</a></td>
+                <td class="{{ ($percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-medium text-center" data-table-sort-value="{{ $percent }}">
+                    <a href="{{ $link }}" class="block">
+                        @number($value, 2)
+                        <div class="text-xs font-medium">{{ $percent }}%</div>
+                    </a>
+                </td>
 
                 @endforeach
             </tr>

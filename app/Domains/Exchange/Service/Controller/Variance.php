@@ -64,7 +64,7 @@ class Variance extends ControllerAbstract
             '30_minutes' => date('Y-m-d H:i:s', strtotime('-30 minutes')),
             '10_minutes' => date('Y-m-d H:i:s', strtotime('-10 minutes')),
             '5_minutes' => date('Y-m-d H:i:s', strtotime('-5 minutes')),
-            'last' => date('Y-m-d H:i:s', strtotime('-10 seconds')),
+            'last' => date('Y-m-d H:i:s', strtotime('-30 seconds')),
         ];
     }
 

@@ -2,6 +2,8 @@
     'accounts' => 'Cuentas',
     'dashboard' => 'Dashboard',
     'exchange' => 'Mercado',
+    'exchange-list' => 'Listado',
+    'exchange-variance' => 'Variación',
     'logout' => 'Salir',
     'monitor' => 'Monitor',
     'monitor-database' => 'Base de Datos',

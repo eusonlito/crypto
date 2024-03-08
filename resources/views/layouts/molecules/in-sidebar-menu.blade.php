@@ -60,10 +60,27 @@
 </li>
 
 <li>
-    <a href="{{ route('exchange.index') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu--active' : '' }}">
+    <a href="javascript:;" class="side-menu {{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu--active' : '' }}">
         <div class="side-menu__icon">@icon('bar-chart')</div>
-        <div class="side-menu__title">{{ __('in-sidebar.exchange') }}</div>
+        <div class="side-menu__title">
+            {{ __('in-sidebar.exchange') }} <div class="side-menu__sub-icon">@icon('chevron-down')</div>
+        </div>
     </a>
+
+    <ul class="{{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu__sub-open' : '' }}">
+        <li>
+            <a href="{{ route('exchange.index') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.index') === 0) ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('list') </div>
+                <div class="side-menu__title">{{ __('in-sidebar.exchange-list') }}</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('exchange.variance') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.variance') === 0) ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('bar-chart-2') </div>
+                <div class="side-menu__title">{{ __('in-sidebar.exchange-variance') }}</div>
+            </a>
+        </li>
+    </ul>
 </li>
 
 <li>
