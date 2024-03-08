@@ -51,7 +51,7 @@
 
                 <td class="{{ ($percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-medium text-center" data-table-sort-value="{{ $percent }}">
                     <a href="{{ $link }}" class="block">
-                        @number($value, 2)
+                        @number($value)
                         <div class="text-xs font-medium">{{ $percent }}%</div>
                     </a>
                 </td>

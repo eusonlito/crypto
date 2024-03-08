@@ -64,7 +64,7 @@ class Variance extends ControllerAbstract
             '30_minutes' => date('Y-m-d H:i:s', strtotime('-30 minutes')),
             '10_minutes' => date('Y-m-d H:i:s', strtotime('-10 minutes')),
             '5_minutes' => date('Y-m-d H:i:s', strtotime('-5 minutes')),
-            'last' => date('Y-m-d H:i:s', strtotime('-30 seconds')),
+            'last' => date('Y-m-d H:i:s'),
         ];
     }
 
@@ -155,7 +155,7 @@ class Variance extends ControllerAbstract
         $values = [];
 
         foreach ($this->dates as $code => $date) {
-            foreach ($this->listExchangesByDate($product_ids, $date) as $exchange) {
+            foreach ($this->listExchangesByDate($code, $date, $product_ids) as $exchange) {
                 $values[$exchange->product_id][$code] = $exchange->exchange;
             }
         }
@@ -168,16 +168,45 @@ class Variance extends ControllerAbstract
     }
 
     /**
-     * @param array $product_ids
+     * @param string $code
      * @param string $date
+     * @param array $product_ids
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function listExchangesByDate(array $product_ids, string $date): Collection
+    protected function listExchangesByDate(string $code, string $date, array $product_ids): Collection
+    {
+        if ($code === 'last') {
+            return $this->listExchangesLast($product_ids);
+        }
+
+        return $this->listExchangesBeforDate($date, $product_ids);
+    }
+
+    /**
+     * @param string $date
+     * @param array $product_ids
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function listExchangesBeforDate(string $date, array $product_ids): Collection
     {
         return Model::query()
                 ->byProductIds($product_ids)
                 ->lastByProductBeforDate($date)
+                ->get();
+    }
+
+    /**
+     * @param array $product_ids
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function listExchangesLast(array $product_ids): Collection
+    {
+        return Model::query()
+                ->byProductIds($product_ids)
+                ->lastByProduct()
                 ->get();
     }
 
