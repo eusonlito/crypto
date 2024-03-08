@@ -140,7 +140,8 @@ class Variance extends ControllerAbstract
             ->tap($this->listExchanges(...))
             ->filter($this->listFilter(...))
             ->map($this->listCalculate(...))
-            ->sort($this->listSort(...));
+            ->sort($this->listSort(...))
+            ->values();
     }
 
     /**
