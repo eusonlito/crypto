@@ -21,14 +21,14 @@
 <div class="overflow-auto md:overflow-visible header-sticky">
     <table id="exchange-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
         <thead>
-            <tr class="text-right">
+            <tr>
                 <th class="text-center">#</th>
                 <th class="text-left">{{ __('exchange-index.code') }}</th>
                 <th class="text-left">{{ __('exchange-index.name') }}</th>
 
                 @foreach (array_keys($dates) as $code)
 
-                <th class="text-right">{{ $code }}</th>
+                <th class="text-center">{{ $code }}</th>
 
                 @endforeach
             </tr>
@@ -39,7 +39,7 @@
 
             @php ($link = route('exchange.detail', $product->id))
 
-            <tr class="text-right">
+            <tr>
                 <td class="text-center"><a href="{{ $link }}" class="block">{{ $i + 1 }}</a></td>
                 <td class="text-left"><a href="{{ $link }}" class="block">{{ $product->acronym }}</a></td>
                 <td class="text-left"><a href="{{ $link }}" class="block whitespace-nowrap">{{ $product->name }}</a></td>
