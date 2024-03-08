@@ -230,6 +230,8 @@ class Variance extends ControllerAbstract
             $percents[$code] = helper()->percent($value, $reference);
         }
 
+        $percents['last'] = round(array_sum($percents) / count($percents), 2);
+
         $product->percents = $percents;
 
         return $product;
@@ -243,6 +245,6 @@ class Variance extends ControllerAbstract
      */
     protected function listSort(ProductModel $a, ProductModel $b): int
     {
-        return (array_sum($a->percents) > array_sum($b->percents)) ? -1 : 1;
+        return ($a->percents['last'] > $b->percents['last']) ? -1 : 1;
     }
 }
