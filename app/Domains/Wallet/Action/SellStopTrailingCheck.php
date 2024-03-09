@@ -2,7 +2,6 @@
 
 namespace App\Domains\Wallet\Action;
 
-use Throwable;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
