@@ -10,6 +10,11 @@ class Order extends ResourceAbstract
     public string $id;
 
     /**
+     * @var string
+     */
+    public string $reference;
+
+    /**
      * @var float
      */
     public float $amount;

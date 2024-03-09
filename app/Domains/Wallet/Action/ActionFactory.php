@@ -87,6 +87,22 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
+    public function sellStopTrailingCheck(): Model
+    {
+        return $this->actionHandle(SellStopTrailingCheck::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function sellStopTrailingCheckAll(): void
+    {
+        $this->actionHandle(SellStopTrailingCheckAll::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
     public function sellStopMin(): Model
     {
         return $this->actionHandle(SellStopMin::class);

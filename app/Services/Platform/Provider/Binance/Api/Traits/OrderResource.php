@@ -18,6 +18,7 @@ trait OrderResource
 
         return new Order([
             'id' => $row->orderId,
+            'reference' => $row->reference,
             'amount' => $row->origQty,
             'price' => $this->resourcePrice($row),
             'priceStop' => $row->stopPrice,
@@ -41,6 +42,7 @@ trait OrderResource
     protected function resourceMap(stdClass $row): stdClass
     {
         $row->orderId = strval($row->orderId);
+        $row->reference = strval($row->clientOrderId);
         $row->origQty = floatval($row->origQty);
         $row->price = floatval($row->price);
         $row->executedQty = floatval($row->executedQty);

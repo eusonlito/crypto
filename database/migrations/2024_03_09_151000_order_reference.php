@@ -22,8 +22,7 @@ return new class extends MigrationAbstract {
      */
     protected function upMigrated(): bool
     {
-        return Schema::hasColumn('user', 'enabled')
-            || Schema::hasColumn('user', 'admin');
+        return Schema::hasColumn('order', 'reference');
     }
 
     /**
@@ -31,9 +30,8 @@ return new class extends MigrationAbstract {
      */
     protected function upTables(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->boolean('admin')->default(0);
-            $table->boolean('enabled')->default(1);
+        Schema::table('order', function (Blueprint $table) {
+            $table->string('reference')->nullable()->index();
         });
     }
 
@@ -42,9 +40,8 @@ return new class extends MigrationAbstract {
      */
     public function down(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->dropColumn('admin');
-            $table->dropColumn('enabled');
+        Schema::table('order', function (Blueprint $table) {
+            $table->dropColumn('reference');
         });
     }
 };

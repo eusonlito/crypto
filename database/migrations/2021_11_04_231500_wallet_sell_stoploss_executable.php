@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,21 +28,21 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->boolean('sell_stoploss_executable')->default(0)->after('sell_stoploss_at');
+            $table->boolean('sell_stoploss_executable')->default(0);
         });
 
         Schema::table('wallet_history', function (Blueprint $table) {
-            $table->boolean('sell_stoploss_executable')->default(0)->after('sell_stoploss_at');
+            $table->boolean('sell_stoploss_executable')->default(0);
         });
     }
 
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             $table->dropColumn('sell_stoploss_executable');

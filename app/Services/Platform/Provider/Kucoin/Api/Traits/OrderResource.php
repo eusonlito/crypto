@@ -16,6 +16,7 @@ trait OrderResource
     {
         return new Order([
             'id' => $row->id,
+            'reference' => '',
             'amount' => (float)$row->size,
             'price' => (float)$row->price,
             'priceStop' => (float)$row->stopPrice,

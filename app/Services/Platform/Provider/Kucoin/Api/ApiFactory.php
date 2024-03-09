@@ -57,10 +57,11 @@ class ApiFactory extends ApiFactoryAbstract
      * @param string $side
      * @param string $type
      * @param array $data
+     * @param ?string $reference = null
      *
      * @return \App\Services\Platform\Resource\Order
      */
-    public function orderCreate(string $product, string $side, string $type, array $data): OrderResource
+    public function orderCreate(string $product, string $side, string $type, array $data, ?string $reference = null): OrderResource
     {
         return $this->handle(OrderCreate::class, func_get_args());
     }

@@ -15,6 +15,7 @@ return new class extends MigrationAbstract {
         }
 
         $this->upTables();
+        $this->upKeys();
     }
 
     /**
@@ -22,8 +23,7 @@ return new class extends MigrationAbstract {
      */
     protected function upMigrated(): bool
     {
-        return (Schema::hasColumn('wallet', 'sell_stop_percent') === false)
-            && (Schema::hasColumn('wallet', 'buy_stop_percent') === false);
+        return Schema::hasColumn('wallet', 'order_buy_stop_id');
     }
 
     /**
@@ -32,13 +32,19 @@ return new class extends MigrationAbstract {
     protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->dropColumn('sell_stop_percent');
-            $table->dropColumn('buy_stop_percent');
+            $table->unsignedBigInteger('order_buy_stop_id')->nullable();
+            $table->unsignedBigInteger('order_sell_stop_id')->nullable();
         });
+    }
 
-        Schema::table('wallet_history', function (Blueprint $table) {
-            $table->dropColumn('sell_stop_percent');
-            $table->dropColumn('buy_stop_percent');
+    /**
+     * @return void
+     */
+    protected function upKeys(): void
+    {
+        Schema::table('wallet', function (Blueprint $table) {
+            $this->foreignOnDeleteSetNull($table, 'order', 'order_buy_stop_id');
+            $this->foreignOnDeleteSetNull($table, 'order', 'order_sell_stop_id');
         });
     }
 
@@ -48,13 +54,11 @@ return new class extends MigrationAbstract {
     public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->unsignedDouble('sell_stop_percent')->default(0);
-            $table->unsignedDouble('buy_stop_percent')->default(0);
-        });
+            $table->dropForeign('wallet_order_buy_stop_id_fk');
+            $table->dropForeign('wallet_order_sell_stop_id_fk');
 
-        Schema::table('wallet_history', function (Blueprint $table) {
-            $table->unsignedDouble('sell_stop_percent')->default(0);
-            $table->unsignedDouble('buy_stop_percent')->default(0);
+            $table->dropColumn('order_buy_stop_id');
+            $table->dropColumn('order_sell_stop_id');
         });
     }
 };

@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,7 +28,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             $table->renameColumn('sell_stop_exchange', 'sell_stop_reference');
@@ -44,7 +44,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             $table->renameColumn('sell_stop_reference', 'sell_stop_exchange');

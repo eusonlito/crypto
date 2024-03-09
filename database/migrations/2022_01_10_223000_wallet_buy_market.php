@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,32 +28,32 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             // Buy Market Enabled
-            $table->boolean('buy_market')->default(0)->after('buy_stop_min_executable');
+            $table->boolean('buy_market')->default(0);
 
             // Buy Market Exchange Reference
-            $table->unsignedDouble('buy_market_reference')->default(0)->after('buy_market');
+            $table->unsignedDouble('buy_market_reference')->default(0);
 
             // Amount available to spend
-            $table->unsignedDouble('buy_market_amount')->default(0)->after('buy_market_reference');
+            $table->unsignedDouble('buy_market_amount')->default(0);
 
             // We will buy at this price if reached
-            $table->unsignedDouble('buy_market_percent')->default(0)->after('buy_market_amount');
-            $table->unsignedDouble('buy_market_exchange')->default(0)->after('buy_market_percent');
-            $table->unsignedDouble('buy_market_value')->default(0)->after('buy_market_exchange');
+            $table->unsignedDouble('buy_market_percent')->default(0);
+            $table->unsignedDouble('buy_market_exchange')->default(0);
+            $table->unsignedDouble('buy_market_value')->default(0);
 
-            $table->dateTime('buy_market_at')->nullable()->after('buy_market_value');
-            $table->boolean('buy_market_executable')->default(0)->after('buy_market_at');
+            $table->dateTime('buy_market_at')->nullable();
+            $table->boolean('buy_market_executable')->default(0);
         });
     }
 
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             $table->dropColumn('buy_market');

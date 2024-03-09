@@ -41,6 +41,7 @@ class Wallet extends ModelAbstract
         'buy_stop' => 'boolean',
         'sell_stop' => 'boolean',
         'sell_stoploss' => 'boolean',
+        'trailing_stop' => 'boolean',
         'processing' => 'boolean',
         'custom' => 'boolean',
         'crypto' => 'boolean',
@@ -89,6 +90,22 @@ class Wallet extends ModelAbstract
     public function orders(): HasMany
     {
         return $this->hasMany(OrderModel::class, static::FOREIGN);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function orderBuyStop(): BelongsTo
+    {
+        return $this->belongsTo(OrderModel::class, 'order_buy_stop_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function orderSellStop(): BelongsTo
+    {
+        return $this->belongsTo(OrderModel::class, 'order_sell_stop_id');
     }
 
     /**

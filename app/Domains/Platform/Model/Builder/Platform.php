@@ -36,6 +36,16 @@ class Platform extends BuilderAbstract
     }
 
     /**
+     * @param bool $trailing_stop = true
+     *
+     * @return self
+     */
+    public function whereTrailingStop(bool $trailing_stop = true): self
+    {
+        return $this->where('trailing_stop', $trailing_stop);
+    }
+
+    /**
      * @param int $user_id
      *
      * @return self

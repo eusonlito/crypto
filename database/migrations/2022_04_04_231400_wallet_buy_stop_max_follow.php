@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,17 +28,17 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->boolean('buy_stop_max_follow')->default(0)->after('buy_stop_max_executable');
+            $table->boolean('buy_stop_max_follow')->default(0);
         });
     }
 
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
             $table->dropColumn('buy_stop_max_follow');

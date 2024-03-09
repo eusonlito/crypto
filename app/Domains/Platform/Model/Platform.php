@@ -2,6 +2,7 @@
 
 namespace App\Domains\Platform\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Platform\Model\Builder\Platform as Builder;
@@ -50,6 +51,14 @@ class Platform extends ModelAbstract
     public function userPivot(): HasOne
     {
         return $this->hasOne(PlatformUser::class, static::FOREIGN);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(UserModel::class, PlatformUser::class)->withPivot('settings');
     }
 
     /**

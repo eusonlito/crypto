@@ -8,6 +8,7 @@ use App\Domains\CoreMaintenance\Schedule\Manager as CoreMaintenanceScheduleManag
 use App\Domains\Currency\Schedule\Manager as CurrencyScheduleManager;
 use App\Domains\Exchange\Schedule\Manager as ExchangeScheduleManager;
 use App\Domains\Product\Schedule\Manager as ProductScheduleManager;
+use App\Domains\Wallet\Schedule\Manager as WalletScheduleManager;
 
 class Kernel extends KernelVendor
 {
@@ -28,6 +29,7 @@ class Kernel extends KernelVendor
      */
     protected function schedule(Schedule $schedule)
     {
+        (new WalletScheduleManager($schedule))->handle();
         (new CurrencyScheduleManager($schedule))->handle();
         (new ExchangeScheduleManager($schedule))->handle();
         (new ProductScheduleManager($schedule))->handle();

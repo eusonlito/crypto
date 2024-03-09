@@ -97,7 +97,8 @@ class Create extends ActionAbstract
                 'amount' => $this->orderAmount(),
                 'price' => $this->orderPrice(),
                 'limit' => $this->orderLimit(),
-            ]
+            ],
+            $this->data['reference'],
         );
     }
 
@@ -132,6 +133,7 @@ class Create extends ActionAbstract
     {
         $this->row = Model::query()->create([
             'code' => $this->resource->id,
+            'reference' => $this->resource->reference,
 
             'amount' => $this->resource->amount,
             'price' => $this->resource->price,

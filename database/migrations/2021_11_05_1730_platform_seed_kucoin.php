@@ -7,15 +7,15 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        $this->seed();
+        $this->upSeed();
     }
 
     /**
      * @return void
      */
-    protected function seed()
+    protected function upSeed(): void
     {
         (new PlatformSeeder())->run();
     }

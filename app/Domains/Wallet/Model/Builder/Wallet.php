@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Model\Builder;
 
+use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Core\Model\Builder\BuilderAbstract;
 
@@ -56,6 +57,20 @@ class Wallet extends BuilderAbstract
     public function byPlatformId(int $platform_id): self
     {
         return $this->where('platform_id', $platform_id);
+    }
+
+    /**
+     * @return self
+     */
+    public function list(): self
+    {
+        return $this->with(['currency', 'platform', 'product'])
+            ->orderBy('enabled', 'DESC')
+            ->orderBy('visible', 'DESC')
+            ->orderByRaw('`order` = 0 ASC')
+            ->orderBy('order', 'ASC')
+            ->orderBy('current_value', 'DESC')
+            ->orderBy('name', 'ASC');
     }
 
     /**
@@ -142,6 +157,14 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function wherePlatformTrailingStop(): self
+    {
+        return $this->whereIn('platform_id', PlatformModel::query()->select('id')->whereTrailingStop());
+    }
+
+    /**
+     * @return self
+     */
     public function whereSellStopMaxActivated(): self
     {
         return $this->enabled()
@@ -191,6 +214,21 @@ class Wallet extends BuilderAbstract
     }
 
     /**
+     * @return self
+     */
+    public function whereSellStopTrailing(): self
+    {
+        return $this->enabled()
+            ->where('processing', false)
+            ->where('crypto', true)
+            ->where('amount', true)
+            ->where('sell_stop', true)
+            ->where('sell_stop_amount', '>', 0)
+            ->whereNotNull('order_sell_stop_id')
+            ->wherePlatformTrailingStop();
+    }
+
+    /**
      * @param bool $trade = true
      *
      * @return self
@@ -216,20 +254,6 @@ class Wallet extends BuilderAbstract
     public function withAmount(): self
     {
         return $this->where('amount', '>', 0);
-    }
-
-    /**
-     * @return self
-     */
-    public function list(): self
-    {
-        return $this->with(['currency', 'platform', 'product'])
-            ->orderBy('enabled', 'DESC')
-            ->orderBy('visible', 'DESC')
-            ->orderByRaw('`order` = 0 ASC')
-            ->orderBy('order', 'ASC')
-            ->orderBy('current_value', 'DESC')
-            ->orderBy('name', 'ASC');
     }
 
     /**

@@ -31,6 +31,11 @@ class OrderCreate extends ApiAbstract
     protected array $data;
 
     /**
+     * @var ?string
+     */
+    protected ?string $reference;
+
+    /**
      * @var bool
      */
     protected bool $log = true;
@@ -40,15 +45,17 @@ class OrderCreate extends ApiAbstract
      * @param string $side
      * @param string $type
      * @param array $data
+     * @param ?string $reference = null
      *
      * @return self
      */
-    public function __construct(string $product, string $side, string $type, array $data)
+    public function __construct(string $product, string $side, string $type, array $data, ?string $reference = null)
     {
         $this->product = $product;
         $this->side = $side;
         $this->type = strtoupper($type);
         $this->data = $data;
+        $this->reference = $reference;
     }
 
     /**
@@ -76,6 +83,7 @@ class OrderCreate extends ApiAbstract
             'symbol' => $this->product,
             'side' => $this->side,
             'type' => $this->type,
+            'newClientOrderId' => $this->reference,
             'newOrderRespType' => 'FULL',
         ] + $this->queryDataByType());
     }

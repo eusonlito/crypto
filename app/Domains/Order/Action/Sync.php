@@ -143,6 +143,7 @@ class Sync extends ActionAbstract
     {
         Model::query()->insert([
             'code' => $resource->id,
+            'reference' => $resource->reference,
 
             'amount' => $resource->amount,
             'price' => $resource->price,
@@ -173,6 +174,7 @@ class Sync extends ActionAbstract
      */
     protected function storeUpdate(Model $row, OrderResource $resource): void
     {
+        $row->reference = $resource->reference;
         $row->amount = $resource->amount;
         $row->price = $resource->price;
         $row->price_stop = $resource->priceStop;

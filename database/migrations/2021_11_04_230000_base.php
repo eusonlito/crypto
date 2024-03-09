@@ -8,16 +8,16 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        $this->tables();
-        $this->keys();
+        $this->upTables();
+        $this->upKeys();
     }
 
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::create('currency', function (Blueprint $table) {
             $table->id();
@@ -428,7 +428,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function keys()
+    protected function upKeys(): void
     {
         Schema::table('currency', function (Blueprint $table) {
             $table->unique(['code', 'platform_id']);
@@ -456,8 +456,8 @@ return new class extends MigrationAbstract {
         });
 
         Schema::table('product', function (Blueprint $table) {
-            $this->foreignOnDeleteCascade($table, 'currency', 'currency_base');
-            $this->foreignOnDeleteCascade($table, 'currency', 'currency_quote');
+            $this->foreignOnDeleteCascade($table, 'currency', 'currency_base_id');
+            $this->foreignOnDeleteCascade($table, 'currency', 'currency_quote_id');
             $this->foreignOnDeleteCascade($table, 'platform');
         });
 

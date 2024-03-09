@@ -70,10 +70,11 @@ abstract class ApiFactoryAbstract
      * @param string $side
      * @param string $type
      * @param array $data
+     * @param ?string $reference = null
      *
      * @return \App\Services\Platform\Resource\Order
      */
-    abstract public function orderCreate(string $product, string $side, string $type, array $data): OrderResource;
+    abstract public function orderCreate(string $product, string $side, string $type, array $data, ?string $reference = null): OrderResource;
 
     /**
      * @return \Illuminate\Support\Collection

@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,7 +28,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
         Schema::drop('forecast');
     }
@@ -36,7 +36,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::create('forecast', function (Blueprint $table) {
             $table->id();

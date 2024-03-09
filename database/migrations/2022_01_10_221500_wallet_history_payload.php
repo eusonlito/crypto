@@ -8,13 +8,13 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if ($this->upMigrated()) {
             return;
         }
 
-        $this->tables();
+        $this->upTables();
     }
 
     /**
@@ -28,27 +28,27 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tables()
+    protected function upTables(): void
     {
-        $this->tablesCreate();
-        $this->tablesUpdate();
-        $this->tablesDrop();
+        $this->upTablesCreate();
+        $this->upTablesUpdate();
+        $this->upTablesDrop();
     }
 
     /**
      * @return void
      */
-    protected function tablesCreate()
+    protected function upTablesCreate(): void
     {
         Schema::table('wallet_history', function (Blueprint $table) {
-            $table->json('payload')->nullable()->after('name');
+            $table->json('payload')->nullable();
         });
     }
 
     /**
      * @return void
      */
-    protected function tablesUpdate()
+    protected function upTablesUpdate(): void
     {
         $columns = $this->db()->getSchemaBuilder()->getColumnListing('wallet_history');
 
@@ -61,7 +61,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    protected function tablesDrop()
+    protected function upTablesDrop(): void
     {
         Schema::table('wallet_history', function (Blueprint $table) {
             $table->dropColumn('order');
@@ -114,7 +114,7 @@ return new class extends MigrationAbstract {
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('wallet_history', function (Blueprint $table) {
             $table->dropColumn('payload');

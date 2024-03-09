@@ -40,6 +40,10 @@ class SellStopMin extends ActionAbstract
             return $this->row;
         }
 
+        if ($this->row->platform->trailing_stop) {
+            return $this->sellStopTrailingCheck();
+        }
+
         $this->start();
 
         $this->platform();
@@ -60,6 +64,16 @@ class SellStopMin extends ActionAbstract
 
         $this->logSuccess();
         $this->mail();
+
+        return $this->row;
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    protected function sellStopTrailingCheck(): Model
+    {
+        $this->factory()->action()->sellStopTrailingCheck();
 
         return $this->row;
     }

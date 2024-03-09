@@ -21,6 +21,7 @@ trait OrderResource
 
         return new Order([
             'id' => $row->id,
+            'reference' => '',
             'amount' => $amount,
             'price' => $price,
             'priceStop' => 0,

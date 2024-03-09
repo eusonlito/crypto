@@ -15,6 +15,7 @@ return new class extends MigrationAbstract {
         }
 
         $this->upTables();
+        $this->upUpdate();
     }
 
     /**
@@ -22,8 +23,7 @@ return new class extends MigrationAbstract {
      */
     protected function upMigrated(): bool
     {
-        return Schema::hasColumn('user', 'enabled')
-            || Schema::hasColumn('user', 'admin');
+        return Schema::hasColumn('platform', 'trailing_stop');
     }
 
     /**
@@ -31,10 +31,21 @@ return new class extends MigrationAbstract {
      */
     protected function upTables(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->boolean('admin')->default(0);
-            $table->boolean('enabled')->default(1);
+        Schema::table('platform', function (Blueprint $table) {
+            $table->boolean('trailing_stop')->default(0);
         });
+    }
+
+    /**
+     * @return void
+     */
+    protected function upUpdate(): void
+    {
+        $this->db()->statement('
+            UPDATE `platform`
+            SET `trailing_stop` = TRUE
+            WHERE `code` = "binance";
+        ');
     }
 
     /**
@@ -42,9 +53,8 @@ return new class extends MigrationAbstract {
      */
     public function down(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->dropColumn('admin');
-            $table->dropColumn('enabled');
+        Schema::table('platform', function (Blueprint $table) {
+            $table->dropColumn('trailing_stop');
         });
     }
 };
