@@ -157,6 +157,21 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function whereBuyStopTrailing(): self
+    {
+        return $this->enabled()
+            ->where('processing', false)
+            ->where('crypto', true)
+            ->where('amount', true)
+            ->where('buy_stop', true)
+            ->where('buy_stop_amount', '>', 0)
+            ->whereNotNull('order_buy_stop_id')
+            ->wherePlatformTrailingStop();
+    }
+
+    /**
+     * @return self
+     */
     public function wherePlatformTrailingStop(): self
     {
         return $this->whereIn('platform_id', PlatformModel::query()->select('id')->whereTrailingStop());

@@ -17,6 +17,7 @@ class UpdateBuyStop extends ActionAbstract
         $this->data();
         $this->check();
         $this->store();
+        $this->trailingStop();
 
         return $this->row;
     }
@@ -61,5 +62,42 @@ class UpdateBuyStop extends ActionAbstract
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
 
         $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
+    protected function trailingStop(): void
+    {
+        if (empty($this->row->platform->trailing_stop)) {
+            return;
+        }
+
+        $this->trailingStopOrderCancel();
+        $this->trailingStopOrderCreate();
+    }
+
+    /**
+     * @return void
+     */
+    protected function trailingStopOrderCancel(): void
+    {
+        if ($this->row->buy_stop) {
+            return;
+        }
+
+        $this->factory('Order')->action()->cancelOpen($this->row->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function trailingStopOrderCreate(): void
+    {
+        if (empty($this->row->buy_stop)) {
+            return;
+        }
+
+        $this->factory()->action()->buyStopTrailingCreate();
     }
 }

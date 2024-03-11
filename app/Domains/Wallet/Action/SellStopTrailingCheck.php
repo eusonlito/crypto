@@ -46,13 +46,21 @@ class SellStopTrailingCheck extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
-        $this->sync();
+        $this->order();
+
+        if (empty($this->order)) {
+            return $this->finish();
+        }
+
+        $this->update();
         $this->finish();
 
         $this->logSuccess();
+
+        $this->buyStopTrailingCreate();
 
         return $this->row;
     }
@@ -85,7 +93,6 @@ class SellStopTrailingCheck extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -116,15 +123,16 @@ class SellStopTrailingCheck extends ActionAbstract
     /**
      * @return void
      */
-    protected function sync(): void
+    protected function order(): void
     {
-        $this->syncUpdate();
+        $this->orderSync();
+        $this->orderLoad();
     }
 
     /**
      * @return void
      */
-    protected function syncOrder(): void
+    protected function orderSync(): void
     {
         $this->factory('Order')->action()->syncByProduct($this->product);
     }
@@ -132,24 +140,119 @@ class SellStopTrailingCheck extends ActionAbstract
     /**
      * @return void
      */
-    protected function update(): void
+    protected function orderLoad(): void
     {
-        if ($this->product->tracking) {
-            return;
-        }
-
-        $this->product->tracking = true;
-        $this->product->save();
+        $this->order = OrderModel::query()
+            ->byId($this->row->order_sell_stop_id)
+            ->whereFilled()
+            ->first();
     }
 
     /**
      * @return void
      */
-    protected function finish(): void
+    protected function update(): void
     {
-        $this->row->sell_stop_max_executable = false;
+        $this->updateSync();
+        $this->updateRefresh();
+        $this->updateBuy();
+        $this->updateBuyStop();
+        $this->updateBuyMarket();
+        $this->updateSellStop();
+        $this->updateSellStopLoss();
+        $this->updateProduct();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateSync(): void
+    {
+        $this->factory()->action()->updateSync();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateRefresh(): void
+    {
+        $this->row = $this->row->fresh();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuy(): void
+    {
+        $this->row->updateBuy($this->order->price);
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuyStop(): void
+    {
+        $this->row->updateBuyStopEnable();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuyMarket(): void
+    {
+        $this->row->updateBuyMarketDisable();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateSellStop(): void
+    {
+        $this->row->updateSellStopDisable();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateSellStopLoss(): void
+    {
+        $this->row->updateSellStopLossDisable();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateProduct(): void
+    {
+        if (empty($this->product->tracking)) {
+            return;
+        }
+
+        if (Model::query()->byProductId($this->product->id)->whereBuyOrSellPending()->count() > 1) {
+            return;
+        }
+
+        $this->product->tracking = false;
+        $this->product->save();
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    protected function finish(): Model
+    {
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function buyStopTrailingCreate(): void
+    {
+        $this->factory()->action()->buyStopTrailingCreate();
     }
 
     /**
@@ -184,7 +287,7 @@ class SellStopTrailingCheck extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-max', $this->row, $data + [
+        ActionLogger::set($status, 'sell-stop-trailing-check', $this->row, $data + [
             'order' => $this->order,
         ]);
     }

@@ -145,8 +145,8 @@ class OrderCreate extends ApiAbstract
     {
         return [
             'quantity' => $this->decimal($this->data['amount']),
-            'stopPrice' => $this->decimal($this->data['limit']),
-            'price' => $this->decimal($this->data['price']),
+            'stopPrice' => $this->decimal($this->data['price']),
+            'price' => $this->decimal($this->data['limit']),
             'timeInForce' => 'GTC',
         ];
     }
@@ -169,8 +169,9 @@ class OrderCreate extends ApiAbstract
     {
         return [
             'quantity' => $this->decimal($this->data['amount']),
-            'stopPrice' => $this->decimal($this->data['limit']),
-            'price' => $this->decimal($this->data['price']),
+            'stopPrice' => $this->decimal($this->data['price']),
+            'price' => $this->decimal($this->data['limit']),
+            'trailingDelta' => ($this->data['trailing'] ?? 0),
             'timeInForce' => 'GTC',
         ];
     }

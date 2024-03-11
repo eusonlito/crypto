@@ -47,6 +47,30 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
+    public function buyStopTrailingCheck(): Model
+    {
+        return $this->actionHandle(BuyStopTrailingCheck::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function buyStopTrailingCheckAll(): void
+    {
+        $this->actionHandle(BuyStopTrailingCheckAll::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function buyStopTrailingCreate(): Model
+    {
+        return $this->actionHandle(BuyStopTrailingCreate::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
     public function create(): Model
     {
         return $this->actionHandle(Create::class, $this->validate()->create());
@@ -98,6 +122,14 @@ class ActionFactory extends ActionFactoryAbstract
     public function sellStopTrailingCheckAll(): void
     {
         $this->actionHandle(SellStopTrailingCheckAll::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopTrailingCreate(): Model
+    {
+        return $this->actionHandle(SellStopTrailingCreate::class);
     }
 
     /**

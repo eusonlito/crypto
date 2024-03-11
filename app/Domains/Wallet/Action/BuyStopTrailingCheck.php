@@ -2,20 +2,14 @@
 
 namespace App\Domains\Wallet\Action;
 
-use stdClass;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
-class SellStopMin extends ActionAbstract
+class BuyStopTrailingCheck extends ActionAbstract
 {
-    /**
-     * @var ?\App\Domains\Order\Model\Order
-     */
-    protected ?OrderModel $order = null;
-
     /**
      * @var \App\Domains\Platform\Model\Platform
      */
@@ -27,9 +21,9 @@ class SellStopMin extends ActionAbstract
     protected ProductModel $product;
 
     /**
-     * @var ?\stdClass
+     * @var ?\App\Domains\Order\Model\Order
      */
-    protected ?stdClass $previous = null;
+    protected ?OrderModel $order = null;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -40,7 +34,7 @@ class SellStopMin extends ActionAbstract
             return $this->row;
         }
 
-        if ($this->row->platform->trailing_stop) {
+        if (empty($this->row->platform->trailing_stop)) {
             return $this->row;
         }
 
@@ -52,20 +46,32 @@ class SellStopMin extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
-        $this->previous();
-        $this->sync();
-        $this->refresh();
         $this->order();
+
+        if (empty($this->order)) {
+            return $this->finish();
+        }
+
         $this->update();
         $this->finish();
 
         $this->logSuccess();
-        $this->mail();
+
+        $this->sellStopTrailingCreate();
 
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function start(): void
+    {
+        $this->row->processing = true;
+        $this->row->save();
     }
 
     /**
@@ -96,7 +102,6 @@ class SellStopMin extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -110,46 +115,9 @@ class SellStopMin extends ActionAbstract
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->amount
-            && $this->row->sell_stop
-            && $this->row->sell_stop_amount
-            && $this->row->sell_stop_min_exchange
-            && $this->row->sell_stop_min_at
-            && $this->row->sell_stop_min_executable
-            && $this->row->sell_stop_max_exchange
-            && $this->row->sell_stop_max_at;
-    }
-
-    /**
-     * @return void
-     */
-    protected function previous(): void
-    {
-        $this->previous = json_decode(json_encode($this->row->toArray()));
-    }
-
-    /**
-     * @return void
-     */
-    protected function start(): void
-    {
-        $this->row->processing = true;
-        $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function sync(): void
-    {
-        $this->factory()->action()->updateSync();
-    }
-
-    /**
-     * @return void
-     */
-    protected function refresh(): void
-    {
-        $this->row = $this->row->fresh();
+            && $this->row->buy_stop
+            && $this->row->buy_stop_amount
+            && $this->row->order_buy_stop_id;
     }
 
     /**
@@ -157,11 +125,26 @@ class SellStopMin extends ActionAbstract
      */
     protected function order(): void
     {
+        $this->orderSync();
+        $this->orderLoad();
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderSync(): void
+    {
+        $this->factory('Order')->action()->syncByProduct($this->product);
+    }
+
+    /**
+     * @return void
+     */
+    protected function orderLoad(): void
+    {
         $this->order = OrderModel::query()
-            ->byProductId($this->product->id)
-            ->byWalletId($this->row->id)
-            ->bySide('sell')
-            ->orderByLast()
+            ->byId($this->row->order_buy_stop_id)
+            ->whereFilled()
             ->first();
     }
 
@@ -170,6 +153,8 @@ class SellStopMin extends ActionAbstract
      */
     protected function update(): void
     {
+        $this->updateSync();
+        $this->updateRefresh();
         $this->updateBuy();
         $this->updateBuyStop();
         $this->updateBuyMarket();
@@ -181,9 +166,36 @@ class SellStopMin extends ActionAbstract
     /**
      * @return void
      */
+    protected function updateSync(): void
+    {
+        $this->factory()->action()->updateSync();
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateRefresh(): void
+    {
+        $this->row = $this->row->fresh();
+    }
+
+    /**
+     * @return void
+     */
     protected function updateBuy(): void
     {
-        $this->row->updateBuy($this->order->price);
+        $this->row->updateBuy($this->updateBuyValue());
+    }
+
+    /**
+     * @return float
+     */
+    protected function updateBuyValue(): float
+    {
+        return OrderModel::query()
+            ->lastSame($this->order)
+            ->rawValue('SUM(`price` * `amount`) / SUM(`amount`)')
+            ?: $this->order->price;
     }
 
     /**
@@ -191,7 +203,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateBuyStop(): void
     {
-        $this->row->updateBuyStopEnable();
+        $this->row->updateBuyStopDisable();
     }
 
     /**
@@ -207,7 +219,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateSellStop(): void
     {
-        $this->row->updateSellStopDisable();
+        $this->row->updateSellStopEnable();
     }
 
     /**
@@ -215,7 +227,7 @@ class SellStopMin extends ActionAbstract
      */
     protected function updateSellStopLoss(): void
     {
-        $this->row->updateSellStopLossDisable();
+        $this->row->updateSellStopLossEnable();
     }
 
     /**
@@ -236,20 +248,22 @@ class SellStopMin extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return \App\Domains\Wallet\Model\Wallet
      */
-    protected function finish(): void
+    protected function finish(): Model
     {
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
     }
 
     /**
      * @return void
      */
-    protected function mail(): void
+    protected function sellStopTrailingCreate(): void
     {
-        $this->factory()->mail()->sellStopMin($this->row, $this->previous, $this->order);
+        $this->factory()->action()->sellStopTrailingCreate();
     }
 
     /**
@@ -284,9 +298,8 @@ class SellStopMin extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-min', $this->row, $data + [
+        ActionLogger::set($status, 'buy-stop-trailing-check', $this->row, $data + [
             'order' => $this->order,
-            'previous' => $this->previous,
         ]);
     }
 }

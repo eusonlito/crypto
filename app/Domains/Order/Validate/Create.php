@@ -18,6 +18,7 @@ class Create extends ValidateAbstract
             'amount' => ['bail', 'required', 'numeric'],
             'price' => ['bail', 'numeric'],
             'limit' => ['bail', 'numeric'],
+            'trailing' => ['bail', 'integer'],
         ];
     }
 }

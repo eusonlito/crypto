@@ -39,7 +39,7 @@ class WalletHistory extends ModelAbstract
     /**
      * @param \Illuminate\Database\Query\Builder $q
      *
-     * @return \App\Domains\Wallet\Model\Builder\Wallet
+     * @return \App\Domains\Wallet\Model\Builder\WalletHistory
      */
     public function newEloquentBuilder($q): Builder
     {

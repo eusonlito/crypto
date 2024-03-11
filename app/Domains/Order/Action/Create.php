@@ -97,6 +97,7 @@ class Create extends ActionAbstract
                 'amount' => $this->orderAmount(),
                 'price' => $this->orderPrice(),
                 'limit' => $this->orderLimit(),
+                'trailing' => $this->data['trailing'],
             ],
             $this->data['reference'],
         );

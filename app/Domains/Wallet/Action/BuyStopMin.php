@@ -35,6 +35,10 @@ class BuyStopMin extends ActionAbstract
             return $this->row;
         }
 
+        if ($this->row->platform->trailing_stop) {
+            return $this->row;
+        }
+
         $this->start();
 
         $this->platform();
@@ -43,11 +47,11 @@ class BuyStopMin extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
         if ($this->executed()) {
-            return $this->row;
+            return $this->finish();
         }
 
         $this->order();
@@ -98,7 +102,6 @@ class BuyStopMin extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -135,7 +138,6 @@ class BuyStopMin extends ActionAbstract
 
         $this->logWasExecuted();
         $this->executedReset();
-        $this->finish();
 
         return false;
     }
@@ -172,6 +174,7 @@ class BuyStopMin extends ActionAbstract
     protected function order(): void
     {
         $this->orderCreate();
+        $this->orderRelate();
         $this->orderUpdate();
     }
 
@@ -195,45 +198,10 @@ class BuyStopMin extends ActionAbstract
         $this->order = $this->factory('Order')->action([
             'type' => 'stop_loss_limit',
             'side' => 'buy',
-            'amount' => $this->orderCreateSendAmount(),
+            'amount' => $this->buyStopOrderCreateAmount(),
             'price' => $this->orderCreateSendPrice(),
-            'limit' => $this->orderCreateSendLimit(),
+            'limit' => $this->buyStopOrderCreateLimit(),
         ])->create($this->product);
-    }
-
-    /**
-     * @return float
-     */
-    protected function orderCreateSendAmount(): float
-    {
-        $amount = $this->row->buy_stop_amount;
-        $decimal = $this->product->quantity_decimal;
-
-        $cash = $this->orderCreateSendAmountWalletQuote();
-
-        if ($cash === null) {
-            return helper()->roundFixed($amount, $decimal);
-        }
-
-        $value = $amount * $this->row->buy_stop_max_exchange;
-        $max = $cash * 0.995;
-
-        if ($value > $max) {
-            $amount = $max * $amount / $value;
-        }
-
-        return helper()->roundFixed($amount, $decimal);
-    }
-
-    /**
-     * @return ?float
-     */
-    protected function orderCreateSendAmountWalletQuote(): ?float
-    {
-        return Model::query()
-            ->byProductCurrencyBaseIdAndCurrencyQuoteId($this->product->currency_quote_id, $this->product->currency_quote_id)
-            ->byPlatformId($this->platform->id)
-            ->value('current_value');
     }
 
     /**
@@ -241,17 +209,7 @@ class BuyStopMin extends ActionAbstract
      */
     protected function orderCreateSendPrice(): float
     {
-        return $this->row->buy_stop_max_exchange;
-    }
-
-    /**
-     * @return float
-     */
-    protected function orderCreateSendLimit(): float
-    {
-        $limit = $this->row->buy_stop_max_exchange;
-
-        return $limit - ($limit * 0.0001);
+        return $this->roundFixed($this->row->buy_stop_max_exchange);
     }
 
     /**
@@ -294,6 +252,15 @@ class BuyStopMin extends ActionAbstract
     /**
      * @return void
      */
+    protected function orderRelate(): void
+    {
+        $this->row->order_buy_stop_id = $this->order->id;
+        $this->row->save();
+    }
+
+    /**
+     * @return void
+     */
     protected function orderUpdate(): void
     {
         $this->order->wallet_id = $this->row->id;
@@ -314,13 +281,15 @@ class BuyStopMin extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return \App\Domains\Wallet\Model\Wallet
      */
-    protected function finish(): void
+    protected function finish(): Model
     {
         $this->row->buy_stop_min_executable = false;
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
     }
 
     /**

@@ -40,6 +40,10 @@ class BuyStopMax extends ActionAbstract
             return $this->row;
         }
 
+        if ($this->row->platform->trailing_stop) {
+            return $this->row;
+        }
+
         $this->start();
 
         $this->platform();
@@ -48,7 +52,7 @@ class BuyStopMax extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
         $this->previous();
@@ -62,6 +66,15 @@ class BuyStopMax extends ActionAbstract
         $this->mail();
 
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function start(): void
+    {
+        $this->row->processing = true;
+        $this->row->save();
     }
 
     /**
@@ -92,7 +105,6 @@ class BuyStopMax extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -120,15 +132,6 @@ class BuyStopMax extends ActionAbstract
     protected function previous(): void
     {
         $this->previous = json_decode(json_encode($this->row->toArray()));
-    }
-
-    /**
-     * @return void
-     */
-    protected function start(): void
-    {
-        $this->row->processing = true;
-        $this->row->save();
     }
 
     /**
@@ -242,12 +245,14 @@ class BuyStopMax extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return \App\Domains\Wallet\Model\Wallet
      */
-    protected function finish(): void
+    protected function finish(): Model
     {
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
     }
 
     /**

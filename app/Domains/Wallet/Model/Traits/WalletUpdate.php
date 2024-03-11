@@ -27,6 +27,8 @@ trait WalletUpdate
 
         $this->buy_stop_max_at = null;
         $this->buy_stop_max_executable = false;
+
+        $this->order_buy_stop_id = null;
     }
 
     /**
@@ -90,6 +92,8 @@ trait WalletUpdate
 
         $this->sell_stop_min_at = null;
         $this->sell_stop_min_executable = false;
+
+        $this->order_sell_stop_id = null;
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
-class SellStopMax extends ActionAbstract
+class BuyStopTrailingCreate extends ActionAbstract
 {
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -31,15 +31,9 @@ class SellStopMax extends ActionAbstract
      */
     public function handle(): Model
     {
-        if ($this->row->processing) {
+        if (empty($this->row->platform->trailing_stop)) {
             return $this->row;
         }
-
-        if ($this->row->platform->trailing_stop) {
-            return $this->row;
-        }
-
-        $this->start();
 
         $this->platform();
         $this->product();
@@ -52,10 +46,6 @@ class SellStopMax extends ActionAbstract
 
         $this->order();
         $this->update();
-        $this->sync();
-        $this->refresh();
-        $this->finish();
-
         $this->logSuccess();
 
         return $this->row;
@@ -89,7 +79,6 @@ class SellStopMax extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -103,24 +92,11 @@ class SellStopMax extends ActionAbstract
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->amount
-            && $this->row->sell_stop
-            && $this->row->sell_stop_amount
-            && $this->row->sell_stop_max_exchange
-            && $this->row->sell_stop_max_at
-            && $this->row->sell_stop_max_executable
-            && $this->row->sell_stop_min_exchange
-            && ($this->row->sell_stop_min_at === null)
-            && ($this->row->sell_stop_amount >= $this->product->quantity_min)
-            && ($this->row->sell_stop_min_exchange >= $this->product->price_min);
-    }
-
-    /**
-     * @return void
-     */
-    protected function start(): void
-    {
-        $this->row->processing = true;
-        $this->row->save();
+            && $this->row->buy_stop
+            && $this->row->buy_stop_amount
+            && $this->row->buy_stop_min_exchange
+            && $this->row->buy_stop_max_exchange
+            && $this->row->buy_stop_max_percent;
     }
 
     /**
@@ -128,18 +104,8 @@ class SellStopMax extends ActionAbstract
      */
     protected function order(): void
     {
-        $this->orderCreate();
-        $this->orderRelate();
-        $this->orderUpdate();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCreate(): void
-    {
         try {
-            $this->orderCreateSend();
+            $this->orderCreate();
         } catch (Throwable $e) {
             $this->orderCreateError($e);
         }
@@ -148,25 +114,32 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function orderCreateSend(): void
+    protected function orderCreate(): void
     {
-        $this->log('info', ['detail' => __FUNCTION__]);
-
         $this->order = $this->factory('Order')->action([
-            'type' => 'stop_loss_limit',
-            'side' => 'sell',
-            'amount' => $this->sellStopOrderCreateAmount(),
-            'price' => $this->orderCreateSendPrice(),
-            'limit' => $this->sellStopOrderCreateLimit(),
+            'type' => 'take_profit_limit',
+            'side' => 'buy',
+            'amount' => $this->buyStopOrderCreateAmount(),
+            'price' => $this->orderCreatePrice(),
+            'limit' => $this->buyStopOrderCreateLimit(),
+            'trailing' => $this->orderCreateTrailing(),
         ])->create($this->product);
     }
 
     /**
      * @return float
      */
-    protected function orderCreateSendPrice(): float
+    protected function orderCreatePrice(): float
     {
-        return $this->roundFixed($this->row->sell_stop_min_exchange);
+        return $this->roundFixed($this->row->buy_stop_min_exchange);
+    }
+
+    /**
+     * @return int
+     */
+    protected function orderCreateTrailing(): int
+    {
+        return intval($this->row->buy_stop_max_percent * 100);
     }
 
     /**
@@ -178,7 +151,6 @@ class SellStopMax extends ActionAbstract
     {
         $this->orderCreateErrorReport($e);
         $this->orderCreateErrorLog($e);
-        $this->sync();
 
         throw $e;
     }
@@ -209,16 +181,16 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function orderRelate(): void
+    protected function update(): void
     {
-        $this->row->order_sell_stop_id = $this->order->id;
-        $this->row->save();
+        $this->updateOrder();
+        $this->updateRow();
     }
 
     /**
      * @return void
      */
-    protected function orderUpdate(): void
+    protected function updateOrder(): void
     {
         $this->order->wallet_id = $this->row->id;
         $this->order->save();
@@ -227,56 +199,9 @@ class SellStopMax extends ActionAbstract
     /**
      * @return void
      */
-    protected function sync(): void
+    protected function updateRow(): void
     {
-        $this->syncUpdate();
-        $this->syncOrder();
-    }
-
-    /**
-     * @return void
-     */
-    protected function syncUpdate(): void
-    {
-        $this->factory()->action()->updateSync();
-    }
-
-    /**
-     * @return void
-     */
-    protected function syncOrder(): void
-    {
-        $this->factory('Order')->action()->syncByProduct($this->product);
-    }
-
-    /**
-     * @return void
-     */
-    protected function refresh(): void
-    {
-        $this->row = $this->row->fresh();
-    }
-
-    /**
-     * @return void
-     */
-    protected function update(): void
-    {
-        if ($this->product->tracking) {
-            return;
-        }
-
-        $this->product->tracking = true;
-        $this->product->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function finish(): void
-    {
-        $this->row->sell_stop_max_executable = false;
-        $this->row->processing = false;
+        $this->row->order_buy_stop_id = $this->order->id;
         $this->row->save();
     }
 
@@ -312,7 +237,7 @@ class SellStopMax extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-max', $this->row, $data + [
+        ActionLogger::set($status, 'buy-stop-trailing', $this->row, $data + [
             'order' => $this->order,
         ]);
     }
