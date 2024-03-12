@@ -9,7 +9,7 @@ use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 
-class SellStopTrailingCreate extends ActionAbstract
+class BuyStopTrailingFollow extends ActionAbstract
 {
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -92,11 +92,12 @@ class SellStopTrailingCreate extends ActionAbstract
             && $this->row->enabled
             && $this->row->crypto
             && $this->row->amount
-            && $this->row->sell_stop
-            && $this->row->sell_stop_amount
-            && $this->row->sell_stop_max_exchange
-            && $this->row->sell_stop_min_exchange
-            && $this->row->sell_stop_min_percent;
+            && $this->row->buy_stop
+            && $this->row->buy_stop_amount
+            && $this->row->buy_stop_max_follow
+            && $this->row->buy_stop_min_executable
+            && $this->row->buy_stop_min_exchange
+            && $this->row->buy_stop_max_percent;
     }
 
     /**
@@ -118,10 +119,10 @@ class SellStopTrailingCreate extends ActionAbstract
     {
         $this->order = $this->factory('Order')->action([
             'type' => 'take_profit_limit',
-            'side' => 'sell',
-            'amount' => $this->sellStopOrderCreateAmount(),
+            'side' => 'buy',
+            'amount' => $this->buyStopOrderCreateAmount(),
             'price' => $this->orderCreatePrice(),
-            'limit' => $this->sellStopOrderCreateLimit(),
+            'limit' => $this->buyStopOrderCreateLimit(),
             'trailing' => $this->orderCreateTrailing(),
         ])->create($this->product);
     }
@@ -131,7 +132,7 @@ class SellStopTrailingCreate extends ActionAbstract
      */
     protected function orderCreatePrice(): float
     {
-        return $this->roundFixed($this->row->sell_stop_max_exchange);
+        return $this->roundFixed($this->row->buy_stop_min_exchange);
     }
 
     /**
@@ -139,7 +140,7 @@ class SellStopTrailingCreate extends ActionAbstract
      */
     protected function orderCreateTrailing(): int
     {
-        return intval($this->row->sell_stop_min_percent * 100);
+        return intval($this->row->buy_stop_max_percent * 100);
     }
 
     /**
@@ -201,7 +202,7 @@ class SellStopTrailingCreate extends ActionAbstract
      */
     protected function updateRow(): void
     {
-        $this->row->order_sell_stop_id = $this->order->id;
+        $this->row->order_buy_stop_id = $this->order->id;
         $this->row->save();
     }
 
@@ -237,7 +238,7 @@ class SellStopTrailingCreate extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'sell-stop-trailing-create', $this->row, $data + [
+        ActionLogger::set($status, 'buy-stop-trailing-follow', $this->row, $data + [
             'order' => $this->order,
         ]);
     }

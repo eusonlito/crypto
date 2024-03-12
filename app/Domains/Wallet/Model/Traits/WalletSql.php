@@ -18,15 +18,16 @@ trait WalletSql
                 `current_exchange` = :exchange,
                 `current_value` = `current_exchange` * `amount`,
 
-                '.static::updateBySqlSellStop().'
-                '.static::updateBySqlBuyStop().'
-                '.static::updateBySqlBuyMarket().'
+                '.static::updateBySqlSellStop().',
+                '.static::updateBySqlBuyStopFollow().',
+                '.static::updateBySqlBuyStop().',
+                '.static::updateBySqlBuyMarket().',
                 '.static::updateBySqlStopLoss().'
 
             WHERE `product_id` = :product_id;
         ', [
-            'product_id' => $product_id,
-            'exchange' => $exchange,
+            ':product_id' => $product_id,
+            ':exchange' => $exchange,
         ]);
     }
 
@@ -66,9 +67,10 @@ trait WalletSql
             `sell_stop_min_exchange` = IF (
                 (
                     `sell_stop`
-                    AND `sell_stop_min_exchange`
+                    AND `sell_stop_min_percent`
                     AND `sell_stop_max_exchange`
-                    AND `sell_stop_max_at` IS NOT NULL
+                    AND `sell_stop_min_at` IS NULL
+                    AND `current_exchange` >= `sell_stop_max_exchange`
                 ),
                 `sell_stop_max_exchange` * (1 - (`sell_stop_min_percent` / 100)),
                 `sell_stop_min_exchange`
@@ -80,8 +82,6 @@ trait WalletSql
                 (
                     `sell_stop`
                     AND `sell_stop_min_exchange`
-                    AND `sell_stop_max_exchange`
-                    AND `sell_stop_min_at` IS NULL
                     AND `sell_stop_max_at` IS NOT NULL
                     AND `current_exchange` <= `sell_stop_min_exchange`
                 ), NOW(), `sell_stop_min_at`
@@ -96,14 +96,14 @@ trait WalletSql
                     AND `sell_stop_max_at` IS NOT NULL
                     AND `current_exchange` <= `sell_stop_min_exchange`
                 ), TRUE, `sell_stop_min_executable`
-            ),
+            )
         ';
     }
 
     /**
      * @return string
      */
-    protected static function updateBySqlBuyStop(): string
+    protected static function updateBySqlBuyStopFollow(): string
     {
         return '
             `buy_stop_reference` = IF (
@@ -111,8 +111,7 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_reference`
                     AND `buy_stop_max_follow`
-                    AND `buy_stop_min_at` IS NULL
-                    AND `current_exchange` >= `buy_stop_reference`
+                    AND `current_exchange` > `buy_stop_reference`
                 ), `current_exchange`, `buy_stop_reference`
             ),
 
@@ -121,10 +120,8 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_reference`
                     AND `buy_stop_max_follow`
-                    AND `buy_stop_min_at` IS NULL
-                    AND `current_exchange` >= `buy_stop_reference`
-                    AND `buy_stop_min_exchange`
                     AND `buy_stop_min_percent`
+                    AND `current_exchange` >= `buy_stop_reference`
                 ),
                 `buy_stop_reference` * (1 - (`buy_stop_min_percent` / 100)),
                 `buy_stop_min_exchange`
@@ -135,22 +132,29 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_reference`
                     AND `buy_stop_max_follow`
-                    AND `buy_stop_min_at` IS NULL
-                    AND `current_exchange` >= `buy_stop_reference`
-                    AND `buy_stop_max_exchange`
                     AND `buy_stop_max_percent`
+                    AND `buy_stop_min_exchange`
+                    AND `buy_stop_max_at` IS NOT NULL
+                    AND `current_exchange` >= `buy_stop_reference`
                 ),
                 `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
                 `buy_stop_max_exchange`
-            ),
+            )
+        ';
+    }
 
+    /**
+     * @return string
+     */
+    protected static function updateBySqlBuyStop(): string
+    {
+        return '
             `buy_stop_min_exchange` = IF (
                 (
                     `buy_stop`
                     AND `buy_stop_min_exchange`
                     AND `current_exchange` <= `buy_stop_min_exchange`
-                ),
-                `current_exchange`, `buy_stop_min_exchange`
+                ), `current_exchange`, `buy_stop_min_exchange`
             ),
 
             `buy_stop_min_value` = `buy_stop_min_exchange` * `buy_stop_amount`,
@@ -174,9 +178,10 @@ trait WalletSql
             `buy_stop_max_exchange` = IF (
                 (
                     `buy_stop`
-                    AND `buy_stop_max_exchange`
+                    AND `buy_stop_max_percent`
                     AND `buy_stop_min_exchange`
-                    AND `buy_stop_min_at` IS NOT NULL
+                    AND `buy_stop_max_at` IS NULL
+                    AND `current_exchange` <= `buy_stop_min_exchange`
                 ),
                 `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
                 `buy_stop_max_exchange`
@@ -188,10 +193,8 @@ trait WalletSql
                 (
                     `buy_stop`
                     AND `buy_stop_max_exchange`
-                    AND `buy_stop_min_exchange`
                     AND `buy_stop_min_at` IS NOT NULL
-                    AND `buy_stop_max_at` IS NULL
-                    AND `current_exchange` >= `buy_stop_max_exchange`
+                    AND `current_exchange` <= `buy_stop_max_exchange`
                 ), NOW(), `buy_stop_max_at`
             ),
 
@@ -200,11 +203,11 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_max_exchange`
                     AND `buy_stop_min_exchange`
-                    AND `buy_stop_min_at` IS NOT NULL
                     AND `buy_stop_max_at` IS NOT NULL
-                    AND `current_exchange` >= `buy_stop_max_exchange`
+                    AND `buy_stop_min_at` IS NOT NULL
+                    AND `current_exchange` <= `buy_stop_max_exchange`
                 ), TRUE, `buy_stop_max_executable`
-            ),
+            )
         ';
     }
 
@@ -236,7 +239,7 @@ trait WalletSql
                     AND `sell_stop_max_at` IS NULL
                     AND `current_exchange` >= `buy_market_exchange`
                 ), TRUE, `buy_market_executable`
-            ),
+            )
         ';
     }
 

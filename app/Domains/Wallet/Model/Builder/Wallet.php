@@ -172,6 +172,16 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function whereBuyStopTrailingFollowActivated(): self
+    {
+        return $this->whereBuyStopTrailing()
+            ->where('buy_stop_max_follow', true)
+            ->whereColumn('current_exchange', 'buy_stop_reference');
+    }
+
+    /**
+     * @return self
+     */
     public function wherePlatformTrailingStop(): self
     {
         return $this->whereIn('platform_id', PlatformModel::query()->select('id')->whereTrailingStop());

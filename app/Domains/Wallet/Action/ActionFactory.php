@@ -71,6 +71,14 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
+    public function buyStopTrailingFollow(): Model
+    {
+        return $this->actionHandle(BuyStopTrailingFollow::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
     public function create(): Model
     {
         return $this->actionHandle(Create::class, $this->validate()->create());

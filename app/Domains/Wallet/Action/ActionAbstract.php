@@ -63,7 +63,7 @@ abstract class ActionAbstract extends ActionAbstractCore
     {
         $amount = $this->row->buy_stop_max_exchange;
 
-        return $this->roundFixed($amount + ($amount * 0.0005));
+        return $this->roundFixed($amount + ($amount * 0.0001));
     }
 
     /**
@@ -81,6 +81,6 @@ abstract class ActionAbstract extends ActionAbstractCore
     {
         $amount = $this->row->sell_stop_min_exchange;
 
-        return $this->roundFixed($amount - ($amount * 0.0005));
+        return $this->roundFixed($amount - ($amount * 0.0001));
     }
 }
