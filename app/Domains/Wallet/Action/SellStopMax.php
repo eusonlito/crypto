@@ -47,7 +47,7 @@ class SellStopMax extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
         $this->order();
@@ -89,7 +89,6 @@ class SellStopMax extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -271,13 +270,15 @@ class SellStopMax extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return \App\Domains\Wallet\Model\Wallet
      */
-    protected function finish(): void
+    protected function finish(): Model
     {
         $this->row->sell_stop_max_executable = false;
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
     }
 
     /**

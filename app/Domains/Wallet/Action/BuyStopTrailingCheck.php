@@ -184,18 +184,7 @@ class BuyStopTrailingCheck extends ActionAbstract
      */
     protected function updateBuy(): void
     {
-        $this->row->updateBuy($this->updateBuyValue());
-    }
-
-    /**
-     * @return float
-     */
-    protected function updateBuyValue(): float
-    {
-        return OrderModel::query()
-            ->lastSame($this->order)
-            ->rawValue('SUM(`price` * `amount`) / SUM(`amount`)')
-            ?: $this->order->price;
+        $this->row->updateBuy($this->order->price);
     }
 
     /**

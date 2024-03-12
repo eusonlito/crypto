@@ -59,6 +59,11 @@ class BuyStopMax extends ActionAbstract
         $this->sync();
         $this->refresh();
         $this->order();
+
+        if (empty($this->order)) {
+            return $this->finish();
+        }
+
         $this->update();
         $this->finish();
 
@@ -156,10 +161,8 @@ class BuyStopMax extends ActionAbstract
     protected function order(): void
     {
         $this->order = OrderModel::query()
-            ->byWalletId($this->row->id)
-            ->bySide('buy')
+            ->byId($this->row->order_buy_stop_id)
             ->whereFilled()
-            ->orderByLast()
             ->first();
     }
 
@@ -181,18 +184,7 @@ class BuyStopMax extends ActionAbstract
      */
     protected function updateBuy(): void
     {
-        $this->row->updateBuy($this->updateBuyValue());
-    }
-
-    /**
-     * @return float
-     */
-    protected function updateBuyValue(): float
-    {
-        return OrderModel::query()
-            ->lastSame($this->order)
-            ->rawValue('SUM(`price` * `amount`) / SUM(`amount`)')
-            ?: $this->order->price;
+        $this->row->updateBuy($this->order->price);
     }
 
     /**

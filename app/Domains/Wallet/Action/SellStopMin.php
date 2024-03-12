@@ -52,13 +52,18 @@ class SellStopMin extends ActionAbstract
         $this->logBefore();
 
         if ($this->executable() === false) {
-            return $this->row;
+            return $this->finish();
         }
 
         $this->previous();
         $this->sync();
         $this->refresh();
         $this->order();
+
+        if (empty($this->order)) {
+            return $this->finish();
+        }
+
         $this->update();
         $this->finish();
 
@@ -96,7 +101,6 @@ class SellStopMin extends ActionAbstract
         }
 
         $this->logNotExecutable();
-        $this->finish();
 
         return false;
     }
@@ -158,10 +162,8 @@ class SellStopMin extends ActionAbstract
     protected function order(): void
     {
         $this->order = OrderModel::query()
-            ->byProductId($this->product->id)
-            ->byWalletId($this->row->id)
-            ->bySide('sell')
-            ->orderByLast()
+            ->byId($this->row->order_sell_stop_id)
+            ->whereFilled()
             ->first();
     }
 
@@ -236,12 +238,14 @@ class SellStopMin extends ActionAbstract
     }
 
     /**
-     * @return void
+     * @return \App\Domains\Wallet\Model\Wallet
      */
-    protected function finish(): void
+    protected function finish(): Model
     {
         $this->row->processing = false;
         $this->row->save();
+
+        return $this->row;
     }
 
     /**
