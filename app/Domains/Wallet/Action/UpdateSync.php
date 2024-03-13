@@ -80,7 +80,7 @@ class UpdateSync extends ActionAbstract
      */
     protected function order(): void
     {
-        $this->factory('Order')->action()->syncByProduct($this->product);
+        $this->factory('Order')->action()->syncByProducts([$this->product]);
     }
 
     /**

@@ -167,7 +167,7 @@ class BuyMarket extends ActionAbstract
      */
     protected function orderSync(): void
     {
-        $this->factory('Order')->action()->syncByProduct($this->product);
+        $this->factory('Order')->action()->syncByProducts([$this->product]);
     }
 
     /**

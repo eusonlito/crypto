@@ -63,14 +63,6 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return void
      */
-    public function syncByProduct(): void
-    {
-        $this->actionHandle(SyncByProduct::class, [], ...func_get_args());
-    }
-
-    /**
-     * @return void
-     */
     public function syncByProducts(): void
     {
         $this->actionHandle(SyncByProducts::class, [], ...func_get_args());
