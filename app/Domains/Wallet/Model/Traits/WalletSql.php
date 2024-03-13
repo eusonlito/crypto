@@ -194,7 +194,7 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_max_exchange`
                     AND `buy_stop_min_at` IS NOT NULL
-                    AND `current_exchange` <= `buy_stop_max_exchange`
+                    AND `current_exchange` >= `buy_stop_max_exchange`
                 ), NOW(), `buy_stop_max_at`
             ),
 
@@ -205,7 +205,7 @@ trait WalletSql
                     AND `buy_stop_min_exchange`
                     AND `buy_stop_max_at` IS NOT NULL
                     AND `buy_stop_min_at` IS NOT NULL
-                    AND `current_exchange` <= `buy_stop_max_exchange`
+                    AND `current_exchange` >= `buy_stop_max_exchange`
                 ), TRUE, `buy_stop_max_executable`
             )
         ';
