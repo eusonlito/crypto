@@ -246,7 +246,7 @@ class Wallet extends BuilderAbstract
         return $this->enabled()
             ->where('processing', false)
             ->where('crypto', true)
-            ->where('amount', true)
+            ->where('amount', '>', 0)
             ->where('sell_stop', true)
             ->where('sell_stop_amount', '>', 0)
             ->whereNotNull('order_sell_stop_id')
