@@ -176,7 +176,7 @@ class Wallet extends BuilderAbstract
     {
         return $this->whereBuyStopTrailing()
             ->where('buy_stop_max_follow', true)
-            ->whereColumn('current_exchange', 'buy_stop_reference');
+            ->whereColumn('current_exchange', '>=', 'buy_stop_reference');
     }
 
     /**
