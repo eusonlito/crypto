@@ -13,7 +13,7 @@ class Currency extends BuilderAbstract
      */
     public function byCodes(array $codes): self
     {
-        return $this->whereInRaw('code', $this->strings($codes));
+        return $this->whereIn('code', $codes);
     }
 
     /**
