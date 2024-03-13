@@ -10,6 +10,16 @@ use App\Domains\Wallet\Model\Wallet as WalletModel;
 class Order extends BuilderAbstract
 {
     /**
+     * @param array $codes
+     *
+     * @return self
+     */
+    public function byCodes(array $codes): self
+    {
+        return $this->whereInRaw('code', $this->strings($codes));
+    }
+
+    /**
      * @param string $date
      *
      * @return self

@@ -307,4 +307,16 @@ abstract class BuilderAbstract extends Builder
     {
         return $this->when($id, fn ($q) => $q->byIdNext($id));
     }
+
+    /**
+     * @param array $strings
+     *
+     * @return array
+     */
+    protected function strings(array $strings): array
+    {
+        return array_unique(array_filter(array_map(static function (mixed $string) {
+            return trim(str_replace(['"', "'", '\\'], '', strval($string)));
+        }, $strings)));
+    }
 }

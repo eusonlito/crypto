@@ -39,6 +39,14 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return void
      */
+    public function createUpdateFromResources(): void
+    {
+        $this->actionHandle(CreateUpdateFromResources::class, $this->validate()->createUpdateFromResources(), ...func_get_args());
+    }
+
+    /**
+     * @return void
+     */
     public function syncAll(): void
     {
         $this->actionHandle(SyncAll::class);

@@ -39,6 +39,16 @@ class Wallet extends BuilderAbstract
     }
 
     /**
+     * @param array $product_ids
+     *
+     * @return self
+     */
+    public function byProductIds(array $product_ids): self
+    {
+        return $this->whereIntegerInRaw('product_id', $product_ids);
+    }
+
+    /**
      * @param int $currency_base_id
      * @param int $currency_quote_id
      *

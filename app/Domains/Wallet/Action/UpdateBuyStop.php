@@ -61,7 +61,7 @@ class UpdateBuyStop extends ActionAbstract
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
 
-        $this->order_buy_stop_id = null;
+        $this->row->order_buy_stop_id = null;
 
         $this->row->save();
     }

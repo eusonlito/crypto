@@ -1,0 +1,175 @@
+<?php declare(strict_types=1);
+
+namespace App\Domains\Order\Action;
+
+use Illuminate\Support\Collection;
+use App\Domains\Order\Model\Order as Model;
+use App\Domains\Product\Model\Product as ProductModel;
+use App\Domains\Wallet\Model\Wallet as WalletModel;
+use App\Services\Platform\Resource\Order as OrderResource;
+
+class CreateUpdateFromResources extends ActionAbstract
+{
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected Collection $current;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected Collection $products;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected Collection $wallets;
+
+    /**
+     * @var array
+     */
+    protected array $resources;
+
+    /**
+     * @param array $resources
+     *
+     * @return void
+     */
+    public function handle(array $resources): void
+    {
+        if (empty($resources)) {
+            return;
+        }
+
+        $this->resources = $resources;
+
+        $this->current();
+        $this->products();
+        $this->wallets();
+        $this->iterate();
+    }
+
+    /**
+     * @return void
+     */
+    protected function current(): void
+    {
+        $this->current = Model::query()
+            ->byUserId($this->auth->id)
+            ->byCodes(array_column($this->resources, 'id'))
+            ->get()
+            ->keyBy('code');
+    }
+
+    /**
+     * @return void
+     */
+    protected function products(): void
+    {
+        $this->products = ProductModel::query()
+            ->byPlatformId($this->data['platform_id'])
+            ->pluck('id', 'code');
+    }
+
+    /**
+     * @return void
+     */
+    protected function wallets(): void
+    {
+        $this->wallets = WalletModel::query()
+            ->byUserId($this->auth->id)
+            ->byPlatformId($this->data['platform_id'])
+            ->byProductIds($this->products->all())
+            ->pluck('id', 'product_id');
+    }
+
+    /**
+     * @return void
+     */
+    protected function iterate(): void
+    {
+        foreach ($this->resources as $resource) {
+            $this->store($resource);
+        }
+    }
+
+    /**
+     * @param \App\Services\Platform\Resource\Order $resource
+     *
+     * @return void
+     */
+    protected function store(OrderResource $resource): void
+    {
+        if ($row = $this->current->get($resource->id)) {
+            $this->storeUpdate($row, $resource);
+        } else {
+            $this->storeCreate($resource);
+        }
+    }
+
+    /**
+     * @param \App\Services\Platform\Resource\Order $resource
+     *
+     * @return void
+     */
+    protected function storeCreate(OrderResource $resource): void
+    {
+        $product_id = $this->products->get($resource->product);
+
+        if (empty($product_id)) {
+            return;
+        }
+
+        Model::query()->insert([
+            'code' => $resource->id,
+            'reference' => $resource->reference,
+
+            'amount' => $resource->amount,
+            'price' => $resource->price,
+            'price_stop' => $resource->priceStop,
+            'value' => $resource->value,
+            'fee' => $resource->fee,
+
+            'type' => $resource->type,
+            'status' => $resource->status,
+            'side' => $resource->side,
+
+            'filled' => $resource->filled,
+
+            'created_at' => $resource->updatedAt,
+            'updated_at' => $resource->updatedAt,
+
+            'platform_id' => $this->data['platform_id'],
+            'product_id' => $product_id,
+            'wallet_id' => $this->wallets->get($product_id),
+            'user_id' => $this->auth->id,
+        ]);
+    }
+
+    /**
+     * @param \App\Domains\Order\Model\Order $row
+     * @param \App\Services\Platform\Resource\Order $resource
+     *
+     * @return void
+     */
+    protected function storeUpdate(Model $row, OrderResource $resource): void
+    {
+        $row->reference = $resource->reference;
+        $row->amount = $resource->amount;
+        $row->price = $resource->price;
+        $row->price_stop = $resource->priceStop;
+        $row->value = $resource->value;
+        $row->fee = $resource->fee;
+
+        $row->type = $resource->type;
+        $row->status = $resource->status;
+        $row->side = $resource->side;
+
+        $row->filled = $resource->filled;
+
+        $row->created_at = $resource->updatedAt;
+        $row->updated_at = $resource->updatedAt;
+
+        $row->save();
+    }
+}

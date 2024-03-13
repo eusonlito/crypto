@@ -2,13 +2,9 @@
 
 namespace App\Domains\Order\Action;
 
-use Illuminate\Support\Collection;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
-use App\Domains\Product\Model\Product as ProductModel;
-use App\Domains\Order\Model\Order as Model;
 use App\Services\Platform\ApiFactoryAbstract;
-use App\Services\Platform\Resource\Order as OrderResource;
 
 class Sync extends ActionAbstract
 {
@@ -16,16 +12,6 @@ class Sync extends ActionAbstract
      * @var \App\Services\Platform\ApiFactoryAbstract
      */
     protected ApiFactoryAbstract $api;
-
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected Collection $current;
-
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected Collection $products;
 
     /**
      * @var \App\Domains\Platform\Model\Platform
@@ -47,13 +33,11 @@ class Sync extends ActionAbstract
 
         $this->api();
 
-        if ($this->apiAvailable() === false) {
-            return;
+        if ($this->apiAvailable()) {
+            $this->saveAll();
+        } else {
+            $this->saveByWallets();
         }
-
-        $this->current();
-        $this->products();
-        $this->iterate();
     }
 
     /**
@@ -62,29 +46,6 @@ class Sync extends ActionAbstract
     protected function available(): bool
     {
         return $this->platform->userPivotLoad($this->auth);
-    }
-
-    /**
-     * @return void
-     */
-    protected function current(): void
-    {
-        $this->current = Model::query()
-            ->byUserId($this->auth->id)
-            ->byPlatformId($this->platform->id)
-            ->get()
-            ->keyBy('code');
-    }
-
-    /**
-     * @return void
-     */
-    protected function products(): void
-    {
-        $this->products = ProductModel::query()
-            ->byPlatformId($this->platform->id)
-            ->get()
-            ->keyBy('code');
     }
 
     /**
@@ -100,96 +61,24 @@ class Sync extends ActionAbstract
      */
     protected function apiAvailable(): bool
     {
-        if ($this->api->ordersAllAvailable()) {
-            return true;
-        }
+        return $this->api->ordersAllAvailable();
+    }
 
+    /**
+     * @return void
+     */
+    protected function saveByWallets(): void
+    {
         $this->factory()->action()->syncByWallets($this->platform);
-
-        return false;
     }
 
     /**
      * @return void
      */
-    protected function iterate(): void
+    protected function saveAll(): void
     {
-        foreach ($this->api->ordersAll() as $each) {
-            $this->store($each);
-        }
-    }
-
-    /**
-     * @param \App\Services\Platform\Resource\Order $resource
-     *
-     * @return void
-     */
-    protected function store(OrderResource $resource): void
-    {
-        if ($row = $this->current->get($resource->id)) {
-            $this->storeUpdate($row, $resource);
-        } elseif ($product = $this->products->get($resource->product)) {
-            $this->storeCreate($product, $resource);
-        }
-    }
-
-    /**
-     * @param \App\Domains\Product\Model\Product $product
-     * @param \App\Services\Platform\Resource\Order $resource
-     *
-     * @return void
-     */
-    protected function storeCreate(ProductModel $product, OrderResource $resource): void
-    {
-        Model::query()->insert([
-            'code' => $resource->id,
-            'reference' => $resource->reference,
-
-            'amount' => $resource->amount,
-            'price' => $resource->price,
-            'price_stop' => $resource->priceStop,
-            'value' => $resource->value,
-            'fee' => $resource->fee,
-
-            'type' => $resource->type,
-            'status' => $resource->status,
-            'side' => $resource->side,
-
-            'filled' => $resource->filled,
-
-            'created_at' => $resource->updatedAt,
-            'updated_at' => $resource->updatedAt,
-
-            'platform_id' => $this->platform->id,
-            'product_id' => $product->id,
-            'user_id' => $this->auth->id,
-        ]);
-    }
-
-    /**
-     * @param \App\Domains\Order\Model\Order $row
-     * @param \App\Services\Platform\Resource\Order $resource
-     *
-     * @return void
-     */
-    protected function storeUpdate(Model $row, OrderResource $resource): void
-    {
-        $row->reference = $resource->reference;
-        $row->amount = $resource->amount;
-        $row->price = $resource->price;
-        $row->price_stop = $resource->priceStop;
-        $row->value = $resource->value;
-        $row->fee = $resource->fee;
-
-        $row->type = $resource->type;
-        $row->status = $resource->status;
-        $row->side = $resource->side;
-
-        $row->filled = $resource->filled;
-
-        $row->created_at = $resource->updatedAt;
-        $row->updated_at = $resource->updatedAt;
-
-        $row->save();
+        $this->factory()
+            ->action(['platform_id' => $this->platform->id])
+            ->createUpdateFromResources($this->api->ordersAll()->all());
     }
 }
