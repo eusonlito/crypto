@@ -162,7 +162,6 @@ class Wallet extends BuilderAbstract
         return $this->enabled()
             ->where('processing', false)
             ->where('crypto', true)
-            ->where('amount', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
             ->whereNotNull('order_buy_stop_id')
@@ -176,6 +175,7 @@ class Wallet extends BuilderAbstract
     {
         return $this->whereBuyStopTrailing()
             ->where('buy_stop_max_follow', true)
+            ->where('buy_stop_max_executable', true)
             ->whereColumn('current_exchange', '>=', 'buy_stop_reference');
     }
 
