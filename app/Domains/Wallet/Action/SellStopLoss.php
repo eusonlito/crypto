@@ -159,7 +159,7 @@ class SellStopLoss extends ActionAbstract
      */
     protected function syncOrder(): void
     {
-        $this->factory('Order')->action()->syncByProducts([$this->product]);
+        $this->factory('Order')->action()->syncByProducts(collect([$this->product]));
     }
 
     /**
