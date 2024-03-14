@@ -4,7 +4,7 @@ namespace App\Domains\Wallet\ControllerTest;
 
 use App\Domains\Wallet\Mail\SellStopMin;
 
-class SellStopMinMail extends ControllerTestAbstract
+class MailSellStopMin extends ControllerTestAbstract
 {
     /**
      * @return \App\Domains\Wallet\Mail\SellStopMin

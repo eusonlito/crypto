@@ -20,15 +20,9 @@ trait WalletUpdate
      */
     public function updateBuyStopDisable(): void
     {
+        $this->updateBuyStopEnable();
+
         $this->buy_stop = false;
-
-        $this->buy_stop_min_at = null;
-        $this->buy_stop_min_executable = false;
-
-        $this->buy_stop_max_at = null;
-        $this->buy_stop_max_executable = false;
-
-        $this->order_buy_stop_id = null;
     }
 
     /**
@@ -87,15 +81,9 @@ trait WalletUpdate
      */
     public function updateSellStopDisable(): void
     {
+        $this->updateSellStopEnable();
+
         $this->sell_stop = false;
-
-        $this->sell_stop_max_at = null;
-        $this->sell_stop_max_executable = false;
-
-        $this->sell_stop_min_at = null;
-        $this->sell_stop_min_executable = false;
-
-        $this->order_sell_stop_id = null;
     }
 
     /**

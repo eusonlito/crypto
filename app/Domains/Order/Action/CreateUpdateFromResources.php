@@ -100,27 +100,41 @@ class CreateUpdateFromResources extends ActionAbstract
      */
     protected function store(OrderResource $resource): void
     {
-        if ($row = $this->current->get($resource->id)) {
-            $this->storeUpdate($row, $resource);
-        } else {
-            $this->storeCreate($resource);
+        $row = $this->storeCreateOrUpdate($resource);
+
+        if (empty($row)) {
+            return;
         }
+
+        $this->storeMail($row);
     }
 
     /**
      * @param \App\Services\Platform\Resource\Order $resource
      *
-     * @return void
+     * @return ?\App\Domains\Order\Model\Order
      */
-    protected function storeCreate(OrderResource $resource): void
+    protected function storeCreateOrUpdate(OrderResource $resource): ?Model
+    {
+        return ($row = $this->current->get($resource->id))
+            ? $this->storeUpdate($row, $resource)
+            : $this->storeCreate($resource);
+    }
+
+    /**
+     * @param \App\Services\Platform\Resource\Order $resource
+     *
+     * @return ?\App\Domains\Order\Model\Order
+     */
+    protected function storeCreate(OrderResource $resource): ?Model
     {
         $product_id = $this->products->get($resource->product);
 
         if (empty($product_id)) {
-            return;
+            return null;
         }
 
-        Model::query()->insert([
+        return Model::query()->create([
             'code' => $resource->id,
             'reference' => $resource->reference,
 
@@ -150,9 +164,9 @@ class CreateUpdateFromResources extends ActionAbstract
      * @param \App\Domains\Order\Model\Order $row
      * @param \App\Services\Platform\Resource\Order $resource
      *
-     * @return void
+     * @return \App\Domains\Order\Model\Order
      */
-    protected function storeUpdate(Model $row, OrderResource $resource): void
+    protected function storeUpdate(Model $row, OrderResource $resource): Model
     {
         $row->reference = $resource->reference;
         $row->amount = $resource->amount;
@@ -171,5 +185,32 @@ class CreateUpdateFromResources extends ActionAbstract
         $row->updated_at = $resource->updatedAt;
 
         $row->save();
+
+        return $row;
+    }
+
+    /**
+     * @param \App\Domains\Order\Model\Order $row
+     *
+     * @return void
+     */
+    protected function storeMail(Model $row): void
+    {
+        if ($this->storeMailAvailable($row) === false) {
+            return;
+        }
+
+        $this->factory()->mail()->filled($this->row);
+    }
+
+    /**
+     * @param \App\Domains\Order\Model\Order $row
+     *
+     * @return bool
+     */
+    protected function storeMailAvailable(Model $row): bool
+    {
+        return $row->filled
+            && (strtotime($row->updated_at.' +10 minutes') > time());
     }
 }

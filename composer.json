@@ -117,11 +117,13 @@
         ],
 
         "fix": [
+            "Composer\\Config::disableProcessTimeout",
             "@php ./vendor/bin/php-cs-fixer fix -v --ansi",
             "@php ./vendor/bin/pint -v"
         ],
 
         "quality": [
+            "Composer\\Config::disableProcessTimeout",
             "@php artisan insights -v --ansi",
             "@php ./vendor/bin/phpstan analyse app --ansi"
         ],
