@@ -217,8 +217,7 @@
 
             .table th,
             .table td {
-                padding-top: 3px;
-                padding-bottom: 3px;
+                padding: 5px;
             }
 
             ul.social {
@@ -257,7 +256,7 @@
     </head>
     <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
         <center style="width: 100%; background-color: #f1f1f1;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 20px 0" class="email-container">
+            <div style="max-width: 700px; margin: 0 auto; padding: 20px 0">
                 @yield ('body')
             </div>
         </center>

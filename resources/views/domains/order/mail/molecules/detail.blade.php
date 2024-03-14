@@ -27,16 +27,25 @@
                             <th>Valor</th>
                         </tr>
                         <tr>
-                            <td>@datetime($row->created_at)</td>
-                            <td>{{ $row->type }}</td>
+                            <td style="font-size: 0.8rem">@datetime($row->created_at)</td>
+                            <td style="font-size: 0.9rem">{{ str_replace('_', ' ', $row->type) }}</td>
                             <td>{{ $row->side }}</td>
                             <td>@number($row->amount)</td>
                             <td>@number($row->price)</td>
                             <td>@number($row->value)</td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </td>
+    </tr>
 
-                    @if ($previous->isNotEmpty())
+    @if ($previous->isNotEmpty())
+
+    <tr>
+        <td valign="middle">
+            <div class="product-entry bg_white">
+                <div class="text">
 
                     <h3>Anteriores</h3>
 
@@ -53,8 +62,8 @@
                         @foreach ($previous as $row)
 
                         <tr>
-                            <td>@datetime($row->created_at)</td>
-                            <td>{{ $row->type }}</td>
+                            <td style="font-size: 0.8rem">@datetime($row->created_at)</td>
+                            <td style="font-size: 0.9rem">{{ str_replace('_', ' ', $row->type) }}</td>
                             <td>{{ $row->side }}</td>
                             <td>@number($row->amount)</td>
                             <td>@number($row->price)</td>
@@ -63,10 +72,10 @@
 
                         @endforeach
                     </table>
-
-                    @endif
                 </div>
             </div>
         </td>
     </tr>
+
+    @endif
 </table>
