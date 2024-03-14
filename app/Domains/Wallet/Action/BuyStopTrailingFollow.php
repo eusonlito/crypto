@@ -95,9 +95,10 @@ class BuyStopTrailingFollow extends ActionAbstract
             && $this->row->buy_stop
             && $this->row->buy_stop_amount
             && $this->row->buy_stop_max_follow
-            && $this->row->buy_stop_min_executable
             && $this->row->buy_stop_min_exchange
-            && $this->row->buy_stop_max_percent;
+            && $this->row->buy_stop_max_percent
+            && $this->row->buy_stop_reference
+            && ($this->row->current_exchange >= $this->row->buy_stop_reference);
     }
 
     /**

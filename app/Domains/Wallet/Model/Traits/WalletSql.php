@@ -12,7 +12,7 @@ trait WalletSql
      */
     public static function updateByProductIdAndExchange(int $product_id, float $exchange): void
     {
-        static::DB()->statement('
+        static::DB()->unprepared(strtr('
             UPDATE `wallet`
             SET
                 `current_exchange` = :exchange,
@@ -28,7 +28,7 @@ trait WalletSql
         ', [
             ':product_id' => $product_id,
             ':exchange' => $exchange,
-        ]);
+        ]));
     }
 
     /**
@@ -61,7 +61,7 @@ trait WalletSql
                     `sell_stop`
                     AND `sell_stop_max_exchange`
                     AND `current_exchange` >= `sell_stop_max_exchange`
-                ), TRUE, `sell_stop_max_executable`
+                ), TRUE, FALSE
             ),
 
             `sell_stop_min_exchange` = IF (
@@ -172,7 +172,7 @@ trait WalletSql
                     `buy_stop`
                     AND `buy_stop_min_exchange`
                     AND `current_exchange` <= `buy_stop_min_exchange`
-                ), TRUE, `buy_stop_min_executable`
+                ), TRUE, FALSE
             ),
 
             `buy_stop_max_exchange` = IF (
@@ -238,7 +238,7 @@ trait WalletSql
                     AND `buy_stop_min_at` IS NULL
                     AND `sell_stop_max_at` IS NULL
                     AND `current_exchange` >= `buy_market_exchange`
-                ), TRUE, `buy_market_executable`
+                ), TRUE, FALSE
             )
         ';
     }
@@ -266,7 +266,7 @@ trait WalletSql
                     AND `sell_stoploss_at` IS NOT NULL
                     AND `current_exchange` <= `sell_stoploss_exchange`
                     AND `current_value` >= 1
-                ), TRUE, `sell_stoploss_executable`
+                ), TRUE, FALSE
             )
         ';
     }

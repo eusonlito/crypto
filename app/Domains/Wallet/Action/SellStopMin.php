@@ -119,7 +119,6 @@ class SellStopMin extends ActionAbstract
             && $this->row->sell_stop_min_exchange
             && $this->row->sell_stop_min_at
             && $this->row->sell_stop_min_executable
-            && $this->row->sell_stop_max_exchange
             && $this->row->sell_stop_max_at;
     }
 
