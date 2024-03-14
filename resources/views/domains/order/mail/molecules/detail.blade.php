@@ -20,17 +20,51 @@
                     <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Modo</th>
                             <th>Cantidad</th>
                             <th>Cambio</th>
                             <th>Valor</th>
                         </tr>
                         <tr>
                             <td>@datetime($row->created_at)</td>
+                            <td>{{ $row->type }}</td>
+                            <td>{{ $row->side }}</td>
                             <td>@number($row->amount)</td>
                             <td>@number($row->price)</td>
                             <td>@number($row->value)</td>
                         </tr>
                     </table>
+
+                    @if ($previous->isNotEmpty())
+
+                    <h3>Anteriores</h3>
+
+                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Modo</th>
+                            <th>Cantidad</th>
+                            <th>Cambio</th>
+                            <th>Valor</th>
+                        </tr>
+
+                        @foreach ($previous as $row)
+
+                        <tr>
+                            <td>@datetime($row->created_at)</td>
+                            <td>{{ $row->type }}</td>
+                            <td>{{ $row->side }}</td>
+                            <td>@number($row->amount)</td>
+                            <td>@number($row->price)</td>
+                            <td>@number($row->value)</td>
+                        </tr>
+
+                        @endforeach
+                    </table>
+
+                    @endif
                 </div>
             </div>
         </td>

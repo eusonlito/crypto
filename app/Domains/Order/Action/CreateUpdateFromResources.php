@@ -200,7 +200,22 @@ class CreateUpdateFromResources extends ActionAbstract
             return;
         }
 
-        $this->factory()->mail()->filled($row);
+        $this->factory()->mail()->filled($row, $this->storeMailPrevious($row));
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function storeMailPrevious(Model $row): Collection
+    {
+        return Model::query()
+            ->byIdPrevious($row->id)
+            ->byUserId($this->auth->id)
+            ->byProductId($row->product_id)
+            ->whereFilled()
+            ->orderByLast()
+            ->limit(5)
+            ->get();
     }
 
     /**

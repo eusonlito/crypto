@@ -2,6 +2,7 @@
 
 namespace App\Domains\Order\Mail;
 
+use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as Model;
 
 class Filled extends MailAbstract
@@ -12,16 +13,22 @@ class Filled extends MailAbstract
     public Model $row;
 
     /**
+     * @var \App\Domains\Order\Model\Order
+     */
+    public Collection $previous;
+
+    /**
      * @var string
      */
     public $view = 'domains.order.mail.filled';
 
     /**
      * @param \App\Domains\Order\Model\Order $row
+     * @param \Illuminate\Support\Collection $previous
      *
      * @return self
      */
-    public function __construct(Model $row)
+    public function __construct(Model $row, Collection $previous)
     {
         $this->to($row->user->email);
 
@@ -34,5 +41,6 @@ class Filled extends MailAbstract
         ]);
 
         $this->row = $row;
+        $this->previous = $previous;
     }
 }
