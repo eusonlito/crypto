@@ -13,7 +13,7 @@ class Filled extends MailAbstract
     public Model $row;
 
     /**
-     * @var \App\Domains\Order\Model\Order
+     * @var \Illuminate\Support\Collection
      */
     public Collection $previous;
 

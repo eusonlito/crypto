@@ -8,6 +8,11 @@ use App\Services\Logger\RotatingFileAbstract;
 class Action extends RotatingFileAbstract
 {
     /**
+     * @var string
+     */
+    protected static string $name;
+
+    /**
      * @return string
      */
     protected static function folder(): string
@@ -20,7 +25,7 @@ class Action extends RotatingFileAbstract
      */
     protected static function path(): string
     {
-        return date('Y/m/Y-m-d');
+        return date('Y/m/Y-m-d').'/'.static::$name;
     }
 
     /**
@@ -33,6 +38,8 @@ class Action extends RotatingFileAbstract
      */
     public static function set(string $status, string $action, Model $row, array $data): void
     {
+        static::$name = $action.'-'.$row->id;
+
         static::$status($action.'-'.$row->id, [
             'action' => $action,
             'row' => $row->toArray(),
