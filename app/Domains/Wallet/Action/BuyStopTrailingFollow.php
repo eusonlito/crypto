@@ -44,6 +44,10 @@ class BuyStopTrailingFollow extends ActionAbstract
             return $this->row;
         }
 
+        if ($this->updated() === false) {
+            return $this->row;
+        }
+
         $this->order();
         $this->update();
         $this->logSuccess();
@@ -98,7 +102,32 @@ class BuyStopTrailingFollow extends ActionAbstract
             && $this->row->buy_stop_min_exchange
             && $this->row->buy_stop_max_percent
             && $this->row->buy_stop_reference
+            && $this->row->order_buy_stop_id
             && ($this->row->current_exchange >= $this->row->buy_stop_reference);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function updated(): bool
+    {
+        if ($this->updatedStatus()) {
+            return true;
+        }
+
+        $this->logNotUpdated();
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function updatedStatus(): bool
+    {
+        return OrderModel::query()
+            ->byId($this->row->order_buy_stop_id)
+            ->value('price') !== $this->orderCreatePrice();
     }
 
     /**
@@ -219,6 +248,14 @@ class BuyStopTrailingFollow extends ActionAbstract
      * @return void
      */
     protected function logNotExecutable(): void
+    {
+        $this->log('error', ['detail' => __FUNCTION__]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function logNotUpdated(): void
     {
         $this->log('error', ['detail' => __FUNCTION__]);
     }

@@ -31,6 +31,7 @@ class Order extends ModelAbstract
      * @var array<string, string>
      */
     protected $casts = [
+        'price' => 'float',
         'filled' => 'boolean',
     ];
 
