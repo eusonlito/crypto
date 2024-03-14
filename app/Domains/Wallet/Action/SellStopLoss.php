@@ -51,6 +51,8 @@ class SellStopLoss extends ActionAbstract
         $this->update();
         $this->finish();
 
+        $this->buyStopTrailingCreate();
+
         $this->logSuccess();
         $this->mail();
 
@@ -248,6 +250,14 @@ class SellStopLoss extends ActionAbstract
         $this->row->save();
 
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function buyStopTrailingCreate(): void
+    {
+        $this->factory()->action()->buyStopTrailingCreate();
     }
 
     /**
