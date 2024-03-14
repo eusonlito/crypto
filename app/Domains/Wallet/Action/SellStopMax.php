@@ -165,7 +165,7 @@ class SellStopMax extends ActionAbstract
      */
     protected function orderCreateSendPrice(): float
     {
-        return $this->roundFixed($this->row->sell_stop_min_exchange);
+        return $this->roundFixed($this->row->sell_stop_min_exchange, 'price');
     }
 
     /**

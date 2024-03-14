@@ -209,7 +209,7 @@ class BuyStopMin extends ActionAbstract
      */
     protected function orderCreateSendPrice(): float
     {
-        return $this->roundFixed($this->row->buy_stop_max_exchange);
+        return $this->roundFixed($this->row->buy_stop_max_exchange, 'price');
     }
 
     /**

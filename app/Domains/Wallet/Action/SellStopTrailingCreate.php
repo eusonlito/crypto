@@ -131,7 +131,7 @@ class SellStopTrailingCreate extends ActionAbstract
      */
     protected function orderCreatePrice(): float
     {
-        return $this->roundFixed($this->row->sell_stop_max_exchange);
+        return $this->roundFixed($this->row->sell_stop_max_exchange, 'price');
     }
 
     /**

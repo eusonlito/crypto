@@ -131,7 +131,7 @@ class BuyStopTrailingCreate extends ActionAbstract
      */
     protected function orderCreatePrice(): float
     {
-        return $this->roundFixed($this->row->buy_stop_min_exchange);
+        return $this->roundFixed($this->row->buy_stop_min_exchange, 'price');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Domains\Wallet\Action;
 
 use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
 use App\Domains\Wallet\Model\Wallet as Model;
+use App\Exceptions\UnexpectedValueException;
 
 abstract class ActionAbstract extends ActionAbstractCore
 {
@@ -14,12 +15,19 @@ abstract class ActionAbstract extends ActionAbstractCore
 
     /**
      * @param float $amount
+     * @param string $mode
      *
      * @return float
      */
-    protected function roundFixed(float $amount): float
+    protected function roundFixed(float $amount, string $mode): float
     {
-        return helper()->roundFixed($amount, $this->product->quantity_decimal);
+        $decimals = match ($mode) {
+            'quantity' => $this->product->quantity_decimal,
+            'price' => $this->product->price_decimal,
+            default => throw new UnexpectedValueException(sprintf('Invalid decimals mode %s', $mode)),
+        };
+
+        return helper()->roundFixed($amount, $decimals);
     }
 
     /**
@@ -31,7 +39,7 @@ abstract class ActionAbstract extends ActionAbstractCore
         $cash = $this->buyStopOrderCreateAmountAvailable();
 
         if ($cash === null) {
-            return $this->roundFixed($amount);
+            return $this->roundFixed($amount, 'quantity');
         }
 
         $value = $amount * $this->row->buy_stop_max_exchange;
@@ -41,7 +49,7 @@ abstract class ActionAbstract extends ActionAbstractCore
             $amount = $max * $amount / $value;
         }
 
-        return $this->roundFixed($amount);
+        return $this->roundFixed($amount, 'quantity');
     }
 
     /**
@@ -63,7 +71,7 @@ abstract class ActionAbstract extends ActionAbstractCore
     {
         $amount = $this->row->buy_stop_max_exchange;
 
-        return $this->roundFixed($amount + ($amount * 0.0001));
+        return $this->roundFixed($amount + ($amount * 0.0001), 'price');
     }
 
     /**
@@ -71,7 +79,7 @@ abstract class ActionAbstract extends ActionAbstractCore
      */
     protected function sellStopOrderCreateAmount(): float
     {
-        return $this->roundFixed(min($this->row->amount, $this->row->sell_stop_amount));
+        return $this->roundFixed(min($this->row->amount, $this->row->sell_stop_amount), 'quantity');
     }
 
     /**
@@ -81,6 +89,6 @@ abstract class ActionAbstract extends ActionAbstractCore
     {
         $amount = $this->row->sell_stop_min_exchange;
 
-        return $this->roundFixed($amount - ($amount * 0.0001));
+        return $this->roundFixed($amount - ($amount * 0.0001), 'price');
     }
 }
