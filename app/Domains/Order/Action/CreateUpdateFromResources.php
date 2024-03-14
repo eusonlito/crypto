@@ -200,7 +200,7 @@ class CreateUpdateFromResources extends ActionAbstract
             return;
         }
 
-        $this->factory()->mail()->filled($this->row);
+        $this->factory()->mail()->filled($row);
     }
 
     /**
