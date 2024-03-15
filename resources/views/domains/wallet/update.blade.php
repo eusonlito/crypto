@@ -7,7 +7,9 @@
         <a href="javascript:;" data-toggle="tab" data-target="#update-data" class="py-4 sm:mr-8 active" role="tab">{{ $row->name }}</a>
 
         @if ($orders->isNotEmpty())
+
         <a href="javascript:;" data-toggle="tab" data-target="#update-order" class="py-4 sm:mr-8" role="tab">{{ __('wallet-update.orders') }}</a>
+
         @endif
 
         <a href="{{ route('wallet.update.history', $row->id)}}" class="py-4 sm:mr-8" role="tab">{{ __('wallet-update.history') }}</a>
