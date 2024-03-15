@@ -30,7 +30,6 @@ class Success extends ActionAbstract
     protected function store(): void
     {
         Model::query()->create([
-            'auth' => $this->user->email,
             'ip' => $this->request->ip(),
             'success' => true,
             'user_id' => $this->user->id,
