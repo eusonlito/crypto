@@ -225,7 +225,15 @@ class CreateUpdateFromResources extends ActionAbstract
      */
     protected function storeMailAvailable(Model $row): bool
     {
-        return $row->filled
-            && (strtotime($row->updated_at.' +10 minutes') > time());
+        if (empty($row->filled)) {
+            return false;
+        }
+
+        if (strtotime($row->updated_at.' +10 minutes') < time()) {
+            return false;
+        }
+
+        return $row->wasRecentlyCreated
+            || $row->wasChanged('filled');
     }
 }
