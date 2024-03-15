@@ -42,7 +42,7 @@ class Logger
      */
     protected function store(MessageSending $event): void
     {
-        $file = $this->file();
+        $file = $this->file($event);
 
         helper()->mkdir($file, true);
 
@@ -50,19 +50,23 @@ class Logger
     }
 
     /**
+     * @param \Illuminate\Mail\Events\MessageSending $event
+     *
      * @return string
      */
-    protected function file(): string
+    protected function file(MessageSending $event): string
     {
-        return storage_path('logs/mail/'.$this->path().'.log');
+        return storage_path('logs/mail/'.$this->path($event).'.log');
     }
 
     /**
+     * @param \Illuminate\Mail\Events\MessageSending $event
+     *
      * @return string
      */
-    protected function path(): string
+    protected function path(MessageSending $event): string
     {
-        return date('Y/m/d/H-i-s').'-'.microtime(true);
+        return date('Y/m/d/H-i-s').'-'.microtime(true).'-'.str_slug($event->message->getSubject());
     }
 
     /**
