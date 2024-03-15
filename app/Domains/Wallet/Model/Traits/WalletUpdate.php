@@ -115,9 +115,9 @@ trait WalletUpdate
      */
     public function updateSellStopLossDisable(): void
     {
+        $this->updateSellStopLossEnable();
+
         $this->sell_stoploss = false;
-        $this->sell_stoploss_at = null;
-        $this->sell_stoploss_executable = false;
     }
 
     /**
@@ -133,5 +133,6 @@ trait WalletUpdate
         $this->sell_stoploss_exchange = $this->buy_exchange * (1 - ($this->sell_stoploss_percent / 100));
         $this->sell_stoploss_value = $this->amount * $this->sell_stoploss_exchange;
         $this->sell_stoploss_at = null;
+        $this->sell_stoploss_executable = false;
     }
 }
