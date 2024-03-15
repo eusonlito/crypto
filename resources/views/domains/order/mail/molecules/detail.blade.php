@@ -20,20 +20,37 @@
                     <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Modo</th>
-                            <th>Cantidad</th>
-                            <th>Cambio</th>
-                            <th>Valor</th>
+                            <td style="font-size: 0.8rem">@datetime($row->created_at)</td>
                         </tr>
                         <tr>
-                            <td style="font-size: 0.8rem">@datetime($row->created_at)</td>
+                            <th>Tipo</th>
                             <td style="font-size: 0.9rem">{{ str_replace('_', ' ', $row->type) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Modo</th>
                             <td>{{ $row->side }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cantidad</th>
                             <td>@number($row->amount)</td>
+                        </tr>
+                        <tr>
+                            <th>Cambio</th>
                             <td>@number($row->price)</td>
+                        </tr>
+                        <tr>
+                            <th>Valor</th>
                             <td>@number($row->value)</td>
                         </tr>
+
+                        @if ($previous->isNotEmpty())
+
+                        <tr>
+                            <th>Diferencia</th>
+                            <td>@number($row->value - $previous->first()->value)</td>
+                        </tr>
+
+                        @endif
                     </table>
                 </div>
             </div>
@@ -46,36 +63,59 @@
         <td valign="middle">
             <div class="product-entry bg_white">
                 <div class="text">
-
                     <h3>Anteriores</h3>
+                </div>
+            </div>
+        </td>
+    </tr>
 
+    @foreach ($previous as $row)
+
+    <tr>
+        <td valign="middle">
+            <div class="product-entry bg_white">
+                <div class="text">
                     <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tr>
                             <th>Fecha</th>
-                            <th>Tipo</th>
-                            <th>Modo</th>
-                            <th>Cantidad</th>
-                            <th>Cambio</th>
-                            <th>Valor</th>
-                        </tr>
-
-                        @foreach ($previous as $row)
-
-                        <tr>
                             <td style="font-size: 0.8rem">@datetime($row->created_at)</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo</th>
                             <td style="font-size: 0.9rem">{{ str_replace('_', ' ', $row->type) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Modo</th>
                             <td>{{ $row->side }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cantidad</th>
                             <td>@number($row->amount)</td>
+                        </tr>
+                        <tr>
+                            <th>Cambio</th>
                             <td>@number($row->price)</td>
+                        </tr>
+                        <tr>
+                            <th>Valor</th>
                             <td>@number($row->value)</td>
                         </tr>
 
-                        @endforeach
+                        @if ($next = $previous->get($loop->index + 1))
+
+                        <tr>
+                            <th>Diferencia</th>
+                            <td>@number($row->value - $next->value)</td>
+                        </tr>
+
+                        @endif
                     </table>
                 </div>
             </div>
         </td>
     </tr>
+
+    @endforeach
 
     @endif
 </table>
