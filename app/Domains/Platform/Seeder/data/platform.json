@@ -3,18 +3,21 @@
         "code": "binance",
         "name": "Binance",
         "url": "https://www.binance.com/en/trade/",
+        "trailing_stop": true,
         "enabled": true
     },
     {
         "code": "coinbase-pro",
         "name": "Coinbase PRO",
         "url": "https://pro.coinbase.com/trade/",
+        "trailing_stop": false,
         "enabled": true
     },
     {
         "code": "kucoin",
         "name": "KuCoin",
         "url": "https://trade.kucoin.com/",
+        "trailing_stop": false,
         "enabled": true
     }
 ]

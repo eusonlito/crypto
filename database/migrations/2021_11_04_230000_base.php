@@ -72,6 +72,7 @@ return new class extends MigrationAbstract {
             $table->id();
 
             $table->string('code')->index();
+            $table->string('reference')->nullable()->index();
 
             $table->unsignedDouble('amount')->default(0);
             $table->unsignedDouble('price')->default(0);
@@ -105,6 +106,7 @@ return new class extends MigrationAbstract {
             $table->unsignedFloat('fee', 5, 3)->default(0);
 
             $table->boolean('enabled')->default(0);
+            $table->boolean('trailing_stop')->default(0);
 
             $this->dateTimeCreatedAt($table);
             $this->dateTimeUpdatedAt($table);
@@ -401,6 +403,8 @@ return new class extends MigrationAbstract {
             $this->dateTimeUpdatedAt($table);
 
             $table->unsignedBigInteger('currency_id');
+            $table->unsignedBigInteger('order_buy_stop_id')->nullable();
+            $table->unsignedBigInteger('order_sell_stop_id')->nullable();
             $table->unsignedBigInteger('platform_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('user_id');
@@ -499,6 +503,8 @@ return new class extends MigrationAbstract {
 
         Schema::table('wallet', function (Blueprint $table) {
             $this->foreignOnDeleteCascade($table, 'currency');
+            $this->foreignOnDeleteSetNull($table, 'order', 'order_buy_stop_id');
+            $this->foreignOnDeleteSetNull($table, 'order', 'order_sell_stop_id');
             $this->foreignOnDeleteCascade($table, 'platform');
             $this->foreignOnDeleteCascade($table, 'product');
             $this->foreignOnDeleteCascade($table, 'user');
