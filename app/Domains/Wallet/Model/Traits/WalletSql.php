@@ -134,7 +134,7 @@ trait WalletSql
                     AND `buy_stop_max_follow`
                     AND `buy_stop_max_percent`
                     AND `buy_stop_min_exchange`
-                    AND `buy_stop_max_at` IS NOT NULL
+                    AND `buy_stop_max_at` IS NULL
                     AND `current_exchange` >= `buy_stop_reference`
                 ),
                 `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),

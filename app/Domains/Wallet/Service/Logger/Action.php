@@ -25,7 +25,7 @@ class Action extends RotatingFileAbstract
      */
     protected static function path(): string
     {
-        return date('Y/m/Y-m-d').'/'.static::$name;
+        return date('Y/m/d').'/'.static::$name;
     }
 
     /**

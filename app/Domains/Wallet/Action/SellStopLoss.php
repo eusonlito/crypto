@@ -169,7 +169,7 @@ class SellStopLoss extends ActionAbstract
      */
     protected function syncWallet(): void
     {
-        $this->factory()->action()->syncOne();
+        $this->factory()->action()->updateSync();
     }
 
     /**
