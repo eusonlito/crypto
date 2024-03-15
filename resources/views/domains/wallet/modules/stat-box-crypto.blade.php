@@ -219,6 +219,12 @@
                     </div>
 
                     @endif
+
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max_follow') }}</div>
+
+                    <div class="flex items-center justify-center">
+                        <div class="text-base {{ $buy_stop_max_follow ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_stop_max_follow ? __('wallet-stat.buy_stop_max_follow_enabled') : __('wallet-stat.buy_stop_max_follow_disabled') }}</div>
+                    </div>
                 </div>
             </div>
 
