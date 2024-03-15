@@ -253,9 +253,36 @@ class Log extends ControllerAbstract
         }
 
         if (preg_match('/\.zip$/', $file)) {
-            echo ZipContents::new($file)->contents();
+            $contents = ZipContents::new($file)->contents();
         } else {
-            readfile($file);
+            $contents = file_get_contents($file);
         }
+
+        echo $this->contentsReadSanitize($contents);
+    }
+
+    /**
+     * @param string $contents
+     *
+     * @return string
+     */
+    protected function contentsReadSanitize(string $contents): string
+    {
+        return preg_replace($this->contentsReadSanitizeMatches(), '', $contents);
+    }
+
+    /**
+     * @return array
+     */
+    protected function contentsReadSanitizeMatches(): array
+    {
+        return [
+            '/<\/?(html|body)[^>]*>/si',
+            '/<head>.*<\/head>/si',
+            '/<style[^>]*>.*<\/style>/si',
+            '/<script[^>]*>.*<\/script>/si',
+            '/<iframe[^>]*>.*<\/iframe>/si',
+            '/(style|class)="[^"]+"/',
+        ];
     }
 }
