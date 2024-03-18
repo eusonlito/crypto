@@ -70,12 +70,21 @@ class UpdateSellStop extends ActionAbstract
      */
     protected function trailingStop(): void
     {
-        if (empty($this->row->platform->trailing_stop)) {
+        if ($this->trailingStopAvailable() === false) {
             return;
         }
 
         $this->trailingStopOrderCancel();
         $this->trailingStopOrderCreate();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function trailingStopAvailable(): bool
+    {
+        return $this->row->platform->trailing_stop
+            && $this->row->wasChanged('sell_stop');
     }
 
     /**
