@@ -72,7 +72,8 @@ class Index
     public function data()
     {
         return [
-            'orders' => $this->orders(),
+            'ordersFilled' => $this->ordersFilled(),
+            'ordersOpen' => $this->ordersOpen(),
             'tickers' => $this->tickers,
             'wallets' => $this->wallets,
             'walletsCrypto' => $this->wallets->where('crypto', true),
@@ -145,11 +146,25 @@ class Index
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function orders(): Collection
+    protected function ordersFilled(): Collection
     {
         return OrderModel::query()
             ->byUserId($this->auth->id)
             ->whereFilled()
+            ->list()
+            ->limit(10)
+            ->get();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function ordersOpen(): Collection
+    {
+        return OrderModel::query()
+            ->byUserId($this->auth->id)
+            ->byStatus('new')
+            ->byType('take_profit_limit')
             ->list()
             ->limit(10)
             ->get();

@@ -67,17 +67,6 @@
 
             @endforeach
         </tbody>
-
-        <tfoot>
-            @php ($sell = $list->where('side', 'sell')->sum('value'))
-            @php ($buy = $list->where('side', 'buy')->sum('value'))
-
-            <tr class="text-right">
-                <td colspan="{{ $filled ? 7 : 6 }}"></td>
-                <td title="@number($sell) - @number($buy)">@number($sell - $buy)</td>
-                <td colspan="{{ $filled ? 5 : 4 }}"></td>
-            </tr>
-        </tfoot>
     </table>
 </div>
 

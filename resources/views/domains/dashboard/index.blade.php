@@ -49,15 +49,27 @@
     @endforeach
 </div>
 
-@if ($orders->isNotEmpty())
+@if ($ordersFilled->isNotEmpty())
 
 <div class="flex items-center h-10 mt-5">
     <h2 class="text-lg font-medium truncate mr-5">
-        {{ __('dashboard-index.orders') }}
+        {{ __('dashboard-index.orders-filled') }}
     </h2>
 </div>
 
-@include ('domains.order.molecules.list', ['list' => $orders])
+@include ('domains.order.molecules.list', ['list' => $ordersFilled])
+
+@endif
+
+@if ($ordersOpen->isNotEmpty())
+
+<div class="flex items-center h-10 mt-5">
+    <h2 class="text-lg font-medium truncate mr-5">
+        {{ __('dashboard-index.orders-open') }}
+    </h2>
+</div>
+
+@include ('domains.order.molecules.list', ['list' => $ordersOpen])
 
 @endif
 
