@@ -114,7 +114,6 @@ class BuyStopTrailingCheck extends ActionAbstract
         return (bool)$this->platform->userPivot
             && $this->row->enabled
             && $this->row->crypto
-            && $this->row->amount
             && $this->row->buy_stop
             && $this->row->buy_stop_amount
             && $this->row->order_buy_stop_id;

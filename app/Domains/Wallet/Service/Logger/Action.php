@@ -38,7 +38,7 @@ class Action extends RotatingFileAbstract
      */
     public static function set(string $status, string $action, Model $row, array $data): void
     {
-        static::$name = $action.'-'.$row->id;
+        static::$name = $action.'-'.$row->id.'-'.$row->name;
 
         static::$status($action.'-'.$row->id, [
             'action' => $action,
