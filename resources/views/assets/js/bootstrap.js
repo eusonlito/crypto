@@ -35,3 +35,4 @@ import './wallet';
 import './copy';
 import './select';
 import './scroll-bottom';
+import './amount-editable';

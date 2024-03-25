@@ -16,13 +16,13 @@
             <div class="flex flex-1 flex-wrap text-center">
                 <div class="flex-1 p-2">
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.current_exchange') }}</div>
-                    <div class="text-base" title="@numberString($current_exchange)">@number($current_exchange)</div>
+                    <div class="text-base" title="@numberString($current_exchange)" id="stat-box-crypto-current_exchange-{{ $row->id }}">@number($current_exchange)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.current_value') }}</div>
                     <div class="text-base" title="@numberString($current_value)">@number($current_value)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.amount') }}</div>
-                    <div class="text-base" title="@numberString($amount)">@number($amount)</div>
+                    <div class="text-base" title="@numberString($amount)" data-amount-editable data-amount-editable-value="stat-box-crypto-current_exchange-{{ $row->id }}" data-amount-editable-total="stat-box-crypto-result-{{ $row->id }}">@number($amount)</div>
                 </div>
 
                 <div class="flex-1 p-2">
@@ -33,7 +33,7 @@
                     <div class="text-base" title="@numberString($buy_value)">@number($buy_value)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.result') }}</div>
-                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold">@number($result)</div>
+                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold" id="stat-box-crypto-result-{{ $row->id }}">@number($result)</div>
                 </div>
             </div>
 
