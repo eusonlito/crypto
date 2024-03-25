@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "bacon/bacon-qr-code": "master-dev",
+        "bacon/bacon-qr-code": "main-dev",
         "composer/composer": "^2.2",
         "doctrine/dbal": "^3.0",
         "eusonlito/laravel-meta": "^3.1",

@@ -1,11 +1,3 @@
-@php ($dates = $exchanges->pluck('created_at'))
-
-@if ($dates->first() < date('Y-m-d H:i:s', strtotime('-1 day')))
-    @php ($dates = $dates->map(fn ($value) => date('D H:i', strtotime($value))))
-@else
-    @php ($dates = $dates->map(fn ($value) => date('H:i', strtotime($value))))
-@endif
-
 <script>
 charts.push({
     id: 'line-chart-{{ $row->id }}',
@@ -18,8 +10,10 @@ charts.push({
         },
         data: {
             labels: @json($dates),
+
             datasets: [
                 @if ($references && $row->buy_exchange)
+
                 {
                     label: 'Buy Exchange',
                     yAxisID: 'yAxisLeft',
@@ -30,7 +24,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 1.5,
-                    data: @json(array_fill(0, $exchanges->count(), $row->buy_exchange)),
+                    data: @json(array_fill(0, $exchanges_count, $row->buy_exchange)),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -41,9 +35,11 @@ charts.push({
                         }
                     }
                 },
+
                 @endif
 
                 @if ($references && $row->sell_stop_min_value)
+
                 {
                     label: 'Reference Value',
                     yAxisID: 'yAxisRight',
@@ -54,7 +50,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 1.5,
-                    data: @json(array_fill(0, $exchanges->count(), $row->sell_stop_min_value)),
+                    data: @json(array_fill(0, $exchanges_count, $row->sell_stop_min_value)),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -63,9 +59,11 @@ charts.push({
                         }
                     }
                 },
+
                 @endif
 
                 @if ($references && $row->buy_value)
+
                 {
                     label: 'Buy Value',
                     yAxisID: 'yAxisRight',
@@ -76,7 +74,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 1.5,
-                    data: @json(array_fill(0, $exchanges->count(), $row->buy_value)),
+                    data: @json(array_fill(0, $exchanges_count, $row->buy_value)),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -85,6 +83,7 @@ charts.push({
                         }
                     }
                 },
+
                 @endif
 
                 {
@@ -97,7 +96,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 5,
                     borderWidth: 1.5,
-                    data: @json($exchanges->pluck('exchange')),
+                    data: @json(array_values($exchanges)),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -108,6 +107,7 @@ charts.push({
                         }
                     }
                 },
+
                 {
                     display: false,
                     label: 'Wallet Value',
@@ -119,7 +119,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 0,
                     borderWidth: 0,
-                    data: @json($exchanges->map(static fn ($value) => $value->exchange * $row->amount)),
+                    data: @json(array_map(fn ($value) => $value * $row->amount, array_values($exchanges))),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -127,7 +127,57 @@ charts.push({
                             }
                         }
                     }
-                }
+                },
+
+                @if ($orders->isNotEmpty())
+
+                {
+                    type: 'scatter',
+                    label: 'Orders',
+
+                    pointRadius: 5,
+
+                    pointBackgroundColor: function (context) {
+                        if (!context.raw) {
+                            return;
+                        }
+
+                        if (context.raw.side === 'buy') {
+                            return '#4F95E5';
+                        }
+
+                        if (context.raw.type === 'market') {
+                            return '#CB3737';
+                        }
+
+                        return '#29A104';
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label
+                                    + ' '
+                                    + context.raw.side
+                                    + ': '
+                                    + context.raw.amount
+                                    + ' * '
+                                    + context.raw.exchange
+                                    + ' = '
+                                    + context.raw.value;
+                            }
+                        }
+                    },
+
+                    data: @json($orders),
+
+                    parsing: {
+                        xAxisKey: 'index',
+                        yAxisKey: 'exchange',
+                    }
+                },
+
+                @endif
             ]
         },
         options: {

@@ -10,18 +10,8 @@ use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Ticker\Model\Ticker as TickerModel;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 
-class Index
+class Index extends ControllerAbstract
 {
-    /**
-     * @var \Illuminate\Http\Request
-     */
-    protected Request $request;
-
-    /**
-     * @var \Illuminate\Contracts\Auth\Authenticatable
-     */
-    protected Authenticatable $auth;
-
     /**
      * @var \Illuminate\Support\Collection
      */
@@ -43,14 +33,6 @@ class Index
     protected Collection $exchanges;
 
     /**
-     * @return self
-     */
-    public static function new()
-    {
-        return new self(...func_get_args());
-    }
-
-    /**
      * @param \Illuminate\Contracts\Auth\Authenticatable $auth
      * @param \Illuminate\Http\Request $request
      *
@@ -69,7 +51,7 @@ class Index
     /**
      * @return array
      */
-    public function data()
+    public function data(): array
     {
         return [
             'ordersFilled' => $this->ordersFilled(),
