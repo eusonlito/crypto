@@ -45,14 +45,6 @@ class Create extends ValidateAbstract
             'buy_stop_min_percent' => 'bail|numeric',
             'buy_stop_min_at' => 'boolean',
 
-            'buy_market' => 'bail|boolean',
-            'buy_market_amount' => 'bail|numeric',
-            'buy_market_reference' => 'bail|numeric',
-            'buy_market_percent' => 'bail|numeric',
-            'buy_market_exchange' => 'bail|numeric',
-            'buy_market_value' => 'bail|numeric',
-            'buy_market_at' => 'boolean',
-
             'sell_stoploss_exchange' => 'bail|numeric',
             'sell_stoploss_percent' => 'bail|numeric',
             'sell_stoploss' => 'bail|boolean',

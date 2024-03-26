@@ -63,8 +63,6 @@ class Simulator
         $this->row->sell_stop_min_at = null;
         $this->row->sell_stop_max_at = null;
 
-        $this->row->buy_market_at = null;
-
         $this->row->sell_stoploss_at = null;
     }
 
@@ -107,13 +105,6 @@ class Simulator
             'buy_stop_max_percent' => 0,
             'buy_stop_max_exchange' => 0,
             'buy_stop_max_value' => 0,
-
-            'buy_market' => 0,
-            'buy_market_amount' => 0,
-            'buy_market_reference' => 0,
-            'buy_market_percent' => 0,
-            'buy_market_exchange' => 0,
-            'buy_market_value' => 0,
 
             'sell_stoploss' => 0,
             'sell_stoploss_percent' => 0,
@@ -246,7 +237,6 @@ class Simulator
         $this->exchangeSellStopLoss();
         $this->exchangeSellStop();
         $this->exchangeBuyStop();
-        $this->exchangeBuyMarket();
     }
 
     /**
@@ -335,15 +325,6 @@ class Simulator
 
         $this->row->buy_stop_max_exchange = $this->row->buy_stop_min_exchange * (1 + ($this->row->buy_stop_max_percent / 100));
         $this->row->buy_stop_max_at = null;
-
-        if ($this->row->buy_market_percent) {
-            $this->row->buy_market = true;
-        }
-
-        $this->row->buy_market_reference = $this->row->buy_exchange;
-
-        $this->row->buy_market_exchange = $this->row->buy_market_reference * (1 + ($this->row->buy_market_percent / 100));
-        $this->row->buy_market_at = null;
 
         $this->order('sell-stop-min', $this->row->sell_stop_amount, true, $profit);
     }
@@ -452,9 +433,6 @@ class Simulator
         $this->row->buy_stop_min_at = null;
         $this->row->buy_stop_max_at = null;
 
-        $this->row->buy_market = false;
-        $this->row->buy_market_at = null;
-
         if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
             $this->row->sell_stop = true;
             $this->row->sell_stop_amount = $this->row->sell_stop_amount ?: $this->row->buy_stop_amount;
@@ -519,60 +497,6 @@ class Simulator
     }
 
     /**
-     * @return void
-     */
-    protected function exchangeBuyMarket(): void
-    {
-        if ($this->exchangeBuyMarketExecutable() === false) {
-            return;
-        }
-
-        $this->row->amount += $this->row->buy_market_amount;
-        $this->row->buy_exchange = $this->exchange;
-        $this->row->buy_value = $this->row->amount * $this->row->buy_exchange;
-
-        $this->row->buy_market = false;
-        $this->row->buy_market_at = null;
-
-        $this->row->buy_stop = false;
-        $this->row->buy_stop_min_at = null;
-        $this->row->buy_stop_max_at = null;
-
-        if ($this->row->sell_stop_max_percent && $this->row->sell_stop_min_percent) {
-            $this->row->sell_stop = true;
-        }
-
-        $this->row->sell_stop_reference = $this->row->buy_exchange;
-
-        $this->row->sell_stop_max_exchange = $this->row->sell_stop_reference * (1 + ($this->row->sell_stop_max_percent / 100));
-        $this->row->sell_stop_max_at = null;
-
-        $this->row->sell_stop_min_exchange = $this->row->sell_stop_max_exchange * (1 - ($this->row->sell_stop_min_percent / 100));
-        $this->row->sell_stop_min_at = null;
-
-        if ($this->row->sell_stoploss_percent) {
-            $this->row->sell_stoploss = true;
-        }
-
-        $this->row->sell_stoploss_exchange = $this->row->buy_exchange * (1 - ($this->row->sell_stoploss_percent / 100));
-
-        $this->order('buy-market', $this->row->buy_market_amount, true);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function exchangeBuyMarketExecutable(): bool
-    {
-        return $this->row->buy_market
-            && $this->row->buy_market_amount
-            && $this->row->buy_market_exchange
-            && empty($this->row->buy_stop_min_at)
-            && empty($this->row->sell_stop_max_at)
-            && ($this->exchange >= $this->row->buy_market_exchange);
-    }
-
-    /**
      * @param string $action
      * @param float $amount
      * @param bool $filled
@@ -595,8 +519,6 @@ class Simulator
             'side' => explode('-', $action)[0],
 
             'wallet_buy_value' => $this->exchange * $this->row->amount,
-
-            'wallet_buy_market_exchange' => $this->row->buy_market_exchange,
 
             'wallet_buy_stop_min_exchange' => $this->row->buy_stop_min_exchange,
             'wallet_buy_stop_max_exchange' => $this->row->buy_stop_max_exchange,

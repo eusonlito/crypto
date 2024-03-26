@@ -14,7 +14,6 @@
     'order' => [
         'action' => 'Acción',
         'amount' => 'Cantidad',
-        'buy_market' => 'Compra',
         'buy_stop_max_exchange' => 'Compra Max',
         'buy_stop_min_exchange' => 'Compra Min',
         'buy_value' => 'Valor Cartera',

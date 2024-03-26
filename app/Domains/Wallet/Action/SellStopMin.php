@@ -173,7 +173,6 @@ class SellStopMin extends ActionAbstract
     {
         $this->updateBuy();
         $this->updateBuyStop();
-        $this->updateBuyMarket();
         $this->updateSellStop();
         $this->updateSellStopLoss();
         $this->updateProduct();
@@ -193,14 +192,6 @@ class SellStopMin extends ActionAbstract
     protected function updateBuyStop(): void
     {
         $this->row->updateBuyStopEnable();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateBuyMarket(): void
-    {
-        $this->row->updateBuyMarketDisable();
     }
 
     /**

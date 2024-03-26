@@ -132,6 +132,7 @@
             "@php artisan core:translation:fix --ansi",
             "@php artisan core:translation:fill --ansi",
             "@php artisan core:translation:clean --ansi",
+            "@php artisan core:translation:unused --ansi",
             "git checkout resources/lang/*/validation.php"
         ]
     }

@@ -163,7 +163,6 @@ class BuyStopMin extends ActionAbstract
     {
         $this->row->updateBuy($this->order->exchange);
         $this->row->updateBuyStopDisable();
-        $this->row->updateBuyMarketDisable();
         $this->row->updateSellStopEnable();
         $this->row->updateSellStopLossEnable();
     }

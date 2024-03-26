@@ -188,7 +188,6 @@ class SellStopLoss extends ActionAbstract
         $this->updateOrder();
         $this->updateBuy();
         $this->updateBuyStop();
-        $this->updateBuyMarket();
         $this->updateSellStop();
         $this->updateSellStopLoss();
     }
@@ -215,14 +214,6 @@ class SellStopLoss extends ActionAbstract
     protected function updateBuyStop(): void
     {
         $this->row->updateBuyStopEnable();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateBuyMarket(): void
-    {
-        $this->row->updateBuyMarketDisable();
     }
 
     /**

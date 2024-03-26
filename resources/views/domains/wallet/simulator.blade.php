@@ -192,52 +192,6 @@
     <div class="box mt-5">
         <div class="px-5 py-3 border-b border-gray-200">
             <h2 class="font-medium text-base">
-                {{ __('wallet-create.buy_market_title') }}
-            </h2>
-        </div>
-
-        <div class="p-3">
-            <div class="xl:flex">
-                <div class="flex-auto p-2">
-                    <label for="wallet-buy_market_amount" class="form-label">{{ __('wallet-create.buy_market_amount') }}</label>
-                    <input type="number" name="buy_market_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_market_amount" value="@numberString($REQUEST->input('buy_market_amount'))">
-                </div>
-
-                <div class="flex-auto p-2">
-                    <label for="wallet-buy_market_reference" class="form-label">{{ __('wallet-create.buy_market_reference') }}</label>
-                    <input type="number" name="buy_market_reference" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_market_reference" value="@numberString($REQUEST->input('buy_market_reference'))">
-                </div>
-
-                <div class="flex-auto p-2">
-                    <label for="wallet-buy_market_percent" class="form-label">{{ __('wallet-create.buy_market_percent') }}</label>
-                    <input type="number" name="buy_market_percent" step="0.0001" class="form-control form-control-lg" id="wallet-buy_market_percent" value="@value($REQUEST->input('buy_market_percent'), 2)" data-percent-to-value="wallet-buy_market_exchange" data-percent-to-value-reference="wallet-buy_market_reference">
-                </div>
-
-                <div class="flex-auto p-2">
-                    <label for="wallet-buy_market_exchange" class="form-label">{{ __('wallet-create.buy_market_exchange') }}</label>
-                    <input type="number" name="buy_market_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_market_exchange" value="@numberString($REQUEST->input('buy_market_exchange'))" readonly>
-                </div>
-
-                <div class="flex-auto p-2">
-                    <label for="wallet-buy_market_value" class="form-label">{{ __('wallet-create.buy_market_value') }}</label>
-                    <input type="number" name="buy_market_value" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_market_value" value="@numberString($REQUEST->input('buy_market_value'))" data-total data-total-amount="wallet-buy_market_amount" data-total-value="wallet-buy_market_exchange" data-total-change="wallet-buy_market_percent" readonly>
-                </div>
-            </div>
-
-            <div class="xl:flex">
-                <div class="flex-initial p-4">
-                    <div class="form-check">
-                        <input type="checkbox" name="buy_market" value="1" class="form-check-switch" id="wallet-buy_market" {{ $REQUEST->input('buy_market') ? 'checked' : '' }}>
-                        <label for="wallet-buy_market" class="form-check-label">{{ __('wallet-create.buy_market') }}</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="box mt-5">
-        <div class="px-5 py-3 border-b border-gray-200">
-            <h2 class="font-medium text-base">
                 {{ __('wallet-create.sell_stoploss_title') }}
             </h2>
         </div>
@@ -308,9 +262,6 @@ function orderTooltip (data) {
             minimumFractionDigits: {{ $row->product->price_decimal }}
         }),
         'Buy-Stop-Loss Exchange: ' + data.wallet_sell_stoploss_exchange.toLocaleString('es-ES', {
-            minimumFractionDigits: {{ $row->product->price_decimal }}
-        }),
-        'Buy-Market Exchange: ' + data.wallet_buy_market_exchange.toLocaleString('es-ES', {
             minimumFractionDigits: {{ $row->product->price_decimal }}
         })
     ];
@@ -466,29 +417,6 @@ charts.push({
                     backgroundColor: 'rgba(199, 37, 37, 1)',
 
                     data: @json($orders->where('action', 'sell-stop-loss')->values()),
-
-                    tooltip: {
-                        callbacks: {
-                            label: (context) => orderTooltip(context.raw),
-                        }
-                    },
-
-                    parsing: {
-                        xAxisKey: 'index',
-                        yAxisKey: 'exchange'
-                    },
-                },
-
-                {
-                    order: 5,
-
-                    type: 'scatter',
-                    label: 'Buy Market',
-
-                    pointRadius: 5,
-                    backgroundColor: 'rgba(100, 5, 55, 1)',
-
-                    data: @json($orders->where('action', 'buy-market')->values()),
 
                     tooltip: {
                         callbacks: {
@@ -659,7 +587,6 @@ charts.push({
                 <th>{{ __('wallet-simulator.order.sell_stop_min_exchange') }}</th>
                 <th>{{ __('wallet-simulator.order.buy_stop_min_exchange') }}</th>
                 <th>{{ __('wallet-simulator.order.buy_stop_max_exchange') }}</th>
-                <th>{{ __('wallet-simulator.order.buy_market') }}</th>
                 <th>{{ __('wallet-simulator.order.sell_stoploss_exchange') }}</th>
                 <th>{{ __('wallet-simulator.order.profit') }}</th>
                 <th class="text-center">{{ __('wallet-simulator.order.filled') }}</th>
@@ -680,7 +607,6 @@ charts.push({
                 <td><span class="block" title="{{ $each->wallet_sell_stop_min_exchange }}">@number($each->wallet_sell_stop_min_exchange)</span></td>
                 <td><span class="block" title="{{ $each->wallet_buy_stop_min_exchange }}">@number($each->wallet_buy_stop_min_exchange)</span></td>
                 <td><span class="block" title="{{ $each->wallet_buy_stop_max_exchange }}">@number($each->wallet_buy_stop_max_exchange)</span></td>
-                <td><span class="block" title="{{ $each->wallet_buy_market_exchange }}">@number($each->wallet_buy_market_exchange)</span></td>
                 <td><span class="block" title="{{ $each->wallet_sell_stoploss_exchange }}">@number($each->wallet_sell_stoploss_exchange)</span></td>
                 <td><span class="block @numberColor($each->profit, $each->filled)" title="{{ $each->profit }}">@number($each->profit)</span></td>
                 <td>

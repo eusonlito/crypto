@@ -91,15 +91,6 @@ class Update extends ActionAbstract
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
 
-        $this->row->buy_market = $this->data['buy_market'];
-
-        $this->row->buy_market_amount = $this->data['buy_market_amount'];
-        $this->row->buy_market_reference = $this->data['buy_market_reference'];
-        $this->row->buy_market_percent = $this->data['buy_market_percent'];
-        $this->row->buy_market_exchange = $this->data['buy_market_exchange'];
-        $this->row->buy_market_value = $this->data['buy_market_value'];
-        $this->row->buy_market_at = $this->data['buy_market_at'];
-
         $this->row->sell_stoploss = $this->data['sell_stoploss'];
 
         $this->row->sell_stoploss_exchange = $this->data['sell_stoploss_exchange'];

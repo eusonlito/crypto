@@ -71,10 +71,6 @@ trait SyncRelation
         foreach (WalletModel::query()->byProductId($row->product_id)->whereBuyStopTrailingFollowActivated()->pluck('id') as $each) {
             Artisan::new(sprintf('wallet:buy-stop:trailing:follow --id=%s', $each))->logDaily()->exec();
         }
-
-        foreach (WalletModel::query()->byProductId($row->product_id)->whereBuyMarketActivated()->pluck('id') as $each) {
-            Artisan::new(sprintf('wallet:buy-market --id=%s', $each))->logDaily()->exec();
-        }
     }
 
     /**

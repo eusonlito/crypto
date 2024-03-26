@@ -366,23 +366,6 @@ return new class extends MigrationAbstract {
             $table->dateTime('buy_stop_min_at')->nullable();
             $table->boolean('buy_stop_min_executable')->default(0);
 
-            // Buy Market Enabled
-            $table->boolean('buy_market')->default(0);
-
-            // Buy Market Exchange Reference
-            $table->unsignedDouble('buy_market_reference')->default(0);
-
-            // Amount available to spend
-            $table->unsignedDouble('buy_market_amount')->default(0);
-
-            // We will buy at this price if reached
-            $table->unsignedDouble('buy_market_percent')->default(0);
-            $table->unsignedDouble('buy_market_exchange')->default(0);
-            $table->unsignedDouble('buy_market_value')->default(0);
-
-            $table->dateTime('buy_market_at')->nullable();
-            $table->boolean('buy_market_executable')->default(0);
-
             $table->boolean('sell_stoploss')->default(0);
 
             $table->unsignedDouble('sell_stoploss_exchange')->default(0);

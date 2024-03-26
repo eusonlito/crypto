@@ -75,25 +75,6 @@
                             <td>@number($row->buy_stop_max_value)</td>
                         </tr>
                     </table>
-
-                    <hr style="border: 1px solid rgba(0,0,0,.05);">
-
-                    <h3>Compra en Subida ({{ $row->buy_market_amount }})</h3>
-
-                    <hr style="border: 1px solid rgba(0,0,0,.05);">
-
-                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                        <tr>
-                            <th>Referencia</th>
-                            <th>Cambio</th>
-                            <th>Valor</th>
-                        </tr>
-                        <tr>
-                            <td>@number($row->buy_market_reference)</td>
-                            <td>@number($row->buy_market_exchange) <small>@number($row->buy_market_percent, 2)%</small></td>
-                            <td>@number($row->buy_market_value)</td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </td>
@@ -161,25 +142,6 @@
                             <td>@number($previous->buy_stop_min_value)</td>
                             <td>@number($previous->buy_stop_max_exchange) <small>@number($previous->buy_stop_max_percent, 2)%</small></td>
                             <td>@number($previous->buy_stop_max_value)</td>
-                        </tr>
-                    </table>
-
-                    <hr style="border: 1px solid rgba(0,0,0,.05);">
-
-                    <h3>Compra en Subida ({{ $previous->buy_market_amount }})</h3>
-
-                    <hr style="border: 1px solid rgba(0,0,0,.05);">
-
-                    <table class="table" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                        <tr>
-                            <th>Referencia</th>
-                            <th>Cambio</th>
-                            <th>Valor</th>
-                        </tr>
-                        <tr>
-                            <td>@number($previous->buy_market_reference)</td>
-                            <td>@number($previous->buy_market_exchange) <small>@number($previous->buy_market_percent, 2)%</small></td>
-                            <td>@number($previous->buy_market_value)</td>
                         </tr>
                     </table>
                 </div>

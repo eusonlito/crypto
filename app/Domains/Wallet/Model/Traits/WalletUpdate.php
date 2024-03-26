@@ -52,33 +52,6 @@ trait WalletUpdate
     /**
      * @return void
      */
-    public function updateBuyMarketDisable(): void
-    {
-        $this->buy_market = false;
-        $this->buy_market_at = null;
-        $this->buy_market_executable = false;
-    }
-
-    /**
-     * @return void
-     */
-    public function updateBuyMarketEnable(): void
-    {
-        if ($this->buy_market_percent) {
-            $this->buy_market = true;
-        }
-
-        $this->buy_market_reference = $this->buy_exchange;
-
-        $this->buy_market_exchange = $this->buy_market_reference * (1 + ($this->buy_market_percent / 100));
-        $this->buy_market_value = $this->buy_market_amount * $this->buy_market;
-        $this->buy_market_at = null;
-        $this->buy_market_executable = false;
-    }
-
-    /**
-     * @return void
-     */
     public function updateSellStopDisable(): void
     {
         $this->updateSellStopEnable();

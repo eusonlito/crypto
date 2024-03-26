@@ -6,11 +6,4 @@ use App\Domains\Core\Validate\ValidateFactoryAbstract;
 
 class ValidateFactory extends ValidateFactoryAbstract
 {
-    /**
-     * @return array
-     */
-    public function updateBoolean(): array
-    {
-        return $this->handle(UpdateBoolean::class);
-    }
 }

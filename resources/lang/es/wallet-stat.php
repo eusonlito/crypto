@@ -1,12 +1,6 @@
 <?php return [
     'amount' => 'Cantidad',
     'buy_exchange' => 'Cambio en Compra',
-    'buy_market' => 'Compra en Subida',
-    'buy_market_amount' => 'Cantidad',
-    'buy_market_disabled' => 'Desactivado',
-    'buy_market_enabled' => 'Activado',
-    'buy_market_exchange' => 'Cambio',
-    'buy_market_value' => 'Valor',
     'buy_stop' => 'Compra en Bajada',
     'buy_stop_amount' => 'Cantidad',
     'buy_stop_disabled' => 'Desactivado',

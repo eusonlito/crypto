@@ -15,14 +15,6 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
-    public function buyMarket(): Model
-    {
-        return $this->actionHandle(BuyMarket::class);
-    }
-
-    /**
-     * @return \App\Domains\Wallet\Model\Wallet
-     */
     public function buyStop(): Model
     {
         return $this->actionHandle(BuyStop::class);
@@ -186,14 +178,6 @@ class ActionFactory extends ActionFactoryAbstract
     public function updateBoolean(): Model
     {
         return $this->actionHandle(UpdateBoolean::class, $this->validate()->updateBoolean());
-    }
-
-    /**
-     * @return \App\Domains\Wallet\Model\Wallet
-     */
-    public function updateBuyMarket(): Model
-    {
-        return $this->actionHandle(UpdateBuyMarket::class, $this->validate()->updateBuyMarket());
     }
 
     /**
