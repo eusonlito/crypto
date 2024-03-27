@@ -94,10 +94,8 @@ class WalletChart extends Component
             return $this->exchanges;
         }
 
-        $this->exchanges = array_merge(
-            $this->row->exchanges->pluck('exchange', 'created_at')->all(),
-            $this->orders->pluck('price', 'updated_at')->all(),
-        );
+        $this->exchanges = $this->orders->pluck('price', 'updated_at')->all()
+            + $this->row->exchanges->pluck('exchange', 'created_at')->all();
 
         ksort($this->exchanges);
 
