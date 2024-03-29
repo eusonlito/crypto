@@ -50,7 +50,10 @@ class WalletChart extends Component
         $this->references = $references;
         $this->orders = $orders ?: collect();
 
-        $this->ordersFilter();
+        $this->dateFormat();
+        $this->index();
+        $this->filter();
+        $this->exchanges();
     }
 
     /**
@@ -78,43 +81,22 @@ class WalletChart extends Component
             'row' => $this->row,
             'product' => $this->row->product,
             'references' => $this->row->references,
-            'exchanges' => $this->exchanges(),
-            'exchanges_count' => count($this->exchanges()),
+            'exchanges' => $this->exchanges,
+            'exchanges_count' => count($this->exchanges),
             'dates' => $this->dates(),
             'orders' => $this->orders(),
         ];
     }
 
     /**
-     * @return array
+     * @return void
      */
-    protected function exchanges(): array
+    protected function dateFormat(): void
     {
-        if (isset($this->exchanges)) {
-            return $this->exchanges;
-        }
-
-        $this->exchanges = $this->orders->pluck('price', 'updated_at')->all()
-            + $this->row->exchanges->pluck('exchange', 'created_at')->all();
-
-        ksort($this->exchanges);
-
-        return $this->exchanges;
-    }
-
-    /**
-     * @return string
-     */
-    protected function dateFormat(): string
-    {
-        if (isset($this->dateFormat)) {
-            return $this->dateFormat;
-        }
-
-        $first = array_key_first($this->exchanges());
+        $first = $this->row->exchanges->first()?->created_at;
         $day = date('Y-m-d H:i:s', strtotime('-1 day'));
 
-        return $this->dateFormat = ($first < $day) ? 'd H:i' : 'H:i';
+        $this->dateFormat = ($first < $day) ? 'd H:i' : 'H:i';
     }
 
     /**
@@ -122,18 +104,50 @@ class WalletChart extends Component
      */
     protected function dates(): array
     {
-        $format = $this->dateFormat();
+        return array_keys($this->exchanges);
+    }
 
-        return array_map(
-            fn ($value) => date($format, strtotime($value)),
-            array_keys($this->exchanges())
+    /**
+     * @return void
+     */
+    protected function index(): void
+    {
+        $this->indexExchanges();
+        $this->indexOrders();
+    }
+
+    /**
+     * @return void
+     */
+    protected function indexExchanges(): void
+    {
+        $this->row->exchanges->each(
+            fn ($exchange) => $exchange->index = date($this->dateFormat, strtotime($exchange->created_at))
         );
     }
 
     /**
      * @return void
      */
-    protected function ordersFilter(): void
+    protected function indexOrders(): void
+    {
+        $this->orders->each(
+            fn ($order) => $order->index = date($this->dateFormat, strtotime($order->updated_at))
+        );
+    }
+
+    /**
+     * @return void
+     */
+    protected function filter(): void
+    {
+        $this->filterOrders();
+    }
+
+    /**
+     * @return void
+     */
+    protected function filterOrders(): void
     {
         $first = $this->row->exchanges->first()?->created_at;
 
@@ -142,15 +156,24 @@ class WalletChart extends Component
     }
 
     /**
+     * @return void
+     */
+    protected function exchanges(): void
+    {
+        $this->exchanges = $this->orders->pluck('price', 'index')->all()
+            + $this->row->exchanges->pluck('exchange', 'index')->all();
+
+        ksort($this->exchanges);
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     protected function orders(): Collection
     {
-        $format = $this->dateFormat();
-
         return $this->orders
             ->map(fn ($value) => [
-                'index' => date($format, strtotime($value->updated_at)),
+                'index' => $value->index,
                 'side' => $value->side,
                 'type' => $value->type,
                 'amount' => $value->amount,

@@ -174,7 +174,7 @@ charts.push({
                     parsing: {
                         xAxisKey: 'index',
                         yAxisKey: 'exchange',
-                    }
+                    },
                 },
 
                 @endif
@@ -198,6 +198,7 @@ charts.push({
                     },
                 },
                 yAxisLeft: {
+                    position: 'left',
                     ticks: {
                         fontSize: '12',
                         fontColor: '#777777',
