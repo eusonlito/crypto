@@ -249,7 +249,7 @@ class Order extends BuilderAbstract
      */
     public function orderByDate(): self
     {
-        return $this->orderBy('created_at', 'ASC');
+        return $this->orderBy('updated_at', 'ASC');
     }
 
     /**
@@ -257,6 +257,6 @@ class Order extends BuilderAbstract
      */
     public function list(): self
     {
-        return $this->with(['platform', 'product'])->orderBy('created_at', 'DESC');
+        return $this->with(['platform', 'product'])->orderBy('updated_at', 'DESC');
     }
 }
