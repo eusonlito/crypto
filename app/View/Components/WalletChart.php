@@ -112,18 +112,7 @@ class WalletChart extends Component
      */
     protected function index(): void
     {
-        $this->indexExchanges();
         $this->indexOrders();
-    }
-
-    /**
-     * @return void
-     */
-    protected function indexExchanges(): void
-    {
-        $this->row->exchanges->each(
-            fn ($exchange) => $exchange->index = date($this->dateFormat, strtotime($exchange->created_at))
-        );
     }
 
     /**
@@ -160,10 +149,19 @@ class WalletChart extends Component
      */
     protected function exchanges(): void
     {
-        $this->exchanges = $this->orders->pluck('price', 'index')->all()
-            + $this->row->exchanges->pluck('exchange', 'index')->all();
+        $order_index = $this->orders->pluck('price', 'index')->all();
 
-        ksort($this->exchanges);
+        $exchanges = $this->orders->pluck('price', 'updated_at')->all()
+            + $this->row->exchanges->pluck('exchange', 'created_at')->all();
+
+        ksort($exchanges);
+
+        $this->exchanges = [];
+
+        foreach ($exchanges as $index => $value) {
+            $index = date($this->dateFormat, strtotime($index));
+            $this->exchanges[$index] = $order_index[$index] ?? $value;
+        }
     }
 
     /**
