@@ -229,7 +229,7 @@ class CreateUpdateFromResources extends ActionAbstract
             return false;
         }
 
-        if (strtotime($row->updated_at.' +10 minutes') < time()) {
+        if (time() > strtotime($row->updated_at.' +1 hour')) {
             return false;
         }
 
