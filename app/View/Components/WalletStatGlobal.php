@@ -52,6 +52,7 @@ class WalletStatGlobal extends Component
             'current_value' => $current_value,
             'sell_stop_min_value' => $sell_stop_min_value,
             'result' => ($current_value - $this->investment),
+            'result_percent' => helper()->percent($this->investment, $current_value),
         ];
     }
 }

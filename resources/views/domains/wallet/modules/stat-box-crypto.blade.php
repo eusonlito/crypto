@@ -2,7 +2,7 @@
     <div class="box p-2">
         <div class="flex px-2 pb-2 items-center">
             <div class="percent-pill {{ ($result < 0) ? 'bg-theme-24' : 'bg-theme-10' }}">
-                {{ $current_exchange_percent }}% @icon(($result < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
+                @number($current_exchange_percent,2 )% @icon(($result < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
             </div>
 
             <div class="relative text-lg sm:text-xl font-bold ml-3 overflow-auto">
@@ -47,12 +47,12 @@
                         <div class="text-base {{ $sell_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stop ? __('wallet-stat.sell_stop_enabled') : __('wallet-stat.sell_stop_disabled') }}</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max_exchange') }} ({{ $sell_stop_max_percent }}%)</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max_exchange') }} (@number($sell_stop_max_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_max_at }}">@number($sell_stop_max_exchange)</div>
                         <div class="{{ ($sell_stop_max_exchange_percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>{{ $sell_stop_max_exchange_percent }}%</span>
+                            <span>@number($sell_stop_max_exchange_percent, 2)%</span>
                         </div>
                     </div>
 
@@ -77,12 +77,12 @@
                         <div class="text-base" title="@numberString($sell_stop_amount)">@number($sell_stop_amount)</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_min_exchange') }} ({{ $sell_stop_min_percent }}%)</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_min_exchange') }} (@number($sell_stop_min_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_min_at }}">@number($sell_stop_min_exchange)</div>
                         <div class="{{ ($sell_stop_min_exchange_percent >= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>{{ $sell_stop_min_exchange_percent }}%</span>
+                            <span>@number($sell_stop_min_exchange_percent, 2)%</span>
                         </div>
                     </div>
 
@@ -113,12 +113,12 @@
                         <div class="text-base {{ $buy_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_stop ? __('wallet-stat.buy_stop_enabled') : __('wallet-stat.buy_stop_disabled') }}</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_exchange') }} ({{ $buy_stop_min_percent }}%)</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_exchange') }} (@number($buy_stop_min_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}">@number($buy_stop_min_exchange)</div>
                         <div class="{{ ($buy_stop_min_exchange_percent <= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
-                            <span>{{ $buy_stop_min_exchange_percent }}%</span>
+                            <span>@number($buy_stop_min_exchange_percent, 2)%</span>
                         </div>
                     </div>
 
@@ -143,12 +143,12 @@
                         <div class="text-base" title="@numberString($buy_stop_amount)">@number($buy_stop_amount)</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max_exchange') }} ({{ $buy_stop_max_percent }}%)</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max_exchange') }} (@number($buy_stop_max_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_max_at }}">@number($buy_stop_max_exchange)</div>
                         <div class="{{ ($buy_stop_max_exchange_percent <= 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
-                            <span>{{ $buy_stop_max_exchange_percent }}%</span>
+                            <span>@number($buy_stop_max_exchange_percent, 2)%</span>
                         </div>
                     </div>
 
@@ -184,7 +184,7 @@
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $sell_stoploss_at }}">@number($sell_stoploss_exchange)</div>
                         <div class="{{ ($sell_stoploss_exchange_percent < 0) ? 'text-theme-24' : 'text-theme-10' }} flex text-xs font-medium">
-                            <span>{{ $sell_stoploss_exchange_percent }}%</span>
+                            <span>@number($sell_stoploss_exchange_percent, 2)%</span>
                         </div>
                     </div>
                 </div>

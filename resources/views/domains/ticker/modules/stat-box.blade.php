@@ -2,7 +2,7 @@
     <div class="flex px-2 pb-2 items-center">
         <div class="percent-pill {{ ($result_current < 0) ? 'bg-theme-24' : 'bg-theme-10' }}">
             <a href="{{ route('ticker.update', $row->id) }}">{{ $row->name }}
-                {{ $value_current_percent }}% @icon(($result_current < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
+                @number($value_current_percent, 2)% @icon(($result_current < 0) ? 'chevron-down' : 'chevron-up', 'w-4 h-4')
             </a>
         </div>
 

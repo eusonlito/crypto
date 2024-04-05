@@ -31,7 +31,7 @@ trait Number
             return (string)$value;
         }
 
-        return number_format((float)$value, strlen($matches[2]) + (int)$matches[3], '.', '');
+        return number_format(floatval($value), strlen($matches[2]) + (int)$matches[3], '.', '');
     }
 
     /**
