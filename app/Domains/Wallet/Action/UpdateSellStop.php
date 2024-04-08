@@ -60,8 +60,6 @@ class UpdateSellStop extends ActionAbstract
         $this->row->sell_stop_min_percent = $this->data['sell_stop_min_percent'];
         $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
 
-        $this->row->order_sell_stop_id = null;
-
         $this->row->save();
     }
 
@@ -74,6 +72,9 @@ class UpdateSellStop extends ActionAbstract
             return;
         }
 
+        $this->row->order_sell_stop_id = null;
+        $this->row->save();
+
         $this->trailingStopOrderCancel();
         $this->trailingStopOrderCreate();
     }
@@ -84,7 +85,17 @@ class UpdateSellStop extends ActionAbstract
     protected function trailingStopAvailable(): bool
     {
         return $this->row->platform->trailing_stop
-            && $this->row->wasChanged('sell_stop');
+            && $this->trailingStopAvailableExchange();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function trailingStopAvailableExchange(): bool
+    {
+        return $this->row->wasChanged('sell_stop_amount')
+            || $this->row->wasChanged('sell_stop_max_percent')
+            || $this->row->wasChanged('sell_stop_min_percent');
     }
 
     /**

@@ -61,8 +61,6 @@ class UpdateBuyStop extends ActionAbstract
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
 
-        $this->row->order_buy_stop_id = null;
-
         $this->row->save();
     }
 
@@ -75,6 +73,9 @@ class UpdateBuyStop extends ActionAbstract
             return;
         }
 
+        $this->row->order_buy_stop_id = null;
+        $this->row->save();
+
         $this->trailingStopOrderCancel();
         $this->trailingStopOrderCreate();
     }
@@ -85,7 +86,17 @@ class UpdateBuyStop extends ActionAbstract
     protected function trailingStopAvailable(): bool
     {
         return $this->row->platform->trailing_stop
-            && $this->row->wasChanged('buy_stop');
+            && $this->trailingStopAvailableExchange();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function trailingStopAvailableExchange(): bool
+    {
+        return $this->row->wasChanged('buy_stop_amount')
+            || $this->row->wasChanged('buy_stop_max_percent')
+            || $this->row->wasChanged('buy_stop_min_percent');
     }
 
     /**
