@@ -93,7 +93,8 @@ class UpdateSellStop extends ActionAbstract
      */
     protected function trailingStopAvailableExchange(): bool
     {
-        return $this->row->wasChanged('sell_stop_amount')
+        return $this->row->wasChanged('sell_stop')
+            || $this->row->wasChanged('sell_stop_amount')
             || $this->row->wasChanged('sell_stop_max_percent')
             || $this->row->wasChanged('sell_stop_min_percent');
     }
