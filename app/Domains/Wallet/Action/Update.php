@@ -34,7 +34,7 @@ class Update extends ActionAbstract
 
         $this->row->order = $this->data['order'];
 
-        $this->row->processing = false;
+        $this->row->processing_at = null;
         $this->row->visible = $this->data['visible'];
         $this->row->enabled = $this->data['enabled'];
         $this->row->updated_at = date('Y-m-d H:i:s');

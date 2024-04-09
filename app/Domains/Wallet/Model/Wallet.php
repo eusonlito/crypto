@@ -42,7 +42,6 @@ class Wallet extends ModelAbstract
         'sell_stop' => 'boolean',
         'sell_stoploss' => 'boolean',
         'trailing_stop' => 'boolean',
-        'processing' => 'boolean',
         'custom' => 'boolean',
         'crypto' => 'boolean',
         'trade' => 'boolean',

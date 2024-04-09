@@ -375,12 +375,13 @@ return new class extends MigrationAbstract {
             $table->dateTime('sell_stoploss_at')->nullable();
             $table->boolean('sell_stoploss_executable')->default(0);
 
-            $table->boolean('processing')->default(0);
             $table->boolean('custom')->default(0);
             $table->boolean('crypto')->default(0);
             $table->boolean('trade')->default(0);
             $table->boolean('visible')->default(0);
             $table->boolean('enabled')->default(0);
+
+            $table->dateTime('processing_at')->nullable();
 
             $this->dateTimeCreatedAt($table);
             $this->dateTimeUpdatedAt($table);

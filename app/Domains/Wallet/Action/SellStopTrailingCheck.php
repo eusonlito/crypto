@@ -30,7 +30,7 @@ class SellStopTrailingCheck extends ActionAbstract
      */
     public function handle(): Model
     {
-        if ($this->row->processing) {
+        if ($this->row->processing_at) {
             return $this->row;
         }
 
@@ -116,7 +116,7 @@ class SellStopTrailingCheck extends ActionAbstract
      */
     protected function start(): void
     {
-        $this->row->processing = true;
+        $this->row->processing_at = date('Y-m-d H:i:s');
         $this->row->save();
     }
 
@@ -232,7 +232,7 @@ class SellStopTrailingCheck extends ActionAbstract
      */
     protected function finish(): Model
     {
-        $this->row->processing = false;
+        $this->row->processing_at = null;
         $this->row->save();
 
         return $this->row;

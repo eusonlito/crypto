@@ -119,7 +119,7 @@ class Wallet extends BuilderAbstract
     public function whereBuyStopMaxActivated(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
@@ -136,7 +136,7 @@ class Wallet extends BuilderAbstract
     public function whereBuyStopMinActivated(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
@@ -153,7 +153,7 @@ class Wallet extends BuilderAbstract
     public function whereBuyStopTrailing(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('buy_stop', true)
             ->where('buy_stop_amount', '>', 0)
@@ -185,7 +185,7 @@ class Wallet extends BuilderAbstract
     public function whereSellStopMaxActivated(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
@@ -203,7 +203,7 @@ class Wallet extends BuilderAbstract
     public function whereSellStopMinActivated(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
@@ -221,7 +221,7 @@ class Wallet extends BuilderAbstract
     public function whereSellStopLossActivated(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('amount', '>', 0)
             ->where('sell_stoploss', true)
@@ -236,7 +236,7 @@ class Wallet extends BuilderAbstract
     public function whereSellStopTrailing(): self
     {
         return $this->enabled()
-            ->where('processing', false)
+            ->whereNull('processing_at')
             ->where('crypto', true)
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
