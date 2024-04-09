@@ -169,7 +169,7 @@
 
             @endif
 
-            @if ($sell_stoploss_exchange && ($current_value > 1))
+            @if ($sell_stoploss_percent)
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
@@ -179,7 +179,7 @@
                         <div class="text-base {{ $sell_stoploss ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stoploss ? __('wallet-stat.sell_stoploss_enabled') : __('wallet-stat.sell_stoploss_disabled') }}</div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stoploss_exchange') }}</div>
+                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stoploss_exchange') }} (@number($sell_stoploss_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $sell_stoploss_at }}">@number($sell_stoploss_exchange)</div>
