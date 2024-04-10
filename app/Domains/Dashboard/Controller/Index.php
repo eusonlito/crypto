@@ -15,22 +15,9 @@ class Index extends ControllerAbstract
             return redirect()->route('dashboard.start');
         }
 
-        $this->filters();
-
         $this->meta('title', __('dashboard-index.meta-title'));
 
         return $this->page('dashboard.index', $this->data());
-    }
-
-    /**
-     * @return void
-     */
-    protected function filters(): void
-    {
-        $this->request->merge([
-            'time' => (int)$this->auth->preference('dashboard-time', $this->request->input('time'), 60),
-            'references' => (bool)$this->auth->preference('dashboard-references', $this->request->input('references'), true),
-        ]);
     }
 
     /**

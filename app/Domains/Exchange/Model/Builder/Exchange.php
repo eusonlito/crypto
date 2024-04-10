@@ -74,6 +74,16 @@ class Exchange extends BuilderAbstract
     }
 
     /**
+     * @param int $minutes
+     *
+     * @return self
+     */
+    public function afterMinutes(int $minutes): self
+    {
+        return $this->afterDate(date('Y-m-d H:i:s', strtotime('-'.$minutes.' minutes')));
+    }
+
+    /**
      * @param string $mode = 'DESC'
      *
      * @return self
@@ -88,9 +98,7 @@ class Exchange extends BuilderAbstract
      */
     public function lastByProduct(): self
     {
-        $date = date('Y-m-d H:i:s', strtotime('-1 hour'));
-
-        return $this->afterDate($date)->whereIn('id', Model::query()->selectRaw('MAX(id)')->afterDate($date)->groupByProductId());
+        return $this->afterMinutes(60)->whereIn('id', Model::query()->selectRaw('MAX(id)')->afterMinutes(60)->groupByProductId());
     }
 
     /**
@@ -113,7 +121,7 @@ class Exchange extends BuilderAbstract
      */
     public function chart(int $minutes = 60, ?string $start_at = null, ?string $end_at = null, bool $detail = false): self
     {
-        return $this->afterDate(date('Y-m-d H:i:s', strtotime('-'.$minutes.' minutes')))
+        return $this->afterMinutes($minutes)
             ->when($start_at, static fn ($q) => $q->afterDate($start_at))
             ->when($end_at, static fn ($q) => $q->beforeDate($end_at))
             ->when($detail === false, static fn ($q) => $q->selectMaxMinutes()->groupByMinutesProduct($minutes));

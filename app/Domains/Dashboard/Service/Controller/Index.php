@@ -43,9 +43,21 @@ class Index extends ControllerAbstract
         $this->auth = $auth;
         $this->request = $request;
 
+        $this->filters();
         $this->wallets();
         $this->tickers();
         $this->exchanges();
+    }
+
+    /**
+     * @return void
+     */
+    protected function filters(): void
+    {
+        $this->request->merge([
+            'time' => intval($this->auth->preference('dashboard-time', $this->request->input('time'), 60)),
+            'references' => boolval($this->auth->preference('dashboard-references', $this->request->input('references'), true)),
+        ]);
     }
 
     /**
@@ -104,11 +116,31 @@ class Index extends ControllerAbstract
     protected function exchangesGet(): void
     {
         $this->exchanges = ExchangeModel::query()
-            ->byProductIds($this->wallets->pluck('product_id')->merge($this->tickers->pluck('product_id')))
-            ->chart($this->request->input('time'))
+            ->byProductIds($this->exchangesGetProductIds())
+            ->chart($this->exchangesGetTime())
             ->toBase()
             ->get()
             ->groupBy('product_id');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function exchangesGetProductIds(): Collection
+    {
+        return $this->wallets
+            ->pluck('product_id')
+            ->merge($this->tickers->pluck('product_id'));
+    }
+
+    /**
+     * @return int
+     */
+    protected function exchangesGetTime(): int
+    {
+        $time = $this->request->input('time');
+
+        return ($time === 1440) ? ($time - 1) : $time;
     }
 
     /**
