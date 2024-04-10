@@ -80,7 +80,7 @@ class WalletChart extends Component
         return [
             'row' => $this->row,
             'product' => $this->row->product,
-            'references' => $this->row->references,
+            'references' => $this->references,
             'exchanges' => $this->exchanges,
             'exchanges_count' => count($this->exchanges),
             'dates' => $this->dates(),

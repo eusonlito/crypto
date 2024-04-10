@@ -102,7 +102,9 @@ charts.push({
                             label: function (context) {
                                 return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES', {
                                     minimumFractionDigits: {{ $row->product->price_decimal }}
-                                });
+                                }) + ' (' + (context.raw * {{ $row->amount }}).toLocaleString('es-ES', {
+                                    maximumFractionDigits: 2
+                                }) + ')';
                             }
                         }
                     }
@@ -119,7 +121,7 @@ charts.push({
                     pointRadius: 0,
                     pointHitRadius: 0,
                     borderWidth: 0,
-                    data: @json(array_map(fn ($value) => $value * $row->amount, array_values($exchanges))),
+                    data: @json(array_map(fn ($value) => round($value * $row->amount, 2), array_values($exchanges))),
                     tooltip: {
                         callbacks: {
                             label: function (context) {
