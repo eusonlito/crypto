@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Domains\Platform\Seeder\Platform as PlatformSeeder;
 use App\Domains\Language\Seeder\Language as LanguageSeeder;
+use App\Domains\Platform\Seeder\Platform as PlatformSeeder;
 
 class Database extends Seeder
 {
@@ -15,8 +15,8 @@ class Database extends Seeder
     {
         $time = time();
 
-        $this->call(PlatformSeeder::class);
         $this->call(LanguageSeeder::class);
+        $this->call(PlatformSeeder::class);
 
         $this->command->info(sprintf('Seeding: Total Time %s seconds', time() - $time));
     }
