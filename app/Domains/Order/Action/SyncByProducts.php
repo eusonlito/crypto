@@ -2,17 +2,14 @@
 
 namespace App\Domains\Order\Action;
 
+use Throwable;
 use Illuminate\Support\Collection;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
+use App\Domains\Product\Model\Product as ProductModel;
 use App\Services\Platform\ApiFactoryAbstract;
 
 class SyncByProducts extends ActionAbstract
 {
-    /**
-     * @var \App\Services\Platform\ApiFactoryAbstract
-     */
-    protected ApiFactoryAbstract $api;
-
     /**
      * @var \Illuminate\Support\Collection
      */
@@ -36,9 +33,7 @@ class SyncByProducts extends ActionAbstract
      */
     protected function products(Collection $products): void
     {
-        $this->products = $products
-            ->where('crypto', true)
-            ->groupBy('platform_id');
+        $this->products = $products->groupBy('platform_id');
     }
 
     /**
@@ -68,8 +63,10 @@ class SyncByProducts extends ActionAbstract
         $resources = [];
 
         foreach ($products as $product) {
-            $resources[] = $api->ordersProduct($product->code)->all();
+            $resources[] = $this->platformProduct($api, $product);
         }
+
+        $resources = array_filter(array_merge(...$resources));
 
         if (empty($resources)) {
             return;
@@ -77,6 +74,23 @@ class SyncByProducts extends ActionAbstract
 
         $this->factory()
             ->action(['platform_id' => $platform->id])
-            ->createUpdateFromResources(array_merge(...$resources));
+            ->createUpdateFromResources($resources);
+    }
+
+    /**
+     * @param \App\Services\Platform\ApiFactoryAbstract $api
+     * @param \App\Domains\Product\Model\Product $product
+     *
+     * @return array
+     */
+    protected function platformProduct(ApiFactoryAbstract $api, ProductModel $product): array
+    {
+        try {
+            return $api->ordersProduct($product->code)->all();
+        } catch (Throwable $e) {
+            report($e);
+        }
+
+        return [];
     }
 }
