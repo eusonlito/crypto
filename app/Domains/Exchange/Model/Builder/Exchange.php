@@ -162,7 +162,7 @@ class Exchange extends BuilderAbstract
      */
     public function groupByMinutesProduct(int $minutes = 60): self
     {
-        return $this->groupByRaw(sprintf('UNIX_TIMESTAMP(`created_at`) DIV %d, `product_id`', 300 * $minutes / 60 / 12));
+        return $this->groupByRaw(sprintf('UNIX_TIMESTAMP(`created_at`) DIV %d, `product_id`', 100 * $minutes / 60 / 12));
     }
 
     /**
