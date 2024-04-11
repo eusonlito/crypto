@@ -86,18 +86,26 @@ class UpdateBuyStop extends ActionAbstract
     protected function trailingStopAvailable(): bool
     {
         return $this->row->platform->trailing_stop
-            && $this->trailingStopAvailableExchange();
+            && $this->trailingStopAvailableUpdated();
     }
 
     /**
      * @return bool
      */
-    protected function trailingStopAvailableExchange(): bool
+    protected function trailingStopAvailableUpdated(): bool
     {
-        return $this->row->wasChanged('buy_stop')
-            || $this->row->wasChanged('buy_stop_amount')
+        if ($this->row->wasChanged('buy_stop')) {
+            return true;
+        }
+
+        if (empty($this->row->buy_stop)) {
+            return false;
+        }
+
+        return $this->row->wasChanged('buy_stop_amount')
             || $this->row->wasChanged('buy_stop_max_percent')
-            || $this->row->wasChanged('buy_stop_min_percent');
+            || $this->row->wasChanged('buy_stop_min_percent')
+            || $this->row->wasChanged('buy_stop_max_follow');
     }
 
     /**
