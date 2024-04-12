@@ -41,6 +41,17 @@ class Html
 
     /**
      * @param string $path
+     * @param string $class = ''
+     *
+     * @return string
+     */
+    public static function svg(string $path, string $class = ''): string
+    {
+        return str_replace('class=""', 'class="'.$class.'"', static::inline($path));
+    }
+
+    /**
+     * @param string $path
      *
      * @return string
      */

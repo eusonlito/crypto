@@ -56,6 +56,10 @@ class View extends ServiceProvider
             return "<?= \App\Services\Html\Html::progressbar($expression); ?>";
         });
 
+        Blade::directive('query', function (string $expression) {
+            return "<?= helper()->query($expression); ?>";
+        });
+
         Blade::directive('sizeHuman', function (string $expression) {
             return "<?= helper()->sizeHuman($expression); ?>";
         });
@@ -64,8 +68,8 @@ class View extends ServiceProvider
             return "<?= \App\Services\Html\Html::status($expression); ?>";
         });
 
-        Blade::directive('query', function (string $expression) {
-            return "<?= helper()->query($expression); ?>";
+        Blade::directive('svg', function (string $expression) {
+            return "<?= \App\Services\Html\Html::svg($expression); ?>";
         });
 
         Blade::directive('value', function (string $expression) {
