@@ -16,11 +16,19 @@ class Update extends ActionAbstract
     {
         $this->product();
         $this->data();
-        $this->check();
         $this->store();
         $this->message();
 
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function data(): void
+    {
+        $this->dataDefault();
+        $this->dataSellStopLoss();
     }
 
     /**
@@ -60,43 +68,17 @@ class Update extends ActionAbstract
         $this->row->current_exchange = $this->data['current_exchange'];
         $this->row->current_value = $this->data['current_value'];
 
-        $this->row->sell_stop = $this->data['sell_stop'];
-
-        $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
-        $this->row->sell_stop_reference = $this->data['sell_stop_reference'];
-
-        $this->row->sell_stop_max_exchange = $this->data['sell_stop_max_exchange'];
-        $this->row->sell_stop_max_value = $this->data['sell_stop_max_value'];
-        $this->row->sell_stop_max_percent = $this->data['sell_stop_max_percent'];
-        $this->row->sell_stop_max_at = $this->data['sell_stop_max_at'];
-
-        $this->row->sell_stop_min_exchange = $this->data['sell_stop_min_exchange'];
-        $this->row->sell_stop_min_value = $this->data['sell_stop_min_value'];
-        $this->row->sell_stop_min_percent = $this->data['sell_stop_min_percent'];
-        $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
-
-        $this->row->buy_stop = $this->data['buy_stop'];
-
-        $this->row->buy_stop_amount = $this->data['buy_stop_amount'];
-        $this->row->buy_stop_reference = $this->data['buy_stop_reference'];
-
-        $this->row->buy_stop_max_exchange = $this->data['buy_stop_max_exchange'];
-        $this->row->buy_stop_max_value = $this->data['buy_stop_max_value'];
-        $this->row->buy_stop_max_percent = $this->data['buy_stop_max_percent'];
-        $this->row->buy_stop_max_follow = $this->data['buy_stop_max_follow'];
-        $this->row->buy_stop_max_at = $this->data['buy_stop_max_at'];
-
-        $this->row->buy_stop_min_exchange = $this->data['buy_stop_min_exchange'];
-        $this->row->buy_stop_min_value = $this->data['buy_stop_min_value'];
-        $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
-        $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
-
         $this->row->sell_stoploss = $this->data['sell_stoploss'];
 
         $this->row->sell_stoploss_exchange = $this->data['sell_stoploss_exchange'];
         $this->row->sell_stoploss_value = $this->data['sell_stoploss_value'];
         $this->row->sell_stoploss_percent = $this->data['sell_stoploss_percent'];
         $this->row->sell_stoploss_at = $this->data['sell_stoploss_at'];
+
+        $this->row->save();
+
+        $this->factory()->action()->updateSellStop();
+        $this->factory()->action()->updateBuyStop();
     }
 
     /**

@@ -8,7 +8,7 @@ use App\Exceptions\ValidatorException;
 
 trait CreateUpdate
 {
-    use DataBuyStop, DataSellStop, DataSellStopLoss;
+    use DataSellStopLoss;
 
     /**
      * @var \App\Domains\Product\Model\Product
@@ -30,7 +30,7 @@ trait CreateUpdate
     /**
      * @return void
      */
-    protected function data(): void
+    protected function dataDefault(): void
     {
         $this->data['amount'] = (float)$this->data['amount'];
 
@@ -39,11 +39,6 @@ trait CreateUpdate
 
         $this->data['current_exchange'] = $this->dataExchange();
         $this->data['current_value'] = $this->data['amount'] * $this->data['current_exchange'];
-
-        $this->dataBuyStop();
-
-        $this->dataSellStop();
-        $this->dataSellStopLoss();
     }
 
     /**
@@ -73,14 +68,5 @@ trait CreateUpdate
     protected function dataExchangeCurrent(): float
     {
         return $this->row->current_exchange ?? 0;
-    }
-
-    /**
-     * @return void
-     */
-    protected function check(): void
-    {
-        $this->checkSellStop();
-        $this->checkBuyStop();
     }
 }

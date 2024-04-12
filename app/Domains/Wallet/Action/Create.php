@@ -3,11 +3,13 @@
 namespace App\Domains\Wallet\Action;
 
 use App\Domains\Wallet\Action\Traits\CreateUpdate as CreateUpdateTrait;
+use App\Domains\Wallet\Action\Traits\DataBuyStop as DataBuyStopTrait;
+use App\Domains\Wallet\Action\Traits\DataSellStop as DataSellStopTrait;
 use App\Domains\Wallet\Model\Wallet as Model;
 
 class Create extends ActionAbstract
 {
-    use CreateUpdateTrait;
+    use CreateUpdateTrait, DataBuyStopTrait, DataSellStopTrait;
 
     /**
      * @return \App\Domains\Wallet\Model\Wallet
@@ -21,6 +23,26 @@ class Create extends ActionAbstract
         $this->message();
 
         return $this->row;
+    }
+
+    /**
+     * @return void
+     */
+    protected function data(): void
+    {
+        $this->dataDefault();
+        $this->dataBuyStop();
+        $this->dataSellStop();
+        $this->dataSellStopLoss();
+    }
+
+    /**
+     * @return void
+     */
+    protected function check(): void
+    {
+        $this->checkBuyStop();
+        $this->checkSellStop();
     }
 
     /**
