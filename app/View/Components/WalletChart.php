@@ -37,18 +37,21 @@ class WalletChart extends Component
     /**
      * @param \App\Domains\Wallet\Model\Wallet $row
      * @param bool $references = true
-     * @param ?\Illuminate\Support\Collection $orders = null
      *
      * @return self
      */
     public function __construct(
         Model $row,
         bool $references = true,
-        ?Collection $orders = null
     ) {
         $this->row = $row;
         $this->references = $references;
-        $this->orders = $orders ?: collect();
+
+        if ($row->relationLoaded('orders')) {
+            $this->orders = $row->orders;
+        } else {
+            $this->orders = collect();
+        }
 
         $this->dateFormat();
         $this->index();

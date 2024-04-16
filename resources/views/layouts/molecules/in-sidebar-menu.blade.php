@@ -16,14 +16,20 @@
     <ul class="{{ (strpos($ROUTE, 'wallet.') === 0) ? 'side-menu__sub-open' : '' }}">
         <li>
             <a href="{{ route('wallet.index') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.index') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('list') </div>
+                <div class="side-menu__icon">@icon('list')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.wallets-list') }}</div>
             </a>
         </li>
         <li>
             <a href="{{ route('wallet.simulator') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.simulator') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('activity') </div>
+                <div class="side-menu__icon">@icon('activity')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.wallets-simulator') }}</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('wallet.scenario') }}" class="side-menu {{ (strpos($ROUTE, 'wallet.scenario') === 0) ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('layers')</div>
+                <div class="side-menu__title">{{ __('in-sidebar.wallets-scenario') }}</div>
             </a>
         </li>
     </ul>
@@ -40,19 +46,19 @@
     <ul class="{{ (strpos($ROUTE, 'order.') === 0) ? 'side-menu__sub-open' : '' }}">
         <li>
             <a href="{{ route('order.index') }}" class="side-menu {{ (strpos($ROUTE, 'order.index') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('list') </div>
+                <div class="side-menu__icon">@icon('list')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.orders-list') }}</div>
             </a>
         </li>
         <li>
             <a href="{{ route('order.status') }}" class="side-menu {{ (strpos($ROUTE, 'order.status') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('bar-chart-2') </div>
+                <div class="side-menu__icon">@icon('bar-chart-2')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.orders-status') }}</div>
             </a>
         </li>
         <li>
             <a href="{{ route('order.sync') }}" class="side-menu {{ (strpos($ROUTE, 'order.sync') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('refresh-cw') </div>
+                <div class="side-menu__icon">@icon('refresh-cw')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.orders-sync') }}</div>
             </a>
         </li>
@@ -70,13 +76,13 @@
     <ul class="{{ (strpos($ROUTE, 'exchange.') === 0) ? 'side-menu__sub-open' : '' }}">
         <li>
             <a href="{{ route('exchange.index') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.index') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('list') </div>
+                <div class="side-menu__icon">@icon('list')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.exchange-list') }}</div>
             </a>
         </li>
         <li>
             <a href="{{ route('exchange.variance') }}" class="side-menu {{ (strpos($ROUTE, 'exchange.variance') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('bar-chart-2') </div>
+                <div class="side-menu__icon">@icon('bar-chart-2')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.exchange-variance') }}</div>
             </a>
         </li>

@@ -32,6 +32,7 @@ import './datepicker.js';
 import './product';
 import './product-chart';
 import './wallet';
+import './wallet-scenario';
 import './copy';
 import './select';
 import './scroll-bottom';

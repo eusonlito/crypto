@@ -9,6 +9,7 @@ Route::group(['middleware' => 'user-auth'], static function () {
 
     Route::any('/wallet/create', Create::class)->name('wallet.create');
     Route::any('/wallet/simulator', Simulator::class)->name('wallet.simulator');
+    Route::any('/wallet/scenario', Scenario::class)->name('wallet.scenario');
 
     Route::any('/wallet/{id}', Update::class)->name('wallet.update');
 

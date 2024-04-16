@@ -5,9 +5,9 @@ namespace App\Domains\Wallet\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Response;
 use App\Domains\Wallet\Model\Wallet as Model;
-use App\Domains\Wallet\Service\Controller\Simulator as SimulatorService;
+use App\Domains\Wallet\Service\Scenario\Scenario as ScenarioService;
 
-class Simulator extends ControllerAbstract
+class Scenario extends ControllerAbstract
 {
     /**
      * @return \Illuminate\Http\Response
@@ -16,9 +16,9 @@ class Simulator extends ControllerAbstract
     {
         $this->load();
 
-        $this->meta('title', __('wallet-simulator.meta-title'));
+        $this->meta('title', __('wallet-scenario.meta-title'));
 
-        return $this->page('wallet.simulator', $this->data());
+        return $this->page('wallet.scenario', $this->data());
     }
 
     /**
@@ -46,8 +46,8 @@ class Simulator extends ControllerAbstract
             $data += $this->dataFromRow();
         }
 
-        if ($this->request->input('_action') === 'simulator') {
-            $data += SimulatorService::new($this->row, $this->request->input())->data();
+        if ($this->request->input('_action') === 'scenario') {
+            $data += ScenarioService::new($this->row, $this->request->input())->data();
         }
 
         return $data;
@@ -63,19 +63,27 @@ class Simulator extends ControllerAbstract
             'amount' => $this->request->input('amount', $this->row->amount),
             'buy_exchange' => $this->request->input('buy_exchange', $this->row->buy_exchange),
             'sell_stop_amount' => $this->request->input('sell_stop_amount', $this->row->sell_stop_amount),
-            'sell_stop_max_percent' => $this->request->input('sell_stop_max_percent', $this->row->sell_stop_max_percent),
-            'sell_stop_min_percent' => $this->request->input('sell_stop_min_percent', $this->row->sell_stop_min_percent),
+            'sell_stop_max_percent_min' => $this->request->input('sell_stop_max_percent_min', $this->row->sell_stop_max_percent),
+            'sell_stop_max_percent_max' => $this->request->input('sell_stop_max_percent_max', $this->row->sell_stop_max_percent),
+            'sell_stop_min_percent_min' => $this->request->input('sell_stop_min_percent_min', $this->row->sell_stop_min_percent),
+            'sell_stop_min_percent_max' => $this->request->input('sell_stop_min_percent_max', $this->row->sell_stop_min_percent),
+            'sell_stop_percent_step' => $this->request->input('sell_stop_percent_step', 1),
             'sell_stop' => $this->request->input('sell_stop', $this->row->sell_stop),
             'buy_stop_amount' => $this->request->input('buy_stop_amount', $this->row->buy_stop_amount),
-            'buy_stop_min_percent' => $this->request->input('buy_stop_min_percent', $this->row->buy_stop_min_percent),
-            'buy_stop_max_percent' => $this->request->input('buy_stop_max_percent', $this->row->buy_stop_max_percent),
+            'buy_stop_min_percent_min' => $this->request->input('buy_stop_min_percent_min', $this->row->buy_stop_min_percent),
+            'buy_stop_min_percent_max' => $this->request->input('buy_stop_min_percent_max', $this->row->buy_stop_min_percent),
+            'buy_stop_max_percent_min' => $this->request->input('buy_stop_max_percent_min', $this->row->buy_stop_max_percent),
+            'buy_stop_max_percent_max' => $this->request->input('buy_stop_max_percent_max', $this->row->buy_stop_max_percent),
+            'buy_stop_percent_step' => $this->request->input('buy_stop_percent_step', 1),
             'buy_stop' => $this->request->input('buy_stop', $this->row->buy_stop),
             'buy_stop_max_follow' => $this->request->input('buy_stop_max_follow', $this->row->buy_stop_max_follow),
-            'sell_stoploss_percent' => $this->request->input('sell_stoploss_percent', $this->row->sell_stoploss_percent),
+            'sell_stoploss_percent_min' => $this->request->input('sell_stoploss_percent_min', $this->row->sell_stoploss_percent),
+            'sell_stoploss_percent_max' => $this->request->input('sell_stoploss_percent_max', $this->row->sell_stoploss_percent),
+            'sell_stoploss_percent_step' => $this->request->input('sell_stoploss_percent_step', 1),
             'sell_stoploss' => $this->request->input('sell_stoploss', $this->row->sell_stoploss),
             'exchange_reverse' => $this->request->input('exchange_reverse'),
             'exchange_first' => $this->request->input('exchange_first'),
-        ] + $this->row->toArray();
+        ];
     }
 
     /**

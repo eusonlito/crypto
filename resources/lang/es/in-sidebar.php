@@ -21,5 +21,6 @@
     'users' => 'Usuarios',
     'wallets' => 'Carteras',
     'wallets-list' => 'Listado',
+    'wallets-scenario' => 'Escenarios',
     'wallets-simulator' => 'Simulador',
 ];

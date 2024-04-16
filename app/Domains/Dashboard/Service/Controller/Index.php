@@ -85,6 +85,7 @@ class Index extends ControllerAbstract
             ->byUserId($this->auth->id)
             ->enabled()
             ->whereVisible()
+            ->withOrdersFilled()
             ->list()
             ->get();
     }

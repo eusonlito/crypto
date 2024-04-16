@@ -72,6 +72,22 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function groupByProductId(): self
+    {
+        return $this->groupBy(['product_id']);
+    }
+
+    /**
+     * @return self
+     */
+    public function listSelect(): self
+    {
+        return $this->with(['platform'])->orderBy('platform_id', 'ASC')->orderBy('name', 'ASC');
+    }
+
+    /**
+     * @return self
+     */
     public function list(): self
     {
         return $this->with(['currency', 'platform', 'product'])
@@ -294,24 +310,16 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function withOrdersFilled(): self
+    {
+        return $this->with(['orders' => fn ($q) => $q->whereFilled()]);
+    }
+
+    /**
+     * @return self
+     */
     public function withPlatform(): self
     {
         return $this->with(['platform']);
-    }
-
-    /**
-     * @return self
-     */
-    public function groupByProductId(): self
-    {
-        return $this->groupBy(['product_id']);
-    }
-
-    /**
-     * @return self
-     */
-    public function listSelect(): self
-    {
-        return $this->with(['platform'])->orderBy('platform_id', 'ASC')->orderBy('name', 'ASC');
     }
 }

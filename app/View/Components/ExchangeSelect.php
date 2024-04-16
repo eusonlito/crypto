@@ -18,15 +18,22 @@ class ExchangeSelect extends Component
     public int $selected;
 
     /**
+     * @var bool
+     */
+    public bool $reverse;
+
+    /**
      * @param string $name
      * @param ?int $selected
+     * @param bool $reverse = false
      *
      * @return self
      */
-    public function __construct(string $name, ?int $selected)
+    public function __construct(string $name, ?int $selected, bool $reverse = false)
     {
         $this->name = $name;
         $this->selected = (int)$selected;
+        $this->reverse = $reverse;
     }
 
     /**
@@ -34,7 +41,7 @@ class ExchangeSelect extends Component
      */
     protected function options(): array
     {
-        return [
+        static $options = [
             5 => __('common.time.minutes', ['minutes' => 5]),
             15 => __('common.time.minutes', ['minutes' => 15]),
             30 => __('common.time.minutes', ['minutes' => 30]),
@@ -50,6 +57,8 @@ class ExchangeSelect extends Component
             60 * 24 * 10 => __('common.time.days', ['days' => 10]),
             60 * 24 * 15 => __('common.time.days', ['days' => 15]),
         ];
+
+        return $this->reverse ? array_reverse($options, true) : $options;
     }
 
     /**

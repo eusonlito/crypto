@@ -41,7 +41,7 @@
 
 <div class="grid grid-cols-12 gap-4 mt-4">
     @foreach ($walletsCrypto as $row)
-    <x-wallet-chart :row="$row" :references="$filters['references']" :orders="$ordersFilled->where('wallet_id', $row->id)" />
+    <x-wallet-chart :row="$row" :references="$filters['references']" />
     @endforeach
 
     @foreach ($tickers->whereNotIn('product_id', $walletsCrypto->pluck('product_id')) as $row)

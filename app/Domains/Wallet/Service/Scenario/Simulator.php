@@ -1,9 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace App\Domains\Wallet\Service\Controller;
+namespace App\Domains\Wallet\Service\Scenario;
 
-use Illuminate\Support\Collection;
-use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 
 class Simulator
@@ -14,9 +12,9 @@ class Simulator
     protected Model $row;
 
     /**
-     * @var array
+     * @var \App\Domains\Wallet\Model\Wallet
      */
-    protected array $input;
+    protected Model $rowOriginal;
 
     /**
      * @var array
@@ -24,19 +22,25 @@ class Simulator
     protected array $exchanges;
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var array
      */
-    protected Collection $orders;
-
-    /**
-     * @var string
-     */
-    protected string $datetime;
+    protected array $input;
 
     /**
      * @var float
      */
     protected float $exchange;
+
+    /**
+     * @var array
+     */
+    protected array $action = [
+        'start' => [],
+        'end' => [],
+        'buy_stop' => [],
+        'sell_stop' => [],
+        'sell_stoploss' => [],
+    ];
 
     /**
      * @return self
@@ -47,81 +51,39 @@ class Simulator
     }
 
     /**
-     * @param \App\Domains\Wallet\Model\Wallet $row
+     * @param array $exchanges
      * @param array $input
      *
      * @return self
      */
-    public function __construct(Model $row, array $input)
+    public function __construct(array $exchanges, array $input)
     {
-        $this->input($input);
-        $this->exchanges($row);
-        $this->row($row);
-        $this->orders();
+        $this->input = $input;
+        $this->exchanges = $exchanges;
+
+        $this->row();
+        $this->start();
+        $this->iterate();
+        $this->end();
     }
 
     /**
-     * @param array $input
-     *
      * @return void
      */
-    protected function input(array $input): void
+    protected function row(): void
     {
-        $this->input = [
-            'time' => intval($input['time'] ?? 0),
-            'amount' => floatval($input['amount'] ?? 0),
-            'buy_exchange' => floatval($input['buy_exchange'] ?? 0),
-
-            'sell_stop' => boolval($input['sell_stop'] ?? 0),
-            'sell_stop_amount' => floatval($input['sell_stop_amount'] ?? 0),
-            'sell_stop_max_percent' => floatval($input['sell_stop_max_percent'] ?? 0),
-            'sell_stop_min_percent' => floatval($input['sell_stop_min_percent'] ?? 0),
-
-            'buy_stop' => boolval($input['buy_stop'] ?? 0),
-            'buy_stop_amount' => floatval($input['buy_stop_amount'] ?? 0),
-            'buy_stop_min_percent' => floatval($input['buy_stop_min_percent'] ?? 0),
-            'buy_stop_max_percent' => floatval($input['buy_stop_max_percent'] ?? 0),
-            'buy_stop_max_follow' => boolval($input['buy_stop_max_follow'] ?? 0),
-
-            'sell_stoploss' => boolval($input['sell_stoploss'] ?? 0),
-            'sell_stoploss_percent' => floatval($input['sell_stoploss_percent'] ?? 0),
-
-            'exchange_reverse' => boolval($input['exchange_reverse'] ?? 0),
-            'exchange_first' => boolval($input['exchange_first'] ?? 0),
-
-            '_action' => ($input['_action'] ?? null),
-        ];
+        $this->rowCreate();
+        $this->rowOriginal();
     }
 
     /**
-     * @param \App\Domains\Wallet\Model\Wallet $row
-     *
      * @return void
      */
-    protected function exchanges(Model $row): void
-    {
-        $this->exchanges = ExchangeModel::query()
-            ->byProductId($row->product->id)
-            ->afterMinutes($this->input['time'])
-            ->pluck('exchange', 'created_at')
-            ->all();
-
-        if ($this->input['exchange_reverse']) {
-            krsort($this->exchanges);
-        } else {
-            ksort($this->exchanges);
-        }
-    }
-
-    /**
-     * @param \App\Domains\Wallet\Model\Wallet $row
-     *
-     * @return void
-     */
-    protected function row(Model $row): void
+    protected function rowCreate(): void
     {
         $this->row = new Model([
-            'id' => $row->id,
+            'id' => $this->input['id'],
+
             'amount' => $this->input['amount'],
 
             'buy_stop' => $this->input['buy_stop'],
@@ -167,68 +129,81 @@ class Simulator
     /**
      * @return void
      */
-    protected function orders(): void
+    protected function rowOriginal(): void
     {
-        $this->orders = collect();
-
-        if (isset($this->input['_action']) === false) {
-            return;
-        }
-
-        $this->datetime = date('Y-m-d H:i:s', strtotime(array_key_first($this->exchanges).' -1 second'));
-        $this->exchange = $this->row->buy_exchange;
-
-        $this->order('start', $this->row->amount);
-
-        foreach ($this->exchanges as $key => $value) {
-            $this->exchange($key, $value);
-        }
-
-        $this->datetime = date('Y-m-d H:i:s', strtotime(array_key_last($this->exchanges).' +1 second'));
-        $this->exchange = $this->row->buy_exchange;
-
-        $this->order('end', $this->row->amount);
+        $this->rowOriginal = $this->row->replicate();
     }
 
     /**
      * @return array
      */
-    public function data(): array
+    public function get(): array
     {
-        return [
-            'exchanges' => $this->exchanges,
-            'exchangeFirst' => reset($this->exchanges),
-            'exchangeLast' => end($this->exchanges),
-            'orders' => $this->orders->whereNotIn('side', ['start', 'end']),
-            'ordersBuy' => $this->orders->where('side', 'buy'),
-            'ordersBuyValue' => $this->orders->where('side', 'buy')->sum('value'),
-            'ordersSell' => $this->orders->where('side', 'sell'),
-            'ordersSellValue' => $this->orders->where('side', 'sell')->sum('value'),
-            'profit' => $this->dataProfit(),
-            'rowResult' => $this->row,
+        $data = [
+            'start_value' => $this->action['start'][0],
+            'end_value' => $this->action['end'][0],
+
+            'buy_stop_count' => count($this->action['buy_stop']),
+            'buy_stop_value' => array_sum($this->action['buy_stop']),
+            'buy_stop_max_percent' => $this->row->buy_stop_max_percent,
+            'buy_stop_min_percent' => $this->row->buy_stop_min_percent,
+
+            'sell_stop_count' => count($this->action['sell_stop']),
+            'sell_stop_value' => array_sum($this->action['sell_stop']),
+            'sell_stop_min_percent' => $this->row->sell_stop_min_percent,
+            'sell_stop_max_percent' => $this->row->sell_stop_max_percent,
+
+            'sell_stoploss_count' => count($this->action['sell_stoploss']),
+            'sell_stoploss_value' => array_sum($this->action['sell_stoploss']),
+            'sell_stoploss_percent' => $this->row->sell_stoploss_percent,
         ];
+
+        $data['profit'] = $data['end_value']
+            - $data['start_value']
+            - $data['buy_stop_value']
+            + $data['sell_stop_value']
+            + $data['sell_stoploss_value'];
+
+        $data['url'] = route('wallet.simulator')
+            .'?id='.$this->row->id
+            .'&'.http_build_query($this->input);
+
+        return $data;
     }
 
     /**
-     * @return float
+     * @return void
      */
-    protected function dataProfit(): float
+    protected function start(): void
     {
-        return $this->orders->where('side', 'end')->sum('value')
-            - $this->orders->where('side', 'start')->sum('value')
-            - $this->orders->where('side', 'buy')->sum('value')
-            + $this->orders->where('side', 'sell')->sum('value');
+        $this->action('start', $this->row->buy_value);
     }
 
     /**
-     * @param string $datetime
+     * @return void
+     */
+    protected function iterate(): void
+    {
+        foreach ($this->exchanges as $exchange) {
+            $this->exchange($exchange);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function end(): void
+    {
+        $this->action('end', $this->row->buy_value);
+    }
+
+    /**
      * @param float $exchange
      *
      * @return void
      */
-    protected function exchange(string $datetime, float $exchange): void
+    protected function exchange(float $exchange): void
     {
-        $this->datetime = $datetime;
         $this->exchange = $exchange;
 
         $this->exchangeSellStopLoss();
@@ -247,7 +222,7 @@ class Simulator
             return;
         }
 
-        $this->order('sell_stoploss', $this->row->amount);
+        $this->action('sell_stoploss', $this->exchange * $this->row->amount);
 
         $this->row->amount = 0;
 
@@ -317,7 +292,7 @@ class Simulator
             return;
         }
 
-        $this->order('sell_stop', $this->row->sell_stop_amount);
+        $this->action('sell_stop', $this->exchange * $this->row->sell_stop_amount);
 
         $this->row->amount -= $this->row->sell_stop_amount;
         $this->row->amount = max($this->row->amount, 0);
@@ -424,7 +399,7 @@ class Simulator
             return;
         }
 
-        $this->order('buy_stop', $this->row->buy_stop_amount);
+        $this->action('buy_stop', $this->exchange * $this->row->buy_stop_amount);
 
         $this->row->amount += $this->row->buy_stop_amount;
 
@@ -451,39 +426,12 @@ class Simulator
 
     /**
      * @param string $action
-     * @param float $amount
+     * @param float $value
      *
      * @return void
      */
-    protected function order(string $action, float $amount): void
+    protected function action(string $action, float $value): void
     {
-        $value = $amount * $this->exchange;
-
-        if (in_array($action, ['sell_stop', 'sell_stoploss'])) {
-            $profit = $value - ($this->orders->last()->value ?? 0);
-        } else {
-            $profit = 0;
-        }
-
-        $this->orders->push((object)[
-            'action' => $action,
-            'created_at' => $this->datetime,
-            'exchange' => $this->exchange,
-            'amount' => $amount,
-            'value' => $value,
-            'profit' => $profit,
-
-            'side' => explode('_', $action)[0],
-
-            'wallet_buy_value' => $this->exchange * $this->row->amount,
-
-            'wallet_buy_stop_min_exchange' => $this->row->buy_stop_min_exchange,
-            'wallet_buy_stop_max_exchange' => $this->row->buy_stop_max_exchange,
-
-            'wallet_sell_stop_max_exchange' => $this->row->sell_stop_max_exchange,
-            'wallet_sell_stop_min_exchange' => $this->row->sell_stop_min_exchange,
-
-            'wallet_sell_stoploss_exchange' => $this->row->sell_stoploss_exchange,
-        ]);
+        $this->action[$action][] = $value;
     }
 }
