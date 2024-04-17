@@ -107,7 +107,7 @@ class Scenario
         }
 
         if ($this->input['sell_stop_min_percent_min'] > $this->input['sell_stop_min_percent_max']) {
-            throw new UnexpectedValueException(__('wallet-scenario.error.sell_stop_max_percent_min'));
+            throw new UnexpectedValueException(__('wallet-scenario.error.sell_stop_min_percent_min'));
         }
 
         if (empty($this->input['sell_stop_percent_step'])) {

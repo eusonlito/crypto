@@ -7,6 +7,7 @@
         'query' => 'Error del Sistema',
         'system' => 'Error del Sistema',
     ],
+    'filter' => 'Filtrar',
     'send' => 'Enviar',
     'show' => 'Mostrar',
     'time' => [

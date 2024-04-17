@@ -19,7 +19,11 @@
         }
 
         $trs.each(function () {
-            this.style.display = ((this.textContent || this.innerText).toLowerCase().indexOf(value) > -1) ? 'table-row' : 'none';
+            const content = (this.textContent || this.innerText)
+                .toLowerCase()
+                .replace(/(\n|\r|\s)+/gm, ' ');
+
+            this.style.display = (content.indexOf(value) > -1) ? 'table-row' : 'none';
         });
     };
 

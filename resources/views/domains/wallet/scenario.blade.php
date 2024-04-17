@@ -301,6 +301,10 @@ charts.push({
     <canvas id="line-chart-{{ $row->id }}" height="140"></canvas>
 </div>
 
+<div class="box p-5 mt-5">
+    <input type="search" class="form-control form-control-lg" placeholder="{{ __('common.filter') }}" data-table-search="#wallet-scenario-table" />
+</div>
+
 <div class="overflow-auto md:overflow-visible header-sticky">
     <table id="wallet-scenario-table" class="table table-report text-center sm:mt-2 font-medium" data-table-sort>
         <thead>
