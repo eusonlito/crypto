@@ -158,6 +158,8 @@ class Scenario
      */
     protected function iterate(): void
     {
+        set_time_limit(0);
+
         $this->iterateSimulator();
         $this->iterateSort();
     }
