@@ -329,20 +329,20 @@ charts.push({
 
             <tr>
                 <td>{{ $index }}</td>
-                <td data-table-sort-value="{{ $each['buy_stop_min_percent'] }}">@number($each['buy_stop_min_percent'])</td>
-                <td data-table-sort-value="{{ $each['buy_stop_max_percent'] }}">@number($each['buy_stop_max_percent'])</td>
+                <td data-table-sort-value="{{ $each['buy_stop_min_percent'] }}">@number($each['buy_stop_min_percent'], 2)</td>
+                <td data-table-sort-value="{{ $each['buy_stop_max_percent'] }}">@number($each['buy_stop_max_percent'], 2)</td>
                 <td data-table-sort-value="{{ $each['buy_stop_count'] }}">{{ $each['buy_stop_count'] }}</td>
-                <td data-table-sort-value="{{ $each['buy_stop_value'] }}">@number($each['buy_stop_value'])</td>
-                <td data-table-sort-value="{{ $each['sell_stop_max_percent'] }}">@number($each['sell_stop_max_percent'])</td>
-                <td data-table-sort-value="{{ $each['sell_stop_min_percent'] }}">@number($each['sell_stop_min_percent'])</td>
+                <td data-table-sort-value="{{ $each['buy_stop_value'] }}">@number($each['buy_stop_value'], 2)</td>
+                <td data-table-sort-value="{{ $each['sell_stop_max_percent'] }}">@number($each['sell_stop_max_percent'], 2)</td>
+                <td data-table-sort-value="{{ $each['sell_stop_min_percent'] }}">@number($each['sell_stop_min_percent'], 2)</td>
                 <td data-table-sort-value="{{ $each['sell_stop_count'] }}">{{ $each['sell_stop_count'] }}</td>
-                <td data-table-sort-value="{{ $each['sell_stop_value'] }}">@number($each['sell_stop_value'])</td>
-                <td data-table-sort-value="{{ $each['sell_stoploss_percent'] }}">@number($each['sell_stoploss_percent'])</td>
+                <td data-table-sort-value="{{ $each['sell_stop_value'] }}">@number($each['sell_stop_value'], 2)</td>
+                <td data-table-sort-value="{{ $each['sell_stoploss_percent'] }}">@number($each['sell_stoploss_percent'], 2)</td>
                 <td data-table-sort-value="{{ $each['sell_stoploss_count'] }}">{{ $each['sell_stoploss_count'] }}</td>
-                <td data-table-sort-value="{{ $each['sell_stoploss_value'] }}">@number($each['sell_stoploss_value'])</td>
-                <td data-table-sort-value="{{ $each['start_value'] }}">@number($each['start_value'])</td>
-                <td data-table-sort-value="{{ $each['end_value'] }}">@number($each['end_value'])</td>
-                <td data-table-sort-value="{{ $each['profit'] }}">@number($each['profit'])</td>
+                <td data-table-sort-value="{{ $each['sell_stoploss_value'] }}">@number($each['sell_stoploss_value'], 2)</td>
+                <td data-table-sort-value="{{ $each['start_value'] }}">@number($each['start_value'], 2)</td>
+                <td data-table-sort-value="{{ $each['end_value'] }}">@number($each['end_value'], 2)</td>
+                <td data-table-sort-value="{{ $each['profit'] }}">@number($each['profit'], 2)</td>
                 <td><a href="{{ $each['url'] }}" target="_blank">@icon('activity')</a></td>
             </tr>
 
