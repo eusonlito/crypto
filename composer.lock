@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "b0105c7a6fcfbc2396e52c910d73f03bca594adf"
+                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/b0105c7a6fcfbc2396e52c910d73f03bca594adf",
-                "reference": "b0105c7a6fcfbc2396e52c910d73f03bca594adf",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/510de6eca6248d77d31b339d62437cc995e2fb41",
+                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41",
                 "shasum": ""
             },
             "require": {
@@ -57,9 +57,9 @@
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "support": {
                 "issues": "https://github.com/Bacon/BaconQrCode/issues",
-                "source": "https://github.com/Bacon/BaconQrCode/tree/main"
+                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.0"
             },
-            "time": "2024-03-22T19:56:08+00:00"
+            "time": "2024-04-18T11:16:25+00:00"
         },
         {
             "name": "brick/math",
@@ -8874,12 +8874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "be8f9fd7c5ac28cf5f885c21a23e4c36922f435a"
+                "reference": "56d13acf1b8684443667665b595f34f124e205f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/be8f9fd7c5ac28cf5f885c21a23e4c36922f435a",
-                "reference": "be8f9fd7c5ac28cf5f885c21a23e4c36922f435a",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/56d13acf1b8684443667665b595f34f124e205f7",
+                "reference": "56d13acf1b8684443667665b595f34f124e205f7",
                 "shasum": ""
             },
             "require": {
@@ -8890,13 +8890,13 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.52.1",
-                "illuminate/view": "^10.48.4",
-                "larastan/larastan": "^2.9.2",
+                "friendsofphp/php-cs-fixer": "^3.54.0",
+                "illuminate/view": "^10.48.8",
+                "larastan/larastan": "^2.9.5",
                 "laravel-zero/framework": "^10.3.0",
                 "mockery/mockery": "^1.6.11",
                 "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest": "^2.34.5"
+                "pestphp/pest": "^2.34.7"
             },
             "default-branch": true,
             "bin": [
@@ -8933,7 +8933,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2024-04-02T14:30:38+00:00"
+            "time": "2024-04-18T11:35:26+00:00"
         },
         {
             "name": "league/container",
