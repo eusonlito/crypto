@@ -336,16 +336,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.7.2",
+            "version": "2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "b826edb791571ab1eaf281eb1bd6e181a1192adc"
+                "reference": "e49be96f3bccd183c9ff1313686c06cf898ba4be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/b826edb791571ab1eaf281eb1bd6e181a1192adc",
-                "reference": "b826edb791571ab1eaf281eb1bd6e181a1192adc",
+                "url": "https://api.github.com/repos/composer/composer/zipball/e49be96f3bccd183c9ff1313686c06cf898ba4be",
+                "reference": "e49be96f3bccd183c9ff1313686c06cf898ba4be",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.7.2"
+                "source": "https://github.com/composer/composer/tree/2.7.3"
             },
             "funding": [
                 {
@@ -446,7 +446,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-11T16:12:18+00:00"
+            "time": "2024-04-19T19:40:57+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -4851,23 +4851,23 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "4.4.1",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "9fd34f41b84377d73ae3184627d454993757c581"
+                "reference": "cdcd362f0c6bc342e87be8b7c20276844ff378bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/9fd34f41b84377d73ae3184627d454993757c581",
-                "reference": "9fd34f41b84377d73ae3184627d454993757c581",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/cdcd362f0c6bc342e87be8b7c20276844ff378bd",
+                "reference": "cdcd362f0c6bc342e87be8b7c20276844ff378bd",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0 | ^11.0",
                 "nyholm/psr7": "^1.0",
                 "php": "^7.2 | ^8.0",
-                "sentry/sentry": "^4.5",
+                "sentry/sentry": "^4.7",
                 "symfony/psr-http-message-bridge": "^1.0 | ^2.0 | ^6.0 | ^7.0"
             },
             "require-dev": {
@@ -4924,7 +4924,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-laravel/issues",
-                "source": "https://github.com/getsentry/sentry-laravel/tree/4.4.1"
+                "source": "https://github.com/getsentry/sentry-laravel/tree/4.5.0"
             },
             "funding": [
                 {
@@ -4936,7 +4936,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-04-04T14:46:42+00:00"
+            "time": "2024-04-22T11:24:05+00:00"
         },
         {
             "name": "symfony/console",
@@ -8263,12 +8263,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "d8074dcd83da8389b2e05d1a1aa8b6ce800743f1"
+                "reference": "ae5cc2443423ab6f4e23af0868c2e343438f3274"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/d8074dcd83da8389b2e05d1a1aa8b6ce800743f1",
-                "reference": "d8074dcd83da8389b2e05d1a1aa8b6ce800743f1",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/ae5cc2443423ab6f4e23af0868c2e343438f3274",
+                "reference": "ae5cc2443423ab6f4e23af0868c2e343438f3274",
                 "shasum": ""
             },
             "require": {
@@ -8294,7 +8294,7 @@
                 "phpstan/phpstan": "^1.10.67",
                 "phpstan/phpstan-deprecation-rules": "^1.1.4",
                 "phpstan/phpstan-phpunit": "^1.3.16",
-                "phpstan/phpstan-strict-rules": "^1.5.3",
+                "phpstan/phpstan-strict-rules": "^1.5.5",
                 "squizlabs/php_codesniffer": "^3.9.1",
                 "symfony/filesystem": "^6.4.3 || ^7.0.3"
             },
@@ -8350,7 +8350,7 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2024-04-16T09:34:42+00:00"
+            "time": "2024-04-19T18:20:01+00:00"
         },
         {
             "name": "cmgmyr/phploc",
@@ -8771,12 +8771,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/larastan/larastan.git",
-                "reference": "92376b5b7ed1f34cdfef92fc685dcd94348c8e65"
+                "reference": "66db15f82209d971e9bcca99ea3b2cb031be9d52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/larastan/larastan/zipball/92376b5b7ed1f34cdfef92fc685dcd94348c8e65",
-                "reference": "92376b5b7ed1f34cdfef92fc685dcd94348c8e65",
+                "url": "https://api.github.com/repos/larastan/larastan/zipball/66db15f82209d971e9bcca99ea3b2cb031be9d52",
+                "reference": "66db15f82209d971e9bcca99ea3b2cb031be9d52",
                 "shasum": ""
             },
             "require": {
@@ -8866,7 +8866,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-04-16T19:39:57+00:00"
+            "time": "2024-04-20T16:28:16+00:00"
         },
         {
             "name": "laravel/pint",
@@ -9456,16 +9456,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v8.23.9",
+            "version": "v8.23.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "f2b776cf11e821b14dcadae36099ce17ef37f11e"
+                "reference": "0b4bf76d9ab2b5d6f3a7d9a956e5affbd04bbe4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/f2b776cf11e821b14dcadae36099ce17ef37f11e",
-                "reference": "f2b776cf11e821b14dcadae36099ce17ef37f11e",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/0b4bf76d9ab2b5d6f3a7d9a956e5affbd04bbe4d",
+                "reference": "0b4bf76d9ab2b5d6f3a7d9a956e5affbd04bbe4d",
                 "shasum": ""
             },
             "require": {
@@ -9544,7 +9544,7 @@
                 "issues": "https://github.com/orchestral/testbench/issues",
                 "source": "https://github.com/orchestral/testbench-core"
             },
-            "time": "2024-04-16T07:33:55+00:00"
+            "time": "2024-04-21T08:00:04+00:00"
         },
         {
             "name": "phar-io/manifest",
