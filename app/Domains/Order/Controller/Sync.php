@@ -27,7 +27,7 @@ class Sync extends ControllerAbstract
         return $this->page('order.sync', [
             'filters' => $this->request->input(),
             'products' => $this->products(),
-            'platforms' => PlatformModel::query()->list()->get(),
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
         ]);
     }
 

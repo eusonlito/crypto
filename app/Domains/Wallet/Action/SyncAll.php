@@ -21,7 +21,7 @@ class SyncAll extends ActionAbstract
     protected function iterate(): void
     {
         foreach ($this->list() as $each) {
-            $this->factory()->action()->sync($each);
+            $this->factory()->action()->syncPlatform($each);
         }
     }
 

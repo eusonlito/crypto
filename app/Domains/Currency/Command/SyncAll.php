@@ -19,7 +19,7 @@ class SyncAll extends CommandAbstract
     /**
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->factory()->action()->syncAll();
     }

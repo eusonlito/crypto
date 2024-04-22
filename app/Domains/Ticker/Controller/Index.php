@@ -21,7 +21,7 @@ class Index extends ControllerAbstract
         return $this->page('ticker.index', [
             'list' => $this->list(),
             'filters' => $this->request->input(),
-            'platforms' => PlatformModel::query()->list()->get(),
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
         ]);
     }
 

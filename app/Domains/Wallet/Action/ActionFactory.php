@@ -143,9 +143,9 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return void
      */
-    public function sync(): void
+    public function syncPlatform(): void
     {
-        $this->actionHandle(Sync::class, [], ...func_get_args());
+        $this->actionHandle(SyncPlatform::class, [], ...func_get_args());
     }
 
     /**
@@ -202,6 +202,14 @@ class ActionFactory extends ActionFactoryAbstract
     public function updateSellStop(): Model
     {
         return $this->actionHandle(UpdateSellStop::class, $this->validate()->updateSellStop());
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function updateSellStopLoss(): Model
+    {
+        return $this->actionHandle(UpdateSellStopLoss::class, $this->validate()->updateSellStopLoss());
     }
 
     /**

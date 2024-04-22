@@ -20,6 +20,6 @@ class SyncPlatform extends CommandAbstract
     public function handle()
     {
         $this->platform();
-        $this->factory()->action()->sync($this->platform);
+        $this->factory()->action()->syncPlatform($this->platform);
     }
 }

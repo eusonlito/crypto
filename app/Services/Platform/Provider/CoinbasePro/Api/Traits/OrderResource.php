@@ -9,10 +9,12 @@ trait OrderResource
 {
     /**
      * @param \stdClass $row
+     * @param int $key = 0
+     * @param array $trades = []
      *
      * @return \App\Services\Platform\Resource\Order
      */
-    protected function resource(stdClass $row): Order
+    protected function resource(stdClass $row, int $key = 0, array $trades = []): Order
     {
         $row = $this->resourceMap($row);
 
@@ -32,6 +34,7 @@ trait OrderResource
             'type' => $row->type,
             'side' => $row->side,
             'filled' => ($row->status === 'done'),
+            'trades' => [],
             'createdAt' => $this->date($row->created_at),
             'updatedAt' => $this->date($row->done_at),
         ]);

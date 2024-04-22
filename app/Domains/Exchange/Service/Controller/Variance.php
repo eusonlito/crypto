@@ -98,7 +98,7 @@ class Variance extends ControllerAbstract
      */
     protected function platforms(): Collection
     {
-        return $this->cache(fn () => PlatformModel::query()->list()->get());
+        return $this->cache(fn () => PlatformModel::query()->byUserId($this->auth->id)->list()->get());
     }
 
     /**

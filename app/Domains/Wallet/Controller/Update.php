@@ -2,7 +2,9 @@
 
 namespace App\Domains\Wallet\Controller;
 
+use Illuminate\Support\Collection;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -14,7 +16,7 @@ class Update extends ControllerAbstract
      *
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function __invoke(int $id)
+    public function __invoke(int $id): Response|RedirectResponse
     {
         $this->row($id);
 
@@ -37,7 +39,7 @@ class Update extends ControllerAbstract
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function products()
+    protected function products(): Collection
     {
         return ProductModel::query()
             ->byPlatformId($this->row->platform_id)
@@ -48,15 +50,18 @@ class Update extends ControllerAbstract
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function platforms()
+    protected function platforms(): Collection
     {
-        return PlatformModel::query()->list()->get();
+        return PlatformModel::query()
+            ->byUserId($this->auth->id)
+            ->list()
+            ->get();
     }
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    protected function orders()
+    protected function orders(): Collection
     {
         return OrderModel::query()
             ->byProductId($this->row->product_id)
@@ -69,7 +74,7 @@ class Update extends ControllerAbstract
     /**
      * @return \Illuminate\Http\RedirectResponse|false|null
      */
-    protected function actions()
+    protected function actions(): RedirectResponse|false|null
     {
         return $this->actionPost('update')
             ?: $this->actionPost('delete')

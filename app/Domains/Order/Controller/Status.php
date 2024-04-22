@@ -25,7 +25,7 @@ class Status extends ControllerAbstract
         return $this->page('order.status', [
             'filters' => $this->request->input(),
             'list' => (new StatusService($this->auth, $this->request))->get(),
-            'platforms' => PlatformModel::query()->list()->get(),
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
         ]);
     }
 

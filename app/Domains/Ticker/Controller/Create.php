@@ -27,7 +27,9 @@ class Create extends ControllerAbstract
      */
     protected function data(): array
     {
-        $data = ['platforms' => PlatformModel::query()->list()->get()];
+        $data = [
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
+        ];
 
         if ($platform_id = $this->request->input('platform_id')) {
             $data['products'] = ProductModel::query()->byPlatformId($platform_id)->list()->get();

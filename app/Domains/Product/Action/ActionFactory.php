@@ -71,9 +71,9 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return void
      */
-    public function sync(): void
+    public function syncPlatform(): void
     {
-        $this->actionHandle(Sync::class, [], ...func_get_args());
+        $this->actionHandle(SyncPlatform::class, [], ...func_get_args());
     }
 
     /**

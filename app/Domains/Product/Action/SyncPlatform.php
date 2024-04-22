@@ -9,7 +9,7 @@ use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as Model;
 use App\Services\Platform\Resource\Product as ProductResource;
 
-class Sync extends ActionAbstract
+class SyncPlatform extends ActionAbstract
 {
     /**
      * @const

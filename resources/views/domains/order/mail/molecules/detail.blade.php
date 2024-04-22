@@ -43,11 +43,11 @@
                             <td>@number($row->value)</td>
                         </tr>
 
-                        @if ($previous->isNotEmpty())
+                        @if ($next = $previous->first())
 
                         <tr>
                             <th>Diferencia</th>
-                            <td>@number($row->value - $previous->first()->value)</td>
+                            <td>@number($row->value - ($row->amount * $next->price))</td>
                         </tr>
 
                         @endif
@@ -105,7 +105,7 @@
 
                         <tr>
                             <th>Diferencia</th>
-                            <td>@number($row->value - $next->value)</td>
+                            <td>@number($row->value - ($row->amount * $next->price))</td>
                         </tr>
 
                         @endif

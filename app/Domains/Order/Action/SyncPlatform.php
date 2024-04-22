@@ -6,7 +6,7 @@ use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Services\Platform\ApiFactoryAbstract;
 
-class Sync extends ActionAbstract
+class SyncPlatform extends ActionAbstract
 {
     /**
      * @var \App\Services\Platform\ApiFactoryAbstract

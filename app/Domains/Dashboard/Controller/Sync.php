@@ -3,13 +3,15 @@
 namespace App\Domains\Dashboard\Controller;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use App\Domains\Platform\Model\Platform as PlatformModel;
 
 class Sync extends ControllerAbstract
 {
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function __invoke()
+    public function __invoke(): Response|RedirectResponse
     {
         if ($this->auth->plarformsPivot()->count() === 0) {
             return redirect()->route('user.update.platform');
@@ -21,7 +23,9 @@ class Sync extends ControllerAbstract
 
         $this->meta('title', __('dashboard-sync.meta-title'));
 
-        return $this->page('dashboard.sync');
+        return $this->page('dashboard.sync', [
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
+        ]);
     }
 
     /**

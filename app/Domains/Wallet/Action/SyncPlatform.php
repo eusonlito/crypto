@@ -14,7 +14,7 @@ use App\Exceptions\UnexpectedValueException;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Wallet as WalletResource;
 
-class Sync extends ActionAbstract
+class SyncPlatform extends ActionAbstract
 {
     /**
      * @var \App\Services\Platform\ApiFactoryAbstract

@@ -8,7 +8,7 @@ use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Services\Platform\Resource\Currency as CurrencyResource;
 
-class Sync extends ActionAbstract
+class SyncPlatform extends ActionAbstract
 {
     /**
      * @var \Illuminate\Support\Collection

@@ -2,6 +2,9 @@
 
 namespace App\Domains\Dashboard\Controller;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+
 class Start extends ControllerAbstract
 {
     /**
@@ -12,7 +15,7 @@ class Start extends ControllerAbstract
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function __invoke()
+    public function __invoke(): Response|RedirectResponse
     {
         if ($this->hasWallets()) {
             return redirect()->route('dashboard.index');

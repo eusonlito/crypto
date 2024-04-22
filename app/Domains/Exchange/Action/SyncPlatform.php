@@ -11,7 +11,7 @@ use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Platform\Service\Provider\ProviderSocketFactory;
 use App\Services\Platform\Resource\Exchange as ExchangeResource;
 
-class Sync extends ActionAbstract
+class SyncPlatform extends ActionAbstract
 {
     use SyncRelationTrait;
 

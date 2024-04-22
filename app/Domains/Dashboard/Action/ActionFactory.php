@@ -11,6 +11,22 @@ class ActionFactory extends ActionFactoryAbstract
      */
     public function sync(): void
     {
-        $this->actionHandle(Sync::class);
+        $this->actionHandle(Sync::class, $this->validate()->sync());
+    }
+
+    /**
+     * @return void
+     */
+    public function syncAll(): void
+    {
+        $this->actionHandle(SyncAll::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function syncPlatform(): void
+    {
+        $this->actionHandle(SyncPlatform::class, $this->validate()->syncPlatform());
     }
 }

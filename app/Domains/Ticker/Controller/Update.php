@@ -28,7 +28,7 @@ class Update extends ControllerAbstract
         return $this->page('ticker.update', [
             'row' => $this->row,
             'products' => ProductModel::query()->byPlatformId($this->row->platform_id)->list()->get(),
-            'platforms' => PlatformModel::query()->list()->get(),
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
         ]);
     }
 

@@ -41,10 +41,16 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs"><a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stop-modal-{{ $row->id }}">{{ __('wallet-stat.sell_stop') }}</a></div>
+                    <div class="text-gray-600 text-xs">
+                        <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stop-modal-{{ $row->id }}">{{ __('wallet-stat.sell_stop') }}</a>
+                    </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base {{ $sell_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stop ? __('wallet-stat.sell_stop_enabled') : __('wallet-stat.sell_stop_disabled') }}</div>
+                        <div class="text-base {{ $sell_stop ? 'text-theme-10' : 'text-theme-24' }}">
+                            <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stop-modal-{{ $row->id }}">
+                                {{ $sell_stop ? __('wallet-stat.sell_stop_enabled') : __('wallet-stat.sell_stop_disabled') }}
+                            </a>
+                        </div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max_exchange') }} (@number($sell_stop_max_percent, 2)%)</div>
@@ -107,10 +113,16 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs"><a href="javascript:;" data-toggle="modal" data-target="#wallet-update-buy-stop-modal-{{ $row->id }}">{{ __('wallet-stat.buy_stop') }}</a></div>
+                    <div class="text-gray-600 text-xs">
+                        <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-buy-stop-modal-{{ $row->id }}">{{ __('wallet-stat.buy_stop') }}</a>
+                    </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base {{ $buy_stop ? 'text-theme-10' : 'text-theme-24' }}">{{ $buy_stop ? __('wallet-stat.buy_stop_enabled') : __('wallet-stat.buy_stop_disabled') }}</div>
+                        <div class="text-base {{ $buy_stop ? 'text-theme-10' : 'text-theme-24' }}">
+                            <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-buy-stop-modal-{{ $row->id }}">
+                                {{ $buy_stop ? __('wallet-stat.buy_stop_enabled') : __('wallet-stat.buy_stop_disabled') }}
+                            </a>
+                        </div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_exchange') }} (@number($buy_stop_min_percent, 2)%)</div>
@@ -173,10 +185,18 @@
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stoploss') }}</div>
+                    <div class="text-gray-600 text-xs">
+                        <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stoploss-modal-{{ $row->id }}">
+                            {{ __('wallet-stat.sell_stoploss') }}
+                        </a>
+                    </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base {{ $sell_stoploss ? 'text-theme-10' : 'text-theme-24' }}">{{ $sell_stoploss ? __('wallet-stat.sell_stoploss_enabled') : __('wallet-stat.sell_stoploss_disabled') }}</div>
+                        <div class="text-base {{ $sell_stoploss ? 'text-theme-10' : 'text-theme-24' }}">
+                            <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-stoploss-modal-{{ $row->id }}">
+                                {{ $sell_stoploss ? __('wallet-stat.sell_stoploss_enabled') : __('wallet-stat.sell_stoploss_disabled') }}
+                            </a>
+                        </div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stoploss_exchange') }} (@number($sell_stoploss_percent, 2)%)</div>
@@ -211,3 +231,4 @@
 
 @include ('domains.wallet.molecules.wallet-update-buy-stop-modal')
 @include ('domains.wallet.molecules.wallet-update-sell-stop-modal')
+@include ('domains.wallet.molecules.wallet-update-sell-stoploss-modal')

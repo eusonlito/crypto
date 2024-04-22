@@ -2,6 +2,7 @@
 
 namespace App\Services\Platform\Provider\Binance\Api;
 
+use ArrayObject;
 use Illuminate\Support\Collection;
 use App\Services\Platform\Provider\Binance\Api\Traits\OrderResource as OrderResourceTrait;
 
@@ -15,13 +16,20 @@ class OrdersProduct extends ApiAbstract
     protected string $product;
 
     /**
+     * @var bool
+     */
+    protected bool $trades;
+
+    /**
      * @param string $product
+     * @param bool $trades = false
      *
      * @return self
      */
-    public function __construct(string $product)
+    public function __construct(string $product, bool $trades = false)
     {
         $this->product = $product;
+        $this->trades = $trades;
     }
 
     /**
@@ -29,7 +37,7 @@ class OrdersProduct extends ApiAbstract
      */
     public function handle(): Collection
     {
-        return $this->collection($this->query());
+        return $this->collection($this->query(), $this->trades());
     }
 
     /**
@@ -38,5 +46,27 @@ class OrdersProduct extends ApiAbstract
     protected function query(): array
     {
         return $this->requestAuth('GET', '/api/v3/allOrders', ['symbol' => $this->product]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function trades(): array
+    {
+        if ($this->trades === false) {
+            return [];
+        }
+
+        return array_reduce($this->tradesQuery(), static function ($carry, $item) {
+            return $carry[$item->orderId] = $item;
+        }, new ArrayObject())->getArrayCopy();
+    }
+
+    /**
+     * @return array
+     */
+    protected function tradesQuery(): array
+    {
+        return $this->requestAuth('GET', '/api/v3/myTrades', ['symbol' => $this->product]);
     }
 }

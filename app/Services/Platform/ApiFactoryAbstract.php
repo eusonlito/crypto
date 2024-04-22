@@ -102,10 +102,11 @@ abstract class ApiFactoryAbstract
 
     /**
      * @param string $product
+     * @param bool $trades = false
      *
      * @return \Illuminate\Support\Collection
      */
-    abstract public function ordersProduct(string $product): Collection;
+    abstract public function ordersProduct(string $product, bool $trades = false): Collection;
 
     /**
      * @return \Illuminate\Support\Collection

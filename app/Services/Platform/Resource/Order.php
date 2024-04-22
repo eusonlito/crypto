@@ -65,6 +65,11 @@ class Order extends ResourceAbstract
     public bool $filled;
 
     /**
+     * @var array
+     */
+    public array $trades;
+
+    /**
      * @var string
      */
     public string $createdAt;

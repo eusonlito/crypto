@@ -104,10 +104,11 @@ class ApiFactory extends ApiFactoryAbstract
 
     /**
      * @param string $product
+     * @param bool $trades = false
      *
      * @return \Illuminate\Support\Collection
      */
-    public function ordersProduct(string $product): Collection
+    public function ordersProduct(string $product, bool $trades = false): Collection
     {
         return $this->handle(OrdersProduct::class, func_get_args());
     }
