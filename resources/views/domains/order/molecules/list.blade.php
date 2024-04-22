@@ -1,11 +1,12 @@
 @php ($filled ??= false)
+@php ($paginated = method_exists($list, 'hasPages'))
 
 <div class="overflow-auto md:overflow-visible header-sticky">
-    <table id="order-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort>
+    <table id="order-list-table" class="table table-report sm:mt-2 font-medium" data-table-sort {{ $paginated ? '' : 'data-table-pagination' }}>
         <thead>
             <tr class="text-right">
                 <th class="text-center">{{ __('order-index.date') }}</th>
-                <th class="text-center">{{ __('order-index.product') }}</th>
+                <th class="text-center">{{ __('order-index.wallet') }}</th>
                 <th class="text-center">{{ __('order-index.platform') }}</th>
                 <th class="text-center">{{ __('order-index.side') }}</th>
                 <th>{{ __('order-index.amount') }}</th>
@@ -43,7 +44,19 @@
 
                     @endif
                 </td>
-                <td><a href="{{ route('exchange.detail', $row->product->id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a></td>
+
+                <td>
+                    @if ($row->wallet_id)
+
+                    <a href="{{ route('wallet.update', $row->wallet_id) }}" class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</a>
+
+                    @else
+
+                    <span class="block text-center font-semibold whitespace-nowrap external">{{ $row->product->acronym }}</span>
+
+                    @endif
+                </td>
+
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-center font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
                 <td><span class="block text-center">{{ ($row->side === 'sell') ? __('order-index.sell') : __('order-index.buy') }}</span></td>
                 <td data-table-sort-value="{{ $row->amount }}" data-copy-value="{{ $row->amount }}"><span class="block" title="{{ $row->amount }}">@number($row->amount)</span></td>
@@ -74,7 +87,7 @@
     </table>
 </div>
 
-@if (method_exists($list, 'hasPages') && $list->hasPages())
+@if ($paginated && $list->hasPages())
 
 <div class="mt-2">
     {{ $list->appends($REQUEST->input())->links() }}

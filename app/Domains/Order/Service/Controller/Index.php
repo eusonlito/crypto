@@ -37,7 +37,9 @@ class Index
      */
     public function get(): LengthAwarePaginator|Collection
     {
-        $q = Model::query()->byUserId($this->user->id)->list();
+        $q = Model::query()
+            ->byUserId($this->user->id)
+            ->list();
 
         if ($filter = $this->request->input('search')) {
             $q->byProductSearch($filter);

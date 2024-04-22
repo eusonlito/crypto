@@ -18,7 +18,6 @@
     'platform' => 'Plataforma',
     'platforms-all' => 'Plataforma',
     'price' => 'Precio',
-    'product' => 'Producto',
     'search' => 'Buscar',
     'sell' => 'Venta',
     'side' => 'Dirección',
@@ -29,4 +28,5 @@
     'type' => 'Tipo',
     'value' => 'Valor',
     'value_current' => 'Valor Actual',
+    'wallet' => 'Cartera',
 ];

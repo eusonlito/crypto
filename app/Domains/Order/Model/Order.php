@@ -7,11 +7,14 @@ use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Order\Model\Builder\Order as Builder;
+use App\Domains\Order\Model\Traits\OrderSql as OrderSqlTrait;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Domains\User\Model\User as UserModel;
 
 class Order extends ModelAbstract
 {
+    use OrderSqlTrait;
+
     /**
      * @var string
      */

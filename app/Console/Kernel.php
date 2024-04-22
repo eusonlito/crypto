@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\Kernel as KernelVendor;
 use App\Domains\CoreMaintenance\Schedule\Manager as CoreMaintenanceScheduleManager;
 use App\Domains\Currency\Schedule\Manager as CurrencyScheduleManager;
 use App\Domains\Exchange\Schedule\Manager as ExchangeScheduleManager;
+use App\Domains\Order\Schedule\Manager as OrderScheduleManager;
 use App\Domains\Product\Schedule\Manager as ProductScheduleManager;
 use App\Domains\Wallet\Schedule\Manager as WalletScheduleManager;
 
@@ -33,6 +34,7 @@ class Kernel extends KernelVendor
         (new CurrencyScheduleManager($schedule))->handle();
         (new ExchangeScheduleManager($schedule))->handle();
         (new ProductScheduleManager($schedule))->handle();
+        (new OrderScheduleManager($schedule))->handle();
         (new CoreMaintenanceScheduleManager($schedule))->handle();
 
         $this->scheduleCachePrune($schedule);

@@ -83,4 +83,12 @@ class ActionFactory extends ActionFactoryAbstract
     {
         return $this->actionHandle(Update::class, $this->validate()->update());
     }
+
+    /**
+     * @return void
+     */
+    public function walletFix(): void
+    {
+        $this->actionHandle(WalletFix::class);
+    }
 }
