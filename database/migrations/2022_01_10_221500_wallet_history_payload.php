@@ -121,29 +121,29 @@ return new class extends MigrationAbstract {
 
             $table->unsignedSmallInteger('order')->default(0);
 
-            $table->unsignedDouble('amount');
+            $table->double('amount');
 
-            $table->unsignedDouble('buy_exchange')->default(0);
-            $table->unsignedDouble('buy_value')->default(0);
+            $table->double('buy_exchange')->default(0);
+            $table->double('buy_value')->default(0);
 
-            $table->unsignedDouble('current_exchange')->default(0);
-            $table->unsignedDouble('current_value')->default(0);
+            $table->double('current_exchange')->default(0);
+            $table->double('current_value')->default(0);
 
             $table->boolean('sell_stop')->default(0);
 
             $table->boolean('sell_stop_exchange')->default(0);
 
-            $table->unsignedDouble('sell_stop_amount')->default(0);
+            $table->double('sell_stop_amount')->default(0);
 
-            $table->unsignedDouble('sell_stop_max')->default(0);
-            $table->unsignedDouble('sell_stop_max_value')->default(0);
-            $table->unsignedDouble('sell_stop_max_percent')->default(0);
+            $table->double('sell_stop_max')->default(0);
+            $table->double('sell_stop_max_value')->default(0);
+            $table->double('sell_stop_max_percent')->default(0);
             $table->dateTime('sell_stop_max_at')->nullable();
             $table->boolean('sell_stop_max_executable')->default(0);
 
-            $table->unsignedDouble('sell_stop_min')->default(0);
-            $table->unsignedDouble('sell_stop_min_value')->default(0);
-            $table->unsignedDouble('sell_stop_min_percent')->default(0);
+            $table->double('sell_stop_min')->default(0);
+            $table->double('sell_stop_min_value')->default(0);
+            $table->double('sell_stop_min_percent')->default(0);
             $table->dateTime('sell_stop_min_at')->nullable();
             $table->boolean('sell_stop_min_executable')->default(0);
 
@@ -151,25 +151,25 @@ return new class extends MigrationAbstract {
 
             $table->boolean('buy_stop_exchange')->default(0);
 
-            $table->unsignedDouble('buy_stop_amount')->default(0);
+            $table->double('buy_stop_amount')->default(0);
 
-            $table->unsignedDouble('buy_stop_max')->default(0);
-            $table->unsignedDouble('buy_stop_max_value')->default(0);
-            $table->unsignedDouble('buy_stop_max_percent')->default(0);
+            $table->double('buy_stop_max')->default(0);
+            $table->double('buy_stop_max_value')->default(0);
+            $table->double('buy_stop_max_percent')->default(0);
             $table->dateTime('buy_stop_max_at')->nullable();
             $table->boolean('buy_stop_max_executable')->default(0);
 
-            $table->unsignedDouble('buy_stop_min')->default(0);
-            $table->unsignedDouble('buy_stop_min_value')->default(0);
-            $table->unsignedDouble('buy_stop_min_percent')->default(0);
+            $table->double('buy_stop_min')->default(0);
+            $table->double('buy_stop_min_value')->default(0);
+            $table->double('buy_stop_min_percent')->default(0);
             $table->dateTime('buy_stop_min_at')->nullable();
             $table->boolean('buy_stop_min_executable')->default(0);
 
             $table->boolean('sell_stoploss')->default(0);
 
-            $table->unsignedDouble('sell_stoploss_exchange')->default(0);
-            $table->unsignedDouble('sell_stoploss_value')->default(0);
-            $table->unsignedDouble('sell_stoploss_percent')->default(0);
+            $table->double('sell_stoploss_exchange')->default(0);
+            $table->double('sell_stoploss_value')->default(0);
+            $table->double('sell_stoploss_percent')->default(0);
 
             $table->dateTime('sell_stoploss_at')->nullable();
             $table->boolean('sell_stoploss_executable')->default(0);

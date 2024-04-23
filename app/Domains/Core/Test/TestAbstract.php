@@ -11,6 +11,7 @@ use Tests\TestsAbstract;
 use Tests\CreatesApplication;
 use App\Domains\Core\Model\ModelAbstract;
 use App\Domains\Core\Traits\Factory;
+use App\Domains\User\Model\User as UserModel;
 use App\Services\Http\Curl\Curl;
 use Database\Seeders\Database as DatabaseSeed;
 
@@ -49,7 +50,7 @@ abstract class TestAbstract extends TestsAbstract
      */
     protected function getUserClass(): string
     {
-        return Model::class;
+        return UserModel::class;
     }
 
     /**
@@ -201,7 +202,7 @@ abstract class TestAbstract extends TestsAbstract
      */
     protected function action(?string $action = null): array
     {
-        return ['_action' => $action ?: $this->action];
+        return ['_action' => $action ?: $this->action ?? ''];
     }
 
     /**

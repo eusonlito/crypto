@@ -70,6 +70,6 @@ class {{ domain }} extends ModelAbstract
      */
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(TagModel::class, TagModel::class);
+        return $this->belongsToMany(TagModel::class, TagUserModel::class);
     }
 }

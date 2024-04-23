@@ -7,7 +7,7 @@ trait OrderSql
     /**
      * @return void
      */
-    protected static function walletFix(): void
+    public static function walletFix(): void
     {
         static::DB()->unprepared('
             UPDATE `order`

@@ -31,7 +31,7 @@ return new class extends MigrationAbstract {
     protected function upTables(): void
     {
         Schema::table('user', function (Blueprint $table) {
-            $table->unsignedDouble('investment')->default(0);
+            $table->double('investment')->default(0);
         });
     }
 

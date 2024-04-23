@@ -10,6 +10,12 @@ use App\Services\Platform\Resource\Order as OrderResource;
 class ApiFactory extends ApiFactoryAbstract
 {
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
+     * @param string $symbol
+     * @param string $interval
+     * @param string $start
+     *
      * @return \Illuminate\Support\Collection
      */
     public function candles(string $symbol, string $interval, string $start): Collection
@@ -42,6 +48,8 @@ class ApiFactory extends ApiFactoryAbstract
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param string $symbol
      *
      * @return \App\Services\Platform\Resource\OrderBook
@@ -52,6 +60,8 @@ class ApiFactory extends ApiFactoryAbstract
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param string $product
      * @param string $side
      * @param string $type
@@ -82,6 +92,8 @@ class ApiFactory extends ApiFactoryAbstract
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param string $product
      *
      * @return void
@@ -92,6 +104,8 @@ class ApiFactory extends ApiFactoryAbstract
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param ?string $product = null
      *
      * @return \Illuminate\Support\Collection
@@ -102,6 +116,8 @@ class ApiFactory extends ApiFactoryAbstract
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param string $product
      * @param bool $trades = false
      *

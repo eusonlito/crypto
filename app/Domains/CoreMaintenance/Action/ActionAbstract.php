@@ -2,7 +2,7 @@
 
 namespace App\Domains\CoreMaintenance\Action;
 
-use App\Domains\Core\Action\ActionAbstract as ActionAbstractCore;
+use App\Domains\CoreApp\Action\ActionAbstract as ActionAbstractCore;
 
 abstract class ActionAbstract extends ActionAbstractCore
 {

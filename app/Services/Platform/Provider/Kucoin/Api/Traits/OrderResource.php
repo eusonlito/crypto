@@ -8,6 +8,8 @@ use App\Services\Platform\Resource\Order;
 trait OrderResource
 {
     /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
      * @param \stdClass $row
      * @param int $key = 0
      * @param array $trades = []

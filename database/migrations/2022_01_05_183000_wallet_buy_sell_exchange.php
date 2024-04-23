@@ -33,14 +33,14 @@ return new class extends MigrationAbstract {
     protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->unsignedDouble('sell_stop_exchange')->default(0);
-            $table->unsignedDouble('buy_stop_exchange')->default(0);
+            $table->double('sell_stop_exchange')->default(0);
+            $table->double('buy_stop_exchange')->default(0);
         });
 
         if (Schema::hasColumn('wallet_history', 'buy_exchange')) {
             Schema::table('wallet_history', function (Blueprint $table) {
-                $table->unsignedDouble('sell_stop_exchange')->default(0);
-                $table->unsignedDouble('buy_stop_exchange')->default(0);
+                $table->double('sell_stop_exchange')->default(0);
+                $table->double('buy_stop_exchange')->default(0);
             });
         }
     }

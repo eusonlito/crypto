@@ -9,11 +9,10 @@ use Illuminate\Support\Facades\DB;
 use App\Domains\Core\Model\Traits\Column as ColumnTrait;
 use App\Domains\Core\Model\Traits\DateDisabled as DateDisabledTrait;
 use App\Domains\Core\Model\Traits\MutatorDisabled as MutatorDisabledTrait;
-use App\Domains\Core\Model\Traits\Transform as TransformTrait;
 
 abstract class PivotAbstract extends Pivot
 {
-    use ColumnTrait, DateDisabledTrait, MutatorDisabledTrait, TransformTrait;
+    use ColumnTrait, DateDisabledTrait, MutatorDisabledTrait;
 
     /**
      * @var bool
