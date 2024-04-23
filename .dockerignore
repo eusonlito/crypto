@@ -1,0 +1,14 @@
+**/node_modules
+
+/.phpunit.cache
+/public/manifest.json
+/public/hot
+/storage/docker
+/storage/tmp
+/vendor
+
+.phpunit.result.cache
+.php_cs.cache
+.php-cs-fixer.cache
+
+*.sh

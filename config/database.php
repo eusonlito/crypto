@@ -52,33 +52,6 @@ return [
             'log_backtrace' => (bool)env('DB_LOG_BACKTRACE', true),
             'log_time' => (bool)env('DB_LOG_TIME', true),
         ],
-
-        'dump' => [
-            'driver' => 'mysql',
-            'host' => env('DB_DUMP_HOST'),
-            'port' => env('DB_DUMP_PORT'),
-            'database' => env('DB_DUMP_DATABASE'),
-            'username' => env('DB_DUMP_USERNAME'),
-            'password' => env('DB_DUMP_PASSWORD'),
-            'unix_socket' => env('DB_DUMP_SOCKET'),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'timezone' => null,
-            'options' => [],
-            'log' => env('DB_DUMP_LOG', false),
-            'log_backtrace' => (bool)env('DB_DUMP_LOG_BACKTRACE', false),
-            'log_time' => (bool)env('DB_DUMP_LOG_TIME', false),
-        ],
-
-        'test' => [
-            'driver' => 'sqlite',
-            'database' => base_path('storage/tmp/test.sqlite'),
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-        ],
     ],
 
     /*

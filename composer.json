@@ -106,6 +106,17 @@
             "@php artisan core:maintenance:opcache:preload"
         ],
 
+        "deploy-docker": [
+            "Composer\\Config::disableProcessTimeout",
+            "rm -f bootstrap/cache/*.php",
+            "@composer install --no-dev --optimize-autoloader --classmap-authoritative --ansi",
+            "@php artisan migrate --force --ansi",
+            "@php artisan db:seed --class=\"Database\\Seeders\\Database\" --force",
+            "@php artisan tool:manifest:generate",
+            "@php artisan queue:restart --ansi",
+            "@php artisan core:maintenance:opcache:preload"
+        ],
+
         "deploy-dev": [
             "Composer\\Config::disableProcessTimeout",
             "rm -f bootstrap/cache/*.php",
