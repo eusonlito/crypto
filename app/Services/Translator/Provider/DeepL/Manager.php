@@ -3,6 +3,7 @@
 namespace App\Services\Translator\Provider\DeepL;
 
 use stdClass;
+use Throwable;
 use App\Exceptions\UnexpectedValueException;
 use App\Services\Translator\Provider\ProviderAbstract;
 
@@ -48,7 +49,23 @@ class Manager extends ProviderAbstract
      */
     protected function request(string $from, string $to, array $strings): array
     {
-        return $this->requestResponse($this->requestCurl($from, $to, $strings));
+        try {
+            return $this->requestResponse($this->requestCurl($from, $to, $strings));
+        } catch (Throwable $e) {
+            return $this->requestError($e);
+        }
+    }
+
+    /**
+     * @param \Throwable $e
+     *
+     * @return array
+     */
+    protected function requestError(Throwable $e): array
+    {
+        report($e);
+
+        return [];
     }
 
     /**
@@ -115,7 +132,33 @@ class Manager extends ProviderAbstract
      */
     protected function requestBodyText(array $strings): string
     {
-        return implode("\n", array_map(static fn ($value, $key) => '<key>'.$key.'</key> '.$value, $strings, array_keys($strings)));
+        return $this->requestBodyTextTags(implode("\n", $this->requestBodyTextKeys($strings)));
+    }
+
+    /**
+     * @param array $strings
+     *
+     * @return array
+     */
+    protected function requestBodyTextKeys(array $strings): array
+    {
+        return array_map(
+            static fn ($value, $key) => '<key>'.$key.'</key> '.$value,
+            $strings,
+            array_keys($strings)
+        );
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    protected function requestBodyTextTags(string $text): string
+    {
+        return preg_replace_callback('/:[a-z_]+/', static function (array $tag) {
+            return '[BASE64:'.base64_encode($tag[0]).']';
+        }, $text);
     }
 
     /**
@@ -125,14 +168,56 @@ class Manager extends ProviderAbstract
      */
     protected function requestResponse(stdClass $response): array
     {
+        $text = $response->translations[0]->text;
+
+        $text = $this->requestResponseTags($text);
+        $keys = $this->requestResponseKeys($text);
+        $strings = $this->requestResponseString($text);
+
         $translations = [];
 
-        foreach (explode("\n", $response->translations[0]->text) as $line) {
-            preg_match('/^<key>([^<]+)<\/key> (.*)$/', $line, $matches);
+        foreach ($keys as $index => $key) {
+            if (empty($strings[$index])) {
+                exit(var_export([$text, $keys, $strings], true));
+            }
 
-            $translations[$matches[1]] = $matches[2];
+            $translations[$key] = $strings[$index];
         }
 
         return $translations;
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    protected function requestResponseTags(string $text): string
+    {
+        return preg_replace_callback('/\[BASE64:([^\]]+)\]/', static function (array $tag) {
+            return base64_decode($tag[1]);
+        }, $text);
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return array
+     */
+    protected function requestResponseKeys(string $text): array
+    {
+        preg_match_all('/<key>([^<]+)<\/key>/', $text, $matches);
+
+        return $matches[1];
+    }
+
+    /**
+     * @param string $text
+     *
+     * @return array
+     */
+    protected function requestResponseString(string $text): array
+    {
+        return array_map('trim', explode("\n", preg_replace('/<key>([^<]*)<\/key>/', '', $text)));
     }
 }
