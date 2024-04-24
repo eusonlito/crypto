@@ -30,8 +30,7 @@ return new class extends MigrationAbstract {
 
             $table->boolean('trade')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('platform_id');
         });
@@ -54,8 +53,7 @@ return new class extends MigrationAbstract {
 
             $table->dateTime('end_at')->nullable();
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
         });
 
         Schema::create('language', function (Blueprint $table) {
@@ -108,8 +106,7 @@ return new class extends MigrationAbstract {
             $table->boolean('enabled')->default(0);
             $table->boolean('trailing_stop')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
         });
 
         Schema::create('platform_user', function (Blueprint $table) {
@@ -117,8 +114,7 @@ return new class extends MigrationAbstract {
 
             $table->json('settings')->nullable();
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('platform_id');
             $table->unsignedBigInteger('user_id');
@@ -154,8 +150,7 @@ return new class extends MigrationAbstract {
             $table->boolean('tracking')->default(0);
             $table->boolean('enabled')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('currency_base_id');
             $table->unsignedBigInteger('currency_quote_id');
@@ -167,8 +162,7 @@ return new class extends MigrationAbstract {
 
             $table->boolean('favorite')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('platform_id');
             $table->unsignedBigInteger('product_id');
@@ -186,8 +180,7 @@ return new class extends MigrationAbstract {
 
             $table->timestamp('failed_at')->useCurrent();
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
         });
 
         Schema::create('ticker', function (Blueprint $table) {
@@ -212,8 +205,7 @@ return new class extends MigrationAbstract {
 
             $table->boolean('enabled')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('currency_id');
             $table->unsignedBigInteger('platform_id');
@@ -285,8 +277,7 @@ return new class extends MigrationAbstract {
             $table->boolean('admin')->default(0);
             $table->boolean('enabled')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('language_id');
         });
@@ -298,8 +289,7 @@ return new class extends MigrationAbstract {
 
             $table->boolean('success')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('user_id')->nullable();
         });
@@ -383,8 +373,7 @@ return new class extends MigrationAbstract {
 
             $table->dateTime('processing_at')->nullable();
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('currency_id');
             $table->unsignedBigInteger('order_buy_stop_id')->nullable();
@@ -402,8 +391,7 @@ return new class extends MigrationAbstract {
 
             $table->json('payload')->nullable();
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('currency_id');
             $table->unsignedBigInteger('platform_id');

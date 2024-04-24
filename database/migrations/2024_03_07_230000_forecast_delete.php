@@ -51,8 +51,7 @@ return new class extends MigrationAbstract {
             $table->boolean('valid')->default(0);
             $table->boolean('selected')->default(0);
 
-            $this->dateTimeCreatedAt($table);
-            $this->dateTimeUpdatedAt($table);
+            $this->timestamps($table);
 
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('platform_id');

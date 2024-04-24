@@ -30,12 +30,12 @@ class Kernel extends KernelVendor
      */
     protected function schedule(Schedule $schedule)
     {
-        (new WalletScheduleManager($schedule))->handle();
-        (new CurrencyScheduleManager($schedule))->handle();
-        (new ExchangeScheduleManager($schedule))->handle();
-        (new ProductScheduleManager($schedule))->handle();
-        (new OrderScheduleManager($schedule))->handle();
-        (new CoreMaintenanceScheduleManager($schedule))->handle();
+        WalletScheduleManager::new($schedule)->handle();
+        CurrencyScheduleManager::new($schedule)->handle();
+        ExchangeScheduleManager::new($schedule)->handle();
+        ProductScheduleManager::new($schedule)->handle();
+        OrderScheduleManager::new($schedule)->handle();
+        CoreMaintenanceScheduleManager::new($schedule)->handle();
 
         $this->scheduleCachePrune($schedule);
     }
