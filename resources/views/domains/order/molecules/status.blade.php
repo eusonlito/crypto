@@ -68,8 +68,8 @@
                 <td colspan="3"></td>
                 <td><span class="block">@number($list->sum('wallet_value'))</span></td>
                 <td><span class="block">@number($list->sum('balance'))</span></td>
-                <td><span class="block">@number($list->avg('balance_percent'))</span></td>
-                <td><span class="block">@number($list->avg('balance_percent_daily'))</span></td>
+                <td><span class="block">@number($list->avg('balance_percent'))%</span></td>
+                <td><span class="block">@number($list->avg('balance_percent_daily'))%</span></td>
             </tr>
         </tbody>
     </table>
