@@ -2,6 +2,7 @@
 
 namespace App\Domains\Order\Service\Controller;
 
+use DateTime;
 use stdClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -105,7 +106,7 @@ class Status
 
         $balance = $sell_value - $buy_value;
         $balance_percent = ($balance / ($sell_value / $sell->count())) * 100;
-        $days = date_diff(date_create($first->created_at), date_create())->days ?: 1;
+        $days = date_diff(new DateTime($first->created_at), new DateTime(), true)->days ?: 1;
         $balance_percent_daily = $balance_percent / $days;
 
         return (object)[
