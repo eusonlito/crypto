@@ -100,24 +100,32 @@ class Status
         $buy = $list->where('side', 'buy');
         $sell = $list->where('side', 'sell');
 
-        $balance = $sell->sum('value') - $buy->sum('value');
+        $buy_value = $buy->sum('value');
+        $sell_value = $sell->sum('value');
+
+        $balance = $sell_value - $buy_value;
+        $balance_percent = ($balance / ($sell_value / $sell->count())) * 100;
+        $days = date_diff(date_create($first->created_at), date_create())->days ?: 1;
+        $balance_percent_daily = $balance_percent / $days;
 
         return (object)[
             'buy' => $buy->values(),
             'buy_prices' => $buy->pluck('price'),
-            'buy_value' => $buy->sum('value'),
+            'buy_value' => $buy_value,
             'buy_count' => $buy->count(),
             'buy_amount' => $buy->sum('amount'),
             'buy_average' => $this->average($buy),
             'sell' => $sell->values(),
             'sell_prices' => $sell->pluck('price'),
-            'sell_value' => $sell->sum('value'),
+            'sell_value' => $sell_value,
             'sell_count' => $sell->count(),
             'sell_amount' => $sell->sum('amount'),
             'sell_average' => $this->average($sell),
             'wallet_amount' => $first->wallet?->amount,
             'wallet_value' => $first->wallet?->current_value,
             'balance' => $balance,
+            'balance_percent' => $balance_percent,
+            'balance_percent_daily' => $balance_percent_daily,
             'date_first' => $first->created_at,
             'date_last' => $list->last()->created_at,
             'platform' => $first->platform,

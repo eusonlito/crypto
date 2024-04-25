@@ -16,6 +16,8 @@
                 <th class="text-center" title="{{ __('order-status.wallet-amount-description') }}">{{ __('order-status.wallet-amount') }}</th>
                 <th class="text-center" title="{{ __('order-status.wallet-value-description') }}">{{ __('order-status.wallet-value') }}</th>
                 <th class="text-center">{{ __('order-status.balance') }}</th>
+                <th class="text-center" title="{{ __('order-status.balance-percent-description') }}">{{ __('order-status.balance-percent') }}</th>
+                <th class="text-center" title="{{ __('order-status.balance-percent-daily-description') }}">{{ __('order-status.balance-percent-daily') }}</th>
             </tr>
         </thead>
 
@@ -49,6 +51,8 @@
                 <td><span class="block">@number($row->wallet_value)</span></td>
 
                 <td><span class="block">@number($row->balance, 2)</span></td>
+                <td><span class="block">@number($row->balance_percent, 2)%</span></td>
+                <td><span class="block">@number($row->balance_percent_daily, 2)%</span></td>
             </tr>
 
             @endforeach
@@ -64,6 +68,8 @@
                 <td colspan="3"></td>
                 <td><span class="block">@number($list->sum('wallet_value'))</span></td>
                 <td><span class="block">@number($list->sum('balance'))</span></td>
+                <td><span class="block">@number($list->avg('balance_percent'))</span></td>
+                <td><span class="block">@number($list->avg('balance_percent_daily'))</span></td>
             </tr>
         </tbody>
     </table>
