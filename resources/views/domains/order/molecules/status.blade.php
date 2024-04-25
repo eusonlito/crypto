@@ -41,14 +41,14 @@
                 <td><span class="block">@number($row->buy_average)</span></td>
                 <td><span class="block">@number($row->sell_average)</span></td>
 
-                <td><span class="block" title="{{ Html::orderBuySellTitle($row->buy) }}">@number($row->buy_value)</span></td>
-                <td><span class="block" title="{{ Html::orderBuySellTitle($row->sell) }}">@number($row->sell_value)</span></td>
+                <td><span class="block" title="{{ Html::orderBuySellTitle($row->buy) }}">@number($row->buy_value, 2)</span></td>
+                <td><span class="block" title="{{ Html::orderBuySellTitle($row->sell) }}">@number($row->sell_value, 2)</span></td>
 
                 <td><span class="block">@number($row->buy_amount)</span></td>
                 <td><span class="block">@number($row->sell_amount)</span></td>
 
                 <td><span class="block">@number($row->wallet_amount)</span></td>
-                <td><span class="block">@number($row->wallet_value)</span></td>
+                <td><span class="block">@number($row->wallet_value, 2)</span></td>
 
                 <td><span class="block">@number($row->balance, 2)</span></td>
                 <td><span class="block">@number($row->balance_percent, 2)%</span></td>
@@ -63,13 +63,13 @@
                 <td class="text-center"><span class="block">@number($list->sum('buy_count'), 0)</span></td>
                 <td class="text-center"><span class="block">@number($list->sum('sell_count'), 0)</span></td>
                 <td colspan="2"></td>
-                <td><span class="block">@number($list->sum('buy_value'))</span></td>
-                <td><span class="block">@number($list->sum('sell_value'))</span></td>
+                <td><span class="block">@number($list->sum('buy_value'), 2)</span></td>
+                <td><span class="block">@number($list->sum('sell_value'), 2)</span></td>
                 <td colspan="3"></td>
-                <td><span class="block">@number($list->sum('wallet_value'))</span></td>
-                <td><span class="block">@number($list->sum('balance'))</span></td>
-                <td><span class="block">@number($list->avg('balance_percent'))%</span></td>
-                <td><span class="block">@number($list->avg('balance_percent_daily'))%</span></td>
+                <td><span class="block">@number($list->sum('wallet_value'), 2)</span></td>
+                <td><span class="block">@number($list->sum('balance'), 2)</span></td>
+                <td><span class="block">@number($list->avg('balance_percent'), 2)%</span></td>
+                <td><span class="block">@number($list->avg('balance_percent_daily'), 2)%</span></td>
             </tr>
         </tbody>
     </table>
