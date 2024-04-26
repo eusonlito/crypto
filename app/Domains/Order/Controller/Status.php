@@ -22,11 +22,7 @@ class Status extends ControllerAbstract
 
         $this->meta('title', __('order-status.meta-title'));
 
-        return $this->page('order.status', [
-            'filters' => $this->request->input(),
-            'list' => (new StatusService($this->auth, $this->request))->get(),
-            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
-        ]);
+        return $this->page('order.status', $this->data());
     }
 
     /**
@@ -41,6 +37,25 @@ class Status extends ControllerAbstract
             'date_start' => $this->auth->preference('order-status-date_start', $this->request->input('date_start'), ''),
             'date_end' => $this->auth->preference('order-status-date_end', $this->request->input('date_end'), ''),
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function data(): array
+    {
+        return $this->service() + [
+            'filters' => $this->request->input(),
+            'platforms' => PlatformModel::query()->byUserId($this->auth->id)->list()->get(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function service(): array
+    {
+        return StatusService::new($this->auth, $this->request)->get();
     }
 
     /**

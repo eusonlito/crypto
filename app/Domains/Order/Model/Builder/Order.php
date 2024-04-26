@@ -140,6 +140,30 @@ class Order extends BuilderAbstract
     }
 
     /**
+     * @return self
+     */
+    public function groupByProductId(): self
+    {
+        return $this->groupBy(['product_id']);
+    }
+
+    /**
+     * @return self
+     */
+    public function orderByDate(): self
+    {
+        return $this->orderBy('updated_at', 'ASC');
+    }
+
+    /**
+     * @return self
+     */
+    public function list(): self
+    {
+        return $this->with(['platform', 'product'])->orderBy('updated_at', 'DESC');
+    }
+
+    /**
      * @param \App\Domains\Order\Model\Order $row
      *
      * @return self
@@ -195,14 +219,6 @@ class Order extends BuilderAbstract
     }
 
     /**
-     * @return self
-     */
-    public function withProduct(): self
-    {
-        return $this->with('product');
-    }
-
-    /**
      * @param bool $crypto = true
      *
      * @return self
@@ -210,6 +226,14 @@ class Order extends BuilderAbstract
     public function whereProductCrypto(bool $crypto = true): self
     {
         return $this->whereIn('product_id', ProductModel::query()->select('id')->whereCrypto($crypto));
+    }
+
+    /**
+     * @return self
+     */
+    public function whereWalletId(): self
+    {
+        return $this->whereNotNull('wallet_id');
     }
 
     /**
@@ -239,24 +263,8 @@ class Order extends BuilderAbstract
     /**
      * @return self
      */
-    public function groupByProductId(): self
+    public function withProduct(): self
     {
-        return $this->groupBy(['product_id']);
-    }
-
-    /**
-     * @return self
-     */
-    public function orderByDate(): self
-    {
-        return $this->orderBy('updated_at', 'ASC');
-    }
-
-    /**
-     * @return self
-     */
-    public function list(): self
-    {
-        return $this->with(['platform', 'product'])->orderBy('updated_at', 'DESC');
+        return $this->with('product');
     }
 }
