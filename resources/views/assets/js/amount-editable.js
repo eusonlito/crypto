@@ -10,20 +10,20 @@
     };
 
     const format = (value) => {
-        return value.toLocaleString('es-ES', {
-            minimumFractionDigits: 2
+        return round(value).toLocaleString('es-ES', {
+            minimumFractionDigits: 2,
+            useGrouping: true
         });
     };
 
     document.querySelectorAll('[data-amount-editable]').forEach(element => {
-        if (!element.dataset.amountEditableValue || !element.dataset.amountEditableTotal) {
-            return;
-        }
+        const $currentExchange = document.getElementById(element.dataset.amountEditableCurrentExchange);
+        const $currentValue = document.getElementById(element.dataset.amountEditableCurrentValue);
+        const $buyExchange = document.getElementById(element.dataset.amountEditableBuyExchange);
+        const $buyValue = document.getElementById(element.dataset.amountEditableBuyValue);
+        const $result = document.getElementById(element.dataset.amountEditableResult);
 
-        const value = document.getElementById(element.dataset.amountEditableValue);
-        const total = document.getElementById(element.dataset.amountEditableTotal);
-
-        if (!value || !total) {
+        if (!$currentExchange || !$currentValue || !$buyExchange || !$buyValue || !$result) {
             return;
         }
 
@@ -32,7 +32,15 @@
         }, false);
 
         element.addEventListener('input', () => {
-            total.innerHTML = format(round(number(element.innerHTML) * number(value.innerHTML)));
+            const amount = number(element.innerHTML);
+            const currentExchange = number($currentExchange.innerHTML);
+            const buyExchange = number($buyExchange.innerHTML);
+            const currentValue = amount * currentExchange;
+            const buyValue = amount * buyExchange;
+
+            $currentValue.innerHTML = format(currentValue);
+            $buyValue.innerHTML = format(buyValue);
+            $result.innerHTML = format(currentValue - buyValue);
         }, false);
     });
 })();
