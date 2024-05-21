@@ -1,6 +1,6 @@
 @php ($prefix = 'stat-box-crypto-'.$row->id)
 
-<div class="whitespace-nowrap">
+<div class="whitespace-nowrap" data-stat-box-crypto>
     <div class="box p-2">
         <div class="flex px-2 pb-2 items-center">
             <div class="percent-pill {{ ($result < 0) ? 'bg-theme-24' : 'bg-theme-10' }}">
@@ -18,24 +18,24 @@
             <div class="flex flex-1 flex-wrap text-center">
                 <div class="flex-1 p-2">
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.current_exchange') }}</div>
-                    <div class="text-base" title="@numberString($current_exchange)" id="{{ $prefix }}-current_exchange">@number($current_exchange)</div>
+                    <div class="text-base" title="@numberString($current_exchange)" data-stat-box-crypto-current_exchange>@number($current_exchange)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.current_value') }}</div>
-                    <div class="text-base" title="@numberString($current_value)" id="{{ $prefix }}-current_value">@number($current_value)</div>
+                    <div class="text-base" title="@numberString($current_value)" data-stat-box-crypto-current_value>@number($current_value)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.amount') }}</div>
-                    <div class="text-base" title="@numberString($amount)" data-amount-editable data-amount-editable-current-exchange="{{ $prefix }}-current_exchange" data-amount-editable-current-value="{{ $prefix }}-current_value" data-amount-editable-buy-exchange="{{ $prefix }}-buy_exchange" data-amount-editable-buy-value="{{ $prefix }}-buy_value" data-amount-editable-result="{{ $prefix }}-result">@number($amount)</div>
+                    <div class="text-base" title="@numberString($amount)" data-stat-box-crypto-amount>@number($amount)</div>
                 </div>
 
                 <div class="flex-1 p-2">
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.buy_exchange') }}</div>
-                    <div class="text-base" title="@numberString($buy_exchange)" id="{{ $prefix }}-buy_exchange">@number($buy_exchange)</div>
+                    <div class="text-base" title="@numberString($buy_exchange)" data-stat-box-crypto-buy_exchange>@number($buy_exchange)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_value') }}</div>
-                    <div class="text-base" title="@numberString($buy_value)" id="{{ $prefix }}-buy_value">@number($buy_value)</div>
+                    <div class="text-base" title="@numberString($buy_value)" data-stat-box-crypto-buy_value>@number($buy_value)</div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.result') }}</div>
-                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold" id="{{ $prefix }}-result">@number($result)</div>
+                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold" data-stat-box-crypto-result>@number($result)</div>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_max_at }}">
+                        <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_max_at }}" data-stat-box-crypto-sell_stop_max_exchange>
                             @number($sell_stop_max_exchange)
                         </div>
 
@@ -74,12 +74,12 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_max_value') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_amount }}x{{ $sell_stop_max_exchange }}">
+                        <div class="text-base mr-2 {{ $sell_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_amount }}x{{ $sell_stop_max_exchange }}" data-stat-box-crypto-sell_stop_max_value>
                             @number($sell_stop_max_value)
                         </div>
 
                         <div class="{{ ($sell_stop_max_value_difference >= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>@number($sell_stop_max_value_difference, 2)</span>
+                            <span data-stat-box-crypto-sell_stop_max_value_difference>@number($sell_stop_max_value_difference, 2)</span>
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stop_amount') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base" title="@numberString($sell_stop_amount)">@number($sell_stop_amount)</div>
+                        <div class="text-base" title="@numberString($sell_stop_amount)" data-stat-box-crypto-sell_stop_amount>@number($sell_stop_amount)</div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_min_at }}">
+                        <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_min_at }}" data-stat-box-crypto-sell_stop_min_exchange>
                             @number($sell_stop_min_exchange)
                         </div>
 
@@ -112,12 +112,12 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stop_min_value') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_amount }}x{{ $sell_stop_min_exchange }}">
+                        <div class="text-base mr-2 {{ $sell_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $sell_stop_amount }}x{{ $sell_stop_min_exchange }}" data-stat-box-crypto-sell_stop_min_value>
                             @number($sell_stop_min_value)
                         </div>
 
                         <div class="{{ ($sell_stop_min_value_difference >= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>@number($sell_stop_min_value_difference, 2)</span>
+                            <span data-stat-box-crypto-sell_stop_min_value_difference>@number($sell_stop_min_value_difference, 2)</span>
                         </div>
                     </div>
 
@@ -146,7 +146,7 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_exchange') }} (@number($buy_stop_min_percent, 2)%)</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}">
+                        <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}" data-stat-box-crypto-buy_stop_min_exchange>
                             @number($buy_stop_min_exchange)
                         </div>
 
@@ -160,12 +160,12 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_value') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_amount }}x{{ $buy_stop_min_exchange }}">
+                        <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_amount }}x{{ $buy_stop_min_exchange }}" data-stat-box-crypto-buy_stop_min_value>
                             @number($buy_stop_min_value)
                         </div>
 
                         <div class="{{ ($buy_stop_min_value_difference <= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>@number($buy_stop_min_value_difference, 2)</span>
+                            <span data-stat-box-crypto-buy_stop_min_value_difference>@number($buy_stop_min_value_difference, 2)</span>
                         </div>
                     </div>
 
@@ -176,7 +176,7 @@
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.buy_stop_amount') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base" title="@numberString($buy_stop_amount)">@number($buy_stop_amount)</div>
+                        <div class="text-base" title="@numberString($buy_stop_amount)" data-stat-box-crypto-buy_stop_amount>@number($buy_stop_amount)</div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
@@ -184,7 +184,7 @@
                     </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_max_at }}">
+                        <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_max_at }}" data-stat-box-crypto-buy_stop_max_exchange>
                             @number($buy_stop_max_exchange)
                         </div>
 
@@ -198,12 +198,12 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_max_value') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_amount }}x{{ $buy_stop_max_exchange }}">
+                        <div class="text-base mr-2 {{ $buy_stop_max_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_amount }}x{{ $buy_stop_max_exchange }}" data-stat-box-crypto-buy_stop_max_value>
                             @number($buy_stop_max_value)
                         </div>
 
                         <div class="{{ ($buy_stop_max_value_difference <= 0) ? 'text-theme-10' : 'text-theme-24' }} flex text-xs font-medium">
-                            <span>@number($buy_stop_max_value_difference, 2)</span>
+                            <span data-stat-box-crypto-buy_stop_max_value_difference>@number($buy_stop_max_value_difference, 2)</span>
                         </div>
                     </div>
 
@@ -236,7 +236,7 @@
                     </div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $sell_stoploss_at }}">
+                        <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $sell_stoploss_at }}" data-stat-box-crypto-sell_stoploss_exchange>
                             @number($sell_stoploss_exchange)
                         </div>
 
@@ -250,18 +250,18 @@
                     <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stoploss_amount') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base">@number($amount)</div>
+                        <div class="text-base" data-stat-box-crypto-sell_stoploss_amount>@number($amount)</div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.sell_stoploss_value') }}</div>
 
                     <div class="flex items-center justify-center">
-                        <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $amount }}x{{ $sell_stoploss_exchange }}">
+                        <div class="text-base mr-2 {{ $sell_stoploss_at ? 'text-theme-10' : '' }}" title="{{ $amount }}x{{ $sell_stoploss_exchange }}" data-stat-box-crypto-sell_stoploss_value>
                             @number($sell_stoploss_value)
                         </div>
 
                         <div class="text-theme-24 flex text-xs font-medium">
-                            <span>@number($sell_stoploss_value - $buy_value, 2)</span>
+                            <span data-stat-box-crypto-sell_stoploss_value_difference>@number($sell_stoploss_value - $buy_value, 2)</span>
                         </div>
                     </div>
                 </div>

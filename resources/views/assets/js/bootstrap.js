@@ -36,4 +36,4 @@ import './wallet-scenario';
 import './copy';
 import './select';
 import './scroll-bottom';
-import './amount-editable';
+import './stat-box-crypto';
