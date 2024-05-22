@@ -6,7 +6,7 @@
         "ansi-regex": "^6.0.1",
         "autoprefixer": "^10.4.19",
         "cash-dom": "^8.1.5",
-        "chart.js": "^4.4.3",
+        "chart.js": "^3.9.1",
         "dayjs": "^1.11.11",
         "del": "^6.1.1",
         "files-exist": "^1.1.0",
