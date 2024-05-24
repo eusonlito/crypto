@@ -1,19 +1,23 @@
 @php ($dates = $exchanges->pluck('created_at'))
 
-<canvas id="product-chart-canvas" height="105"></canvas>
+<canvas id="product-chart-canvas" height="500"></canvas>
 
 <script>
 const productChart = {
     id: 'product-chart-canvas',
+
     config: {
         type: 'line',
+
         elements: {
             line: {
                 tension: 1
             }
         },
+
         data: {
             labels: @json($dates),
+
             datasets: [
                 {
                     label: 'Current Exchange',
@@ -38,12 +42,17 @@ const productChart = {
                 }
             ]
         },
+
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
             plugins: {
                 legend: {
                     display: false
                 }
             },
+
             scales: {
                 x: {
                     ticks: {
@@ -60,10 +69,12 @@ const productChart = {
                                 + ':' + ('0' + date.getMinutes()).slice(-2);
                         }
                     },
+
                     grid: {
                         display: false
                     },
                 },
+
                 yAxisLeft: {
                     ticks: {
                         fontSize: '12',
@@ -74,6 +85,7 @@ const productChart = {
                             });
                         }
                     },
+
                     grid: {
                         color: '#D8D8D8',
                         zeroLineColor: '#D8D8D8',
@@ -86,5 +98,4 @@ const productChart = {
         }
     }
 };
-
 </script>

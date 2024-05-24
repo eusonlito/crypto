@@ -1,19 +1,23 @@
 @php ($dates = $history->pluck('created_at'))
 
-<canvas id="wallet-history-chart-canvas" height="105"></canvas>
+<canvas id="wallet-history-chart-canvas" height="500"></canvas>
 
 <script>
 const charts = [{
     id: 'wallet-history-chart-canvas',
+
     config: {
         type: 'line',
+
         elements: {
             line: {
                 tension: 1
             }
         },
+
         data: {
             labels: @json($dates),
+
             datasets: [
                 {
                     label: 'Value',
@@ -39,11 +43,15 @@ const charts = [{
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
             plugins: {
                 legend: {
                     display: false
                 }
             },
+
             scales: {
                 x: {
                     ticks: {
@@ -51,10 +59,12 @@ const charts = [{
                         fontColor: '#777777',
                         autoSkip: true
                     },
+
                     grid: {
                         display: false
                     },
                 },
+
                 yAxisLeft: {
                     ticks: {
                         fontSize: '12',
@@ -65,6 +75,7 @@ const charts = [{
                             });
                         }
                     },
+
                     grid: {
                         color: '#D8D8D8',
                         zeroLineColor: '#D8D8D8',
@@ -77,5 +88,4 @@ const charts = [{
         }
     }
 }];
-
 </script>
