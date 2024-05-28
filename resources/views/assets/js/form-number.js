@@ -6,12 +6,22 @@
     }
 
     function dataPercentToValue ($this) {
-        const operation = ($this.dataset.percentToValueOperation === 'substract') ? 'substract' : 'add';
+        let operation = $this.dataset.percentToValueOperation || 'add';
 
         const first = float(byIdOptional($this.dataset.percentToValueReference).value);
         const second = first * parseFloat(float($this.value)) / 100;
 
-        byIdOptional($this.dataset.percentToValue).value = round((operation === 'add') ? (first + second) : (first - second));
+        let value = 0;
+
+        if (operation === 'add') {
+            value = first + second;
+        } else if (operation === 'substract') {
+            value = first - second;
+        } else if (operation === 'value') {
+            value = second;
+        }
+
+        byIdOptional($this.dataset.percentToValue).value = round(value);
     }
 
     function dataTotal ($this) {

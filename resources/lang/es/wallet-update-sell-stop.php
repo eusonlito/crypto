@@ -15,6 +15,7 @@
     'sell_stop_min_exchange' => 'Cambio Mínimo',
     'sell_stop_min_percent' => 'Porcentaje Mínimo',
     'sell_stop_min_value' => 'Valor Mínimo',
+    'sell_stop_percent' => 'Porcentaje',
     'sell_stop_reference' => 'Cambio de Referencia',
     'send' => 'Guardar',
     'title' => 'Venta en Subida » Bajada',

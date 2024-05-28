@@ -413,6 +413,7 @@ class SyncPlatform extends ActionAbstract
 
         $row->sell_stop = false;
 
+        $row->sell_stop_percent = 0;
         $row->sell_stop_amount = 0;
         $row->sell_stop_reference = 0;
 

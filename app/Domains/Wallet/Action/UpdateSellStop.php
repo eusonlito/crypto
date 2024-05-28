@@ -47,6 +47,7 @@ class UpdateSellStop extends ActionAbstract
 
         $this->row->sell_stop = $this->data['sell_stop'];
 
+        $this->row->sell_stop_percent = $this->data['sell_stop_percent'];
         $this->row->sell_stop_amount = $this->data['sell_stop_amount'];
         $this->row->sell_stop_reference = $this->data['sell_stop_reference'];
 
@@ -101,7 +102,8 @@ class UpdateSellStop extends ActionAbstract
             return false;
         }
 
-        return $this->row->wasChanged('sell_stop_amount')
+        return $this->row->wasChanged('sell_stop_percent')
+            || $this->row->wasChanged('sell_stop_amount')
             || $this->row->wasChanged('sell_stop_max_percent')
             || $this->row->wasChanged('sell_stop_min_percent');
     }

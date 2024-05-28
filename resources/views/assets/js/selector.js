@@ -6,5 +6,5 @@ window.byQuery = (selector, fallback) => document.querySelector(selector) || fal
 window.byQueryOptional = (selector) => document.querySelector(selector) || {};
 
 window.float = (value) => isNaN(value = parseFloat(value)) ? 0 : value;
-window.round = (value, decimals = 8) => +(Math.round(value + 'e+' + decimals)  + 'e-' + decimals);
+window.round = (value, decimals = 8) => +(Math.round(String(value).includes('e') ? value : (value + 'e+' + decimals)) + 'e-' + decimals);
 window.percentRound = (value1, value2) => round(Math.abs((float(value1) * 100 / float(value2)) - 100), 2);

@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            @if ($sell_stop_amount && $sell_stop_min_exchange && $sell_stop_max_exchange)
+            @if ($sell_stop_percent && $sell_stop_max_percent && $sell_stop_min_percent)
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">

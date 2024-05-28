@@ -21,6 +21,7 @@ class Create extends ValidateAbstract
             'buy_exchange' => 'bail|required|numeric',
 
             'sell_stop' => 'bail|boolean',
+            'sell_stop_percent' => 'bail|numeric|min:0|max:100',
             'sell_stop_amount' => 'bail|numeric',
             'sell_stop_reference' => 'bail|numeric',
 

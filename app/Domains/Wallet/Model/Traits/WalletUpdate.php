@@ -64,10 +64,11 @@ trait WalletUpdate
      */
     public function updateSellStopEnable(): void
     {
-        if ($this->sell_stop_max_percent && $this->sell_stop_min_percent) {
+        if ($this->sell_stop_percent && $this->sell_stop_max_percent && $this->sell_stop_min_percent) {
             $this->sell_stop = true;
         }
 
+        $this->sell_stop_amount = $this->amount * $this->sell_stop_percent / 100;
         $this->sell_stop_reference = $this->buy_exchange;
 
         $this->sell_stop_max_exchange = $this->sell_stop_reference * (1 + ($this->sell_stop_max_percent / 100));

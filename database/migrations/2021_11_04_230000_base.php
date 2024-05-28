@@ -319,6 +319,9 @@ return new class extends MigrationAbstract {
             // Amount available to sell
             $table->double('sell_stop_amount')->default(0);
 
+            // Amount Percent available to sell
+            $table->double('sell_stop_percent')->default(0);
+
             // We need to reach this price before sell
             $table->double('sell_stop_max_exchange')->default(0);
             $table->double('sell_stop_max_value')->default(0);

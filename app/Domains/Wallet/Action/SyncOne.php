@@ -192,6 +192,7 @@ class SyncOne extends ActionAbstract
         $this->row->sell_stop = 0;
         $this->row->sell_stop_reference = 0;
 
+        $this->row->sell_stop_percent = 0;
         $this->row->sell_stop_amount = 0;
 
         $this->row->sell_stop_max_percent = 0;

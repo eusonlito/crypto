@@ -65,6 +65,7 @@ class Create extends ActionAbstract
 
             'sell_stop' => $this->data['sell_stop'],
 
+            'sell_stop_percent' => $this->data['sell_stop_percent'],
             'sell_stop_amount' => $this->data['sell_stop_amount'],
             'sell_stop_reference' => $this->data['sell_stop_reference'],
 

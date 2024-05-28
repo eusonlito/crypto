@@ -42,8 +42,13 @@
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-sell_stop_percent" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_percent') }}</label>
+                            <input type="number" name="sell_stop_percent" step="0.1" max="100" min="0" class="form-control" id="{{ $prefix }}-sell_stop_percent" value="@numberString($row->sell_stop_percent)" data-percent-to-value="{{ $prefix }}-sell_stop_amount" data-percent-to-value-reference="{{ $prefix }}-amount" data-percent-to-value-operation="value">
+                        </div>
+
+                        <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-sell_stop_amount" class="form-label">{{ __('wallet-update-sell-stop.sell_stop_amount') }}</label>
-                            <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_amount" value="@numberString($row->sell_stop_amount)">
+                            <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control" id="{{ $prefix }}-sell_stop_amount" value="@numberString($row->sell_stop_amount)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">

@@ -8,8 +8,13 @@
     <div class="p-3">
         <div class="xl:flex">
             <div class="flex-auto p-2">
+                <label for="wallet-sell_stop_percent" class="form-label">{{ __('wallet-create.sell_stop_percent') }}</label>
+                <input type="number" name="sell_stop_percent" step="0.1" max="100" min="0" class="form-control form-control-lg" id="wallet-sell_stop_percent" value="@numberString($REQUEST->input('sell_stop_percent'))" data-percent-to-value="wallet-sell_stop_amount" data-percent-to-value-reference="wallet-amount" data-percent-to-value-operation="value">
+            </div>
+
+            <div class="flex-auto p-2">
                 <label for="wallet-sell_stop_amount" class="form-label">{{ __('wallet-create.sell_stop_amount') }}</label>
-                <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_amount" value="@numberString($REQUEST->input('sell_stop_amount'))">
+                <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_amount" value="@numberString($REQUEST->input('sell_stop_amount'))" readonly>
             </div>
 
             <div class="flex-auto p-2">

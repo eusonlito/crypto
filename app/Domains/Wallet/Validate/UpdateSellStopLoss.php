@@ -12,9 +12,9 @@ class UpdateSellStopLoss extends ValidateAbstract
     public function rules(): array
     {
         return [
+            'sell_stoploss' => 'bail|boolean',
             'sell_stoploss_exchange' => 'bail|numeric',
             'sell_stoploss_percent' => 'bail|numeric',
-            'sell_stoploss' => 'bail|boolean',
             'sell_stoploss_at' => 'boolean',
         ];
     }

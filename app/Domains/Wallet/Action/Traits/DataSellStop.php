@@ -11,10 +11,11 @@ trait DataSellStop
      */
     protected function dataSellStop(): void
     {
-        $this->data['sell_stop_amount'] = (float)$this->data['sell_stop_amount'];
-        $this->data['sell_stop_reference'] = (float)$this->data['sell_stop_reference'];
-        $this->data['sell_stop_max_percent'] = abs((float)$this->data['sell_stop_max_percent']);
-        $this->data['sell_stop_min_percent'] = abs((float)$this->data['sell_stop_min_percent']);
+        $this->data['sell_stop_percent'] = floatval($this->data['sell_stop_percent']);
+        $this->data['sell_stop_amount'] = $this->row->amount * $this->data['sell_stop_percent'] / 100;
+        $this->data['sell_stop_reference'] = floatval($this->data['sell_stop_reference']);
+        $this->data['sell_stop_max_percent'] = abs(floatval($this->data['sell_stop_max_percent']));
+        $this->data['sell_stop_min_percent'] = abs(floatval($this->data['sell_stop_min_percent']));
 
         if ($this->dataSellStopIsEmpty()) {
             $this->dataSellStopZero();
@@ -46,7 +47,7 @@ trait DataSellStop
      */
     protected function dataSellStopIsEmpty(): bool
     {
-        return empty($this->data['sell_stop_amount'])
+        return empty($this->data['sell_stop_percent'])
             || empty($this->data['sell_stop_reference'])
             || empty($this->data['sell_stop_max_percent'])
             || empty($this->data['sell_stop_min_percent']);
@@ -59,6 +60,7 @@ trait DataSellStop
     {
         $this->data['sell_stop'] = false;
 
+        $this->data['sell_stop_percent'] = 0;
         $this->data['sell_stop_amount'] = 0;
         $this->data['sell_stop_reference'] = 0;
 
