@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stop_amount') }}</div>
+                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stop_amount') }} ({{ $sell_stop_percent }}%)</div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base" title="@numberString($sell_stop_amount)" data-stat-box-crypto-sell_stop_amount>@number($sell_stop_amount)</div>
