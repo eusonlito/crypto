@@ -64,7 +64,7 @@ class Status extends ControllerAbstract
     protected function responseJson(): JsonResponse
     {
         if ($wallet_id = (int)$this->request->input('wallet_id')) {
-            $row = (new StatusService($this->auth, $this->request))->get()->firstWhere('wallet.id', $wallet_id);
+            $row = $this->service()['list']->firstWhere('wallet.id', $wallet_id);
         } else {
             $row = null;
         }

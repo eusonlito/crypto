@@ -1,4 +1,4 @@
-<form id="wallet-form" method="post" data-change-event-change>
+<form id="wallet-form" method="post" data-change-event-change data-wallet>
     <input type="hidden" name="_action" value="update" />
 
     <div class="box p-5">
@@ -75,7 +75,7 @@
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-buy_value" class="form-label">{{ __('wallet-update.buy_value') }}</label>
-                <input type="number" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="@numberString($row->buy_value)"  data-total data-total-amount="wallet-amount" data-total-value="wallet-buy_exchange" readonly>
+                <input type="number" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="@numberString($row->buy_value)" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">

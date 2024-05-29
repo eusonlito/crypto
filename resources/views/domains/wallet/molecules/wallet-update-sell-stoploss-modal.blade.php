@@ -3,7 +3,7 @@
 <div id="{{ $prefix }}" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" id="{{ $prefix }}-dialog">
         <div class="modal-content">
-            <form action="{{ route('wallet.update.sell-stoploss', $row->id) }}" method="POST" data-change-event-change>
+            <form action="{{ route('wallet.update.sell-stoploss', $row->id) }}" method="POST" data-change-event-change data-wallet>
                 <input type="hidden" name="_action" value="updateSellStopLoss" />
 
                 <div class="modal-header" data-draggable="#{{ $prefix }}-dialog">
@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="p-2">
                         <label for="{{ $prefix }}-wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-create.sell_stoploss_percent') }}</label>
-                        <input type="number" name="sell_stoploss_percent" step="0.0001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_percent" value="@value($row->sell_stoploss_percent, 2)" data-percent-to-value="{{ $prefix }}-wallet-sell_stoploss_exchange" data-percent-to-value-reference="{{ $prefix }}-wallet-buy_exchange" data-percent-to-value-operation="substract">
+                        <input type="number" name="sell_stoploss_percent" step="0.0001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_percent" value="@value($row->sell_stoploss_percent, 2)">
                     </div>
 
                     <div class="xl:flex">
@@ -41,7 +41,7 @@
 
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-sell_stoploss_value" class="form-label">{{ __('wallet-create.sell_stoploss_value') }}</label>
-                            <input type="number" name="sell_stoploss_value" step="0.000000001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_value" value="@numberString($row->sell_stoploss_value)" data-total data-total-amount="{{ $prefix }}-wallet-amount" data-total-value="{{ $prefix }}-wallet-sell_stoploss_exchange" data-total-change="{{ $prefix }}-wallet-sell_stoploss_percent" readonly>
+                            <input type="number" name="sell_stoploss_value" step="0.000000001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_value" value="@numberString($row->sell_stoploss_value)" readonly>
                         </div>
                     </div>
 

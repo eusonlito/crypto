@@ -1,11 +1,11 @@
 (function (cash) {
     'use strict';
 
-    function dataValueToPercent ($this) {
+    const dataValueToPercent = ($this) => {
         byIdOptional($this.dataset.valueToPercent).value = percentRound(float($this.value), float(byIdOptional($this.dataset.valueToPercentReference).value));
-    }
+    };
 
-    function dataPercentToValue ($this) {
+    const dataPercentToValue = ($this) => {
         let operation = $this.dataset.percentToValueOperation || 'add';
 
         const first = float(byIdOptional($this.dataset.percentToValueReference).value);
@@ -22,11 +22,18 @@
         }
 
         byIdOptional($this.dataset.percentToValue).value = round(value);
-    }
+    };
 
-    function dataTotal ($this) {
+    const dataValueToValue = ($this) => {
+        const total = float($this.value);
+        const reference = float(byIdOptional($this.dataset.valueToValueReference).value);
+
+        byIdOptional($this.dataset.valueToValueTarget).value = round(total / reference);
+    };
+
+    const dataTotal = ($this) => {
         ($this.dataset.totalTarget ? byIdOptional($this.dataset.totalTarget) : $this).value = round(float(byIdOptional($this.dataset.totalAmount).value) * float(byIdOptional($this.dataset.totalValue).value));
-    }
+    };
 
     cash('[data-value-to-percent]').on('change keyup', function () {
         dataValueToPercent(this);
@@ -34,6 +41,10 @@
 
     cash('[data-percent-to-value]').on('change keyup', function () {
         dataPercentToValue(this);
+    });
+
+    cash('[data-value-to-value]').on('change keyup', function () {
+        dataValueToValue(this);
     });
 
     cash('[data-total]').each(function () {
