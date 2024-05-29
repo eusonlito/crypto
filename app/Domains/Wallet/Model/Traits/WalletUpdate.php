@@ -30,19 +30,21 @@ trait WalletUpdate
      */
     public function updateBuyStopEnable(): void
     {
-        if ($this->buy_stop_min_percent && $this->buy_stop_max_percent) {
-            $this->buy_stop = true;
-        }
+        $this->buy_stop = $this->buy_stop_max_exchange
+            && $this->buy_stop_min_percent
+            && $this->buy_stop_max_percent;
 
         $this->buy_stop_reference = $this->buy_exchange;
 
         $this->buy_stop_min_exchange = $this->buy_stop_reference * (1 - ($this->buy_stop_min_percent / 100));
+        $this->buy_stop_max_exchange = $this->buy_stop_min_exchange * (1 + ($this->buy_stop_max_percent / 100));
+
+        $this->buy_stop_amount = $this->buy_stop_max_value / $this->buy_stop_max_exchange;
         $this->buy_stop_min_value = $this->buy_stop_amount * $this->buy_stop_min_exchange;
+
         $this->buy_stop_min_at = null;
         $this->buy_stop_min_executable = false;
 
-        $this->buy_stop_max_exchange = $this->buy_stop_min_exchange * (1 + ($this->buy_stop_max_percent / 100));
-        $this->buy_stop_max_value = $this->buy_stop_amount * $this->buy_stop_max_exchange;
         $this->buy_stop_max_at = null;
         $this->buy_stop_max_executable = false;
 
@@ -64,12 +66,12 @@ trait WalletUpdate
      */
     public function updateSellStopEnable(): void
     {
-        if ($this->sell_stop_percent && $this->sell_stop_max_percent && $this->sell_stop_min_percent) {
-            $this->sell_stop = true;
-        }
+        $this->sell_stop = $this->sell_stop_percent
+            && $this->sell_stop_max_percent
+            && $this->sell_stop_min_percent;
 
-        $this->sell_stop_amount = $this->amount * $this->sell_stop_percent / 100;
         $this->sell_stop_reference = $this->buy_exchange;
+        $this->sell_stop_amount = $this->amount * $this->sell_stop_percent / 100;
 
         $this->sell_stop_max_exchange = $this->sell_stop_reference * (1 + ($this->sell_stop_max_percent / 100));
         $this->sell_stop_max_value = $this->sell_stop_amount * $this->sell_stop_max_exchange;
@@ -99,11 +101,7 @@ trait WalletUpdate
      */
     public function updateSellStopLossEnable(): void
     {
-        if (empty($this->sell_stoploss_percent)) {
-            return;
-        }
-
-        $this->sell_stoploss = true;
+        $this->sell_stoploss = boolval($this->sell_stoploss_percent);
         $this->sell_stoploss_exchange = $this->buy_exchange * (1 - ($this->sell_stoploss_percent / 100));
         $this->sell_stoploss_value = $this->amount * $this->sell_stoploss_exchange;
         $this->sell_stoploss_at = null;

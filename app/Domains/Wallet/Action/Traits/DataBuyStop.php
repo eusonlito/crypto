@@ -11,10 +11,10 @@ trait DataBuyStop
      */
     protected function dataBuyStop(): void
     {
-        $this->data['buy_stop_amount'] = (float)$this->data['buy_stop_amount'];
-        $this->data['buy_stop_reference'] = (float)$this->data['buy_stop_reference'];
-        $this->data['buy_stop_min_percent'] = abs((float)$this->data['buy_stop_min_percent']);
-        $this->data['buy_stop_max_percent'] = abs((float)$this->data['buy_stop_max_percent']);
+        $this->data['buy_stop_max_value'] = floatval($this->data['buy_stop_max_value']);
+        $this->data['buy_stop_reference'] = floatval($this->data['buy_stop_reference']);
+        $this->data['buy_stop_min_percent'] = abs(floatval($this->data['buy_stop_min_percent']));
+        $this->data['buy_stop_max_percent'] = abs(floatval($this->data['buy_stop_max_percent']));
 
         if ($this->dataBuyStopIsEmpty()) {
             $this->dataBuyStopZero();
@@ -25,8 +25,8 @@ trait DataBuyStop
         $this->data['buy_stop_min_exchange'] = $this->data['buy_stop_reference'] * (1 - ($this->data['buy_stop_min_percent'] / 100));
         $this->data['buy_stop_max_exchange'] = $this->data['buy_stop_min_exchange'] * (1 + ($this->data['buy_stop_max_percent'] / 100));
 
+        $this->data['buy_stop_amount'] = $this->data['buy_stop_max_value'] / $this->data['buy_stop_max_exchange'];
         $this->data['buy_stop_min_value'] = $this->data['buy_stop_amount'] * $this->data['buy_stop_min_exchange'];
-        $this->data['buy_stop_max_value'] = $this->data['buy_stop_amount'] * $this->data['buy_stop_max_exchange'];
 
         if ($this->data['buy_stop_min_at']) {
             $this->data['buy_stop_min_at'] = $this->row->buy_stop_min_at ?? date('Y-m-d H:i:s');
@@ -46,7 +46,7 @@ trait DataBuyStop
      */
     protected function dataBuyStopIsEmpty(): bool
     {
-        return empty($this->data['buy_stop_amount'])
+        return empty($this->data['buy_stop_max_value'])
             || empty($this->data['buy_stop_reference'])
             || empty($this->data['buy_stop_min_percent'])
             || empty($this->data['buy_stop_max_percent']);

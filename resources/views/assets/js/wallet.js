@@ -105,12 +105,12 @@
             // --- //
 
             if (buy_stop_min_exchange) {
-                buy_stop_min_exchange_value = buy_stop_reference_value - (buy_stop_reference_value * buy_stop_min_percent_value / 100);
+                buy_stop_min_exchange_value = buy_stop_reference_value * (1 - (buy_stop_min_percent_value / 100));
                 buy_stop_min_exchange.value = buy_stop_min_exchange_value;
             }
 
             if (buy_stop_max_exchange) {
-                buy_stop_max_exchange_value = buy_stop_min_exchange_value + (buy_stop_min_exchange_value * buy_stop_max_percent_value / 100);
+                buy_stop_max_exchange_value = buy_stop_min_exchange_value * (1 + (buy_stop_max_percent_value / 100));
                 buy_stop_max_exchange.value = buy_stop_max_exchange_value;
             }
 
@@ -132,12 +132,12 @@
             }
 
             if (sell_stop_max_exchange) {
-                sell_stop_max_exchange_value = sell_stop_reference_value + (sell_stop_reference_value * sell_stop_max_percent_value / 100);
+                sell_stop_max_exchange_value = sell_stop_reference_value * (1 + (sell_stop_max_percent_value / 100));
                 sell_stop_max_exchange.value = sell_stop_max_exchange_value;
             }
 
             if (sell_stop_min_exchange) {
-                sell_stop_min_exchange_value = sell_stop_max_exchange_value - (sell_stop_max_exchange_value * sell_stop_min_percent_value / 100);
+                sell_stop_min_exchange_value = sell_stop_max_exchange_value * (1 - (sell_stop_min_percent_value / 100));
                 sell_stop_min_exchange.value = sell_stop_min_exchange_value;
             }
 
@@ -154,7 +154,7 @@
             // --- //
 
             if (sell_stoploss_exchange) {
-                sell_stoploss_exchange_value = buy_exchange_value - (buy_exchange_value * sell_stoploss_percent_value / 100);
+                sell_stoploss_exchange_value = buy_exchange_value * (1 - (sell_stoploss_percent_value / 100));
                 sell_stoploss_exchange.value = sell_stoploss_exchange_value;
             }
 

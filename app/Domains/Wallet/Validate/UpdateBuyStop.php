@@ -13,11 +13,9 @@ class UpdateBuyStop extends ValidateAbstract
     {
         return [
             'buy_stop' => 'bail|boolean',
-            'buy_stop_amount' => 'bail|numeric',
+            'buy_stop_max_value' => 'bail|numeric',
             'buy_stop_reference' => 'bail|numeric',
-            'buy_stop_max_exchange' => 'bail|numeric',
             'buy_stop_max_percent' => 'bail|numeric',
-            'buy_stop_min_exchange' => 'bail|numeric',
             'buy_stop_min_percent' => 'bail|numeric',
             'buy_stop_max_follow' => 'boolean',
             'buy_stop_max_at' => 'boolean',
