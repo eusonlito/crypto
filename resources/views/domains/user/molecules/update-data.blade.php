@@ -15,6 +15,6 @@
 
     <div class="p-2">
         <label for="user-email" class="form-label">{{ __('user-update.investment') }}</label>
-        <input type="number" name="investment" class="form-control form-control-lg" id="user-investment" value="{{ $REQUEST->input('investment') }}">
+        <input type="number" step="any" name="investment" class="form-control form-control-lg" id="user-investment" value="{{ $REQUEST->input('investment') }}">
     </div>
 </div>

@@ -23,17 +23,17 @@
 
             <div class="flex-auto p-1 mt-1">
                 <label for="order-amount" class="form-label">{{ __('order-create.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="order-amount" value="{{ $REQUEST->input('amount') }}" required>
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="order-amount" value="{{ $REQUEST->input('amount') }}" required>
             </div>
 
             <div class="flex-auto p-1 mt-1">
                 <label for="order-price" class="form-label">{{ __('order-create.price') }}</label>
-                <input type="number" name="price" step="0.000000001" class="form-control form-control-lg" id="order-price" value="{{ $REQUEST->input('price') }}" required>
+                <input type="number" step="any" name="price" class="form-control form-control-lg" id="order-price" value="{{ $REQUEST->input('price') }}" required>
             </div>
 
             <div class="flex-auto p-1 mt-1">
                 <label for="order-fee" class="form-label">{{ __('order-create.fee') }}</label>
-                <input type="number" name="fee" step="0.000000001" class="form-control form-control-lg" id="order-fee" value="{{ $REQUEST->input('fee') }}">
+                <input type="number" step="any" name="fee" class="form-control form-control-lg" id="order-fee" value="{{ $REQUEST->input('fee') }}">
             </div>
 
             <div class="flex-auto p-1 mt-1">

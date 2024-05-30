@@ -13,35 +13,35 @@
                 <div class="modal-body">
                     <div class="p-2">
                         <label for="{{ $prefix }}-wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-create.sell_stoploss_percent') }}</label>
-                        <input type="number" name="sell_stoploss_percent" step="0.0001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_percent" value="@value($row->sell_stoploss_percent, 2)">
+                        <input type="number" step="any" name="sell_stoploss_percent" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_percent" value="@value($row->sell_stoploss_percent, 2)">
                     </div>
 
                     <div class="xl:flex">
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-amount" class="form-label">{{ __('wallet-create.amount') }}</label>
-                            <input type="number" name="amount" class="form-control form-control-lg" id="{{ $prefix }}-wallet-amount" value="@numberString($row->amount)" readonly>
+                            <input type="number" step="any" name="amount" class="form-control form-control-lg" id="{{ $prefix }}-wallet-amount" value="@numberString($row->amount)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-buy_exchange" class="form-label">{{ __('wallet-create.buy_exchange') }}</label>
-                            <input type="number" name="buy_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
+                            <input type="number" step="any" name="buy_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-buy_value" class="form-label">{{ __('wallet-create.buy_value') }}</label>
-                            <input type="number" name="buy_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_value" value="@numberString($row->buy_value)" readonly>
+                            <input type="number" step="any" name="buy_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_value" value="@numberString($row->buy_value)" readonly>
                         </div>
                     </div>
 
                     <div class="xl:flex">
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-sell_stoploss_exchange" class="form-label">{{ __('wallet-create.sell_stoploss_exchange') }}</label>
-                            <input type="number" name="sell_stoploss_exchange" step="0.000000001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_exchange" value="@numberString($row->sell_stoploss_exchange)" readonly>
+                            <input type="number" step="any" name="sell_stoploss_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_exchange" value="@numberString($row->sell_stoploss_exchange)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-sell_stoploss_value" class="form-label">{{ __('wallet-create.sell_stoploss_value') }}</label>
-                            <input type="number" name="sell_stoploss_value" step="0.000000001" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_value" value="@numberString($row->sell_stoploss_value)" readonly>
+                            <input type="number" step="any" name="sell_stoploss_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_value" value="@numberString($row->sell_stoploss_value)" readonly>
                         </div>
                     </div>
 

@@ -16,7 +16,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
                     <div class="mt-8">
-                        <input type="number" name="code" id="auth-code" class="border w-full p-3" step="1" minlength="6" maxlength="6" placeholder="{{ __('user-auth-tfa.code') }}" autofocus required>
+                        <input type="number" step="any" name="code" id="auth-code" class="border w-full p-3" minlength="6" maxlength="6" placeholder="{{ __('user-auth-tfa.code') }}" autofocus required>
                     </div>
 
                     <div class="mt-5 xl:mt-8 text-center xl:text-left">

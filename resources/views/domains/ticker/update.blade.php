@@ -24,49 +24,49 @@
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-amount" class="form-label">{{ __('ticker-update.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="ticker-amount" value="@numberString($row->amount)">
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="ticker-amount" value="@numberString($row->amount)">
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-exchange_reference" class="form-label">{{ __('ticker-update.exchange_reference') }}</label>
-                <input type="number" name="exchange_reference" step="0.000000001" class="form-control form-control-lg" id="ticker-exchange_reference" value="@numberString($row->exchange_reference)">
+                <input type="number" step="any" name="exchange_reference" class="form-control form-control-lg" id="ticker-exchange_reference" value="@numberString($row->exchange_reference)">
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-exchange_current" class="form-label">{{ __('ticker-update.exchange_current') }}</label>
-                <input type="number" name="exchange_current" class="form-control form-control-lg" id="ticker-exchange_current" value="@numberString($row->exchange_current)" readonly>
+                <input type="number" step="any" name="exchange_current" class="form-control form-control-lg" id="ticker-exchange_current" value="@numberString($row->exchange_current)" readonly>
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-value_reference" class="form-label">{{ __('ticker-update.value_reference') }}</label>
-                <input type="number" name="value_reference" class="form-control form-control-lg" id="ticker-value_reference" value="@numberString($row->value_reference)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_reference" readonly>
+                <input type="number" step="any" name="value_reference" class="form-control form-control-lg" id="ticker-value_reference" value="@numberString($row->value_reference)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_reference" readonly>
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-value_current" class="form-label">{{ __('ticker-update.value_current') }}</label>
-                <input type="number" name="value_current" class="form-control form-control-lg" id="ticker-value_current" value="@numberString($row->value_current)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_current" readonly>
+                <input type="number" step="any" name="value_current" class="form-control form-control-lg" id="ticker-value_current" value="@numberString($row->value_current)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_current" readonly>
             </div>
         </div>
 
         <div class="lg:flex">
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-exchange_min" class="form-label">{{ __('ticker-update.exchange_min') }}</label>
-                <input type="number" name="exchange_min" class="form-control form-control-lg" id="ticker-exchange_min" value="@numberString($row->exchange_min)" readonly>
+                <input type="number" step="any" name="exchange_min" class="form-control form-control-lg" id="ticker-exchange_min" value="@numberString($row->exchange_min)" readonly>
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-value_min" class="form-label">{{ __('ticker-update.value_min') }}</label>
-                <input type="number" name="value_min" class="form-control form-control-lg" id="ticker-value_min" value="@numberString($row->value_min)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_min" readonly>
+                <input type="number" step="any" name="value_min" class="form-control form-control-lg" id="ticker-value_min" value="@numberString($row->value_min)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_min" readonly>
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-exchange_max" class="form-label">{{ __('ticker-update.exchange_max') }}</label>
-                <input type="number" name="exchange_max" class="form-control form-control-lg" id="ticker-exchange_max" value="@numberString($row->exchange_max)" readonly>
+                <input type="number" step="any" name="exchange_max" class="form-control form-control-lg" id="ticker-exchange_max" value="@numberString($row->exchange_max)" readonly>
             </div>
 
             <div class="flex-auto p-1 mt-2">
                 <label for="ticker-value_max" class="form-label">{{ __('ticker-update.value_max') }}</label>
-                <input type="number" name="value_max" class="form-control form-control-lg" id="ticker-value_max" value="@numberString($row->value_max)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_max" readonly>
+                <input type="number" step="any" name="value_max" class="form-control form-control-lg" id="ticker-value_max" value="@numberString($row->value_max)" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_max" readonly>
             </div>
         </div>
 

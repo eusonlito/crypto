@@ -31,22 +31,22 @@
 
             <div class="col-span-12 mb-2 lg:col-span-1">
                 <label for="wallet-order" class="form-label">{{ __('wallet-create.order') }}</label>
-                <input type="number" name="order" step="1" class="form-control form-control-lg" id="wallet-order" value="{{ $REQUEST->input('order') }}">
+                <input type="number" step="any" name="order" class="form-control form-control-lg" id="wallet-order" value="{{ $REQUEST->input('order') }}">
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-amount" class="form-label">{{ __('wallet-create.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="{{ $REQUEST->input('amount') }}" required>
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="wallet-amount" value="{{ $REQUEST->input('amount') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-create.buy_exchange') }}</label>
-                <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="{{ $REQUEST->input('buy_exchange') }}" required>
+                <input type="number" step="any" name="buy_exchange" class="form-control form-control-lg" id="wallet-buy_exchange" value="{{ $REQUEST->input('buy_exchange') }}" required>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-buy_value" class="form-label">{{ __('wallet-create.buy_value') }}</label>
-                <input type="number" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="" data-total data-total-amount="wallet-amount" data-total-value="wallet-buy_exchange" readonly>
+                <input type="number" step="any" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="" data-total data-total-amount="wallet-amount" data-total-value="wallet-buy_exchange" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">

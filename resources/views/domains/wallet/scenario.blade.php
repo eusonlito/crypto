@@ -17,12 +17,12 @@
         <div class="grid grid-cols-12 gap-2">
             <div class="col-span-4">
                 <label for="wallet-amount" class="form-label">{{ __('wallet-scenario.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="@numberString($amount)">
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="wallet-amount" value="@numberString($amount)">
             </div>
 
             <div class="col-span-4">
                 <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-scenario.buy_exchange') }}</label>
-                <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="@numberString($buy_exchange)">
+                <input type="number" step="any" name="buy_exchange" class="form-control form-control-lg" id="wallet-buy_exchange" value="@numberString($buy_exchange)">
             </div>
 
             <div class="col-span-4">
@@ -43,32 +43,32 @@
             <div class="xl:flex">
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_amount" class="form-label">{{ __('wallet-scenario.buy_stop_amount') }}</label>
-                    <input type="number" name="buy_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_stop_amount" value="@numberString($buy_stop_amount)">
+                    <input type="number" step="any" name="buy_stop_amount" class="form-control form-control-lg" id="wallet-buy_stop_amount" value="@numberString($buy_stop_amount)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_min_percent_min" class="form-label">{{ __('wallet-scenario.buy_stop_min_percent_min') }}</label>
-                    <input type="number" name="buy_stop_min_percent_min" step="0.1" class="form-control form-control-lg" id="wallet-buy_stop_min_percent_min" value="@value($buy_stop_min_percent_min, 2)">
+                    <input type="number" step="any" name="buy_stop_min_percent_min" class="form-control form-control-lg" id="wallet-buy_stop_min_percent_min" value="@value($buy_stop_min_percent_min, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_min_percent_max" class="form-label">{{ __('wallet-scenario.buy_stop_min_percent_max') }}</label>
-                    <input type="number" name="buy_stop_min_percent_max" step="0.1" class="form-control form-control-lg" id="wallet-buy_stop_min_percent_max" value="@value($buy_stop_min_percent_max, 2)">
+                    <input type="number" step="any" name="buy_stop_min_percent_max" class="form-control form-control-lg" id="wallet-buy_stop_min_percent_max" value="@value($buy_stop_min_percent_max, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_max_percent_min" class="form-label">{{ __('wallet-scenario.buy_stop_max_percent_min') }}</label>
-                    <input type="number" name="buy_stop_max_percent_min" step="0.1" class="form-control form-control-lg" id="wallet-buy_stop_max_percent_min" value="@value($buy_stop_max_percent_min, 2)">
+                    <input type="number" step="any" name="buy_stop_max_percent_min" class="form-control form-control-lg" id="wallet-buy_stop_max_percent_min" value="@value($buy_stop_max_percent_min, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_max_percent_max" class="form-label">{{ __('wallet-scenario.buy_stop_max_percent_max') }}</label>
-                    <input type="number" name="buy_stop_max_percent_max" step="0.1" class="form-control form-control-lg" id="wallet-buy_stop_max_percent_max" value="@value($buy_stop_max_percent_max, 2)">
+                    <input type="number" step="any" name="buy_stop_max_percent_max" class="form-control form-control-lg" id="wallet-buy_stop_max_percent_max" value="@value($buy_stop_max_percent_max, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-buy_stop_percent_step" class="form-label">{{ __('wallet-scenario.buy_stop_percent_step') }}</label>
-                    <input type="number" name="buy_stop_percent_step" step="0.1" class="form-control form-control-lg" id="wallet-buy_stop_percent_step" value="@value($buy_stop_percent_step, 2)">
+                    <input type="number" step="any" name="buy_stop_percent_step" class="form-control form-control-lg" id="wallet-buy_stop_percent_step" value="@value($buy_stop_percent_step, 2)">
                 </div>
             </div>
 
@@ -101,32 +101,32 @@
             <div class="xl:flex">
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_amount" class="form-label">{{ __('wallet-scenario.sell_stop_amount') }}</label>
-                    <input type="number" name="sell_stop_amount" step="0.000000001" class="form-control form-control-lg" id="wallet-sell_stop_amount" value="@numberString($sell_stop_amount)">
+                    <input type="number" step="any" name="sell_stop_amount" class="form-control form-control-lg" id="wallet-sell_stop_amount" value="@numberString($sell_stop_amount)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_max_percent_min" class="form-label">{{ __('wallet-scenario.sell_stop_max_percent_min') }}</label>
-                    <input type="number" name="sell_stop_max_percent_min" step="0.1" class="form-control form-control-lg" id="wallet-sell_stop_max_percent_min" value="@value($sell_stop_max_percent_min, 2)">
+                    <input type="number" step="any" name="sell_stop_max_percent_min" class="form-control form-control-lg" id="wallet-sell_stop_max_percent_min" value="@value($sell_stop_max_percent_min, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_max_percent_max" class="form-label">{{ __('wallet-scenario.sell_stop_max_percent_max') }}</label>
-                    <input type="number" name="sell_stop_max_percent_max" step="0.1" class="form-control form-control-lg" id="wallet-sell_stop_max_percent_max" value="@value($sell_stop_max_percent_max, 2)">
+                    <input type="number" step="any" name="sell_stop_max_percent_max" class="form-control form-control-lg" id="wallet-sell_stop_max_percent_max" value="@value($sell_stop_max_percent_max, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_min_percent_min" class="form-label">{{ __('wallet-scenario.sell_stop_min_percent_min') }}</label>
-                    <input type="number" name="sell_stop_min_percent_min" step="0.1" class="form-control form-control-lg" id="wallet-sell_stop_min_percent_min" value="@value($sell_stop_min_percent_min, 2)">
+                    <input type="number" step="any" name="sell_stop_min_percent_min" class="form-control form-control-lg" id="wallet-sell_stop_min_percent_min" value="@value($sell_stop_min_percent_min, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_min_percent_max" class="form-label">{{ __('wallet-scenario.sell_stop_min_percent_max') }}</label>
-                    <input type="number" name="sell_stop_min_percent_max" step="0.1" class="form-control form-control-lg" id="wallet-sell_stop_min_percent_max" value="@value($sell_stop_min_percent_max, 2)">
+                    <input type="number" step="any" name="sell_stop_min_percent_max" class="form-control form-control-lg" id="wallet-sell_stop_min_percent_max" value="@value($sell_stop_min_percent_max, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stop_percent_step" class="form-label">{{ __('wallet-scenario.sell_stop_percent_step') }}</label>
-                    <input type="number" name="sell_stop_percent_step" step="0.1" class="form-control form-control-lg" id="wallet-sell_stop_percent_step" value="@value($sell_stop_percent_step, 2)">
+                    <input type="number" step="any" name="sell_stop_percent_step" class="form-control form-control-lg" id="wallet-sell_stop_percent_step" value="@value($sell_stop_percent_step, 2)">
                 </div>
             </div>
 
@@ -152,17 +152,17 @@
             <div class="xl:flex">
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stoploss_percent_min" class="form-label">{{ __('wallet-scenario.sell_stoploss_percent_min') }}</label>
-                    <input type="number" name="sell_stoploss_percent_min" step="0.1" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_min" value="@value($sell_stoploss_percent_min, 2)">
+                    <input type="number" step="any" name="sell_stoploss_percent_min" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_min" value="@value($sell_stoploss_percent_min, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stoploss_percent_max" class="form-label">{{ __('wallet-scenario.sell_stoploss_percent_max') }}</label>
-                    <input type="number" name="sell_stoploss_percent_max" step="0.1" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_max" value="@value($sell_stoploss_percent_max, 2)">
+                    <input type="number" step="any" name="sell_stoploss_percent_max" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_max" value="@value($sell_stoploss_percent_max, 2)">
                 </div>
 
                 <div class="flex-auto p-2">
                     <label for="wallet-sell_stoploss_percent_step" class="form-label">{{ __('wallet-scenario.sell_stoploss_percent_step') }}</label>
-                    <input type="number" name="sell_stoploss_percent_step" step="0.1" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_step" value="@value($sell_stoploss_percent_step, 2)">
+                    <input type="number" step="any" name="sell_stoploss_percent_step" class="form-control form-control-lg" id="wallet-sell_stoploss_percent_step" value="@value($sell_stoploss_percent_step, 2)">
                 </div>
             </div>
 

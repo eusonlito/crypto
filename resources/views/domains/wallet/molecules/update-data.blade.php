@@ -51,36 +51,36 @@
 
             <div class="col-span-12 mb-2 lg:col-span-4">
                 <label for="wallet-order" class="form-label">{{ __('wallet-update.order') }}</label>
-                <input type="number" name="order" step="1" class="form-control form-control-lg" id="wallet-order" value="{{ $row->order }}">
+                <input type="number" step="any" name="order" class="form-control form-control-lg" id="wallet-order" value="{{ $row->order }}">
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-amount" class="form-label">{{ __('wallet-update.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="wallet-amount" value="@numberString($REQUEST->input('amount'))" />
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="wallet-amount" value="@numberString($REQUEST->input('amount'))" />
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">
                 <label for="wallet-buy_exchange" class="form-label">{{ __('wallet-update.buy_exchange') }}</label>
 
                 <div class="input-group">
-                    <input type="number" name="buy_exchange" step="0.000000001" class="form-control form-control-lg" id="wallet-buy_exchange" value="@numberString($REQUEST->input('buy_exchange'))" {{ $row->crypto ? 'required' : 'readonly' }}>
+                    <input type="number" step="any" name="buy_exchange" class="form-control form-control-lg" id="wallet-buy_exchange" value="@numberString($REQUEST->input('buy_exchange'))" {{ $row->crypto ? 'required' : 'readonly' }}>
                     <button type="button" class="input-group-text input-group-text-lg" tabindex="-1" title="{{ __('wallet-update.exchange-from-order-status') }}" data-wallet-order-status data-wallet-order-status-link="{{ route('order.status', ['wallet_id' => $row->id]) }}" data-wallet-order-status-target="#wallet-buy_exchange">@icon('shuffle', 'w-5 h-5')</button>
                 </div>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-3">
                 <label for="wallet-current_exchange" class="form-label">{{ __('wallet-update.current_exchange') }}</label>
-                <input type="number" name="current_exchange" class="form-control form-control-lg" id="wallet-current_exchange" value="@numberString($row->current_exchange)" readonly>
+                <input type="number" step="any" name="current_exchange" class="form-control form-control-lg" id="wallet-current_exchange" value="@numberString($row->current_exchange)" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-buy_value" class="form-label">{{ __('wallet-update.buy_value') }}</label>
-                <input type="number" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="@numberString($row->buy_value)" readonly>
+                <input type="number" step="any" name="buy_value" class="form-control form-control-lg" id="wallet-buy_value" value="@numberString($row->buy_value)" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">
                 <label for="wallet-current_value" class="form-label">{{ __('wallet-update.current_value') }}</label>
-                <input type="number" name="current_value" class="form-control form-control-lg" id="wallet-current_value" value="@numberString($row->current_value)" readonly>
+                <input type="number" step="any" name="current_value" class="form-control form-control-lg" id="wallet-current_value" value="@numberString($row->current_value)" readonly>
             </div>
 
             <div class="col-span-12 mb-2 lg:col-span-2">

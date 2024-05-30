@@ -14,75 +14,77 @@
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-amount" class="form-label">{{ __('wallet-update-buy-stop.amount') }}</label>
-                            <input type="number" name="amount" step="0.000000001" class="form-control" id="{{ $prefix }}-amount" value="@numberString($row->amount)" readonly>
+                            <input type="number" step="any" name="amount" class="form-control" id="{{ $prefix }}-amount" value="@numberString($row->amount)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_exchange" class="form-label">{{ __('wallet-update-buy-stop.buy_exchange') }}</label>
-                            <input type="number" name="buy_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
+                            <input type="number" step="any" name="buy_exchange" class="form-control" id="{{ $prefix }}-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-current_exchange" class="form-label">{{ __('wallet-update-buy-stop.current_exchange') }}</label>
-                            <input type="number" name="current_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-current_exchange" value="@numberString($row->current_exchange)" readonly>
+                            <input type="number" step="any" name="current_exchange" class="form-control" id="{{ $prefix }}-current_exchange" value="@numberString($row->current_exchange)" readonly>
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_value" class="form-label">{{ __('wallet-update-buy-stop.buy_value') }}</label>
-                            <input type="number" name="buy_value" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_value" value="@numberString($row->buy_value)" readonly>
+                            <input type="number" step="any" name="buy_value" class="form-control" id="{{ $prefix }}-buy_value" value="@numberString($row->buy_value)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-current_value" class="form-label">{{ __('wallet-update-buy-stop.current_value') }}</label>
-                            <input type="number" name="current_value" step="0.000000001" class="form-control" id="{{ $prefix }}-current_value" value="@numberString($row->current_value)" readonly>
-                        </div>
-                    </div>
-
-                    <div class="lg:flex">
-                        <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_max_value" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_value') }}</label>
-                            <input type="number" name="buy_stop_max_value" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_max_value" value="@numberString($row->buy_stop_max_value)">
-                        </div>
-
-                        <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_amount" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_amount') }}</label>
-                            <input type="number" name="buy_stop_amount" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_amount" value="@numberString($row->buy_stop_amount)" readonly>
+                            <input type="number" step="any" name="current_value" class="form-control" id="{{ $prefix }}-current_value" value="@numberString($row->current_value)" readonly>
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_stop_reference" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_reference') }}</label>
-                            <input type="number" name="buy_stop_reference" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_reference" value="@numberString($row->buy_stop_reference)">
+                            <input type="number" step="any" name="buy_stop_reference" class="form-control" id="{{ $prefix }}-buy_stop_reference" value="@numberString($row->buy_stop_reference)">
                         </div>
 
                         <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-buy_stop_amount" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_amount') }}</label>
+                            <input type="number" step="any" name="buy_stop_amount" class="form-control" id="{{ $prefix }}-buy_stop_amount" value="@numberString($row->buy_stop_amount)" readonly>
+                        </div>
+                    </div>
+
+                    <div class="lg:flex">
+                        <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_stop_min_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_percent') }}</label>
-                            <input type="number" name="buy_stop_min_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_min_percent" value="@value($row->buy_stop_min_percent, 2)">
+                            <input type="number" step="any" name="buy_stop_min_percent" class="form-control" id="{{ $prefix }}-buy_stop_min_percent" value="@value($row->buy_stop_min_percent, 2)">
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_stop_max_percent" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_percent') }}</label>
-                            <input type="number" name="buy_stop_max_percent" step="0.0001" class="form-control" id="{{ $prefix }}-buy_stop_max_percent" value="@value($row->buy_stop_max_percent, 2)">
+                            <input type="number" step="any" name="buy_stop_max_percent" class="form-control" id="{{ $prefix }}-buy_stop_max_percent" value="@value($row->buy_stop_max_percent, 2)">
                         </div>
                     </div>
 
                     <div class="lg:flex">
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_stop_min_exchange" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_exchange') }}</label>
-                            <input type="number" name="buy_stop_min_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_min_exchange" value="@numberString($row->buy_stop_min_exchange)" readonly>
+                            <input type="number" step="any" name="buy_stop_min_exchange" class="form-control" id="{{ $prefix }}-buy_stop_min_exchange" value="@numberString($row->buy_stop_min_exchange)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
                             <label for="{{ $prefix }}-buy_stop_max_exchange" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_exchange') }}</label>
-                            <input type="number" name="buy_stop_max_exchange" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_max_exchange" value="@numberString($row->buy_stop_max_exchange)" readonly>
+                            <input type="number" step="any" name="buy_stop_max_exchange" class="form-control" id="{{ $prefix }}-buy_stop_max_exchange" value="@numberString($row->buy_stop_max_exchange)" readonly>
+                        </div>
+                    </div>
+
+                    <div class="lg:flex">
+                        <div class="flex-1 p-1">
+                            <label for="{{ $prefix }}-buy_stop_min_value" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_value') }}</label>
+                            <input type="number" step="any" name="buy_stop_min_value" class="form-control" id="{{ $prefix }}-buy_stop_min_value" value="@numberString($row->buy_stop_min_value)" readonly>
                         </div>
 
                         <div class="flex-1 p-1">
-                            <label for="{{ $prefix }}-buy_stop_min_value" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_min_value') }}</label>
-                            <input type="number" name="buy_stop_min_value" step="0.000000001" class="form-control" id="{{ $prefix }}-buy_stop_min_value" value="@numberString($row->buy_stop_min_value)" readonly>
+                            <label for="{{ $prefix }}-buy_stop_max_value" class="form-label">{{ __('wallet-update-buy-stop.buy_stop_max_value') }}</label>
+                            <input type="number" step="any" name="buy_stop_max_value" class="form-control" id="{{ $prefix }}-buy_stop_max_value" value="@numberString($row->buy_stop_max_value)">
                         </div>
                     </div>
 

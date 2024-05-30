@@ -27,17 +27,17 @@
 
             <div class="flex-auto p-1 mt-1">
                 <label for="ticker-amount" class="form-label">{{ __('ticker-create.amount') }}</label>
-                <input type="number" name="amount" step="0.000000001" class="form-control form-control-lg" id="ticker-amount" value="{{ $REQUEST->input('amount') }}">
+                <input type="number" step="any" name="amount" class="form-control form-control-lg" id="ticker-amount" value="{{ $REQUEST->input('amount') }}">
             </div>
 
             <div class="flex-auto p-1 mt-1">
                 <label for="ticker-exchange_reference" class="form-label">{{ __('ticker-create.exchange_reference') }}</label>
-                <input type="number" name="exchange_reference" step="0.000000001" class="form-control form-control-lg" id="ticker-exchange_reference" value="{{ $REQUEST->input('exchange_reference') }}">
+                <input type="number" step="any" name="exchange_reference" class="form-control form-control-lg" id="ticker-exchange_reference" value="{{ $REQUEST->input('exchange_reference') }}">
             </div>
 
             <div class="flex-auto p-1 mt-1">
                 <label for="ticker-value_reference" class="form-label">{{ __('ticker-create.value_reference') }}</label>
-                <input type="number" name="value_reference" class="form-control form-control-lg" id="ticker-value_reference" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_reference" readonly>
+                <input type="number" step="any" name="value_reference" class="form-control form-control-lg" id="ticker-value_reference" data-total data-total-amount="ticker-amount" data-total-value="ticker-exchange_reference" readonly>
             </div>
         </div>
 
