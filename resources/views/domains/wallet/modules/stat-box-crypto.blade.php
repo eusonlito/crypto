@@ -55,7 +55,10 @@
                         </div>
                     </div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_stop_min_exchange') }} (@number($buy_stop_min_percent, 2)%)</div>
+                    <div class="text-gray-600 text-xs mt-2">
+                        {{ __('wallet-stat.buy_stop_min_exchange') }}
+                        @number($buy_stop_min_percent, 2)%
+                    </div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base mr-2 {{ $buy_stop_min_at ? 'text-theme-10' : '' }}" title="{{ $buy_stop_min_at }}" data-stat-box-crypto-buy_stop_min_exchange>
@@ -92,7 +95,8 @@
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
-                        {{ __('wallet-stat.buy_stop_max_exchange') }} (@number($buy_stop_max_percent, 2)%)
+                        {{ __('wallet-stat.buy_stop_max_exchange') }}
+                        @number($buy_stop_max_percent, 2)%
                     </div>
 
                     <div class="flex items-center justify-center">
@@ -142,7 +146,8 @@
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
-                        {{ __('wallet-stat.sell_stop_max_exchange') }} (@number($sell_stop_max_percent, 2)%)
+                        {{ __('wallet-stat.sell_stop_max_exchange') }}
+                        @number($sell_stop_max_percent, 2)%
                     </div>
 
                     <div class="flex items-center justify-center">
@@ -173,14 +178,18 @@
                 </div>
 
                 <div class="flex-1 p-2">
-                    <div class="text-gray-600 text-xs">{{ __('wallet-stat.sell_stop_amount') }} ({{ $sell_stop_percent }}%)</div>
+                    <div class="text-gray-600 text-xs">
+                        {{ __('wallet-stat.sell_stop_amount') }}
+                        {{ $sell_stop_percent }}%
+                    </div>
 
                     <div class="flex items-center justify-center">
                         <div class="text-base" title="@numberString($sell_stop_amount)" data-stat-box-crypto-sell_stop_amount>@number($sell_stop_amount)</div>
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
-                        {{ __('wallet-stat.sell_stop_min_exchange') }} (@number($sell_stop_min_percent, 2)%)
+                        {{ __('wallet-stat.sell_stop_min_exchange') }}
+                        @number($sell_stop_min_percent, 2)%
                     </div>
 
                     <div class="flex items-center justify-center">
@@ -232,7 +241,8 @@
                     </div>
 
                     <div class="text-gray-600 text-xs mt-2">
-                        {{ __('wallet-stat.sell_stoploss_exchange') }} (@number($sell_stoploss_percent, 2)%)
+                        {{ __('wallet-stat.sell_stoploss_exchange') }}
+                        @number($sell_stoploss_percent, 2)%
                     </div>
 
                     <div class="flex items-center justify-center">
