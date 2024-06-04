@@ -69,7 +69,10 @@
     </h2>
 </div>
 
-@include ('domains.order.molecules.list', ['list' => $ordersOpen])
+@include ('domains.order.molecules.list', [
+    'list' => $ordersOpen,
+    'difference' => false,
+])
 
 @endif
 

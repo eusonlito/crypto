@@ -1,4 +1,6 @@
 @php ($filled ??= false)
+@php ($difference ??= true)
+
 @php ($paginated = method_exists($list, 'hasPages'))
 
 <div class="overflow-auto md:overflow-visible header-sticky">
@@ -22,7 +24,10 @@
                 <th>{{ __('order-index.value_current') }}</th>
                 @endif
 
-                <th>{{ __('order-index.fee') }}</th>
+                @if ($difference)
+                <th>{{ __('order-index.difference') }}</th>
+                @endif
+
                 <th class="text-center">{{ __('order-index.type') }}</th>
                 <th class="text-center">{{ __('order-index.status') }}</th>
                 <th class="text-center">{{ __('order-index.filled') }}</th>
@@ -76,7 +81,14 @@
 
                 @endif
 
-                <td><span class="block" title="{{ $row->fee }}">@number($row->fee)</span></td>
+                @if ($difference)
+
+                <td>
+                    {!! Html::orderDifference($row, $list) !!}
+                </td>
+
+                @endif
+
                 <td><span class="block text-center">{{ $row->type }}</span></td>
                 <td><span class="block text-center">{{ $row->status }}</span></td>
                 <td><span class="block text-center">@status($row->filled)</span></td>
