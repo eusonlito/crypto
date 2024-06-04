@@ -34,8 +34,17 @@
                     <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.buy_value') }}</div>
                     <div class="text-base" title="@numberString($buy_value)" data-stat-box-crypto-buy_value>@number($buy_value)</div>
 
-                    <div class="text-gray-600 text-xs mt-2">{{ __('wallet-stat.result') }}</div>
-                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold" data-stat-box-crypto-result>@number($result)</div>
+                    <div class="text-gray-600 text-xs mt-2">
+                        <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-market-modal-{{ $row->id }}">
+                            {{ __('wallet-stat.result') }}
+                        </a>
+                    </div>
+
+                    <div class="text-base {{ ($result >= 0) ? 'text-theme-10' : 'text-theme-24' }} font-bold" data-stat-box-crypto-result>
+                        <a href="javascript:;" data-toggle="modal" data-target="#wallet-update-sell-market-modal-{{ $row->id }}">
+                            @number($result)
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -282,6 +291,7 @@
     </div>
 </div>
 
+@include ('domains.wallet.molecules.wallet-update-sell-market-modal')
 @include ('domains.wallet.molecules.wallet-update-buy-stop-modal')
 @include ('domains.wallet.molecules.wallet-update-sell-stop-modal')
 @include ('domains.wallet.molecules.wallet-update-sell-stoploss-modal')

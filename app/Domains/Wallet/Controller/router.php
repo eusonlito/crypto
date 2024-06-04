@@ -16,6 +16,7 @@ Route::group(['middleware' => 'user-auth'], static function () {
     Route::get('/wallet/{id}/history', UpdateHistory::class)->name('wallet.update.history');
 
     Route::any('/wallet/{id}/buy-stop', UpdateBuyStop::class)->name('wallet.update.buy-stop');
+    Route::any('/wallet/{id}/sell-market', UpdateSellMarket::class)->name('wallet.update.sell-market');
     Route::any('/wallet/{id}/sell-stop', UpdateSellStop::class)->name('wallet.update.sell-stop');
     Route::any('/wallet/{id}/sell-stoploss', UpdateSellStopLoss::class)->name('wallet.update.sell-stoploss');
 

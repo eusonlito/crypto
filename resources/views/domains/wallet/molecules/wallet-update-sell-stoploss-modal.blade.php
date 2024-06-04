@@ -12,35 +12,35 @@
 
                 <div class="modal-body">
                     <div class="p-2">
-                        <label for="{{ $prefix }}-wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-create.sell_stoploss_percent') }}</label>
+                        <label for="{{ $prefix }}-wallet-sell_stoploss_percent" class="form-label">{{ __('wallet-update.sell_stoploss_percent') }}</label>
                         <input type="number" step="any" name="sell_stoploss_percent" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_percent" value="@value($row->sell_stoploss_percent, 2)">
                     </div>
 
                     <div class="xl:flex">
                         <div class="flex-auto p-2">
-                            <label for="{{ $prefix }}-wallet-amount" class="form-label">{{ __('wallet-create.amount') }}</label>
+                            <label for="{{ $prefix }}-wallet-amount" class="form-label">{{ __('wallet-update.amount') }}</label>
                             <input type="number" step="any" name="amount" class="form-control form-control-lg" id="{{ $prefix }}-wallet-amount" value="@numberString($row->amount)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
-                            <label for="{{ $prefix }}-wallet-buy_exchange" class="form-label">{{ __('wallet-create.buy_exchange') }}</label>
+                            <label for="{{ $prefix }}-wallet-buy_exchange" class="form-label">{{ __('wallet-update.buy_exchange') }}</label>
                             <input type="number" step="any" name="buy_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_exchange" value="@numberString($row->buy_exchange)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
-                            <label for="{{ $prefix }}-wallet-buy_value" class="form-label">{{ __('wallet-create.buy_value') }}</label>
+                            <label for="{{ $prefix }}-wallet-buy_value" class="form-label">{{ __('wallet-update.buy_value') }}</label>
                             <input type="number" step="any" name="buy_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-buy_value" value="@numberString($row->buy_value)" readonly>
                         </div>
                     </div>
 
                     <div class="xl:flex">
                         <div class="flex-auto p-2">
-                            <label for="{{ $prefix }}-wallet-sell_stoploss_exchange" class="form-label">{{ __('wallet-create.sell_stoploss_exchange') }}</label>
+                            <label for="{{ $prefix }}-wallet-sell_stoploss_exchange" class="form-label">{{ __('wallet-update.sell_stoploss_exchange') }}</label>
                             <input type="number" step="any" name="sell_stoploss_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_exchange" value="@numberString($row->sell_stoploss_exchange)" readonly>
                         </div>
 
                         <div class="flex-auto p-2">
-                            <label for="{{ $prefix }}-wallet-sell_stoploss_value" class="form-label">{{ __('wallet-create.sell_stoploss_value') }}</label>
+                            <label for="{{ $prefix }}-wallet-sell_stoploss_value" class="form-label">{{ __('wallet-update.sell_stoploss_value') }}</label>
                             <input type="number" step="any" name="sell_stoploss_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-sell_stoploss_value" value="@numberString($row->sell_stoploss_value)" readonly>
                         </div>
                     </div>
@@ -48,14 +48,14 @@
                     <div class="p-2">
                         <div class="form-check">
                             <input type="checkbox" name="sell_stoploss" value="1" class="form-check-switch" id="{{ $prefix }}-wallet-sell_stoploss" {{ $row->sell_stoploss ? 'checked' : '' }}>
-                            <label for="{{ $prefix }}-wallet-sell_stoploss" class="form-check-label">{{ __('wallet-create.sell_stoploss') }}</label>
+                            <label for="{{ $prefix }}-wallet-sell_stoploss" class="form-check-label">{{ __('wallet-update.sell_stoploss') }}</label>
                         </div>
                     </div>
 
                     <div class="p-2">
                         <div class="form-check">
                             <input type="checkbox" name="sell_stoploss_at" value="1" class="form-check-switch" id="{{ $prefix }}-wallet-sell_stoploss_at" {{ $row->sell_stoploss_at ? 'checked' : '' }}>
-                            <label for="{{ $prefix }}-wallet-sell_stoploss_at" class="form-check-label">{{ __('wallet-create.sell_stoploss_at') }}</label>
+                            <label for="{{ $prefix }}-wallet-sell_stoploss_at" class="form-check-label">{{ __('wallet-update.sell_stoploss_at') }}</label>
                         </div>
                     </div>
                 </div>
