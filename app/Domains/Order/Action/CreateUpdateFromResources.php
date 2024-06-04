@@ -134,7 +134,7 @@ class CreateUpdateFromResources extends ActionAbstract
             return null;
         }
 
-        return Model::query()->create([
+        $row = Model::query()->create([
             'code' => $resource->id,
             'reference' => $resource->reference,
 
@@ -158,6 +158,11 @@ class CreateUpdateFromResources extends ActionAbstract
             'wallet_id' => $this->wallets->get($product_id),
             'user_id' => $this->auth->id,
         ]);
+
+        $row->updatePrevious();
+        $row->save();
+
+        return $row;
     }
 
     /**
@@ -183,6 +188,8 @@ class CreateUpdateFromResources extends ActionAbstract
 
         $row->created_at = $resource->updatedAt;
         $row->updated_at = $resource->updatedAt;
+
+        $row->updatePrevious();
 
         $row->save();
 

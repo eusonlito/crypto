@@ -1,6 +1,4 @@
 @php ($filled ??= false)
-@php ($difference ??= true)
-
 @php ($paginated = method_exists($list, 'hasPages'))
 
 <div class="overflow-auto md:overflow-visible header-sticky">
@@ -24,9 +22,7 @@
                 <th>{{ __('order-index.value_current') }}</th>
                 @endif
 
-                @if ($difference)
                 <th>{{ __('order-index.difference') }}</th>
-                @endif
 
                 <th class="text-center">{{ __('order-index.type') }}</th>
                 <th class="text-center">{{ __('order-index.status') }}</th>
@@ -81,13 +77,12 @@
 
                 @endif
 
-                @if ($difference)
-
                 <td>
-                    {!! Html::orderDifference($row, $list) !!}
+                    <span title="{{ $row->value - $row->previous_value }}">@number($row->value - $row->previous_value, 2)</span>
+                    <span class="ml-2 text-xs font-medium {{ (($row->side === 'sell') && ($row->previous_percent < 0)) ? 'text-theme-24' : 'text-theme-10' }}">
+                        @number($row->previous_percent, 2)%
+                    </span>
                 </td>
-
-                @endif
 
                 <td><span class="block text-center">{{ $row->type }}</span></td>
                 <td><span class="block text-center">{{ $row->status }}</span></td>

@@ -62,6 +62,16 @@ abstract class BuilderAbstract extends Builder
     }
 
     /**
+     * @param string $created_at
+     *
+     * @return self
+     */
+    public function byCreatedAtBefore(string $created_at): self
+    {
+        return $this->where($this->addTable('created_at'), '<', $created_at);
+    }
+
+    /**
      * @param int $id
      *
      * @return self

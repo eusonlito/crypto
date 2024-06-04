@@ -8,12 +8,13 @@ use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Order\Model\Builder\Order as Builder;
 use App\Domains\Order\Model\Traits\OrderSql as OrderSqlTrait;
+use App\Domains\Order\Model\Traits\OrderUpdate as OrderUpdateTrait;
 use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Domains\User\Model\User as UserModel;
 
 class Order extends ModelAbstract
 {
-    use OrderSqlTrait;
+    use OrderSqlTrait, OrderUpdateTrait;
 
     /**
      * @var string
@@ -36,6 +37,9 @@ class Order extends ModelAbstract
     protected $casts = [
         'price' => 'float',
         'filled' => 'boolean',
+        'previous_price' => 'float',
+        'previous_value' => 'float',
+        'previous_percent' => 'float',
     ];
 
     /**

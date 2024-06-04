@@ -44,7 +44,7 @@ class Create extends ActionAbstract
         $this->api();
         $this->cancelOpen();
         $this->send();
-        $this->create();
+        $this->save();
 
         return $this->row;
     }
@@ -130,7 +130,16 @@ class Create extends ActionAbstract
     /**
      * @return void
      */
-    protected function create(): void
+    protected function save(): void
+    {
+        $this->saveRow();
+        $this->savePrevious();
+    }
+
+    /**
+     * @return void
+     */
+    protected function saveRow(): void
     {
         $this->row = Model::query()->create([
             'code' => $this->resource->id,
@@ -155,5 +164,14 @@ class Create extends ActionAbstract
             'product_id' => $this->product->id,
             'user_id' => $this->auth->id,
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function savePrevious(): void
+    {
+        $this->row->updatePrevious();
+        $this->row->save();
     }
 }

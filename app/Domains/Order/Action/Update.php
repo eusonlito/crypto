@@ -11,7 +11,7 @@ class Update extends ActionAbstract
     /**
      * @return void
      */
-    protected function store(): void
+    protected function save(): void
     {
         $this->row->amount = $this->data['amount'];
         $this->row->price = $this->data['price'];
@@ -30,6 +30,7 @@ class Update extends ActionAbstract
         $this->row->user_id = $this->auth->id;
         $this->row->wallet_id = $this->wallet->id;
 
+        $this->row->updatePrevious();
         $this->row->save();
     }
 }

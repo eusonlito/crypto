@@ -12,7 +12,16 @@ class CreateSimple extends ActionAbstract
     /**
      * @return void
      */
-    protected function store(): void
+    protected function save(): void
+    {
+        $this->saveRow();
+        $this->savePrevious();
+    }
+
+    /**
+     * @return void
+     */
+    protected function saveRow(): void
     {
         $this->row = Model::query()->create([
             'code' => $this->data['code'],
@@ -37,5 +46,14 @@ class CreateSimple extends ActionAbstract
             'user_id' => $this->auth->id,
             'wallet_id' => $this->wallet->id,
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function savePrevious(): void
+    {
+        $this->row->updatePrevious();
+        $this->row->save();
     }
 }

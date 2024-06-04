@@ -2,9 +2,7 @@
 
 namespace App\Services\Html;
 
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Domains\Order\Model\Order as OrderModel;
 
 class Html
 {
@@ -179,36 +177,6 @@ class Html
                 .' = '.helper()->number($value->value)
             .')';
         })->implode(' + ');
-    }
-
-    /**
-     * @param \App\Domains\Order\Model\Order $order
-     * @param \Illuminate\Support\Collection|\Illuminate\Pagination\LengthAwarePaginator $list
-     *
-     * @return string
-     */
-    public static function orderDifference(OrderModel $order, Collection|LengthAwarePaginator $list): string
-    {
-        $previous = $list->where('wallet_id', $order->wallet_id)
-            ->where('side', '!=', $order->side)
-            ->firstWhere('id', '<', $order->id);
-
-        if (empty($previous)) {
-            return '';
-        }
-
-        $percent = helper()->percent($previous->price, $order->price);
-        $value = $order->amount * $previous->price;
-        $difference = $order->value - $value;
-
-        $class = (($order->side === 'sell') && ($difference < 0)) ? 'text-theme-24' : 'text-theme-10';
-
-        return '
-            <span title="'.$difference.'">'.helper()->number($difference, 2).'</span>
-            <span class="ml-2 text-xs font-medium '.$class.'">'
-                .helper()->number(helper()->percent($value, $order->value), 2).'%
-            </span>
-        ';
     }
 
     /**

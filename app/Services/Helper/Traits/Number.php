@@ -119,7 +119,7 @@ trait Number
     public function percent(float $first, float $second, bool $float = true, bool $abs = false)
     {
         if ($first && $second) {
-            $value = round(($second * 100 / $first) - 100, 2);
+            $value = round(($second - $first) / (($second + $first) / 2) * 100, 2);
         } else {
             $value = 0;
         }

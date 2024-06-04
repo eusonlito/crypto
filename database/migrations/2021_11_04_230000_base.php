@@ -78,6 +78,10 @@ return new class extends MigrationAbstract {
             $table->double('value')->default(0);
             $table->double('fee')->default(0);
 
+            $table->double('previous_price')->nullable();
+            $table->double('previous_value')->nullable();
+            $table->double('previous_percent')->nullable();
+
             $table->string('type');
             $table->string('status');
             $table->string('side');

@@ -34,7 +34,7 @@ trait CreateUpdate
         $this->platform();
 
         $this->data();
-        $this->store();
+        $this->save();
 
         return $this->row;
     }
