@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="p-2">
                         <label for="{{ $prefix }}-wallet-amount" class="form-label">{{ __('wallet-update.amount') }}</label>
-                        <input type="number" step="any" name="amount" class="form-control form-control-lg" id="{{ $prefix }}-wallet-amount" value="@numberString($row->amount)" required>
+                        <input type="number" step="any" min="0" name="amount" class="form-control form-control-lg" id="{{ $prefix }}-wallet-amount" value="@numberString($row->amount)" required>
                     </div>
 
                     <div class="xl:flex">
@@ -26,6 +26,11 @@
                             <label for="{{ $prefix }}-wallet-current_exchange" class="form-label">{{ __('wallet-update.current_exchange') }}</label>
                             <input type="number" step="any" name="current_exchange" class="form-control form-control-lg" id="{{ $prefix }}-wallet-current_exchange" value="@numberString($row->current_exchange)" readonly>
                         </div>
+
+                        <div class="flex-auto p-2">
+                            <label for="{{ $prefix }}-wallet-exchange_difference" class="form-label">{{ __('wallet-update.exchange_difference') }}</label>
+                            <input type="number" step="any" name="exchange_difference" class="form-control form-control-lg" id="{{ $prefix }}-wallet-exchange_difference" value="@numberString($row->current_exchange - $row->buy_exchange)" readonly>
+                        </div>
                     </div>
 
                     <div class="xl:flex">
@@ -37,6 +42,11 @@
                         <div class="flex-auto p-2">
                             <label for="{{ $prefix }}-wallet-current_value" class="form-label">{{ __('wallet-update.current_value') }}</label>
                             <input type="number" step="any" name="current_value" class="form-control form-control-lg" id="{{ $prefix }}-wallet-current_value" value="@numberString($row->current_value)" readonly>
+                        </div>
+
+                        <div class="flex-auto p-2">
+                            <label for="{{ $prefix }}-wallet-value_difference" class="form-label">{{ __('wallet-update.value_difference') }}</label>
+                            <input type="number" step="any" name="value_difference" class="form-control form-control-lg" id="{{ $prefix }}-wallet-value_difference" value="@numberString($row->current_value - $row->buy_value)" readonly>
                         </div>
                     </div>
 

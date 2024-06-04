@@ -29,6 +29,9 @@
         const current_exchange = element.querySelector('input[name="current_exchange"]');
         const current_value = element.querySelector('input[name="current_value"]');
 
+        const exchange_difference = element.querySelector('input[name="exchange_difference"]');
+        const value_difference = element.querySelector('input[name="value_difference"]');
+
         const buy_stop_reference = element.querySelector('input[name="buy_stop_reference"]');
         const buy_stop_amount = element.querySelector('input[name="buy_stop_amount"]');
         const buy_stop_min_percent = element.querySelector('input[name="buy_stop_min_percent"]');
@@ -67,6 +70,9 @@
             let current_exchange_value = current_exchange ? float(current_exchange.value) : null;
             let current_value_value = current_value ? float(current_value.value) : null;
 
+            let exchange_difference_value = exchange_difference ? float(exchange_difference.value) : null;
+            let value_difference_value = value_difference ? float(value_difference.value) : null;
+
             let buy_stop_reference_value = buy_stop_reference ? float(buy_stop_reference.value) : null;
             let buy_stop_amount_value = buy_stop_amount ? float(buy_stop_amount.value) : null;
             let buy_stop_min_percent_value = buy_stop_min_percent ? float(buy_stop_min_percent.value) : null;
@@ -100,6 +106,16 @@
             if (current_value) {
                 current_value_value = amount_value * current_exchange_value;
                 current_value.value = current_value_value;
+            }
+
+            if (exchange_difference) {
+                exchange_difference_value = current_exchange_value - buy_exchange_value;
+                exchange_difference.value = exchange_difference_value;
+            }
+
+            if (value_difference) {
+                value_difference_value = current_value_value - buy_value_value;
+                value_difference.value = value_difference_value;
             }
 
             // --- //

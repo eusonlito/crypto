@@ -31,6 +31,7 @@
         'sell-stop-min-empty-max' => 'Se ha establecido un valor para el mínimo de Compra en Subida (:min) pero no para el máximo (:max)',
     ],
     'exchange-from-order-status' => 'Obtener cambio desde el estado de las órdenes',
+    'exchange_difference' => 'Diferencia',
     'history' => 'Histórico',
     'name' => 'Nombre',
     'order' => 'Orden',
@@ -61,5 +62,6 @@
     'simulator' => 'Simulador',
     'success' => 'Cartera actualizada correctamente',
     'sync' => 'Sincronizar',
+    'value_difference' => 'Diferencia',
     'visible' => 'Visible',
 ];
