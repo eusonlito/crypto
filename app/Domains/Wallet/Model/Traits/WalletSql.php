@@ -138,6 +138,18 @@ trait WalletSql
                 ),
                 `buy_stop_min_exchange` * (1 + (`buy_stop_max_percent` / 100)),
                 `buy_stop_max_exchange`
+            ),
+
+            `buy_stop_amount` = IF (
+                (
+                    `buy_stop`
+                    AND `buy_stop_reference`
+                    AND `buy_stop_max_follow`
+                    AND `buy_stop_max_value`
+                    AND `current_exchange` >= `buy_stop_reference`
+                ),
+                `buy_stop_max_value` / `current_exchange`,
+                `buy_stop_amount`
             )
         ';
     }
