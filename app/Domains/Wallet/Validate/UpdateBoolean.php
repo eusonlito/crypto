@@ -12,7 +12,7 @@ class UpdateBoolean extends ValidateAbstract
     public function rules(): array
     {
         return [
-            'column' => 'bail|required|string|in:sell_stop,buy_stop,visible,enabled',
+            'column' => 'bail|required|string|in:sell_stop,buy_stop,visible,enabled,processing_at',
         ];
     }
 }

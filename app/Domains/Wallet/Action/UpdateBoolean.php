@@ -11,7 +11,8 @@ class UpdateBoolean extends ActionAbstract
      */
     public function handle(): Model
     {
-        $this->store();
+        $this->data();
+        $this->save();
 
         return $this->row;
     }
@@ -19,9 +20,21 @@ class UpdateBoolean extends ActionAbstract
     /**
      * @return void
      */
-    protected function store(): void
+    protected function data(): void
     {
-        $this->row->{$this->data['column']} = !$this->row->{$this->data['column']};
+        if ($this->data['column'] === 'processing_at') {
+            $this->data['value'] = null;
+        } else {
+            $this->data['value'] = empty($this->row->{$this->data['column']});
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function save(): void
+    {
+        $this->row->{$this->data['column']} = $this->data['value'];
         $this->row->save();
     }
 }

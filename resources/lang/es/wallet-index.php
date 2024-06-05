@@ -16,6 +16,7 @@
     'order' => 'Orden',
     'platform' => 'Plataforma',
     'platforms-all' => 'Plataforma',
+    'processing_at' => 'Procesando',
     'product' => 'Producto',
     'search' => 'Buscar',
     'sell_stop' => 'Venta en Subida',
