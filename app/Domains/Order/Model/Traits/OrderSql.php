@@ -98,6 +98,7 @@ trait OrderSql
             WHERE (
                 `wallet_id` = :wallet_id
                 AND `created_at` >= ":created_at"
+            )
             SET
                 `previous_price` = COALESCE((
                     SELECT `previous`.`price`
