@@ -42,7 +42,7 @@
                 <td class="text-center"><input type="text" name="value" data-link-form="{{ route('wallet.update.column', [$row->id, 'order']) }}" value="{{ $row->order }}" class="w-10 px-2 border text-center" /></td>
                 <td><a href="{{ route('wallet.update.boolean', [$row->id, 'visible']) }}" data-link-boolean="visible" class="block text-center">@status($row->visible)</a></td>
                 <td><a href="{{ route('wallet.update.boolean', [$row->id, 'enabled']) }}" data-link-boolean="enabled" class="block text-center">@status($row->enabled)</a></td>
-                <td><a href="{{ route('wallet.update.boolean', [$row->id, 'processing_at']) }}" data-link-boolean="processing_at" class="block text-center">@status(boolval($row->processing_at))</a></td>
+                <td><a href="{{ route('wallet.update.boolean', [$row->id, 'processing_at']) }}" data-link-boolean="processing_at" class="block text-center" title="{{ $row->processing_at }}">@status(boolval($row->processing_at))</a></td>
             </tr>
 
             @endforeach
