@@ -59,7 +59,6 @@ trait OrderSql
     {
         static::db()->unprepared(strtr('
             UPDATE `order` AS `current`
-            WHERE `wallet_id` = :wallet_id
             SET
                 `previous_price` = COALESCE((
                     SELECT `previous`.`price`
@@ -79,7 +78,8 @@ trait OrderSql
                     LIMIT 1
                 ), 0),
                 `previous_value` = `previous_price` * `amount`,
-                `previous_percent` = COALESCE(ROUND((`value` - `previous_value`) / NULLIF(`previous_value`, 0) * 100, 2), 0);
+                `previous_percent` = COALESCE(ROUND((`value` - `previous_value`) / NULLIF(`previous_value`, 0) * 100, 2), 0)
+            WHERE `wallet_id` = :wallet_id;
         ', [
             ':wallet_id' => $wallet_id,
         ]));
@@ -95,10 +95,6 @@ trait OrderSql
     {
         static::db()->unprepared(strtr('
             UPDATE `order` AS `current`
-            WHERE (
-                `wallet_id` = :wallet_id
-                AND `created_at` >= ":created_at"
-            )
             SET
                 `previous_price` = COALESCE((
                     SELECT `previous`.`price`
@@ -118,7 +114,11 @@ trait OrderSql
                     LIMIT 1
                 ), 0),
                 `previous_value` = `previous_price` * `amount`,
-                `previous_percent` = COALESCE(ROUND((`value` - `previous_value`) / NULLIF(`previous_value`, 0) * 100, 2), 0);
+                `previous_percent` = COALESCE(ROUND((`value` - `previous_value`) / NULLIF(`previous_value`, 0) * 100, 2), 0)
+            WHERE (
+                `wallet_id` = :wallet_id
+                AND `created_at` >= ":created_at"
+            );
         ', [
             ':wallet_id' => $wallet_id,
             ':created_at' => $created_at,
