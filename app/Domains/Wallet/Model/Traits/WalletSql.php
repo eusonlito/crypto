@@ -148,7 +148,7 @@ trait WalletSql
                     AND `buy_stop_max_value`
                     AND `current_exchange` >= `buy_stop_reference`
                 ),
-                `buy_stop_max_value` / `current_exchange`,
+                `buy_stop_max_value` / `buy_stop_max_exchange`,
                 `buy_stop_amount`
             )
         ';
