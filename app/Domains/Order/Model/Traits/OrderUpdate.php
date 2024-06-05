@@ -9,14 +9,12 @@ trait OrderUpdate
      */
     public function updatePrevious(): void
     {
-        $this->previous_price = static::query()
-            ->byWalletId($this->wallet_id)
-            ->bySide($this->side === 'buy' ? 'sell' : 'buy')
-            ->byCreatedAtBefore($this->created_at)
-            ->whereFilled()
-            ->value('price') ?: 0;
-
-        $this->previous_value = $this->previous_price * $this->amount;
-        $this->previous_percent = helper()->percent($this->value, $this->previous_value);
+        if ($this->wallet_id && $this->created_at) {
+            static::previousSetByWalletIdAndCreatedAt($this->wallet_id, $this->created_at);
+        } elseif ($this->wallet_id) {
+            static::previousSetByWalletId($this->wallet_id);
+        } else {
+            static::previousSet();
+        }
     }
 }

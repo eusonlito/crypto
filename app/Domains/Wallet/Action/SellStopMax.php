@@ -129,7 +129,6 @@ class SellStopMax extends ActionAbstract
     {
         $this->orderCreate();
         $this->orderRelate();
-        $this->orderUpdate();
     }
 
     /**
@@ -157,6 +156,7 @@ class SellStopMax extends ActionAbstract
             'amount' => $this->sellStopOrderCreateAmount(),
             'price' => $this->orderCreateSendPrice(),
             'limit' => $this->sellStopOrderCreateLimit(),
+            'wallet_id' => $this->row->id,
         ])->create($this->product);
     }
 
@@ -212,15 +212,6 @@ class SellStopMax extends ActionAbstract
     {
         $this->row->order_sell_stop_id = $this->order->id;
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderUpdate(): void
-    {
-        $this->order->wallet_id = $this->row->id;
-        $this->order->save();
     }
 
     /**

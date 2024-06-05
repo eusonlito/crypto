@@ -6,6 +6,7 @@ use App\Domains\Order\Model\Order as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
+use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Services\Platform\ApiFactoryAbstract;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -32,6 +33,11 @@ class Create extends ActionAbstract
     protected OrderResource $resource;
 
     /**
+     * @var \App\Domains\Wallet\Model\Wallet
+     */
+    protected WalletModel $wallet;
+
+    /**
      * @param \App\Domains\Product\Model\Product $product
      *
      * @return \App\Domains\Order\Model\Order
@@ -40,6 +46,7 @@ class Create extends ActionAbstract
     {
         $this->product($product);
         $this->platform();
+        $this->wallet();
 
         $this->api();
         $this->cancelOpen();
@@ -66,6 +73,19 @@ class Create extends ActionAbstract
     {
         $this->platform = $this->product->platform;
         $this->platform->userPivotLoad($this->auth);
+    }
+
+    /**
+     * @return void
+     */
+    protected function wallet(): void
+    {
+        $this->wallet = WalletModel::query()
+            ->byUserId($this->auth->id)
+            ->byId($this->data['wallet_id'])
+            ->byProductId($this->product->id)
+            ->byPlatformId($this->platform->id)
+            ->firstOrFail();
     }
 
     /**
@@ -163,6 +183,7 @@ class Create extends ActionAbstract
             'platform_id' => $this->platform->id,
             'product_id' => $this->product->id,
             'user_id' => $this->auth->id,
+            'wallet_id' => $this->wallet->id,
         ]);
     }
 

@@ -111,29 +111,12 @@ class UpdateSellMarket extends ActionAbstract
      */
     protected function order(): void
     {
-        $this->orderCreate();
-        $this->orderUpdate();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCreate(): void
-    {
         $this->order = $this->factory('Order')->action([
             'type' => 'market',
             'side' => 'sell',
             'amount' => $this->data['amount'],
+            'wallet_id' => $this->row->id,
         ])->create($this->product);
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderUpdate(): void
-    {
-        $this->order->wallet_id = $this->row->id;
-        $this->order->save();
     }
 
     /**

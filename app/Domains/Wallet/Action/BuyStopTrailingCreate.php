@@ -122,6 +122,7 @@ class BuyStopTrailingCreate extends ActionAbstract
             'price' => $this->orderCreatePrice(),
             'limit' => $this->buyStopOrderCreateLimit(),
             'trailing' => $this->orderCreateTrailing(),
+            'wallet_id' => $this->row->id,
         ])->create($this->product);
     }
 
@@ -181,24 +182,6 @@ class BuyStopTrailingCreate extends ActionAbstract
      * @return void
      */
     protected function update(): void
-    {
-        $this->updateOrder();
-        $this->updateRow();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateOrder(): void
-    {
-        $this->order->wallet_id = $this->row->id;
-        $this->order->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateRow(): void
     {
         $this->row->order_buy_stop_id = $this->order->id;
         $this->row->save();

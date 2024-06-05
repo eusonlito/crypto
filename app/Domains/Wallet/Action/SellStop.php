@@ -117,31 +117,14 @@ class SellStop extends ActionAbstract
      */
     protected function order(): void
     {
-        $this->orderCreate();
-        $this->orderUpdate();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderCreate(): void
-    {
         $this->order = $this->factory('Order')->action([
             'type' => 'take_profit_limit',
             'side' => 'sell',
             'amount' => $this->row->sell_stop_amount,
             'price' => $this->row->sell_stop_min_exchange,
             'limit' => $this->row->sell_stop_max_exchange,
+            'wallet_id' => $this->row->id,
         ])->create($this->product);
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderUpdate(): void
-    {
-        $this->order->wallet_id = $this->row->id;
-        $this->order->save();
     }
 
     /**

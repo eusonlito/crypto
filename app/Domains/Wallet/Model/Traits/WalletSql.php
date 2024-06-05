@@ -12,7 +12,7 @@ trait WalletSql
      */
     public static function updateByProductIdAndExchange(int $product_id, float $exchange): void
     {
-        static::DB()->unprepared(strtr('
+        static::db()->unprepared(strtr('
             UPDATE `wallet`
             SET
                 `current_exchange` = :exchange,

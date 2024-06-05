@@ -12,7 +12,7 @@ trait TickerSql
      */
     public static function updateByProductIdAndExchange(int $product_id, float $exchange): void
     {
-        static::DB()->statement('
+        static::db()->statement('
             UPDATE `ticker`
             SET
                 `exchange_current` = :exchange,

@@ -174,7 +174,6 @@ class BuyStopMin extends ActionAbstract
     {
         $this->orderCreate();
         $this->orderRelate();
-        $this->orderUpdate();
     }
 
     /**
@@ -200,6 +199,7 @@ class BuyStopMin extends ActionAbstract
             'amount' => $this->buyStopOrderCreateAmount(),
             'price' => $this->orderCreateSendPrice(),
             'limit' => $this->buyStopOrderCreateLimit(),
+            'wallet_id' => $this->row->id,
         ])->create($this->product);
     }
 
@@ -255,15 +255,6 @@ class BuyStopMin extends ActionAbstract
     {
         $this->row->order_buy_stop_id = $this->order->id;
         $this->row->save();
-    }
-
-    /**
-     * @return void
-     */
-    protected function orderUpdate(): void
-    {
-        $this->order->wallet_id = $this->row->id;
-        $this->order->save();
     }
 
     /**
