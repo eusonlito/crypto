@@ -17,7 +17,8 @@ class Auth extends RequestAbstract
         $this->timestamp = (string)time();
 
         return $this->client()
-            ->setHeaders($this->headers())
+            ->setHeaders($headers = $this->headers())
+            ->setLogHide(array_keys($headers))
             ->send()
             ->getBody('object');
     }

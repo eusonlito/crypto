@@ -12,9 +12,21 @@ class Auth extends RequestAbstract
         $this->sign();
 
         return $this->client()
-            ->setHeader('X-MBX-APIKEY', $this->config['key'])
+            ->setHeaders($headers = $this->headers())
+            ->setLogHide(array_keys($headers))
+            ->setHeader()
             ->send()
             ->getBody('object');
+    }
+
+    /**
+     * @return array
+     */
+    protected function headers(): array
+    {
+        return [
+            'X-MBX-APIKEY' => $this->config['key'],
+        ];
     }
 
     /**

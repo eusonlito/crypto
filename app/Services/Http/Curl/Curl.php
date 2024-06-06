@@ -125,6 +125,11 @@ class Curl
     protected bool $logBody = true;
 
     /**
+     * @var array
+     */
+    protected array $logHide = [];
+
+    /**
      * @var ?\Closure
      */
     protected ?Closure $sendSuccess = null;
@@ -592,6 +597,18 @@ class Curl
     public function setLogBody(bool $logBody = true): self
     {
         $this->logBody = $logBody;
+
+        return $this;
+    }
+
+    /**
+     * @param array $logHide
+     *
+     * @return self
+     */
+    public function setLogHide(array $logHide): self
+    {
+        $this->logHide = $logHide;
 
         return $this;
     }
@@ -1190,6 +1207,6 @@ class Curl
             $data['response'] = json_decode($data['response']);
         }
 
-        Log::write($this->url, $status, $data);
+        Log::write($this->url, $status, $data, $this->logHide);
     }
 }
