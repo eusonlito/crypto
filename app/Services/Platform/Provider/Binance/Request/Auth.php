@@ -14,7 +14,6 @@ class Auth extends RequestAbstract
         return $this->client()
             ->setHeaders($headers = $this->headers())
             ->setLogHide(array_keys($headers))
-            ->setHeader()
             ->send()
             ->getBody('object');
     }
