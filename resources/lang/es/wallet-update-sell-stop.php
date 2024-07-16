@@ -1,6 +1,6 @@
 <?php return [
     'amount' => 'Cantidad Actual',
-    'buy_exchange' => 'Cambio en Compra',
+    'buy_exchange' => 'Último Cambio',
     'buy_value' => 'Valor en Compra',
     'cancel' => 'Cancelar',
     'current_exchange' => 'Cambio Actual',

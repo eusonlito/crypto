@@ -1,7 +1,7 @@
 <?php return [
     'address' => 'Dirección',
     'amount' => 'Cantidad',
-    'buy_exchange' => 'Cambio en Compra',
+    'buy_exchange' => 'Último Cambio',
     'buy_stop' => 'Activar Compra en Bajada',
     'buy_stop_amount' => 'Comprando',
     'buy_stop_max_at' => 'Cambio Máximo Alcanzado',

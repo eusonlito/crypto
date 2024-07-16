@@ -1,7 +1,7 @@
 <?php return [
     'address' => 'Dirección',
     'amount' => 'Cantidad',
-    'buy_exchange' => 'Cambio en Compra',
+    'buy_exchange' => 'Último Cambio',
     'buy_value' => 'Valor en Compra',
     'calculate' => 'Calcular',
     'current_exchange' => 'Cambio Actual',

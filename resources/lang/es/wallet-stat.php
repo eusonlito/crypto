@@ -1,6 +1,6 @@
 <?php return [
     'amount' => 'Cantidad',
-    'buy_exchange' => 'Cambio en Compra',
+    'buy_exchange' => 'Último Cambio',
     'buy_stop' => 'Compra en Bajada',
     'buy_stop_amount' => 'Cantidad',
     'buy_stop_disabled' => 'Desactivado',

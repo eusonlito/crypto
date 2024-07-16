@@ -1,6 +1,6 @@
 <?php return [
     'amount' => 'Cantidad Actual',
-    'buy_exchange' => 'Cambio en Compra',
+    'buy_exchange' => 'Último Cambio',
     'buy_stop' => 'Activo',
     'buy_stop_amount' => 'Comprando',
     'buy_stop_max_at' => 'Máximo Alcanzado',
