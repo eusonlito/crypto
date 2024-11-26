@@ -180,6 +180,24 @@ class Wallet extends BuilderAbstract
     /**
      * @return self
      */
+    public function whereBuyStopTrailingAi(): self
+    {
+        return $this->enabled()
+            ->whereNull('processing_at')
+            ->where('crypto', true)
+            ->where('buy_stop', true)
+            ->where('buy_stop_ai', true)
+            ->where('buy_stop_amount', '>', 0)
+            ->whereNull('buy_stop_min_at')
+            ->whereNull('buy_stop_max_at')
+            ->whereRaw('ABS(`current_exchange` - `buy_stop_min_exchange`) / `buy_stop_min_exchange` > 0.01')
+            ->whereNotNull('order_buy_stop_id')
+            ->wherePlatformTrailingStop();
+    }
+
+    /**
+     * @return self
+     */
     public function whereBuyStopTrailingFollowActivated(): self
     {
         return $this->whereBuyStopTrailing()
@@ -257,6 +275,24 @@ class Wallet extends BuilderAbstract
             ->where('amount', '>', 0)
             ->where('sell_stop', true)
             ->where('sell_stop_amount', '>', 0)
+            ->whereNotNull('order_sell_stop_id')
+            ->wherePlatformTrailingStop();
+    }
+
+    /**
+     * @return self
+     */
+    public function whereSellStopTrailingAi(): self
+    {
+        return $this->enabled()
+            ->whereNull('processing_at')
+            ->where('crypto', true)
+            ->where('sell_stop', true)
+            ->where('sell_stop_ai', true)
+            ->where('sell_stop_amount', '>', 0)
+            ->whereNull('sell_stop_min_at')
+            ->whereNull('sell_stop_max_at')
+            ->whereRaw('ABS(`current_exchange` - `sell_stop_max_exchange`) / `sell_stop_max_exchange` > 0.01')
             ->whereNotNull('order_sell_stop_id')
             ->wherePlatformTrailingStop();
     }
