@@ -71,6 +71,12 @@ class UpdateSellStop extends ActionAbstract
      */
     protected function trailingStop(): void
     {
+        if (empty($this->row->platform->trailing_stop)) {
+            return;
+        }
+
+        $this->trailingStopAi();
+
         if ($this->trailingStopAvailable() === false) {
             return;
         }
@@ -83,18 +89,19 @@ class UpdateSellStop extends ActionAbstract
     }
 
     /**
-     * @return bool
+     * @return void
      */
-    protected function trailingStopAvailable(): bool
+    protected function trailingStopAi(): void
     {
-        return $this->row->platform->trailing_stop
-            && $this->trailingStopAvailableUpdated();
+        if ($this->row->sell_stop && $this->row->sell_stop_ai) {
+            $this->factory()->action()->sellStopTrailingAi();
+        }
     }
 
     /**
      * @return bool
      */
-    protected function trailingStopAvailableUpdated(): bool
+    protected function trailingStopAvailable(): bool
     {
         if ($this->row->wasChanged('sell_stop')) {
             return true;
