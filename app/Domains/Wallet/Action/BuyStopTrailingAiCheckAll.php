@@ -43,6 +43,6 @@ class BuyStopTrailingAiCheckAll extends ActionAbstract
      */
     protected function command(int $id): void
     {
-        Artisan::new(sprintf('wallet:buy-stop:trailing:ai --id=%s', $id))->logDaily()->exec();
+        Artisan::new(sprintf('wallet:buy-stop:trailing:ai:check --id=%s', $id))->logDaily()->exec();
     }
 }

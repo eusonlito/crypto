@@ -3,15 +3,13 @@
 namespace App\Domains\Wallet\Action;
 
 use App\Domains\Platform\Model\Platform as PlatformModel;
-use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Action\Traits\DataBuyStop as DataBuyStopTrait;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 use App\Services\Platform\ApiFactoryAbstract;
-use App\Services\Trader\Trader;
 
-class BuyStopTrailingAi extends ActionAbstract
+class BuyStopTrailingAiCheck extends ActionAbstract
 {
     use DataBuyStopTrait;
 
@@ -53,9 +51,8 @@ class BuyStopTrailingAi extends ActionAbstract
             return $this->row;
         }
 
-        $this->api();
         $this->calculate();
-        $this->update();
+        $this->order();
         $this->logSuccess();
 
         return $this->row;
@@ -115,61 +112,17 @@ class BuyStopTrailingAi extends ActionAbstract
     /**
      * @return void
      */
-    protected function api(): void
-    {
-        $this->api = ProviderApiFactory::get($this->platform);
-    }
-
-    /**
-     * @return void
-     */
     protected function calculate(): void
     {
-        $this->values = Trader::new($this->product->code, 'buy', $this->api)->limitStop();
+        $this->factory()->action()->buyStopTrailingAi();
     }
 
     /**
      * @return void
      */
-    protected function update(): void
+    protected function order(): void
     {
-        $this->updateData();
-        $this->updateRow();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateData(): void
-    {
-        $this->data = [
-            'buy_stop_max_value' => $this->row->buy_stop_max_value,
-            'buy_stop_reference' => $this->row->buy_stop_reference,
-            'buy_stop_min_percent' => $this->values['limit'],
-            'buy_stop_max_percent' => $this->values['stop'],
-            'buy_stop_max_at' => $this->row->buy_stop_max_at,
-            'buy_stop_min_at' => $this->row->buy_stop_min_at,
-        ];
-
-        $this->dataBuyStop();
-    }
-
-    /**
-     * @return void
-     */
-    protected function updateRow(): void
-    {
-        $this->row->buy_stop_amount = $this->data['buy_stop_amount'];
-
-        $this->row->buy_stop_min_exchange = $this->data['buy_stop_min_exchange'];
-        $this->row->buy_stop_min_value = $this->data['buy_stop_min_value'];
-        $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
-
-        $this->row->buy_stop_max_exchange = $this->data['buy_stop_max_exchange'];
-        $this->row->buy_stop_max_value = $this->data['buy_stop_max_value'];
-        $this->row->buy_stop_max_percent = $this->data['buy_stop_max_percent'];
-
-        $this->row->save();
+        $this->factory()->action()->buyStopTrailingCreate();
     }
 
     /**
@@ -204,6 +157,6 @@ class BuyStopTrailingAi extends ActionAbstract
      */
     protected function log(string $status, array $data = []): void
     {
-        ActionLogger::set($status, 'buy-stop-trailing-ai', $this->row, $data);
+        ActionLogger::set($status, 'buy-stop-trailing-ai-check', $this->row, $data);
     }
 }

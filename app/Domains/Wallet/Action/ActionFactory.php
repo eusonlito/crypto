@@ -45,6 +45,14 @@ class ActionFactory extends ActionFactoryAbstract
     }
 
     /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function buyStopTrailingAiCheck(): Model
+    {
+        return $this->actionHandle(BuyStopTrailingAiCheck::class);
+    }
+
+    /**
      * @return void
      */
     public function buyStopTrailingAiCheckAll(): void
@@ -130,6 +138,14 @@ class ActionFactory extends ActionFactoryAbstract
     public function sellStopTrailingAi(): Model
     {
         return $this->actionHandle(SellStopTrailingAi::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopTrailingAiCheck(): Model
+    {
+        return $this->actionHandle(SellStopTrailingAiCheck::class);
     }
 
     /**

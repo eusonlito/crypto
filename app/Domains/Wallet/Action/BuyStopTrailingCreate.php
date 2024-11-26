@@ -104,7 +104,7 @@ class BuyStopTrailingCreate extends ActionAbstract
      */
     protected function ai(): void
     {
-        if ($this->row->sell_stop_ai) {
+        if ($this->row->buy_stop_ai) {
             $this->factory()->action()->buyStopTrailingAi();
         }
     }
