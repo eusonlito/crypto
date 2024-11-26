@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Domains\Core\Migration\MigrationAbstract;
 use App\Domains\Order\Model\Order as OrderModel;
 
-return new class extends MigrationAbstract {
+return new class() extends MigrationAbstract {
     /**
      * @return void
      */

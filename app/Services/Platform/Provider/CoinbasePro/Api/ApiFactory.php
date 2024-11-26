@@ -51,10 +51,11 @@ class ApiFactory extends ApiFactoryAbstract
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
      *
      * @param string $symbol
+     * @param int $limit = 1000
      *
      * @return \App\Services\Platform\Resource\OrderBook
      */
-    public function orderBook(string $symbol): OrderBookResource
+    public function orderBook(string $symbol, int $limit = 1000): OrderBookResource
     {
         return $this->handle(OrderBook::class, func_get_args());
     }

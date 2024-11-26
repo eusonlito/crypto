@@ -60,10 +60,11 @@ abstract class ApiFactoryAbstract
 
     /**
      * @param string $symbol
+     * @param int $limit = 1000
      *
      * @return \App\Services\Platform\Resource\OrderBook
      */
-    abstract public function orderBook(string $symbol): OrderBookResource;
+    abstract public function orderBook(string $symbol, int $limit = 1000): OrderBookResource;
 
     /**
      * @param string $product

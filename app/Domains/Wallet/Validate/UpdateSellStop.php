@@ -19,6 +19,7 @@ class UpdateSellStop extends ValidateAbstract
             'sell_stop_min_percent' => 'bail|numeric',
             'sell_stop_max_at' => 'boolean',
             'sell_stop_min_at' => 'boolean',
+            'sell_stop_ai' => 'boolean',
         ];
     }
 }

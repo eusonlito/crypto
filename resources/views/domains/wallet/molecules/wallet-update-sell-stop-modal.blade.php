@@ -103,6 +103,15 @@
 
                         <div class="flex-1 p-1 pt-2">
                             <div class="form-check">
+                                <input type="checkbox" name="sell_stop_ai" value="1" class="form-check-switch" id="{{ $prefix }}-sell_stop_ai" {{ $row->sell_stop_ai ? 'checked' : '' }}>
+                                <label for="{{ $prefix }}-sell_stop_ai" class="form-check-label">{{ __('wallet-update-sell-stop.sell_stop_ai') }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:flex">
+                        <div class="flex-1 p-1 pt-2">
+                            <div class="form-check">
                                 <input type="checkbox" name="sell_stop_max_at" value="1" class="form-check-switch" id="{{ $prefix }}-sell_stop_max_at" {{ $row->sell_stop_max_at ? 'checked' : '' }}>
                                 <label for="{{ $prefix }}-sell_stop_max_at" class="form-check-label">{{ __('wallet-update-sell-stop.sell_stop_max_at') }}</label>
                             </div>

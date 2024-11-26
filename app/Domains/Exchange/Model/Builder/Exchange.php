@@ -2,8 +2,9 @@
 
 namespace App\Domains\Exchange\Model\Builder;
 
-use App\Domains\Exchange\Model\Exchange as Model;
 use App\Domains\Core\Model\Builder\BuilderAbstract;
+use App\Domains\Exchange\Model\Exchange as Model;
+use App\Domains\Product\Model\Product as ProductModel;
 
 class Exchange extends BuilderAbstract
 {
@@ -31,6 +32,16 @@ class Exchange extends BuilderAbstract
     public function byPlatformId(int $platform_id): self
     {
         return $this->where('platform_id', $platform_id);
+    }
+
+    /**
+     * @param string $product_code
+     *
+     * @return self
+     */
+    public function byProductCode(string $product_code): self
+    {
+        return $this->whereIn('product_id', ProductModel::query()->select('id')->byCode($product_code));
     }
 
     /**

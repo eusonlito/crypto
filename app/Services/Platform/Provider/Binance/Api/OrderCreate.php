@@ -3,6 +3,7 @@
 namespace App\Services\Platform\Provider\Binance\Api;
 
 use stdClass;
+use App\Domains\Exchange\Model\Exchange as ExchangeModel;
 use App\Services\Platform\Provider\Binance\Api\Traits\OrderResource as OrderResourceTrait;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -71,7 +72,58 @@ class OrderCreate extends ApiAbstract
      */
     protected function query(): stdClass
     {
+        return app()->isProduction()
+            ? $this->queryProduction()
+            : $this->queryFake();
+    }
+
+    /**
+     * @return \stdClass
+     */
+    protected function queryProduction(): stdClass
+    {
         return $this->requestAuth('POST', '/api/v3/order', $this->queryData());
+    }
+
+    /**
+     * @return \stdClass
+     */
+    protected function queryFake(): stdClass
+    {
+        return (object)[
+            'symbol' => $this->product,
+            'orderId' => rand(100000, 999999),
+            'clientOrderId' => $this->reference,
+            'transactTime' => time() * 1000,
+            'price' => $this->queryFakePrice(),
+            'origQty' => $this->decimal($this->data['amount'] ?? 0),
+            'executedQty' => 0,
+            'cummulativeQuoteQty' => 0,
+            'status' => 'NEW',
+            'timeInForce' => 'GTC',
+            'type' => $this->type,
+            'side' => $this->side,
+        ];
+    }
+
+    /**
+     * @return float
+     */
+    protected function queryFakePrice(): float
+    {
+        return $this->data['price']
+            ?? $this->queryFakePriceLast();
+    }
+
+    /**
+     * @return float
+     */
+    protected function queryFakePriceLast(): float
+    {
+        return ExchangeModel::query()
+            ->byProductCode($this->product)
+            ->orderByLast()
+            ->value('exchange');
     }
 
     /**

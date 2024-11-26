@@ -65,6 +65,13 @@
 
             <div class="flex-initial p-4">
                 <div class="form-check">
+                    <input type="checkbox" name="buy_stop_ai" value="1" class="form-check-switch" id="wallet-buy_stop_ai" {{ $REQUEST->input('buy_stop_ai') ? 'checked' : '' }}>
+                    <label for="wallet-buy_stop_ai" class="form-check-label">{{ __('wallet-update.buy_stop_ai') }}</label>
+                </div>
+            </div>
+
+            <div class="flex-initial p-4">
+                <div class="form-check">
                     <input type="checkbox" name="buy_stop_min_at" value="1" class="form-check-switch" id="wallet-buy_stop_min_at" {{ $REQUEST->input('buy_stop_min_at') ? 'checked' : '' }}>
                     <label for="wallet-buy_stop_min_at" class="form-check-label">{{ __('wallet-update.buy_stop_min_at') }}</label>
                 </div>
@@ -140,6 +147,13 @@
                 <div class="form-check">
                     <input type="checkbox" name="sell_stop" value="1" class="form-check-switch" id="wallet-sell_stop" {{ $REQUEST->input('sell_stop') ? 'checked' : '' }}>
                     <label for="wallet-sell_stop" class="form-check-label">{{ __('wallet-update.sell_stop') }}</label>
+                </div>
+            </div>
+
+            <div class="flex-initial p-4">
+                <div class="form-check">
+                    <input type="checkbox" name="sell_stop_ai" value="1" class="form-check-switch" id="wallet-sell_stop_ai" {{ $REQUEST->input('sell_stop_ai') ? 'checked' : '' }}>
+                    <label for="wallet-sell_stop_ai" class="form-check-label">{{ __('wallet-update.sell_stop_ai') }}</label>
                 </div>
             </div>
 

@@ -2,6 +2,7 @@
     'amount' => 'Cantidad Actual',
     'buy_exchange' => 'Último Cambio',
     'buy_stop' => 'Activo',
+    'buy_stop_ai' => 'Calcular con IA',
     'buy_stop_amount' => 'Comprando',
     'buy_stop_max_at' => 'Máximo Alcanzado',
     'buy_stop_max_exchange' => 'Cambio Máximo',

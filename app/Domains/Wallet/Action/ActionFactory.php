@@ -39,6 +39,14 @@ class ActionFactory extends ActionFactoryAbstract
     /**
      * @return \App\Domains\Wallet\Model\Wallet
      */
+    public function buyStopTrailingAi(): Model
+    {
+        return $this->actionHandle(BuyStopTrailingAi::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
     public function buyStopTrailingCheck(): Model
     {
         return $this->actionHandle(BuyStopTrailingCheck::class);
@@ -106,6 +114,14 @@ class ActionFactory extends ActionFactoryAbstract
     public function sellStopMax(): Model
     {
         return $this->actionHandle(SellStopMax::class);
+    }
+
+    /**
+     * @return \App\Domains\Wallet\Model\Wallet
+     */
+    public function sellStopTrailingAi(): Model
+    {
+        return $this->actionHandle(SellStopTrailingAi::class);
     }
 
     /**

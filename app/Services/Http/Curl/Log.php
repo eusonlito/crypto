@@ -30,7 +30,7 @@ class Log
      * @param array $data
      * @param array $hide
      *
-     * @return void
+     * @return array
      */
     protected static function data(array $data, array $hide): array
     {

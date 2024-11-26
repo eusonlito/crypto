@@ -10,6 +10,16 @@ use App\Domains\Wallet\Model\Wallet as WalletModel;
 class Product extends BuilderAbstract
 {
     /**
+     * @param string $code
+     *
+     * @return self
+     */
+    public function byCode(string $code): self
+    {
+        return $this->where('code', $code);
+    }
+
+    /**
      * @param array $codes
      *
      * @return self

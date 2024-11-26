@@ -37,6 +37,23 @@ class OrdersCancelAll extends ApiAbstract
      */
     protected function query(): void
     {
+        app()->isProduction()
+            ? $this->queryProduction()
+            : $this->queryFake();
+    }
+
+    /**
+     * @return void
+     */
+    protected function queryProduction(): void
+    {
         $this->requestAuth('DELETE', '/api/v3/openOrders', ['symbol' => $this->product]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function queryFake(): void
+    {
     }
 }

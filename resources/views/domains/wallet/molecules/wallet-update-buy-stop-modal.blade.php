@@ -98,8 +98,8 @@
 
                         <div class="flex-1 p-1 pt-2">
                             <div class="form-check">
-                                <input type="checkbox" name="buy_stop_max_follow" value="1" class="form-check-switch" id="{{ $prefix }}-buy_stop_max_follow" {{ $row->buy_stop_max_follow ? 'checked' : '' }}>
-                                <label for="{{ $prefix }}-buy_stop_max_follow" class="form-check-label">{{ __('wallet-update-buy-stop.buy_stop_max_follow') }}</label>
+                                <input type="checkbox" name="buy_stop_ai" value="1" class="form-check-switch" id="{{ $prefix }}-buy_stop_ai" {{ $row->buy_stop_ai ? 'checked' : '' }}>
+                                <label for="{{ $prefix }}-buy_stop_ai" class="form-check-label">{{ __('wallet-update-buy-stop.buy_stop_ai') }}</label>
                             </div>
                         </div>
                     </div>
@@ -116,6 +116,15 @@
                             <div class="form-check">
                                 <input type="checkbox" name="buy_stop_max_at" value="1" class="form-check-switch" id="{{ $prefix }}-buy_stop_max_at" {{ $row->buy_stop_max_at ? 'checked' : '' }}>
                                 <label for="{{ $prefix }}-buy_stop_max_at" class="form-check-label">{{ __('wallet-update-buy-stop.buy_stop_max_at') }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:flex">
+                        <div class="flex-1 p-1 pt-2">
+                            <div class="form-check">
+                                <input type="checkbox" name="buy_stop_max_follow" value="1" class="form-check-switch" id="{{ $prefix }}-buy_stop_max_follow" {{ $row->buy_stop_max_follow ? 'checked' : '' }}>
+                                <label for="{{ $prefix }}-buy_stop_max_follow" class="form-check-label">{{ __('wallet-update-buy-stop.buy_stop_max_follow') }}</label>
                             </div>
                         </div>
                     </div>

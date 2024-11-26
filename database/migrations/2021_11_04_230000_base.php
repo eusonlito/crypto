@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Domains\Core\Migration\MigrationAbstract;
 
-return new class extends MigrationAbstract {
+return new class() extends MigrationAbstract {
     /**
      * @return void
      */
@@ -340,6 +340,9 @@ return new class extends MigrationAbstract {
             $table->dateTime('sell_stop_min_at')->nullable();
             $table->boolean('sell_stop_min_executable')->default(0);
 
+            // Sell stop values configured by AI
+            $table->boolean('sell_stop_ai')->default(0);
+
             // Buy Stop Enabled
             $table->boolean('buy_stop')->default(0);
 
@@ -362,6 +365,9 @@ return new class extends MigrationAbstract {
             $table->double('buy_stop_min_percent')->default(0);
             $table->dateTime('buy_stop_min_at')->nullable();
             $table->boolean('buy_stop_min_executable')->default(0);
+
+            // Buy stop values configured by AI
+            $table->boolean('buy_stop_ai')->default(0);
 
             $table->boolean('sell_stoploss')->default(0);
 

@@ -33,6 +33,8 @@ class Create extends ValidateAbstract
             'sell_stop_min_percent' => 'bail|numeric',
             'sell_stop_min_at' => 'boolean',
 
+            'sell_stop_ai' => 'boolean',
+
             'buy_stop' => 'bail|boolean',
             'buy_stop_amount' => 'bail|numeric',
             'buy_stop_reference' => 'bail|numeric',
@@ -45,6 +47,8 @@ class Create extends ValidateAbstract
             'buy_stop_min_exchange' => 'bail|numeric',
             'buy_stop_min_percent' => 'bail|numeric',
             'buy_stop_min_at' => 'boolean',
+
+            'buy_stop_ai' => 'boolean',
 
             'sell_stoploss_exchange' => 'bail|numeric',
             'sell_stoploss_percent' => 'bail|numeric',

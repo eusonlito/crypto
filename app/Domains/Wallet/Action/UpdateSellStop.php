@@ -61,6 +61,8 @@ class UpdateSellStop extends ActionAbstract
         $this->row->sell_stop_min_percent = $this->data['sell_stop_min_percent'];
         $this->row->sell_stop_min_at = $this->data['sell_stop_min_at'];
 
+        $this->row->sell_stop_ai = $this->data['sell_stop_ai'];
+
         $this->row->save();
     }
 

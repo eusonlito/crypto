@@ -22,8 +22,8 @@ return new class() extends MigrationAbstract {
      */
     protected function upMigrated(): bool
     {
-        return (Schema::hasColumn('wallet', 'sell_stop_percent') === false)
-            && (Schema::hasColumn('wallet', 'buy_stop_percent') === false);
+        return Schema::hasColumn('wallet', 'buy_stop_ai')
+            || Schema::hasColumn('wallet', 'sell_stop_ai');
     }
 
     /**
@@ -32,13 +32,8 @@ return new class() extends MigrationAbstract {
     protected function upTables(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->dropColumn('sell_stop_percent');
-            $table->dropColumn('buy_stop_percent');
-        });
-
-        Schema::table('wallet_history', function (Blueprint $table) {
-            $table->dropColumn('sell_stop_percent');
-            $table->dropColumn('buy_stop_percent');
+            $table->boolean('buy_stop_ai')->default(false);
+            $table->boolean('sell_stop_ai')->default(false);
         });
     }
 
@@ -48,13 +43,8 @@ return new class() extends MigrationAbstract {
     public function down(): void
     {
         Schema::table('wallet', function (Blueprint $table) {
-            $table->double('sell_stop_percent')->default(0);
-            $table->double('buy_stop_percent')->default(0);
-        });
-
-        Schema::table('wallet_history', function (Blueprint $table) {
-            $table->double('sell_stop_percent')->default(0);
-            $table->double('buy_stop_percent')->default(0);
+            $table->dropColumn('buy_stop_ai');
+            $table->dropColumn('sell_stop_ai');
         });
     }
 };

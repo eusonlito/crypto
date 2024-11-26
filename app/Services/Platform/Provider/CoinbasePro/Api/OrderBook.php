@@ -13,13 +13,20 @@ class OrderBook extends ApiAbstract
     protected string $symbol;
 
     /**
+     * @var int
+     */
+    protected int $limit;
+
+    /**
      * @param string $symbol
+     * @param int $limit = 1000
      *
      * @return self
      */
-    public function __construct(string $symbol)
+    public function __construct(string $symbol, int $limit = 1000)
     {
         $this->symbol = $symbol;
+        $this->limit = $limit;
     }
 
     /**

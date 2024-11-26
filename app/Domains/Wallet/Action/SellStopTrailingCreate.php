@@ -44,6 +44,7 @@ class SellStopTrailingCreate extends ActionAbstract
             return $this->row;
         }
 
+        $this->ai();
         $this->order();
         $this->update();
         $this->logSuccess();
@@ -97,6 +98,16 @@ class SellStopTrailingCreate extends ActionAbstract
             && $this->row->sell_stop_max_exchange
             && $this->row->sell_stop_min_exchange
             && $this->row->sell_stop_min_percent;
+    }
+
+    /**
+     * @return void
+     */
+    protected function ai(): void
+    {
+        if ($this->row->sell_stop_ai) {
+            $this->factory()->action()->sellStopTrailingAi();
+        }
     }
 
     /**

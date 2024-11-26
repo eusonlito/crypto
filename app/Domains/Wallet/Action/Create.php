@@ -77,6 +77,8 @@ class Create extends ActionAbstract
             'sell_stop_min_value' => $this->data['sell_stop_min_value'],
             'sell_stop_min_percent' => $this->data['sell_stop_min_percent'],
 
+            'sell_stop_ai' => $this->data['sell_stop_ai'],
+
             'buy_stop' => $this->data['buy_stop'],
 
             'buy_stop_amount' => $this->data['buy_stop_amount'],
@@ -90,6 +92,8 @@ class Create extends ActionAbstract
             'buy_stop_min_exchange' => $this->data['buy_stop_min_exchange'],
             'buy_stop_min_value' => $this->data['buy_stop_min_value'],
             'buy_stop_min_percent' => $this->data['buy_stop_min_percent'],
+
+            'buy_stop_ai' => $this->data['buy_stop_ai'],
 
             'sell_stoploss' => $this->data['sell_stoploss'],
 

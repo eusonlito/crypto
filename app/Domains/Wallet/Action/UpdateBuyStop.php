@@ -61,6 +61,8 @@ class UpdateBuyStop extends ActionAbstract
         $this->row->buy_stop_min_percent = $this->data['buy_stop_min_percent'];
         $this->row->buy_stop_min_at = $this->data['buy_stop_min_at'];
 
+        $this->row->buy_stop_ai = $this->data['buy_stop_ai'];
+
         $this->row->save();
     }
 

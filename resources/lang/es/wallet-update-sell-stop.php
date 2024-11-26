@@ -6,6 +6,7 @@
     'current_exchange' => 'Cambio Actual',
     'current_value' => 'Valor Actual',
     'sell_stop' => 'Activo',
+    'sell_stop_ai' => 'Calcular con IA',
     'sell_stop_amount' => 'Vendiendo',
     'sell_stop_max_at' => 'Máximo Alcanzado',
     'sell_stop_max_exchange' => 'Cambio Máximo',
