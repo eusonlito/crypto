@@ -42,7 +42,7 @@ class Trader
         'stopMin' => 1.5,                        // Minimum percentage for 'stop'
         'stopMax' => 3.0,                        // Maximum percentage for 'stop'
         'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
-        'diffMin' => 3.0,                        // Minimum difference between 'limit' and 'stop'
+        'diffMin' => 2.5,                        // Minimum difference between 'limit' and 'stop'
         'volatilityThreshold' => 3.0,            // Volatility threshold for adjustments (%)
         'volatilityMax' => 10.0,                 // Maximum volatility to allow sale (%)
         'volatilityFactor' => 0.8,               // Factor to adjust 'limit' based on volatility
