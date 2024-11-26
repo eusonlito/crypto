@@ -39,8 +39,10 @@ class Wallet extends ModelAbstract
      */
     protected $casts = [
         'buy_stop' => 'boolean',
+        'buy_stop_ai' => 'boolean',
         'buy_stop_max_follow' => 'boolean',
         'sell_stop' => 'boolean',
+        'sell_stop_ai' => 'boolean',
         'sell_stoploss' => 'boolean',
         'trailing_stop' => 'boolean',
         'custom' => 'boolean',
