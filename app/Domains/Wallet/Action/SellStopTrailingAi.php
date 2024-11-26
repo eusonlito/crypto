@@ -66,7 +66,7 @@ class SellStopTrailingAi extends ActionAbstract
      */
     protected function available(): bool
     {
-        return booval($this->row->sell_stop_ai);
+        return boolval($this->row->sell_stop_ai);
     }
 
     /**
