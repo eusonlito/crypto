@@ -211,6 +211,7 @@ class SellStopTrailingAi extends ActionAbstract
     protected function calculate(): bool
     {
         $json = strval($this->calculateRequest());
+        $json = str_replace("\n", '', $json);
 
         if (preg_match('/(\{.*\})/', $json, $matches) === 0) {
             return false;
