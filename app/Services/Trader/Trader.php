@@ -15,11 +15,10 @@ class Trader
         'limitMax' => 15.0,                      // Maximum percentage for 'limit'
         'stopMin' => 3.0,                        // Minimum percentage for 'stop'
         'stopMax' => 4.5,                        // Maximum percentage for 'stop'
-        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
         'diffMin' => 3.0,                        // Minimum difference between 'limit' and 'stop'
-        'volatilityThreshold' => 3.0,            // Volatility threshold for adjustments (%)
-        'volatilityMax' => 8.0,                  // Maximum volatility to allow purchase (%)
-        'volatilityFactor' => 1.0,               // Factor to adjust 'limit' based on volatility
+        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
+        'volatilityThreshold' => 1.5,            // Volatility threshold for adjustments (%)
+        'volatilityFactor' => 0.6,               // Factor to adjust 'limit' based on volatility
         'volumeImbalance20Threshold' => 20.0,    // Volume imbalance threshold for 20 levels (%)
         'volumeImbalance10Threshold' => 15.0,    // Volume imbalance threshold for 10 levels (%)
         'limitIncrement' => 1.0,                 // Increment for 'limit' based on volume imbalance (%)
@@ -31,6 +30,11 @@ class Trader
         'rsiLimitAdjust' => 1.0,                 // Adjustment of 'limit' based on RSI
         'smaAdjust' => 0.5,                      // Adjustment of 'limit' based on SMA
         'macdAdjust' => 0.5,                     // Adjustment of 'limit' based on MACD
+        'bollingerAdjust' => 0.5,                // Adjustment of 'limit' based on Bollinger Bands
+        'stochasticAdjust' => 0.5,               // Adjustment of 'limit' based on Stochastic Oscillator
+        'highRiskVolatility' => 10.0,            // Volatility level considered high risk (%)
+        'adxAdjust' => 0.5,                      // Adjustment of 'limit' based on ADX
+        'aoAdjust' => 0.5,                       // Adjustment of 'limit' based on AO (Awesome Oscillator)
     ];
 
     /**
@@ -38,14 +42,13 @@ class Trader
      */
     protected array $configSell = [
         'limitMin' => 5.0,                       // Minimum percentage for 'limit'
-        'limitMax' => 12.0,                      // Maximum percentage for 'limit'
+        'limitMax' => 10.0,                      // Maximum percentage for 'limit'
         'stopMin' => 1.5,                        // Minimum percentage for 'stop'
-        'stopMax' => 3.0,                        // Maximum percentage for 'stop'
-        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
+        'stopMax' => 2.5,                        // Maximum percentage for 'stop'
         'diffMin' => 2.5,                        // Minimum difference between 'limit' and 'stop'
-        'volatilityThreshold' => 3.0,            // Volatility threshold for adjustments (%)
-        'volatilityMax' => 10.0,                 // Maximum volatility to allow sale (%)
-        'volatilityFactor' => 0.8,               // Factor to adjust 'limit' based on volatility
+        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
+        'volatilityThreshold' => 1.5,            // Volatility threshold for adjustments (%)
+        'volatilityFactor' => 0.4,               // Factor to adjust 'limit' based on volatility
         'volumeImbalance20Threshold' => 25.0,    // Volume imbalance threshold for 20 levels (%)
         'volumeImbalance10Threshold' => 20.0,    // Volume imbalance threshold for 10 levels (%)
         'limitIncrement' => 0.75,                // Increment for 'limit' based on volume imbalance (%)
@@ -57,17 +60,17 @@ class Trader
         'rsiLimitAdjust' => 0.5,                 // Adjustment of 'limit' based on RSI
         'smaAdjust' => 0.3,                      // Adjustment of 'limit' based on SMA
         'macdAdjust' => 0.3,                     // Adjustment of 'limit' based on MACD
+        'bollingerAdjust' => 0.3,                // Adjustment of 'limit' based on Bollinger Bands
+        'stochasticAdjust' => 0.3,               // Adjustment of 'limit' based on Stochastic Oscillator
+        'highRiskVolatility' => 12.0,            // Volatility level considered high risk (%)
+        'adxAdjust' => 0.3,                      // Adjustment of 'limit' based on ADX
+        'aoAdjust' => 0.3,                       // Adjustment of 'limit' based on AO (Awesome Oscillator)
     ];
 
     /**
      * @var array
      */
     protected array $config;
-
-    /**
-     * @var array
-     */
-    protected array $candles = [];
 
     /**
      * @var array
@@ -80,6 +83,21 @@ class Trader
     protected array $prices = [];
 
     /**
+     * @var array
+     */
+    protected array $pricesLow = [];
+
+    /**
+     * @var array
+     */
+    protected array $pricesHigh = [];
+
+    /**
+     * @var float
+     */
+    protected float $priceCurrent;
+
+    /**
      * @return self
      */
     public static function new(): self
@@ -90,7 +108,7 @@ class Trader
     /**
      * @param string $symbol
      * @param string $type
-     * @param ApiFactoryAbstract $api
+     * @param \App\Services\Platform\ApiFactoryAbstract $api
      *
      * @return void
      */
@@ -100,7 +118,7 @@ class Trader
         protected ApiFactoryAbstract $api
     ) {
         $this->setConfigType($type);
-        $this->candles();
+        $this->prices();
         $this->orderBooks();
     }
 
@@ -131,10 +149,10 @@ class Trader
     /**
      * @return void
      */
-    protected function candles(): void
+    protected function prices(): void
     {
-        $this->candle('5minute');
-        $this->candle('15minute');
+        $this->price('5minute');
+        $this->price('15minute');
     }
 
     /**
@@ -142,16 +160,26 @@ class Trader
      *
      * @return void
      */
-    protected function candle(string $interval): void
+    protected function price(string $interval): void
     {
-        $this->candles[$interval] = $this->api->candles($this->symbol, $interval, $this->candleDate())->all();
-        $this->prices[$interval] = array_column($this->candles[$interval], 'close');
+        $candles = $this->api->candles($this->symbol, $interval, $this->priceDate())->all();
+
+        $this->prices[$interval] = array_column($candles, 'close');
+
+        if ($interval !== '5minute') {
+            return;
+        }
+
+        $this->priceCurrent = end($this->prices['5minute']);
+
+        $this->pricesHigh = array_column($candles, 'high');
+        $this->pricesLow = array_column($candles, 'low');
     }
 
     /**
      * @return string
      */
-    protected function candleDate(): string
+    protected function priceDate(): string
     {
         return date('Y-m-d H:i:s', strtotime('-3 days'));
     }
@@ -176,14 +204,6 @@ class Trader
     }
 
     /**
-     * @return float
-     */
-    protected function currentPrice(): float
-    {
-        return end($this->prices['5minute']);
-    }
-
-    /**
      * @return array
      */
     public function limitStop(): array
@@ -198,8 +218,12 @@ class Trader
         $macd = $indicators['macd'];
         $macd_signal = $indicators['macd_signal'];
         $volatilityAverage = $indicators['volatility_average'];
+        $atr = $indicators['atr'];
+        $stochastic = $indicators['stochastic'];
+        $adx = $indicators['adx'];
+        $ao = $indicators['ao'];
+        $latestBand = end($indicators['bollinger_bands']);
 
-        // Initialize 'limit' with the configured minimum
         $limit = $this->config['limitMin'];
 
         // Adjust 'limit' based on volatility
@@ -217,14 +241,29 @@ class Trader
         // Adjust 'limit' based on MACD
         $limit += $this->adjustLimitByMACD($macd, $macd_signal);
 
+        // Adjust 'limit' based on Bollinger Bands
+        $limit += $this->adjustLimitByBollingerBands($latestBand);
+
+        // Adjust 'limit' based on Stochastic Oscillator
+        $limit += $this->adjustLimitByStochastic($stochastic);
+
+        // Adjust 'limit' based on ADX
+        $limit += $this->adjustLimitByADX($adx);
+
+        // Adjust 'limit' based on Awesome Oscillator (AO)
+        $limit += $this->adjustLimitByAO($ao);
+
         // Ensure 'limit' is not below the minimum
-        $limit = $this->adjustLimitMin($limit);
+        $limit = $this->adjustLimitMinMax($limit);
 
         // Calculate 'stop'
         $stop = $this->adjustStop($limit);
 
         // Adjust 'stop' based on volatility
         $stop += $this->adjustStopByVolatility($volatilityAverage);
+
+        // Adjust 'stop' based on ATR
+        $stop += $this->adjustStopByATR($atr);
 
         // Ensure 'stop' meets the minimum and maximum configured
         $stop = $this->adjustStopMinMax($stop);
@@ -250,13 +289,9 @@ class Trader
             return 0;
         }
 
-        $value = ($volatilityAverage - $this->config['volatilityThreshold']) * $this->config['volatilityFactor'];
+        $adjustment = ($volatilityAverage - $this->config['volatilityThreshold']) * $this->config['volatilityFactor'];
 
-        if ($volatilityAverage > $this->config['volatilityMax']) {
-            $value *= 2;
-        }
-
-        return $value;
+        return min($adjustment, $this->config['limitMax'] - $this->config['limitMin']);
     }
 
     /**
@@ -267,16 +302,17 @@ class Trader
         $volumeImbalance10 = $this->calculateVolumeImbalance(10);
         $volumeImbalance20 = $this->calculateVolumeImbalance(20);
 
-        // Weighted combined volume imbalance
-        $combinedVolumeImbalance = ($volumeImbalance10 * $this->config['volumeImbalanceWeight10'])
-            + ($volumeImbalance20 * $this->config['volumeImbalanceWeight20']);
+        $adjustment = 0.0;
 
-        // Adjust 'limit' based on combined volume imbalance
-        if (abs($combinedVolumeImbalance) > $this->config['volumeImbalance20Threshold']) {
-            return $this->config['limitIncrement'] * ($combinedVolumeImbalance / 100);
+        if (abs($volumeImbalance10) > $this->config['volumeImbalance10Threshold']) {
+            $adjustment += $this->config['limitIncrement'] * ($volumeImbalance10 / 100) * $this->config['volumeImbalanceWeight10'];
         }
 
-        return 0.0;
+        if (abs($volumeImbalance20) > $this->config['volumeImbalance20Threshold']) {
+            $adjustment += $this->config['limitIncrement'] * ($volumeImbalance20 / 100) * $this->config['volumeImbalanceWeight20'];
+        }
+
+        return $adjustment;
     }
 
     /**
@@ -309,28 +345,26 @@ class Trader
      */
     protected function adjustLimitBySMA(float $sma50, float $sma200): float
     {
-        $currentPrice = $this->currentPrice();
-
         // Check for Golden Cross (bullish signal)
-        if ($sma50 > $sma200 && $currentPrice > $sma50) {
+        if (($sma50 > $sma200) && ($this->priceCurrent > $sma50)) {
             // Significantly increase 'limit'
             return $this->config['smaAdjust'] * 2;
         }
 
         // Check for Death Cross (bearish signal)
-        if ($sma50 < $sma200 && $currentPrice < $sma50) {
+        if (($sma50 < $sma200) && ($this->priceCurrent < $sma50)) {
             // Significantly reduce 'limit'
             return -($this->config['smaAdjust'] * 2);
         }
 
         // Bullish trend
-        if ($currentPrice > $sma50) {
+        if ($this->priceCurrent > $sma50) {
             // Slightly increase 'limit'
             return $this->config['smaAdjust'];
         }
 
         // Bearish trend
-        if ($currentPrice < $sma50) {
+        if ($this->priceCurrent < $sma50) {
             // Slightly reduce 'limit'
             return -$this->config['smaAdjust'];
         }
@@ -396,6 +430,16 @@ class Trader
     }
 
     /**
+     * @param float $atr
+     *
+     * @return float
+     */
+    protected function adjustStopByATR(float $atr): float
+    {
+        return ($atr / $this->priceCurrent) * 100;
+    }
+
+    /**
      * @param float $volatility
      *
      * @return float
@@ -424,14 +468,82 @@ class Trader
     }
 
     /**
+     * @param array $band
+     *
+     * @return float
+     */
+    protected function adjustLimitByBollingerBands(array $band): float
+    {
+        if ($this->priceCurrent >= $band['upper']) {
+            return -$this->config['bollingerAdjust'];
+        }
+
+        if ($this->priceCurrent <= $band['lower']) {
+            return $this->config['bollingerAdjust'];
+        }
+
+        return 0.0;
+    }
+
+    /**
+     * @param float $stochastic
+     *
+     * @return float
+     */
+    protected function adjustLimitByStochastic(float $stochastic): float
+    {
+        if ($stochastic > 80) {
+            return -$this->config['stochasticAdjust'];
+        }
+
+        if ($stochastic < 20) {
+            return $this->config['stochasticAdjust'];
+        }
+
+        return 0.0;
+    }
+
+    /**
+     * @param float $adx
+     *
+     * @return float
+     */
+    protected function adjustLimitByADX(float $adx): float
+    {
+        if ($adx > 25) {
+            return $this->config['adxAdjust'];
+        }
+
+        return -$this->config['adxAdjust'];
+    }
+
+    /**
+     * @param float $ao
+     *
+     * @return float
+     */
+    protected function adjustLimitByAO(float $ao): float
+    {
+        if ($ao > 0) {
+            return $this->config['aoAdjust'];
+        }
+
+        return -$this->config['aoAdjust'];
+    }
+
+    /**
      * @param float $limit
      *
      * @return float
      */
-    protected function adjustLimitMin(float $limit): float
+    protected function adjustLimitMinMax(float $limit): float
     {
         if ($limit < $this->config['limitMin']) {
             return $this->config['limitMin'];
+        }
+
+        if ($limit > $this->config['limitMax']) {
+            return $this->config['limitMax'];
         }
 
         return $limit;
@@ -576,6 +688,195 @@ class Trader
     }
 
     /**
+     * @param array $pricesHigh
+     * @param array $pricesLow
+     * @param array $closePrices
+     * @param int $period = 14
+     *
+     * @return array
+     */
+    public function atr(array $pricesHigh, array $pricesLow, array $closePrices, int $period = 14): array
+    {
+        $tr = [];
+        $count = count($closePrices);
+
+        for ($i = 1; $i < $count; $i++) {
+            $tr[] = max(
+                $pricesHigh[$i] - $pricesLow[$i],
+                abs($pricesHigh[$i] - $closePrices[$i - 1]),
+                abs($pricesLow[$i] - $closePrices[$i - 1])
+            );
+        }
+
+        if (count($tr) < $period) {
+            return [];
+        }
+
+        $atr = [array_sum(array_slice($tr, 0, $period)) / $period];
+        $limit = count($atr) - $period + 1;
+
+        for ($i = 1; $i < $limit; $i++) {
+            $atr[] = (($atr[$i - 1] * ($period - 1)) + $tr[$i + $period - 1]) / $period;
+        }
+
+        return $atr;
+    }
+
+    /**
+     * @param array $prices
+     * @param int $period = 20
+     * @param float $stdDev = 2
+     *
+     * @return array
+     */
+    public function bollingerBands(array $prices, int $period = 20, float $stdDev = 2): array
+    {
+        $sma = $this->sma($prices, $period);
+        $bands = [];
+        $count = count($prices);
+
+        for ($i = $period - 1; $i < $count; $i++) {
+            $slice = array_slice($prices, $i - $period + 1, $period);
+            $mean = $sma[$i - $period + 1];
+            $variance = array_sum(array_map(fn ($price) => pow($price - $mean, 2), $slice)) / $period;
+            $std = sqrt($variance);
+
+            $bands[] = [
+                'upper' => $mean + ($stdDev * $std),
+                'middle' => $mean,
+                'lower' => $mean - ($stdDev * $std),
+            ];
+        }
+
+        return $bands;
+    }
+
+    /**
+     * @param array $pricesHigh
+     * @param array $pricesLow
+     * @param array $closePrices
+     * @param int $period = 14
+     *
+     * @return array
+     */
+    public function stochasticOscillator(array $pricesHigh, array $pricesLow, array $closePrices, int $period = 14): array
+    {
+        $stochastic = [];
+        $count = count($closePrices);
+
+        for ($i = $period - 1; $i < $count; $i++) {
+            $highestHigh = max(array_slice($pricesHigh, $i - $period + 1, $period));
+            $lowestLow = min(array_slice($pricesLow, $i - $period + 1, $period));
+            $currentClose = $closePrices[$i];
+
+            if ($highestHigh === $lowestLow) {
+                $stochastic[] = 0;
+            } else {
+                $stochastic[] = 100 * (($currentClose - $lowestLow) / ($highestHigh - $lowestLow));
+            }
+        }
+
+        return $stochastic;
+    }
+
+    /**
+     * @param array $pricesHigh
+     * @param array $pricesLow
+     * @param array $pricesClose
+     * @param int $period
+     *
+     * @return array
+     */
+    public function adx(array $pricesHigh, array $pricesLow, array $pricesClose, int $period = 14): array
+    {
+        $count = count($pricesClose);
+
+        if ($count <= $period) {
+            return [];
+        }
+
+        $plusDM = [];
+        $minusDM = [];
+        $tr = [];
+
+        for ($i = 1; $i < $count; $i++) {
+            $upMove = $pricesHigh[$i] - $pricesHigh[$i - 1];
+            $downMove = $pricesLow[$i - 1] - $pricesLow[$i];
+
+            $plusDM[] = (($upMove > $downMove) && ($upMove > 0)) ? $upMove : 0;
+            $minusDM[] = (($downMove > $upMove) && ($downMove > 0)) ? $downMove : 0;
+
+            $tr[] = max(
+                $pricesHigh[$i] - $pricesLow[$i],
+                abs($pricesHigh[$i] - $pricesClose[$i - 1]),
+                abs($pricesLow[$i] - $pricesClose[$i - 1])
+            );
+        }
+
+        $atr = $this->smoothedMovingAverage($tr, $period);
+        $smoothedPlusDM = $this->smoothedMovingAverage($plusDM, $period);
+        $smoothedMinusDM = $this->smoothedMovingAverage($minusDM, $period);
+
+        $dx = [];
+        $count = count($atr);
+
+        for ($i = 0; $i < $count; $i++) {
+            $plusDI = 100 * ($smoothedPlusDM[$i] / $atr[$i]);
+            $minusDI = 100 * ($smoothedMinusDM[$i] / $atr[$i]);
+            $dx[] = 100 * (abs($plusDI - $minusDI) / ($plusDI + $minusDI));
+        }
+
+        return $this->smoothedMovingAverage($dx, $period);
+    }
+
+    /**
+     * @param array $values
+     * @param int $period
+     *
+     * @return array
+     */
+    public function smoothedMovingAverage(array $values, int $period): array
+    {
+        $sma = [];
+        $count = count($values);
+
+        if ($count < $period) {
+            return $sma;
+        }
+
+        $sum = array_sum(array_slice($values, 0, $period));
+        $prevSMA = $sum / $period;
+        $sma[] = $prevSMA;
+
+        for ($i = $period; $i < $count; $i++) {
+            $currentSMA = ($prevSMA * ($period - 1) + $values[$i]) / $period;
+            $sma[] = $prevSMA = $currentSMA;
+        }
+
+        return $sma;
+    }
+
+    /**
+     * @param array $pricesHigh
+     * @param array $pricesLow
+     *
+     * @return array
+     */
+    public function awesomeOscillator(array $pricesHigh, array $pricesLow): array
+    {
+        $medianPrices = array_map(static fn ($high, $low) => ($high + $low) / 2, $pricesHigh, $pricesLow);
+
+        $sma5 = $this->sma($medianPrices, 5);
+        $sma34 = $this->sma($medianPrices, 34);
+
+        $alignedLength = min(count($sma5), count($sma34));
+        $sma5 = array_slice($sma5, -$alignedLength);
+        $sma34 = array_slice($sma34, -$alignedLength);
+
+        return array_map(static fn ($sma5Val, $sma34Val) => $sma5Val - $sma34Val, $sma5, $sma34);
+    }
+
+    /**
      * @return array
      */
     public function indicators(): array
@@ -612,6 +913,26 @@ class Trader
         $indicators['volatility_5m'] = $this->round($volatility5m, 4);
         $indicators['volatility_15m'] = $this->round($volatility15m, 4);
         $indicators['volatility_average'] = $this->round($volatilityAverage, 4);
+
+        // Calculate ATR
+        $atrValues = $this->atr($this->pricesHigh, $this->pricesLow, $prices5m);
+        $indicators['atr'] = $this->round(end($atrValues) ?? 0, 4);
+
+        // Calculate Bollinger Bands
+        $bollingerBands = $this->bollingerBands($prices5m);
+        $indicators['bollinger_bands'] = $bollingerBands;
+
+        // Calculate Stochastic Oscillator
+        $stochasticValues = $this->stochasticOscillator($this->pricesHigh, $this->pricesLow, $prices5m);
+        $indicators['stochastic'] = $this->round(end($stochasticValues) ?? 0, 4);
+
+        // Calculate ADX
+        $adxValues = $this->adx($this->pricesHigh, $this->pricesLow, $prices5m);
+        $indicators['adx'] = $this->round(end($adxValues) ?? 0, 4);
+
+        // Calculate AO (Awesome Oscillator)
+        $aoValues = $this->awesomeOscillator($this->pricesHigh, $this->pricesLow);
+        $indicators['ao'] = $this->round(end($aoValues) ?? 0, 4);
 
         return $indicators;
     }
@@ -683,8 +1004,7 @@ class Trader
         $returns = [];
 
         for ($i = 1; $i < $count; $i++) {
-            $return = log($prices[$i] / $prices[$i - 1]);
-            $returns[] = $return;
+            $returns[] = log($prices[$i] / $prices[$i - 1]);
         }
 
         $count = count($returns);
@@ -693,9 +1013,13 @@ class Trader
         $variance = array_sum(array_map(static fn ($x) => pow($x - $meanReturn, 2), $returns));
         $variance = $variance / ($count - 1);
 
-        $minutesPerDay = 6.5 * 60;
-        $periodsPerDay = $minutesPerDay / $minutes;
+        $stdDev = sqrt($variance);
 
-        return sqrt($variance) * sqrt($periodsPerDay) * 100;
+        // Convertir a volatilidad diaria
+        $periodsPerDay = (24 * 60) / $minutes;
+        $dailyVolatility = $stdDev * sqrt($periodsPerDay);
+
+        // Convertir a porcentaje
+        return $dailyVolatility * 100;
     }
 }
