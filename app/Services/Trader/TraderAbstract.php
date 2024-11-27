@@ -2,71 +2,10 @@
 
 namespace App\Services\Trader;
 
-use Exception;
 use App\Services\Platform\ApiFactoryAbstract;
 
-class Trader
+abstract class TraderAbstract
 {
-    /**
-     * @var array
-     */
-    protected array $configBuy = [
-        'limitMin' => 7.0,                       // Minimum percentage for 'limit'
-        'limitMax' => 15.0,                      // Maximum percentage for 'limit'
-        'stopMin' => 3.0,                        // Minimum percentage for 'stop'
-        'stopMax' => 4.5,                        // Maximum percentage for 'stop'
-        'diffMin' => 3.0,                        // Minimum difference between 'limit' and 'stop'
-        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
-        'volatilityThreshold' => 1.5,            // Volatility threshold for adjustments (%)
-        'volatilityFactor' => 0.6,               // Factor to adjust 'limit' based on volatility
-        'volumeImbalance20Threshold' => 20.0,    // Volume imbalance threshold for 20 levels (%)
-        'volumeImbalance10Threshold' => 15.0,    // Volume imbalance threshold for 10 levels (%)
-        'limitIncrement' => 1.0,                 // Increment for 'limit' based on volume imbalance (%)
-        'stopFromLimit' => 3.0,                  // Factor to calculate 'stop' from 'limit'
-        'volumeImbalanceWeight10' => 0.6,        // Weight for orderBooks[10]
-        'volumeImbalanceWeight20' => 0.4,        // Weight for orderBooks[20]
-        'rsiOverbought' => 70,                   // RSI overbought threshold
-        'rsiOversold' => 30,                     // RSI oversold threshold
-        'rsiLimitAdjust' => 1.0,                 // Adjustment of 'limit' based on RSI
-        'smaAdjust' => 0.5,                      // Adjustment of 'limit' based on SMA
-        'macdAdjust' => 0.5,                     // Adjustment of 'limit' based on MACD
-        'bollingerAdjust' => 0.5,                // Adjustment of 'limit' based on Bollinger Bands
-        'stochasticAdjust' => 0.5,               // Adjustment of 'limit' based on Stochastic Oscillator
-        'highRiskVolatility' => 10.0,            // Volatility level considered high risk (%)
-        'adxAdjust' => 0.5,                      // Adjustment of 'limit' based on ADX
-        'aoAdjust' => 0.5,                       // Adjustment of 'limit' based on AO (Awesome Oscillator)
-    ];
-
-    /**
-     * @var array
-     */
-    protected array $configSell = [
-        'limitMin' => 5.0,                       // Minimum percentage for 'limit'
-        'limitMax' => 10.0,                      // Maximum percentage for 'limit'
-        'stopMin' => 1.5,                        // Minimum percentage for 'stop'
-        'stopMax' => 2.5,                        // Maximum percentage for 'stop'
-        'diffMin' => 2.5,                        // Minimum difference between 'limit' and 'stop'
-        'stopVolatilityFactor' => 0.5,           // Factor to adjust 'stop' based on volatility
-        'volatilityThreshold' => 1.5,            // Volatility threshold for adjustments (%)
-        'volatilityFactor' => 0.4,               // Factor to adjust 'limit' based on volatility
-        'volumeImbalance20Threshold' => 25.0,    // Volume imbalance threshold for 20 levels (%)
-        'volumeImbalance10Threshold' => 20.0,    // Volume imbalance threshold for 10 levels (%)
-        'limitIncrement' => 0.75,                // Increment for 'limit' based on volume imbalance (%)
-        'stopFromLimit' => 3.0,                  // Factor to calculate 'stop' from 'limit'
-        'volumeImbalanceWeight10' => 0.6,        // Weight for orderBooks[10]
-        'volumeImbalanceWeight20' => 0.4,        // Weight for orderBooks[20]
-        'rsiOverbought' => 65,                   // RSI overbought threshold
-        'rsiOversold' => 35,                     // RSI oversold threshold
-        'rsiLimitAdjust' => 0.5,                 // Adjustment of 'limit' based on RSI
-        'smaAdjust' => 0.3,                      // Adjustment of 'limit' based on SMA
-        'macdAdjust' => 0.3,                     // Adjustment of 'limit' based on MACD
-        'bollingerAdjust' => 0.3,                // Adjustment of 'limit' based on Bollinger Bands
-        'stochasticAdjust' => 0.3,               // Adjustment of 'limit' based on Stochastic Oscillator
-        'highRiskVolatility' => 12.0,            // Volatility level considered high risk (%)
-        'adxAdjust' => 0.3,                      // Adjustment of 'limit' based on ADX
-        'aoAdjust' => 0.3,                       // Adjustment of 'limit' based on AO (Awesome Oscillator)
-    ];
-
     /**
      * @var array
      */
@@ -98,6 +37,13 @@ class Trader
     protected float $priceCurrent;
 
     /**
+     * @param float $limit
+     *
+     * @return float
+     */
+    abstract protected function adjustLimitByPriceMinMax(float $limit): float;
+
+    /**
      * @return self
      */
     public static function new(): self
@@ -107,43 +53,16 @@ class Trader
 
     /**
      * @param string $symbol
-     * @param string $type
      * @param \App\Services\Platform\ApiFactoryAbstract $api
      *
      * @return void
      */
     public function __construct(
         protected string $symbol,
-        protected string $type,
         protected ApiFactoryAbstract $api
     ) {
-        $this->setConfigType($type);
         $this->prices();
         $this->orderBooks();
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return void
-     */
-    public function setConfigType(string $type): void
-    {
-        $this->config = match (strtolower($type)) {
-            'buy' => $this->configBuy,
-            'sell' => $this->configSell,
-            default => throw new Exception(sprintf('Invalid configuration type: %s', $type)),
-        };
-    }
-
-    /**
-     * @param array $config
-     *
-     * @return void
-     */
-    public function setConfig(array $config): void
-    {
-        $this->config = array_merge($this->config, $config);
     }
 
     /**
@@ -162,7 +81,7 @@ class Trader
      */
     protected function price(string $interval): void
     {
-        $candles = $this->api->candles($this->symbol, $interval, $this->priceDate())->all();
+        $candles = $this->api->candles($this->symbol, $interval)->all();
 
         $this->prices[$interval] = array_column($candles, 'close');
 
@@ -174,14 +93,6 @@ class Trader
 
         $this->pricesHigh = array_column($candles, 'high');
         $this->pricesLow = array_column($candles, 'low');
-    }
-
-    /**
-     * @return string
-     */
-    protected function priceDate(): string
-    {
-        return date('Y-m-d H:i:s', strtotime('-3 days'));
     }
 
     /**
@@ -486,52 +397,6 @@ class Trader
         }
 
         return -$this->config['aoAdjust'];
-    }
-
-    /**
-     * @param float $limit
-     *
-     * @return float
-     */
-    protected function adjustLimitByPriceMinMax(float $limit): float
-    {
-        return (strtolower($this->type) === 'sell')
-            ? $this->adjustLimitByPriceMinMaxSell($limit)
-            : $this->adjustLimitByPriceMinMaxBuy($limit);
-    }
-
-    /**
-     * @param float $limit
-     *
-     * @return float
-     */
-    protected function adjustLimitByPriceMinMaxBuy(float $limit): float
-    {
-        $limitPrice = $this->priceCurrent * (1 - $limit / 100);
-        $minPrice = min($this->pricesLow);
-
-        if ($limitPrice >= $minPrice) {
-            return $limit;
-        }
-
-        return (1 - ($minPrice / $this->priceCurrent)) * 100;
-    }
-
-    /**
-     * @param float $limit
-     *
-     * @return float
-     */
-    protected function adjustLimitByPriceMinMaxSell(float $limit): float
-    {
-        $limitPrice = $this->priceCurrent * (1 + $limit / 100);
-        $maxPrice = max($this->pricesHigh);
-
-        if ($limitPrice <= $maxPrice) {
-            return $limit;
-        }
-
-        return (($maxPrice / $this->priceCurrent) - 1) * 100;
     }
 
     /**

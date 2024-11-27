@@ -19,18 +19,18 @@ class Candles extends ApiAbstract
     protected string $interval;
 
     /**
-     * @var string
+     * @var ?string
      */
-    protected string $startTime;
+    protected ?string $startTime;
 
     /**
      * @param string $symbol
      * @param string $interval
-     * @param string $start
+     * @param ?string $start = null
      *
      * @return self
      */
-    public function __construct(string $symbol, string $interval, string $start)
+    public function __construct(string $symbol, string $interval, ?string $start = null)
     {
         $this->symbol = $symbol;
         $this->interval = $this->interval($interval);
@@ -101,9 +101,12 @@ class Candles extends ApiAbstract
      */
     protected function prepare(Collection $collection): Collection
     {
-        return $collection
-            ->sortBy('startAt')
-            ->filter(fn ($value) => $value->startAt >= $this->startTime)
-            ->values();
+        $collection = $collection->sortBy('startAt');
+
+        if ($this->startTime) {
+            $collection = $collection->filter(fn ($value) => $value->startAt >= $this->startTime);
+        }
+
+        return $collection->values();
     }
 }

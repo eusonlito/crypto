@@ -9,7 +9,7 @@ use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Action\Traits\DataBuyStop as DataBuyStopTrait;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 use App\Services\Platform\ApiFactoryAbstract;
-use App\Services\Trader\Trader;
+use App\Services\Trader\Buy as TraderBuy;
 
 class BuyStopTrailingAi extends ActionAbstract
 {
@@ -125,7 +125,7 @@ class BuyStopTrailingAi extends ActionAbstract
      */
     protected function calculate(): void
     {
-        $this->values = Trader::new($this->product->code, 'buy', $this->api)->limitStop();
+        $this->values = TraderBuy::new($this->product->code, $this->api)->limitStop();
     }
 
     /**

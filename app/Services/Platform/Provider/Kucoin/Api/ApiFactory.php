@@ -15,11 +15,11 @@ class ApiFactory extends ApiFactoryAbstract
      *
      * @param string $symbol
      * @param string $interval
-     * @param string $start
+     * @param ?string $start = null
      *
      * @return \Illuminate\Support\Collection
      */
-    public function candles(string $symbol, string $interval, string $start): Collection
+    public function candles(string $symbol, string $interval, ?string $start = null): Collection
     {
         return $this->handle(Candles::class, func_get_args());
     }
