@@ -208,10 +208,8 @@ class Trader
      */
     public function limitStop(): array
     {
-        // Obtain indicators
         $indicators = $this->indicators();
 
-        // Extract necessary values
         $rsi = $indicators['rsi'];
         $sma50 = $indicators['sma_50'];
         $sma200 = $indicators['sma_200'];
@@ -226,52 +224,27 @@ class Trader
 
         $limit = $this->config['limitMin'];
 
-        // Adjust 'limit' based on volatility
         $limit += $this->adjustLimitByVolatility($volatilityAverage);
-
-        // Adjust 'limit' based on volume imbalance
         $limit += $this->adjustLimitByVolumeImbalance();
-
-        // Adjust 'limit' based on RSI
         $limit += $this->adjustLimitByRSI($rsi);
-
-        // Adjust 'limit' based on SMA
         $limit += $this->adjustLimitBySMA($sma50, $sma200);
-
-        // Adjust 'limit' based on MACD
         $limit += $this->adjustLimitByMACD($macd, $macd_signal);
-
-        // Adjust 'limit' based on Bollinger Bands
         $limit += $this->adjustLimitByBollingerBands($latestBand);
-
-        // Adjust 'limit' based on Stochastic Oscillator
         $limit += $this->adjustLimitByStochastic($stochastic);
-
-        // Adjust 'limit' based on ADX
         $limit += $this->adjustLimitByADX($adx);
-
-        // Adjust 'limit' based on Awesome Oscillator (AO)
         $limit += $this->adjustLimitByAO($ao);
 
-        // Ensure 'limit' is not below the minimum
+        $limit = $this->adjustLimitByPriceMinMax($limit);
         $limit = $this->adjustLimitMinMax($limit);
 
-        // Calculate 'stop'
         $stop = $this->adjustStop($limit);
-
-        // Adjust 'stop' based on volatility
         $stop += $this->adjustStopByVolatility($volatilityAverage);
-
-        // Adjust 'stop' based on ATR
         $stop += $this->adjustStopByATR($atr);
 
-        // Ensure 'stop' meets the minimum and maximum configured
         $stop = $this->adjustStopMinMax($stop);
 
-        // Ensure the difference between 'limit' and 'stop' meets the minimum configured
         [$limit, $stop] = $this->adjustLimitStopDiff($limit, $stop);
 
-        // Round the results to two decimal places
         return [
             'limit' => round($limit, 2),
             'stop' => round($stop, 2),
@@ -322,15 +295,11 @@ class Trader
      */
     protected function adjustLimitByRSI(float $rsi): float
     {
-        // Overbought condition
         if ($rsi > $this->config['rsiOverbought']) {
-            // Reduce 'limit' to protect against a drop
             return -$this->config['rsiLimitAdjust'];
         }
 
-        // Oversold condition
         if ($rsi < $this->config['rsiOversold']) {
-            // Increase 'limit' anticipating a rebound
             return $this->config['rsiLimitAdjust'];
         }
 
@@ -345,27 +314,19 @@ class Trader
      */
     protected function adjustLimitBySMA(float $sma50, float $sma200): float
     {
-        // Check for Golden Cross (bullish signal)
         if (($sma50 > $sma200) && ($this->priceCurrent > $sma50)) {
-            // Significantly increase 'limit'
             return $this->config['smaAdjust'] * 2;
         }
 
-        // Check for Death Cross (bearish signal)
         if (($sma50 < $sma200) && ($this->priceCurrent < $sma50)) {
-            // Significantly reduce 'limit'
             return -($this->config['smaAdjust'] * 2);
         }
 
-        // Bullish trend
         if ($this->priceCurrent > $sma50) {
-            // Slightly increase 'limit'
             return $this->config['smaAdjust'];
         }
 
-        // Bearish trend
         if ($this->priceCurrent < $sma50) {
-            // Slightly reduce 'limit'
             return -$this->config['smaAdjust'];
         }
 
@@ -380,15 +341,11 @@ class Trader
      */
     protected function adjustLimitByMACD(float $macd, float $macd_signal): float
     {
-        // Bullish crossover
         if ($macd > $macd_signal) {
-            // Increase 'limit' anticipating greater bullish momentum
             return $this->config['macdAdjust'];
         }
 
-        // Bearish crossover
         if ($macd < $macd_signal) {
-            // Reduce 'limit' anticipating a drop
             return -$this->config['macdAdjust'];
         }
 
@@ -529,6 +486,52 @@ class Trader
         }
 
         return -$this->config['aoAdjust'];
+    }
+
+    /**
+     * @param float $limit
+     *
+     * @return float
+     */
+    protected function adjustLimitByPriceMinMax(float $limit): float
+    {
+        return (strtolower($this->type) === 'sell')
+            ? $this->adjustLimitByPriceMinMaxSell($limit)
+            : $this->adjustLimitByPriceMinMaxBuy($limit);
+    }
+
+    /**
+     * @param float $limit
+     *
+     * @return float
+     */
+    protected function adjustLimitByPriceMinMaxBuy(float $limit): float
+    {
+        $limitPrice = $this->priceCurrent * (1 - $limit / 100);
+        $minPrice = min($this->pricesLow);
+
+        if ($limitPrice >= $minPrice) {
+            return $limit;
+        }
+
+        return (1 - ($minPrice / $this->priceCurrent)) * 100;
+    }
+
+    /**
+     * @param float $limit
+     *
+     * @return float
+     */
+    protected function adjustLimitByPriceMinMaxSell(float $limit): float
+    {
+        $limitPrice = $this->priceCurrent * (1 + $limit / 100);
+        $maxPrice = max($this->pricesHigh);
+
+        if ($limitPrice <= $maxPrice) {
+            return $limit;
+        }
+
+        return (($maxPrice / $this->priceCurrent) - 1) * 100;
     }
 
     /**
@@ -708,15 +711,16 @@ class Trader
             );
         }
 
-        if (count($tr) < $period) {
+        $count = count($tr);
+
+        if ($count < $period) {
             return [];
         }
 
         $atr = [array_sum(array_slice($tr, 0, $period)) / $period];
-        $limit = count($atr) - $period + 1;
 
-        for ($i = 1; $i < $limit; $i++) {
-            $atr[] = (($atr[$i - 1] * ($period - 1)) + $tr[$i + $period - 1]) / $period;
+        for ($i = $period; $i < $count; $i++) {
+            $atr[] = (($atr[$i - $period] * ($period - 1)) + $tr[$i]) / $period;
         }
 
         return $atr;
@@ -886,11 +890,9 @@ class Trader
 
         $indicators = [];
 
-        // Calculate RSI
         $rsi = $this->rsi($prices5m);
         $indicators['rsi'] = $this->round(end($rsi) ?? 0, 4);
 
-        // Calculate SMA
         $sma50 = $this->sma($prices5m, 50);
         $sma200 = $this->sma($prices5m, 200);
         $decimals = $this->decimals($prices5m);
@@ -898,14 +900,12 @@ class Trader
         $indicators['sma_50'] = $this->round(end($sma50) ?? 0, $decimals);
         $indicators['sma_200'] = $this->round(end($sma200) ?? 0, $decimals);
 
-        // Calculate MACD
         $macd = $this->macd($prices5m);
 
         $indicators['macd'] = $this->round(end($macd['macd']) ?? 0, 4);
         $indicators['macd_signal'] = $this->round(end($macd['signal']) ?? 0, 4);
         $indicators['macd_hist'] = $this->round(end($macd['histogram']) ?? 0, 4);
 
-        // Calculate Volatility
         $volatility5m = $this->volatility($prices5m, 5);
         $volatility15m = $this->volatility($prices15m, 15);
         $volatilityAverage = ($volatility5m + $volatility15m) / 2;
@@ -914,23 +914,18 @@ class Trader
         $indicators['volatility_15m'] = $this->round($volatility15m, 4);
         $indicators['volatility_average'] = $this->round($volatilityAverage, 4);
 
-        // Calculate ATR
         $atrValues = $this->atr($this->pricesHigh, $this->pricesLow, $prices5m);
         $indicators['atr'] = $this->round(end($atrValues) ?? 0, 4);
 
-        // Calculate Bollinger Bands
         $bollingerBands = $this->bollingerBands($prices5m);
         $indicators['bollinger_bands'] = $bollingerBands;
 
-        // Calculate Stochastic Oscillator
         $stochasticValues = $this->stochasticOscillator($this->pricesHigh, $this->pricesLow, $prices5m);
         $indicators['stochastic'] = $this->round(end($stochasticValues) ?? 0, 4);
 
-        // Calculate ADX
         $adxValues = $this->adx($this->pricesHigh, $this->pricesLow, $prices5m);
         $indicators['adx'] = $this->round(end($adxValues) ?? 0, 4);
 
-        // Calculate AO (Awesome Oscillator)
         $aoValues = $this->awesomeOscillator($this->pricesHigh, $this->pricesLow);
         $indicators['ao'] = $this->round(end($aoValues) ?? 0, 4);
 
@@ -990,6 +985,7 @@ class Trader
 
     /**
      * @param array $prices
+     * @param int $minutes
      *
      * @return float
      */
@@ -1015,11 +1011,9 @@ class Trader
 
         $stdDev = sqrt($variance);
 
-        // Convertir a volatilidad diaria
         $periodsPerDay = (24 * 60) / $minutes;
         $dailyVolatility = $stdDev * sqrt($periodsPerDay);
 
-        // Convertir a porcentaje
         return $dailyVolatility * 100;
     }
 }

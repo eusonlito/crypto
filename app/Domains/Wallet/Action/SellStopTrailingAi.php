@@ -66,7 +66,10 @@ class SellStopTrailingAi extends ActionAbstract
      */
     protected function available(): bool
     {
-        return boolval($this->row->sell_stop_ai);
+        return $this->row->enabled
+            && $this->row->crypto
+            && $this->row->sell_stop
+            && $this->row->sell_stop_ai;
     }
 
     /**
@@ -106,9 +109,7 @@ class SellStopTrailingAi extends ActionAbstract
      */
     protected function executableStatus(): bool
     {
-        return (bool)$this->platform->userPivot
-            && $this->row->enabled
-            && $this->row->crypto;
+        return (bool)$this->platform->userPivot;
     }
 
     /**
