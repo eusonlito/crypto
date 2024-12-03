@@ -467,14 +467,6 @@ abstract class TraderAbstract
      */
     public function ema(array $prices, int $period): array
     {
-        static $cache = [];
-
-        $cacheKey = md5(json_encode(func_get_args()));
-
-        if (isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
-        }
-
         $ema = [];
         $count = count($prices);
 
@@ -493,7 +485,7 @@ abstract class TraderAbstract
             $previous = $current;
         }
 
-        return $cache[$cacheKey] = $ema;
+        return $ema;
     }
 
     /**
@@ -545,14 +537,6 @@ abstract class TraderAbstract
      */
     public function sma(array $prices, int $period): array
     {
-        static $cache = [];
-
-        $cacheKey = md5(json_encode(func_get_args()));
-
-        if (isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
-        }
-
         $sma = [];
         $count = count($prices);
 
@@ -568,7 +552,7 @@ abstract class TraderAbstract
             $sma[] = $sum / $period;
         }
 
-        return $cache[$cacheKey] = $sma;
+        return $sma;
     }
 
     /**
@@ -722,14 +706,6 @@ abstract class TraderAbstract
      */
     public function smoothedMovingAverage(array $values, int $period): array
     {
-        static $cache = [];
-
-        $cacheKey = md5(json_encode(func_get_args()));
-
-        if (isset($cache[$cacheKey])) {
-            return $cache[$cacheKey];
-        }
-
         $sma = [];
         $count = count($values);
 
@@ -742,11 +718,11 @@ abstract class TraderAbstract
         $sma[] = $prevSMA;
 
         for ($i = $period; $i < $count; $i++) {
-            $currentSMA = ($prevSMA * ($period - 1) + $values[$i]) / $period;
-            $sma[] = $prevSMA = $currentSMA;
+            $prevSMA = ($prevSMA * ($period - 1) + $values[$i]) / $period;
+            $sma[] = $prevSMA;
         }
 
-        return $cache[$cacheKey] = $sma;
+        return $sma;
     }
 
     /**
