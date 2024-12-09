@@ -199,8 +199,6 @@ trait WalletSql
                 `buy_stop_max_exchange`
             ),
 
-            `buy_stop_max_value` = `buy_stop_max_exchange` * `buy_stop_amount`,
-
             `buy_stop_max_at` = IF (
                 (
                     `buy_stop`
