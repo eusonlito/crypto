@@ -44,6 +44,8 @@ class Simulator extends ControllerAbstract
         if (isset($this->row)) {
             $data['row'] = $this->row;
             $data += $this->dataFromRow();
+
+            $this->request->merge($data);
         }
 
         if ($this->request->input('_action') === 'simulator') {

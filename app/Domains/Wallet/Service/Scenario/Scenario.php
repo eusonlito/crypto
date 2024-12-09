@@ -59,38 +59,38 @@ class Scenario
      */
     protected function input(array $input): void
     {
-        $this->input = [
-            'id' => $this->row->id,
+        $this->input = $this->row->toArray();
 
-            'time' => intval($input['time'] ?? 0),
-            'amount' => floatval($input['amount'] ?? 0),
-            'buy_exchange' => floatval($input['buy_exchange'] ?? 0),
+        foreach ($input as $key => $value) {
+            if (is_string($value) === false) {
+                $this->input[$key] = $value;
+            } elseif (preg_match('/^[0-9]+$/', $value)) {
+                $this->input[$key] = intval($value);
+            } elseif (preg_match('/^[0-9]+\.[0-9]+$/', $value)) {
+                $this->input[$key] = floatval($value);
+            } else {
+                $this->input[$key] = $value;
+            }
+        }
 
-            'sell_stop' => boolval($input['sell_stop'] ?? 0),
-            'sell_stop_amount' => floatval($input['sell_stop_amount'] ?? 0),
-            'sell_stop_max_percent_min' => floatval($input['sell_stop_max_percent_min'] ?? 0),
-            'sell_stop_max_percent_max' => floatval($input['sell_stop_max_percent_max'] ?? 0),
-            'sell_stop_min_percent_min' => floatval($input['sell_stop_min_percent_min'] ?? 0),
-            'sell_stop_min_percent_max' => floatval($input['sell_stop_min_percent_max'] ?? 0),
-            'sell_stop_percent_step' => floatval($input['sell_stop_percent_step'] ?? 0),
+        $this->input['buy_stop_min_exchange'] = $this->input['buy_exchange'] * (1 - ($this->input['buy_stop_min_percent'] / 100));
+        $this->input['buy_stop_max_exchange'] = $this->input['buy_stop_min_exchange'] * (1 + ($this->input['buy_stop_max_percent'] / 100));
 
-            'buy_stop' => boolval($input['buy_stop'] ?? 0),
-            'buy_stop_amount' => floatval($input['buy_stop_amount'] ?? 0),
-            'buy_stop_min_percent_min' => floatval($input['buy_stop_min_percent_min'] ?? 0),
-            'buy_stop_min_percent_max' => floatval($input['buy_stop_min_percent_max'] ?? 0),
-            'buy_stop_max_percent_min' => floatval($input['buy_stop_max_percent_min'] ?? 0),
-            'buy_stop_max_percent_max' => floatval($input['buy_stop_max_percent_max'] ?? 0),
-            'buy_stop_percent_step' => floatval($input['buy_stop_percent_step'] ?? 0),
-            'buy_stop_max_follow' => boolval($input['buy_stop_max_follow'] ?? 0),
+        $this->input['buy_stop_amount'] = $this->input['buy_stop_max_value'] / $this->input['buy_stop_max_exchange'];
+        $this->input['buy_stop_min_value'] = $this->input['buy_stop_amount'] * $this->input['buy_stop_min_exchange'];
 
-            'sell_stoploss' => boolval($input['sell_stoploss'] ?? 0),
-            'sell_stoploss_percent_min' => floatval($input['sell_stoploss_percent_min'] ?? 0),
-            'sell_stoploss_percent_max' => floatval($input['sell_stoploss_percent_max'] ?? 0),
-            'sell_stoploss_percent_step' => floatval($input['sell_stoploss_percent_step'] ?? 0),
+        $this->input['sell_stop_max_exchange'] = $this->input['buy_exchange'] * (1 + ($this->input['sell_stop_max_percent'] / 100));
+        $this->input['sell_stop_min_exchange'] = $this->input['sell_stop_max_exchange'] * (1 - ($this->input['sell_stop_min_percent'] / 100));
 
-            'exchange_reverse' => boolval($input['exchange_reverse'] ?? 0),
-            'exchange_first' => boolval($input['exchange_first'] ?? 0),
-        ];
+        $this->input['sell_stop_max_value'] = $this->input['sell_stop_amount'] * $this->input['sell_stop_max_exchange'];
+        $this->input['sell_stop_min_value'] = $this->input['sell_stop_amount'] * $this->input['sell_stop_min_exchange'];
+
+        ksort($this->input);
+
+        $this->input = array_filter(
+            $this->input,
+            static fn ($value) => (is_object($value) === false) && (is_array($value) === false)
+        );
     }
 
     /**
@@ -146,7 +146,7 @@ class Scenario
             ->pluck('exchange', 'created_at')
             ->all();
 
-        if ($this->input['exchange_reverse']) {
+        if ($this->input['exchange_reverse'] ?? false) {
             krsort($this->exchanges);
         } else {
             ksort($this->exchanges);

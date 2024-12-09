@@ -81,27 +81,9 @@ class Simulator
      */
     protected function rowCreate(): void
     {
-        $this->row = new Model([
-            'id' => $this->input['id'],
+        $this->row = new Model($this->input);
 
-            'amount' => $this->input['amount'],
-
-            'buy_stop' => $this->input['buy_stop'],
-            'buy_stop_amount' => $this->input['buy_stop_amount'],
-            'buy_stop_min_percent' => $this->input['buy_stop_min_percent'],
-            'buy_stop_max_percent' => $this->input['buy_stop_max_percent'],
-            'buy_stop_max_follow' => $this->input['buy_stop_max_follow'],
-
-            'sell_stop' => $this->input['sell_stop'],
-            'sell_stop_amount' => $this->input['sell_stop_amount'],
-            'sell_stop_max_percent' => $this->input['sell_stop_max_percent'],
-            'sell_stop_min_percent' => $this->input['sell_stop_min_percent'],
-
-            'sell_stoploss' => $this->input['sell_stoploss'],
-            'sell_stoploss_percent' => $this->input['sell_stoploss_percent'],
-        ]);
-
-        if ($this->input['exchange_first']) {
+        if ($this->input['exchange_first'] ?? false) {
             $this->row->updateBuy(reset($this->exchanges) ?: 0);
         } else {
             $this->row->updateBuy($this->input['buy_exchange']);

@@ -30,8 +30,7 @@ trait WalletUpdate
      */
     public function updateBuyStopEnable(): void
     {
-        $this->buy_stop = $this->buy_stop_max_exchange
-            && $this->buy_stop_min_percent
+        $this->buy_stop = $this->buy_stop_min_percent
             && $this->buy_stop_max_percent;
 
         $this->buy_stop_reference = $this->buy_exchange;
