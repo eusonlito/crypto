@@ -148,11 +148,11 @@ charts.push({
                             return '#4F95E5';
                         }
 
-                        if (context.raw.type === 'market') {
-                            return '#CB3737';
+                        if (context.raw.exchange >= context.raw.exchange_previous) {
+                            return '#29A104';
                         }
 
-                        return '#29A104';
+                        return '#CB3737';
                     },
 
                     tooltip: {

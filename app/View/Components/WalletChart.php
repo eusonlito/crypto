@@ -172,14 +172,14 @@ class WalletChart extends Component
      */
     protected function orders(): Collection
     {
-        return $this->orders
-            ->map(fn ($value) => [
-                'index' => $value->index,
-                'side' => $value->side,
-                'type' => $value->type,
-                'amount' => $value->amount,
-                'exchange' => $value->price,
-                'value' => $value->value,
-            ])->values();
+        return $this->orders->map(fn ($value) => [
+            'index' => $value->index,
+            'side' => $value->side,
+            'type' => $value->type,
+            'amount' => $value->amount,
+            'exchange' => $value->price,
+            'exchange_previous' => $value->previous_price,
+            'value' => $value->value,
+        ])->values();
     }
 }
