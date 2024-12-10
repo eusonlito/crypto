@@ -100,11 +100,23 @@ charts.push({
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.dataset.label + ': ' + context.raw.toLocaleString('es-ES', {
-                                    minimumFractionDigits: {{ $row->product->price_decimal }}
-                                }) + ' (' + (context.raw * {{ $row->amount }}).toLocaleString('es-ES', {
+                                const amount = {{ $row->amount }};
+                                const exchange = context.raw;
+                                const value = exchange * amount;
+                                const difference = value - {{ $row->buy_value }};
+                                const productDecimals = {{ $row->product->price_decimal }};
+
+                                return context.dataset.label + ': ' + exchange.toLocaleString('es-ES', {
+                                    minimumFractionDigits: productDecimals,
+                                    maximumFractionDigits: productDecimals
+                                }) + ' | ' + value.toLocaleString('es-ES', {
+                                    minimumFractionDigits: 2,
                                     maximumFractionDigits: 2
-                                }) + ')';
+                                }) + ' | ' + difference.toLocaleString('es-ES', {
+                                    signDisplay: 'exceptZero',
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                });
                             }
                         }
                     }
