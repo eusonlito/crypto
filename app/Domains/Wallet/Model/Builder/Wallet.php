@@ -344,11 +344,13 @@ class Wallet extends BuilderAbstract
     }
 
     /**
+     * @param string $date
+     *
      * @return self
      */
-    public function withOrdersFilled(): self
+    public function withOrdersFilledAfterDate(string $date): self
     {
-        return $this->with(['orders' => fn ($q) => $q->whereFilled()]);
+        return $this->with(['orders' => fn ($q) => $q->whereFilled()->byUpdatedAtAfter($date)]);
     }
 
     /**

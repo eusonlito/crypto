@@ -13,6 +13,16 @@ use App\Domains\Wallet\Model\Wallet as WalletModel;
 class Index extends ControllerAbstract
 {
     /**
+     * @var int
+     */
+    protected int $minutes;
+
+    /**
+     * @var string
+     */
+    protected string $date;
+
+    /**
      * @var \Illuminate\Support\Collection
      */
     protected Collection $tickers;
@@ -44,6 +54,8 @@ class Index extends ControllerAbstract
         $this->request = $request;
 
         $this->filters();
+        $this->minutes();
+        $this->date();
         $this->wallets();
         $this->tickers();
         $this->exchanges();
@@ -58,6 +70,23 @@ class Index extends ControllerAbstract
             'time' => intval($this->auth->preference('dashboard-time', $this->request->input('time'), 60)),
             'references' => boolval($this->auth->preference('dashboard-references', $this->request->input('references'), true)),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function minutes(): void
+    {
+        $this->minutes = max(0, min(intval($this->request->input('time')), 21600));
+        $this->minutes = ($this->minutes === 1440) ? ($this->minutes - 1) : $this->minutes;
+    }
+
+    /**
+     * @return void
+     */
+    protected function date(): void
+    {
+        $this->date = date('Y-m-d H:i:s', strtotime('-'.$this->minutes.' minutes'));
     }
 
     /**
@@ -85,7 +114,7 @@ class Index extends ControllerAbstract
             ->byUserId($this->auth->id)
             ->enabled()
             ->whereVisible()
-            ->withOrdersFilled()
+            ->withOrdersFilledAfterDate($this->date)
             ->list()
             ->get();
     }
@@ -118,7 +147,7 @@ class Index extends ControllerAbstract
     {
         $this->exchanges = ExchangeModel::query()
             ->byProductIds($this->exchangesGetProductIds())
-            ->chart($this->exchangesGetTime())
+            ->chart($this->minutes)
             ->toBase()
             ->get()
             ->groupBy('product_id');
@@ -132,16 +161,6 @@ class Index extends ControllerAbstract
         return $this->wallets
             ->pluck('product_id')
             ->merge($this->tickers->pluck('product_id'));
-    }
-
-    /**
-     * @return int
-     */
-    protected function exchangesGetTime(): int
-    {
-        $time = $this->request->input('time');
-
-        return ($time === 1440) ? ($time - 1) : $time;
     }
 
     /**
