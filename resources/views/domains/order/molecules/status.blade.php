@@ -29,30 +29,32 @@
 
                 <td><a href="{{ $row->platform->url.$row->product->code }}" rel="nofollow noopener noreferrer" target="_blank" class="block text-center font-semibold whitespace-nowrap external">{{ $row->platform->name }}</a></td>
 
-                <td><span class="block">@number($row->investment, 2)</span></td>
+                <td data-table-sort-value="{{ $row->investment }}"><span class="block">@number($row->investment, 2)</span></td>
 
                 <td class="text-center" title="@datetime($row->date_first) - @datetime($row->date_last)"><span class="block">@number($row->buy_count, 0)</span></td>
                 <td class="text-center" title="@datetime($row->date_first) - @datetime($row->date_last)"><span class="block">@number($row->sell_count, 0)</span></td>
 
-                <td><span class="block">@number($row->buy_average)</span></td>
-                <td><span class="block">@number($row->sell_average)</span></td>
+                <td data-table-sort-value="{{ $row->buy_average }}"><span class="block">@number($row->buy_average)</span></td>
+                <td data-table-sort-value="{{ $row->sell_average }}"><span class="block">@number($row->sell_average)</span></td>
 
-                <td><span class="block" title="{{ Html::orderBuySellTitle($row->buy) }}">@number($row->buy_value, 2)</span></td>
-                <td><span class="block" title="{{ Html::orderBuySellTitle($row->sell) }}">@number($row->sell_value, 2)</span></td>
+                <td data-table-sort-value="{{ $row->buy_value }}"><span class="block" title="{{ Html::orderBuySellTitle($row->buy) }}">@number($row->buy_value, 2)</span></td>
+                <td data-table-sort-value="{{ $row->sell_value }}"><span class="block" title="{{ Html::orderBuySellTitle($row->sell) }}">@number($row->sell_value, 2)</span></td>
 
-                <td><span class="block">@number($row->buy_amount)</span></td>
-                <td><span class="block">@number($row->sell_amount)</span></td>
+                <td data-table-sort-value="{{ $row->buy_amount }}"><span class="block">@number($row->buy_amount)</span></td>
+                <td data-table-sort-value="{{ $row->sell_amount }}"><span class="block">@number($row->sell_amount)</span></td>
 
-                <td><span class="block">@number($row->wallet_amount)</span></td>
-                <td><span class="block">@number($row->wallet_value, 2)</span></td>
+                <td data-table-sort-value="{{ $row->wallet_amount }}"><span class="block">@number($row->wallet_amount)</span></td>
+                <td data-table-sort-value="{{ $row->wallet_value }}"><span class="block">@number($row->wallet_value, 2)</span></td>
 
-                <td><span class="block">@number($row->balance, 2)</span></td>
-                <td><span class="block">@number($row->balance_percent, 2)%</span></td>
-                <td><span class="block">@number($row->balance_percent_daily, 2)%</span></td>
+                <td data-table-sort-value="{{ $row->balance }}"><span class="block">@number($row->balance, 2)</span></td>
+                <td data-table-sort-value="{{ $row->balance_percent }}"><span class="block">@number($row->balance_percent, 2)%</span></td>
+                <td data-table-sort-value="{{ $row->balance_percent_daily }}"><span class="block">@number($row->balance_percent_daily, 2)%</span></td>
             </tr>
 
             @endforeach
+        </tbody>
 
+        <tfoot>
             <tr class="text-right">
                 <td colspan="2"></td>
                 <td class="text-center"><span class="block">@number($total['investment'], 2)</span></td>
@@ -67,6 +69,6 @@
                 <td><span class="block">@number($total['balance_percent'], 2)%</span></td>
                 <td><span class="block">@number($total['balance_percent_daily'], 2)%</span></td>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 </div>
