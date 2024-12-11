@@ -85,6 +85,10 @@ class SyncByProducts extends ActionAbstract
      */
     protected function platformProduct(ApiFactoryAbstract $api, ProductModel $product): array
     {
+        if ($product->currency_base_id === $product->currency_quote_id) {
+            return [];
+        }
+
         try {
             return $api->ordersProduct($product->code)->all();
         } catch (Throwable $e) {
