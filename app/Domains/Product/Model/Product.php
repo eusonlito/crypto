@@ -29,16 +29,6 @@ class Product extends ModelAbstract
     public const FOREIGN = 'product_id';
 
     /**
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->whereIn('product.platform_id', PlatformModel::query()->select('id'));
-        });
-    }
-
-    /**
      * @param \Illuminate\Database\Query\Builder $q
      *
      * @return \App\Domains\Product\Model\Builder\Product

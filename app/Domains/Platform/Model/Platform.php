@@ -26,16 +26,6 @@ class Platform extends ModelAbstract
     public const FOREIGN = 'platform_id';
 
     /**
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->enabled();
-        });
-    }
-
-    /**
      * @param \Illuminate\Database\Query\Builder $q
      *
      * @return \App\Domains\Platform\Model\Builder\Platform
