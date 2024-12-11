@@ -19,7 +19,7 @@ class OrderBookAll extends ActionAbstract
      */
     protected function iterate(): void
     {
-        foreach (PlatformModel::query()->get() as $each) {
+        foreach (PlatformModel::query()->enabled()->get() as $each) {
             $this->factory()->action()->orderBook($each);
         }
     }

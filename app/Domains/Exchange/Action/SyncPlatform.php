@@ -32,6 +32,10 @@ class SyncPlatform extends ActionAbstract
      */
     public function handle(PlatformModel $platform): void
     {
+        if (empty($platform->enabled)) {
+            return;
+        }
+
         if (ProviderSocketFactory::get($platform, 'Ticker') !== null) {
             return;
         }
