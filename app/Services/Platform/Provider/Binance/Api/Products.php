@@ -31,7 +31,7 @@ class Products extends ApiAbstract
      */
     protected function resource(stdClass $row): ?ProductResource
     {
-        if ($row->status !== 'TRADING') {
+        if ($this->resourceIsValid($row) === false) {
             return null;
         }
 
@@ -55,6 +55,17 @@ class Products extends ApiAbstract
             'currencyBase' => $row->baseAsset,
             'currencyQuote' => $row->quoteAsset,
         ]);
+    }
+
+    /**
+     * @param \stdClass $row
+     *
+     * @return bool
+     */
+    protected function resourceIsValid(stdClass $row): bool
+    {
+        return ($row->status === 'TRADING')
+            && in_array('SPOT', array_merge($row->permissions, ...$row->permissionSets));
     }
 
     /**
