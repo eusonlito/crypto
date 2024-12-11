@@ -21,7 +21,7 @@ class Products extends ApiAbstract
      */
     protected function query(): stdClass
     {
-        return $this->requestGuest('GET', '/api/v3/exchangeInfo', ['permissions' => 'SPOT']);
+        return $this->requestGuest('GET', '/api/v3/exchangeInfo');
     }
 
     /**
