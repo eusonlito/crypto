@@ -126,8 +126,18 @@ class Status
         $sell_value = $sell->sum('value');
 
         $balance = $sell_value - $buy_value;
-        $investment = $sell_value / $sell->count();
-        $balance_percent = ($balance / $investment) * 100;
+
+        if ($sell_value) {
+            $investment = $sell_value / $sell->count();
+            $balance_percent = ($balance / $investment) * 100;
+        } elseif ($buy_value) {
+            $investment = $buy_value / $buy->count();
+            $balance_percent = ($balance / $investment) * 100;
+        } else {
+            $investment = 0;
+            $balance_percent = 0;
+        }
+
         $days = $this->mapDays($first, $last);
         $balance_percent_daily = $balance_percent / $days;
 
@@ -189,8 +199,14 @@ class Status
     {
         $investment = $list->sum('investment');
         $balance = $list->sum('balance');
-        $balance_percent = $balance / $investment * 100;
-        $balance_percent_daily = $balance_percent / $list->max('days');
+
+        if ($investment) {
+            $balance_percent = $balance / $investment * 100;
+            $balance_percent_daily = $balance_percent / $list->max('days');
+        } else {
+            $balance_percent = 0;
+            $balance_percent_daily = 0;
+        }
 
         return [
             'buy_count' => $list->sum('buy_count'),
