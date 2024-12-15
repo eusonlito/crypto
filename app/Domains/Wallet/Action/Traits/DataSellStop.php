@@ -12,7 +12,7 @@ trait DataSellStop
     protected function dataSellStop(): void
     {
         $this->data['sell_stop_percent'] = floatval($this->data['sell_stop_percent']);
-        $this->data['sell_stop_amount'] = $this->row->amount * $this->data['sell_stop_percent'] / 100;
+        $this->data['sell_stop_amount'] = $this->row?->amount * $this->data['sell_stop_percent'] / 100;
         $this->data['sell_stop_reference'] = floatval($this->data['sell_stop_reference']);
         $this->data['sell_stop_max_percent'] = abs(floatval($this->data['sell_stop_max_percent']));
         $this->data['sell_stop_min_percent'] = abs(floatval($this->data['sell_stop_min_percent']));
