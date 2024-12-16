@@ -11,6 +11,7 @@
     'monitor-installation' => 'Instalación',
     'monitor-log' => 'Registros',
     'orders' => 'Órdenes',
+    'orders-chart' => 'Gráfica',
     'orders-list' => 'Listado',
     'orders-status' => 'Estado',
     'orders-sync' => 'Sincronizar',

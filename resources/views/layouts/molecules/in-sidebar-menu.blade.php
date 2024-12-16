@@ -52,8 +52,14 @@
         </li>
         <li>
             <a href="{{ route('order.status') }}" class="side-menu {{ (strpos($ROUTE, 'order.status') === 0) ? 'side-menu--active' : '' }}">
-                <div class="side-menu__icon">@icon('bar-chart-2')</div>
+                <div class="side-menu__icon">@icon('bar-chart')</div>
                 <div class="side-menu__title">{{ __('in-sidebar.orders-status') }}</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('order.chart') }}" class="side-menu {{ (strpos($ROUTE, 'order.chart') === 0) ? 'side-menu--active' : '' }}">
+                <div class="side-menu__icon">@icon('bar-chart-2')</div>
+                <div class="side-menu__title">{{ __('in-sidebar.orders-chart') }}</div>
             </a>
         </li>
         <li>
