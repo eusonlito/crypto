@@ -57,7 +57,7 @@ class WalletStatBoxCrypto extends Component
             'sell_stoploss_exchange_percent' => helper()->percent($this->row->sell_stoploss_exchange, $this->row->current_exchange),
             'sell_stoploss_value_percent' => helper()->percent($this->row->sell_stoploss_value, $this->row->current_value),
 
-            'result' => ($this->row->current_value - $this->row->buy_value),
+            'result' => round($this->row->current_value - $this->row->buy_value, $this->row->product->price_decimal),
         ];
     }
 }
