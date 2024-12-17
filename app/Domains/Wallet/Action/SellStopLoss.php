@@ -170,6 +170,7 @@ class SellStopLoss extends ActionAbstract
     {
         $this->updateOrder();
         $this->updateBuy();
+        $this->updateBuyStopMaxValue();
         $this->updateBuyStop();
         $this->updateSellStop();
         $this->updateSellStopLoss();
@@ -189,6 +190,14 @@ class SellStopLoss extends ActionAbstract
     protected function updateBuy(): void
     {
         $this->row->updateBuy($this->order->price);
+    }
+
+    /**
+     * @return void
+     */
+    protected function updateBuyStopMaxValue(): void
+    {
+        $this->row->buy_stop_max_value = $this->order->value;
     }
 
     /**
