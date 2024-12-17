@@ -36,8 +36,9 @@ class Filled extends MailAbstract
             'side' => strtoupper($row->side),
             'platform' => $row->platform->name,
             'name' => $row->product->acronym,
-            'amount' => $row->amount,
-            'price' => $row->price,
+            'amount' => round($row->amount, $row->product->quantity_decimal),
+            'price' => round($row->price, $row->product->price_decimal),
+            'value' => round($row->value, $row->product->price_decimal),
         ]);
 
         $this->row = $row;
