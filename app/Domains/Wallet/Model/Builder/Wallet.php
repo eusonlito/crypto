@@ -95,7 +95,6 @@ class Wallet extends BuilderAbstract
             ->orderBy('visible', 'DESC')
             ->orderByRaw('`order` = 0 ASC')
             ->orderBy('order', 'ASC')
-            ->orderBy('buy_value', 'DESC')
             ->orderBy('name', 'ASC');
     }
 
