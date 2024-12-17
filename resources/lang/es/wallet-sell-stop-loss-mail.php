@@ -1,3 +1,3 @@
 <?php return [
-    'subject' => '[VENTA-EN-PERDIDA] FINALIZADA VENTA de :amount de :name en :platform a :price',
+    'subject' => '[:platform] [:name] [SELL-STOP-LOSS] :amount * :price = :value',
 ];

@@ -35,8 +35,9 @@ class SellMarket extends MailAbstract
         $this->subject = __('wallet-sell-market-mail.subject', [
             'platform' => $row->platform->name,
             'name' => $row->product->acronym,
-            'amount' => $order->amount,
-            'price' => $order->price,
+            'amount' => round($order->amount, $row->product->quantity_decimal),
+            'price' => round($order->price, $row->product->price_decimal),
+            'value' => round($order->value, $row->product->price_decimal),
         ]);
 
         $this->row = $row;
