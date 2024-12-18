@@ -55,8 +55,6 @@ class SyncPlatform extends ActionAbstract
             ->byPlatformId($this->platform->id)
             ->enabled()
             ->whereTrade()
-            ->whereCrypto()
-            ->whereWallet()
             ->withExchange()
             ->get()
             ->keyBy('code');
