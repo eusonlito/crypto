@@ -60,7 +60,6 @@ trait SyncSocket
             ->enabled()
             ->whereTrade()
             ->whereCrypto()
-            ->whereWalletOrFavorite()
             ->get()
             ->keyBy('code');
     }
