@@ -56,6 +56,7 @@ class Variance extends ControllerAbstract
     {
         $this->dates = [
             'last' => date('Y-m-d H:i:s'),
+            '1_minute' => date('Y-m-d H:i:s', strtotime('-1 minute')),
             '5_minutes' => date('Y-m-d H:i:s', strtotime('-5 minutes')),
             '10_minutes' => date('Y-m-d H:i:s', strtotime('-10 minutes')),
             '30_minutes' => date('Y-m-d H:i:s', strtotime('-30 minutes')),
