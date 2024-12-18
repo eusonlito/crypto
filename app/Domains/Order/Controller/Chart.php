@@ -3,7 +3,6 @@
 namespace App\Domains\Order\Controller;
 
 use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Order\Service\Controller\Chart as ChartService;
 

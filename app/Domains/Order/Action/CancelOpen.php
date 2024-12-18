@@ -2,6 +2,7 @@
 
 namespace App\Domains\Order\Action;
 
+use App\Domains\Order\Model\Order as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -36,6 +37,7 @@ class CancelOpen extends ActionAbstract
 
         $this->api();
         $this->cancelOpen();
+        $this->save();
     }
 
     /**
@@ -73,5 +75,17 @@ class CancelOpen extends ActionAbstract
         if ($this->api->ordersOpen($this->product->code)->isNotEmpty()) {
             $this->api->ordersCancelAll($this->product->code);
         }
+    }
+
+    /**
+     * @return void
+     */
+    protected function save(): void
+    {
+        Model::query()
+            ->byUserId($this->auth->id)
+            ->byProductId($this->product->id)
+            ->byStatus('new')
+            ->update(['status' => 'canceled']);
     }
 }

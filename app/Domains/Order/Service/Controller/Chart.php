@@ -2,8 +2,6 @@
 
 namespace App\Domains\Order\Service\Controller;
 
-use DateTime;
-use stdClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Domains\Order\Model\Order as Model;
@@ -65,6 +63,7 @@ class Chart
             foreach ($group as $row) {
                 if ($row->side === 'buy') {
                     $buy = $row;
+
                     continue;
                 }
 
