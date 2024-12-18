@@ -42,7 +42,6 @@
             <tr>
                 <td class="text-center"><a href="{{ $link }}" class="block">{{ $i + 1 }}</a></td>
                 <td class="text-left"><a href="{{ $link }}" class="block">{{ $product->acronym }}</a></td>
-                <td class="text-left"><a href="{{ $link }}" class="block whitespace-nowrap">{{ $product->name }}</a></td>
 
                 @foreach (array_keys($dates) as $code)
 
