@@ -24,7 +24,6 @@
             <tr>
                 <th class="text-center">#</th>
                 <th class="text-left">{{ __('exchange-index.code') }}</th>
-                <th class="text-left">{{ __('exchange-index.name') }}</th>
 
                 @foreach (array_keys($dates) as $code)
 
