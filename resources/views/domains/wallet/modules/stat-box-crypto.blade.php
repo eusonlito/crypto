@@ -48,8 +48,6 @@
                 </div>
             </div>
 
-            @if ($buy_stop_amount && $buy_stop_min_exchange && $buy_stop_max_exchange)
-
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
                     <div class="text-gray-600 text-xs">
@@ -135,10 +133,6 @@
                     @endif
                 </div>
             </div>
-
-            @endif
-
-            @if ($sell_stop_percent && $sell_stop_max_percent && $sell_stop_min_percent)
 
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
@@ -229,10 +223,6 @@
                 </div>
             </div>
 
-            @endif
-
-            @if ($sell_stoploss_percent)
-
             <div class="flex flex-1 flex-wrap text-center p-2 border-t lg:border-t-0 lg:border-l border-gray-300 border-dashed">
                 <div class="flex-1 p-2">
                     <div class="text-gray-600 text-xs">
@@ -285,8 +275,6 @@
                     </div>
                 </div>
             </div>
-
-            @endif
         </div>
     </div>
 </div>
