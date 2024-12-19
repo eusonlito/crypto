@@ -13,14 +13,24 @@ use App\Domains\Wallet\Model\Wallet as WalletModel;
 class Index extends ControllerAbstract
 {
     /**
+     * @var string
+     */
+    protected string $date;
+
+    /**
+     * @var \Illuminate\Support\Collection
+     */
+    protected Collection $exchanges;
+
+    /**
      * @var int
      */
     protected int $minutes;
 
     /**
-     * @var string
+     * @var \Illuminate\Support\Collection
      */
-    protected string $date;
+    protected Collection $ordersOpen;
 
     /**
      * @var \Illuminate\Support\Collection
@@ -30,17 +40,7 @@ class Index extends ControllerAbstract
     /**
      * @var \Illuminate\Support\Collection
      */
-    protected Collection $orders;
-
-    /**
-     * @var \Illuminate\Support\Collection
-     */
     protected Collection $wallets;
-
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected Collection $exchanges;
 
     /**
      * @param \Illuminate\Contracts\Auth\Authenticatable $auth
@@ -59,6 +59,7 @@ class Index extends ControllerAbstract
         $this->wallets();
         $this->tickers();
         $this->exchanges();
+        $this->ordersOpen();
     }
 
     /**
@@ -96,11 +97,11 @@ class Index extends ControllerAbstract
     {
         return [
             'ordersFilled' => $this->ordersFilled(),
-            'ordersOpen' => $this->ordersOpen(),
+            'ordersOpen' => $this->ordersOpen,
             'tickers' => $this->tickers,
             'wallets' => $this->wallets,
             'walletsCrypto' => $this->wallets->where('crypto', true),
-            'walletsFiat' => $this->wallets->where('crypto', false),
+            'walletsFiat' => $this->walletsFiat(),
             'walletsValues' => $this->walletsValues(),
         ];
     }
@@ -191,17 +192,39 @@ class Index extends ControllerAbstract
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return void
      */
-    protected function ordersOpen(): Collection
+    protected function ordersOpen(): void
     {
-        return OrderModel::query()
+        $this->ordersOpen = OrderModel::query()
             ->byUserId($this->auth->id)
             ->byStatus('new')
             ->byType('take_profit_limit')
             ->list()
-            ->limit(10)
             ->get();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    protected function walletsFiat(): Collection
+    {
+        return $this->wallets
+            ->where('crypto', false)
+            ->each($this->walletsFiatMap(...));
+    }
+
+    /**
+     * @param \App\Domains\Wallet\Model\Wallet $wallet
+     *
+     * @return void
+     */
+    protected function walletsFiatMap(WalletModel $wallet): void
+    {
+        $wallet->available = $wallet->buy_value - $this->ordersOpen
+            ->where('side', 'buy')
+            ->where('product.currency_quote_id', $wallet->currency_id)
+            ->sum('value');
     }
 
     /**

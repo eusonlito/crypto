@@ -10,7 +10,7 @@
             <div class="text-gray-600 text-xs mt-0.5">{{ $row->platform->name }}</div>
         </div>
 
-        <div class="text-theme-10">@number($row->amount)</div>
+        <div class="text-theme-10">@number($row->amount) / @number($row->available)</div>
     </div>
 
     @endforeach
