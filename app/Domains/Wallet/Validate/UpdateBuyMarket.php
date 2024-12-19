@@ -13,7 +13,7 @@ class UpdateBuyMarket extends ValidateAbstract
     {
         return [
             'value' => 'bail|numeric|gt:0|required',
-            'retry' => 'bail|integer|min:0',
+            'retry' => 'bail|integer|min:0|nullable',
         ];
     }
 }

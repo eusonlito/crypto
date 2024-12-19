@@ -5,12 +5,20 @@ namespace App\Domains\Wallet\Action;
 use Throwable;
 use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
+use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
 use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
+use App\Exceptions\UnexpectedValueException;
+use App\Services\Platform\ApiFactoryAbstract;
 
 class UpdateBuyMarket extends ActionAbstract
 {
+    /**
+     * @var \App\Services\Platform\ApiFactoryAbstract
+     */
+    protected ApiFactoryAbstract $api;
+
     /**
      * @var ?\App\Domains\Order\Model\Order
      */
@@ -42,6 +50,7 @@ class UpdateBuyMarket extends ActionAbstract
             return $this->finish();
         }
 
+        $this->api();
         $this->order();
         $this->sync();
         $this->refresh();
@@ -110,41 +119,72 @@ class UpdateBuyMarket extends ActionAbstract
     /**
      * @return void
      */
-    protected function order(): void
+    protected function api(): void
     {
-        $retry = time() + $this->data['retry'];
-
-        do {
-            try {
-                $this->orderSend();
-
-                return;
-            } catch (Throwable $e) {
-            }
-        } while (time() <= $retry);
-
-        throw $e;
+        $this->api = ProviderApiFactory::get($this->platform);
     }
 
     /**
      * @return void
      */
-    protected function orderSend(): void
+    protected function order(): void
     {
-        $this->order = $this->factory('Order')->action([
+        $e = null;
+        $retry = time() + intval($this->data['retry']);
+
+        do {
+            try {
+                if ($this->orderSend()) {
+                    return;
+                }
+
+                sleep(1);
+            } catch (Throwable $e) {
+            }
+        } while (time() <= $retry);
+
+        if ($e) {
+            throw $e;
+        }
+
+        throw new UnexpectedValueException(__('wallet-update-buy-market.error.timeout'));
+    }
+
+    /**
+     * @return ?\App\Domains\Order\Model\Order
+     */
+    protected function orderSend(): ?OrderModel
+    {
+        $exchange = $this->orderSendExchange();
+
+        if (empty($exchange)) {
+            return null;
+        }
+
+        return $this->order = $this->factory('Order')->action([
             'type' => 'market',
             'side' => 'buy',
-            'amount' => $this->orderSendAmount(),
+            'amount' => $this->orderSendAmount($exchange),
             'wallet_id' => $this->row->id,
         ])->create($this->product);
     }
 
     /**
+     * @return ?float
+     */
+    protected function orderSendExchange(): ?float
+    {
+        return $this->api->exchange($this->product->code)?->price;
+    }
+
+    /**
+     * @param float $exchange
+     *
      * @return float
      */
-    protected function orderSendAmount(): float
+    protected function orderSendAmount(float $exchange): float
     {
-        return $this->roundFixed($this->data['value'] / $this->row->current_exchange, 'quantity');
+        return $this->roundFixed($this->data['value'] / $exchange, 'quantity');
     }
 
     /**

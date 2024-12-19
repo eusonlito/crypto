@@ -3,6 +3,7 @@
 namespace App\Services\Platform;
 
 use Illuminate\Support\Collection;
+use App\Services\Platform\Resource\Exchange as ExchangeResource;
 use App\Services\Platform\Resource\OrderBook as OrderBookResource;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -52,6 +53,13 @@ abstract class ApiFactoryAbstract
      * @return \Illuminate\Support\Collection
      */
     abstract public function currencies(): Collection;
+
+    /**
+     * @param string $symbol
+     *
+     * @return ?\App\Services\Platform\Resource\Exchange
+     */
+    abstract public function exchange(string $symbol): ?ExchangeResource;
 
     /**
      * @return \Illuminate\Support\Collection

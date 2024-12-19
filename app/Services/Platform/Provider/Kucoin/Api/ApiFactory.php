@@ -5,6 +5,7 @@ namespace App\Services\Platform\Provider\Kucoin\Api;
 use stdClass;
 use Illuminate\Support\Collection;
 use App\Services\Platform\ApiFactoryAbstract;
+use App\Services\Platform\Resource\Exchange as ExchangeResource;
 use App\Services\Platform\Resource\OrderBook as OrderBookResource;
 use App\Services\Platform\Resource\Order as OrderResource;
 
@@ -38,6 +39,18 @@ class ApiFactory extends ApiFactoryAbstract
     public function currencies(): Collection
     {
         return $this->handle(Currencies::class, func_get_args());
+    }
+
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
+     *
+     * @param string $symbol
+     *
+     * @return ?\App\Services\Platform\Resource\Exchange
+     */
+    public function exchange(string $symbol): ?ExchangeResource
+    {
+        return null;
     }
 
     /**

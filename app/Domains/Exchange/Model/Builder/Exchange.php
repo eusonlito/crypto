@@ -109,7 +109,7 @@ class Exchange extends BuilderAbstract
      */
     public function lastByProduct(): self
     {
-        return $this->afterMinutes(60)->whereIn('id', Model::query()->selectRaw('MAX(id)')->afterMinutes(60)->groupByProductId());
+        return $this->afterMinutes(60)->whereIn('id', Model::query()->selectRaw('MAX(`id`)')->afterMinutes(60)->groupByProductId());
     }
 
     /**
@@ -119,7 +119,7 @@ class Exchange extends BuilderAbstract
      */
     public function lastByProductBeforDate(string $date): self
     {
-        return $this->afterDate($date)->whereIn('id', Model::query()->selectRaw('MIN(id)')->afterDate($date)->groupByProductId());
+        return $this->afterDate($date)->whereIn('id', Model::query()->selectRaw('MIN(`id`)')->afterDate($date)->groupByProductId());
     }
 
     /**
