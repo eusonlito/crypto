@@ -7,12 +7,12 @@ class UpdateBuyMarket extends CommandAbstract
     /**
      * @var string
      */
-    protected $signature = 'wallet:update:buy:market {--id=} {--amount=} {--retry=}';
+    protected $signature = 'wallet:update:buy:market {--id=} {--value=} {--retry=}';
 
     /**
      * @var string
      */
-    protected $description = 'Send a Buy Market Order to Wallet by {--id=} and {--amount=}';
+    protected $description = 'Send a Buy Market Order to Wallet by {--id=} and {--value=}';
 
     /**
      * @return void

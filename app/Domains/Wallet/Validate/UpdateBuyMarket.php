@@ -12,7 +12,7 @@ class UpdateBuyMarket extends ValidateAbstract
     public function rules(): array
     {
         return [
-            'amount' => 'bail|numeric|gt:0|required',
+            'value' => 'bail|numeric|gt:0|required',
             'retry' => 'bail|integer|min:0',
         ];
     }

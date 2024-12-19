@@ -1,3 +1,3 @@
 <?php return [
-    'subject' => '',
+    'subject' => '[:platform] [:name] [BUY-MARKET] :amount * :price = :value',
 ];

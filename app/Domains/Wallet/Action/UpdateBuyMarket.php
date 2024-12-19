@@ -134,9 +134,17 @@ class UpdateBuyMarket extends ActionAbstract
         $this->order = $this->factory('Order')->action([
             'type' => 'market',
             'side' => 'buy',
-            'amount' => $this->data['amount'],
+            'amount' => $this->orderSendAmount(),
             'wallet_id' => $this->row->id,
         ])->create($this->product);
+    }
+
+    /**
+     * @return float
+     */
+    protected function orderSendAmount(): float
+    {
+        return $this->roundFixed($this->data['value'] / $this->row->current_exchange, 'quantity');
     }
 
     /**
