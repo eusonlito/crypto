@@ -7,7 +7,7 @@ class UpdateBuyMarket extends CommandAbstract
     /**
      * @var string
      */
-    protected $signature = 'wallet:update:buy:market {--id=} {--amount=}';
+    protected $signature = 'wallet:update:buy:market {--id=} {--amount=} {--retry=}';
 
     /**
      * @var string
