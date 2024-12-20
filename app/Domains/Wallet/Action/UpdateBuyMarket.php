@@ -134,12 +134,15 @@ class UpdateBuyMarket extends ActionAbstract
 
         do {
             try {
-                if ($this->orderSend()) {
+                $this->orderSend();
+
+                if ($this->order) {
                     return;
                 }
 
                 sleep(1);
             } catch (Throwable $e) {
+                report($e);
             }
         } while (time() <= $retry);
 
@@ -151,17 +154,17 @@ class UpdateBuyMarket extends ActionAbstract
     }
 
     /**
-     * @return ?\App\Domains\Order\Model\Order
+     * @return void
      */
-    protected function orderSend(): ?OrderModel
+    protected function orderSend(): void
     {
         $exchange = $this->orderSendExchange();
 
         if (empty($exchange)) {
-            return null;
+            return;
         }
 
-        return $this->order = $this->factory('Order')->action([
+        $this->order = $this->factory('Order')->action([
             'type' => 'market',
             'side' => 'buy',
             'amount' => $this->orderSendAmount($exchange),
