@@ -64,6 +64,8 @@ charts.push({
             ]
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
             scales: {
                 x: {
                     ticks: {
@@ -96,8 +98,8 @@ charts.push({
 });
 </script>
 
-<div class="box p-5 mt-5">
-    <canvas id="order-chart" height="120"></canvas>
+<div class="box p-5 mt-5 h-3/4">
+    <canvas id="order-chart"></canvas>
 </div>
 
 @stop
