@@ -4,7 +4,7 @@
     "description": "Plataforma multiusuario para gestión de cryptos",
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "bacon/bacon-qr-code": "main-dev",
         "eusonlito/laravel-meta": "^3.1",
         "laravel/framework": "^11.0",
