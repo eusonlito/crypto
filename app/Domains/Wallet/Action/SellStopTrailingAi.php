@@ -144,7 +144,7 @@ class SellStopTrailingAi extends ActionAbstract
     {
         $this->data = [
             'sell_stop_percent' => $this->row->sell_stop_percent,
-            'sell_stop_reference' => $this->row->sell_stop_reference,
+            'sell_stop_reference' => $this->values['reference'],
             'sell_stop_max_percent' => $this->values['max_percent'],
             'sell_stop_min_percent' => $this->values['min_percent'],
             'sell_stop_max_at' => $this->row->sell_stop_max_at,

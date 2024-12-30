@@ -145,7 +145,7 @@ class BuyStopTrailingAi extends ActionAbstract
     {
         $this->data = [
             'buy_stop_max_value' => $this->row->buy_stop_max_value,
-            'buy_stop_reference' => $this->row->buy_stop_reference,
+            'buy_stop_reference' => $this->values['reference'],
             'buy_stop_min_percent' => $this->updateDataBuyStopMinPercent(),
             'buy_stop_max_percent' => $this->values['max_percent'],
             'buy_stop_max_at' => $this->row->buy_stop_max_at,
