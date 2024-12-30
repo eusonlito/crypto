@@ -112,14 +112,6 @@ class SellStopTrailingAiCheck extends ActionAbstract
     /**
      * @return void
      */
-    protected function calculate(): void
-    {
-        $this->factory()->action()->sellStopTrailingAi();
-    }
-
-    /**
-     * @return void
-     */
     protected function order(): void
     {
         $this->factory()->action()->sellStopTrailingCreate();

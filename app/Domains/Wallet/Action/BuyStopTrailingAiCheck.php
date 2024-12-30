@@ -51,7 +51,6 @@ class BuyStopTrailingAiCheck extends ActionAbstract
             return $this->row;
         }
 
-        $this->calculate();
         $this->order();
         $this->logSuccess();
 
@@ -107,14 +106,6 @@ class BuyStopTrailingAiCheck extends ActionAbstract
     protected function executableStatus(): bool
     {
         return (bool)$this->platform->userPivot;
-    }
-
-    /**
-     * @return void
-     */
-    protected function calculate(): void
-    {
-        $this->factory()->action()->buyStopTrailingAi();
     }
 
     /**
