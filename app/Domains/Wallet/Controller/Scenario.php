@@ -66,7 +66,7 @@ class Scenario extends ControllerAbstract
             'sell_stop_max_percent_min' => $this->request->input('sell_stop_max_percent_min', $this->row->sell_stop_max_percent),
             'sell_stop_max_percent_max' => $this->request->input('sell_stop_max_percent_max', $this->row->sell_stop_max_percent),
             'sell_stop_min_percent_min' => $this->request->input('sell_stop_min_percent_min', $this->row->sell_stop_min_percent),
-            'sell_stop_min_percent_max' => $this->request->input('sell_stop_min_percent_max', $this->row->sell_stop_min_percent ),
+            'sell_stop_min_percent_max' => $this->request->input('sell_stop_min_percent_max', $this->row->sell_stop_min_percent),
             'sell_stop_percent_step' => $this->request->input('sell_stop_percent_step', 1),
             'sell_stop' => $this->request->input('sell_stop', $this->row->sell_stop),
             'buy_stop_amount' => $this->request->input('buy_stop_amount', $this->row->buy_stop_amount),

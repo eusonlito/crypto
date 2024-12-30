@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Services\Trader;
+namespace App\Services\Trader\Complex;
 
 class Buy extends TraderAbstract
 {

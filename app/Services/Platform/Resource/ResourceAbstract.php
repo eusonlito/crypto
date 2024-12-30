@@ -17,4 +17,12 @@ abstract class ResourceAbstract
     {
         $this->properties($attributes);
     }
+
+    /**
+     * @return self
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }

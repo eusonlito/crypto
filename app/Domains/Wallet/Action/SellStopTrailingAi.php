@@ -9,7 +9,7 @@ use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Action\Traits\DataSellStop as DataSellStopTrait;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 use App\Services\Platform\ApiFactoryAbstract;
-use App\Services\Trader\Sell as TraderSell;
+use App\Services\Trader\Simple\Sell as TraderSell;
 
 class SellStopTrailingAi extends ActionAbstract
 {
@@ -125,7 +125,7 @@ class SellStopTrailingAi extends ActionAbstract
      */
     protected function calculate(): void
     {
-        $this->values = TraderSell::new($this->product->code, $this->api)->limitStop();
+        $this->values = TraderSell::new($this->product, $this->api)->calculate();
     }
 
     /**
@@ -145,8 +145,8 @@ class SellStopTrailingAi extends ActionAbstract
         $this->data = [
             'sell_stop_percent' => $this->row->sell_stop_percent,
             'sell_stop_reference' => $this->row->sell_stop_reference,
-            'sell_stop_max_percent' => $this->values['limit'],
-            'sell_stop_min_percent' => $this->values['stop'],
+            'sell_stop_max_percent' => $this->values['max_percent'],
+            'sell_stop_min_percent' => $this->values['min_percent'],
             'sell_stop_max_at' => $this->row->sell_stop_max_at,
             'sell_stop_min_at' => $this->row->sell_stop_min_at,
         ];

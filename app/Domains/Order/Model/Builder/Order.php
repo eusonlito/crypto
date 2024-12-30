@@ -231,6 +231,15 @@ class Order extends BuilderAbstract
     /**
      * @return self
      */
+    public function whereStopLoss(): self
+    {
+        return $this->bySide('sell')
+            ->where('previous_percent', '<', 0);
+    }
+
+    /**
+     * @return self
+     */
     public function whereWalletId(): self
     {
         return $this->whereNotNull('wallet_id');

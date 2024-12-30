@@ -2,6 +2,7 @@
 
 namespace App\Domains\Wallet\Action;
 
+use App\Domains\Order\Model\Order as OrderModel;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
 use App\Domains\Product\Model\Product as ProductModel;
@@ -9,7 +10,7 @@ use App\Domains\Wallet\Model\Wallet as Model;
 use App\Domains\Wallet\Action\Traits\DataBuyStop as DataBuyStopTrait;
 use App\Domains\Wallet\Service\Logger\Action as ActionLogger;
 use App\Services\Platform\ApiFactoryAbstract;
-use App\Services\Trader\Buy as TraderBuy;
+use App\Services\Trader\Simple\Buy as TraderBuy;
 
 class BuyStopTrailingAi extends ActionAbstract
 {
@@ -125,7 +126,7 @@ class BuyStopTrailingAi extends ActionAbstract
      */
     protected function calculate(): void
     {
-        $this->values = TraderBuy::new($this->product->code, $this->api)->limitStop();
+        $this->values = TraderBuy::new($this->product, $this->api)->calculate();
     }
 
     /**
@@ -145,13 +146,35 @@ class BuyStopTrailingAi extends ActionAbstract
         $this->data = [
             'buy_stop_max_value' => $this->row->buy_stop_max_value,
             'buy_stop_reference' => $this->row->buy_stop_reference,
-            'buy_stop_min_percent' => $this->values['limit'],
-            'buy_stop_max_percent' => $this->values['stop'],
+            'buy_stop_min_percent' => $this->updateDataBuyStopMinPercent(),
+            'buy_stop_max_percent' => $this->values['max_percent'],
             'buy_stop_max_at' => $this->row->buy_stop_max_at,
             'buy_stop_min_at' => $this->row->buy_stop_min_at,
         ];
 
         $this->dataBuyStop();
+    }
+
+    /**
+     * @return float
+     */
+    protected function updateDataBuyStopMinPercent(): float
+    {
+        return $this->values['min_percent']
+            + $this->updateDataBuyStopMinPercentStopLossCount();
+    }
+
+    /**
+     * @return int
+     */
+    protected function updateDataBuyStopMinPercentStopLossCount(): int
+    {
+        return OrderModel::query()
+            ->byProductId($this->product->id)
+            ->byCreatedAtAfter(date('Y-m-d H:i:s', strtotime('-5 days')))
+            ->whereFilled()
+            ->whereStopLoss()
+            ->count();
     }
 
     /**

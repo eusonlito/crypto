@@ -16,56 +16,25 @@ class OrderBook extends ResourceAbstract
 
     /**
      * @param string $type
+     * @param float $percent = 0.5
      *
      * @return array
      */
-    public function group(string $type): array
+    public function group(string $type, float $percent = 0.5): array
     {
-        if (empty($this->$type)) {
-            return [];
-        }
+        $group = $this->$type;
 
-        $reference = $this->groupReference($this->{$type}[0][0]);
+        $reference = $group[0][0] * $percent / 100;
         $decimals = strpos(strrev(strval($reference)), '.') ?: 0;
         $float = is_float($reference);
         $values = [];
 
-        foreach ($this->$type as $each) {
+        foreach ($group as $each) {
             $key = $this->groupKey($each[0], $reference, $float, $decimals);
             $values[$key] = ($values[$key] ?? 0) + $each[1];
         }
 
-        return array_slice($values, 0, -10, true);
-    }
-
-    /**
-     * @param float $value
-     *
-     * @return int|float
-     */
-    protected function groupReference(float $value)
-    {
-        if ($value > 10000) {
-            return 50;
-        }
-
-        if ($value > 1000) {
-            return 5;
-        }
-
-        if ($value > 100) {
-            return 1;
-        }
-
-        if ($value > 10) {
-            return 0.05;
-        }
-
-        if ($value > 1) {
-            return 0.01;
-        }
-
-        return 0.001;
+        return $values;
     }
 
     /**
