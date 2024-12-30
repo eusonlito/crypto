@@ -31,7 +31,7 @@ class Buy extends TraderAbstract
         }
 
         if ($stopPrice >= $this->priceCurrent) {
-            $stopPrice = $this->priceCurrent * 0.95;
+            $stopPrice = $this->priceCurrent * 0.9;
         }
 
         $trailingDelta = $this->calculateTrailingDelta($volatility, $trend);
