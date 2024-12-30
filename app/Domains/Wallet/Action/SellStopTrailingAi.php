@@ -125,7 +125,7 @@ class SellStopTrailingAi extends ActionAbstract
      */
     protected function calculate(): void
     {
-        $this->values = TraderSell::new($this->product, $this->api)->calculate();
+        $this->values = TraderSell::new($this->row, $this->api)->calculate();
     }
 
     /**

@@ -126,7 +126,7 @@ class BuyStopTrailingAi extends ActionAbstract
      */
     protected function calculate(): void
     {
-        $this->values = TraderBuy::new($this->product, $this->api)->calculate();
+        $this->values = TraderBuy::new($this->row, $this->api)->calculate();
     }
 
     /**

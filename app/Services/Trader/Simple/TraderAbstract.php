@@ -3,7 +3,7 @@
 namespace App\Services\Trader\Simple;
 
 use App\Domains\Exchange\Model\Exchange as ExchangeModel;
-use App\Domains\Product\Model\Product as ProductModel;
+use App\Domains\Wallet\Model\Wallet as WalletModel;
 use App\Services\Platform\ApiFactoryAbstract;
 
 abstract class TraderAbstract
@@ -59,13 +59,13 @@ abstract class TraderAbstract
     }
 
     /**
-     * @param \App\Domains\Product\Model\Product $product
+     * @param \App\Domains\Wallet\Model\Wallet $wallet
      * @param \App\Services\Platform\ApiFactoryAbstract $api
      *
      * @return void
      */
     public function __construct(
-        protected ProductModel $product,
+        protected WalletModel $wallet,
         protected ApiFactoryAbstract $api
     ) {
         $this->prices();
@@ -79,7 +79,7 @@ abstract class TraderAbstract
     protected function prices(): void
     {
         $this->prices = ExchangeModel::query()
-            ->byProductId($this->product->id)
+            ->byProductId($this->wallet->product->id)
             ->byCreatedAtAfter(date('Y-m-d H:i:s', strtotime('-1 day')))
             ->orderByFirst()
             ->pluck('exchange')
@@ -99,7 +99,7 @@ abstract class TraderAbstract
      */
     protected function orderBook(): void
     {
-        $this->orderBook = $this->api->orderBook($this->product->code, 200)->toArray();
+        $this->orderBook = $this->api->orderBook($this->wallet->product->code, 200)->toArray();
     }
 
     /**

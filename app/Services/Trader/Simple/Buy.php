@@ -42,7 +42,7 @@ class Buy extends TraderAbstract
         $price = $stopPrice + ($stopPrice * $maxPercent / 100);
 
         return [
-            'reference' => $stopPrice,
+            'reference' => $this->priceCurrent,
             'trailing_delta' => $trailingDelta,
             'price' => $price,
             'min_percent' => round($minPercent, 2),

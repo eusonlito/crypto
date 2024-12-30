@@ -199,7 +199,7 @@ class SellStopLoss extends ActionAbstract
         if ($this->row->buy_stop_min_percent) {
             $this->row->buy_stop_min_percent += 1;
         }
-        
+
         $this->row->buy_stop_max_value = $this->order->value;
     }
 
