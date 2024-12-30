@@ -2,6 +2,7 @@
 
 namespace App\Domains\Order\Action;
 
+use Throwable;
 use App\Domains\Order\Model\Order as Model;
 use App\Domains\Platform\Model\Platform as PlatformModel;
 use App\Domains\Platform\Service\Provider\ProviderApiFactory;
@@ -81,6 +82,21 @@ class CancelOpen extends ActionAbstract
      * @return void
      */
     protected function save(): void
+    {
+        while (true) {
+            try {
+                $this->saveUpdate();
+                return;
+            } catch (Throwable) {
+                sleep(1);
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function saveUpdate(): void
     {
         Model::query()
             ->byUserId($this->auth->id)
