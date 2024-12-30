@@ -40,7 +40,7 @@ class Sell extends TraderAbstract
         $minPercent = $trailingDelta / 100.0;
 
         $price = $stopPrice - ($stopPrice * $minPercent / 100);
-        $price = max($price, $this->row->buy_exchange * 1.01);
+        $price = max($price, $this->wallet->buy_exchange * 1.01);
 
         $stopPrice = $price / (1 - $minPercent / 100);
         $maxPercent = abs(($stopPrice / $this->priceCurrent) - 1) * 100;
