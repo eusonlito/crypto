@@ -7,7 +7,7 @@
                 <input type="hidden" name="_action" value="updateSellMarket" />
 
                 <div class="modal-header" data-draggable="#{{ $prefix }}-dialog">
-                    <h2 class="font-medium text-base mr-auto">{{ __('wallet-update-sell-market.title') }}</h2>
+                    <h2 class="font-medium text-base mr-auto">{{ $row->name }} - {{ __('wallet-update-sell-market.title') }}</h2>
                 </div>
 
                 <div class="modal-body">

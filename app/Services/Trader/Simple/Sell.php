@@ -30,8 +30,8 @@ class Sell extends TraderAbstract
             $stopPrice -= $range * 0.01;
         }
 
-        if ($stopPrice < $this->priceCurrent) {
-            $stopPrice = $this->priceCurrent * 1.01;
+        if ($stopPrice <= $this->priceCurrent) {
+            $stopPrice = $this->priceCurrent * 1.05;
         }
 
         $trailingDelta = $this->calculateTrailingDelta($volatility, $trend);
