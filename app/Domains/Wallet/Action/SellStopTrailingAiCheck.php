@@ -51,7 +51,6 @@ class SellStopTrailingAiCheck extends ActionAbstract
             return $this->row;
         }
 
-        $this->calculate();
         $this->order();
         $this->logSuccess();
 
