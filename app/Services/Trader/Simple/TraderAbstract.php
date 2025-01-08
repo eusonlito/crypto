@@ -196,10 +196,16 @@ abstract class TraderAbstract
         $level = 0.0;
 
         foreach ($orders as $value) {
-            if ($value[1] > $max) {
-                $max = $value[1];
-                $level = $value[0];
+            if ($value[0] <= $this->priceCurrent) {
+                continue;
             }
+
+            if ($value[1] <= $max) {
+                continue;
+            }
+
+            $max = $value[1];
+            $level = $value[0];
         }
 
         return $level;
