@@ -79,7 +79,7 @@
 
                 <td>
                     <span title="{{ $row->value - $row->previous_value }}">@number($row->value - $row->previous_value, 2)</span>
-                    <span class="ml-2 text-xs font-medium {{ (($row->side === 'sell') && ($row->previous_percent < 0)) ? 'text-theme-24' : 'text-theme-10' }}">
+                    <span class="ml-2 text-xs font-medium {{ ($row->side === 'buy') ? '' : (($row->previous_percent > 0) ? 'text-theme-10' : 'text-theme-24') }}">
                         @number($row->previous_percent, 2)%
                     </span>
                 </td>
