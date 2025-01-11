@@ -191,6 +191,10 @@ class SellStopTrailingCheck extends ActionAbstract
      */
     protected function updateBuyStop(): void
     {
+        if ($this->row->buy_stop_min_percent) {
+            $this->row->buy_stop_min_percent = max($this->row->buy_stop_min_percent - 0.5, 5);
+        }
+
         $this->row->updateBuyStopEnable();
     }
 
