@@ -65,6 +65,7 @@
 
 <div class="flex items-center h-10 mt-5">
     <h2 class="text-lg font-medium truncate mr-5">
+        {{ $ordersOpen->count() }}
         {{ __('dashboard-index.orders-open') }}
     </h2>
 </div>
