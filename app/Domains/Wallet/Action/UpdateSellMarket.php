@@ -185,6 +185,10 @@ class UpdateSellMarket extends ActionAbstract
      */
     protected function updateBuyStop(): void
     {
+        if ($this->row->buy_stop_min_percent) {
+            $this->row->buy_stop_max_value = $this->order->value;
+        }
+
         $this->row->updateBuyStopEnable();
     }
 

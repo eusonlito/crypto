@@ -193,6 +193,7 @@ class SellStopTrailingCheck extends ActionAbstract
     {
         if ($this->row->buy_stop_min_percent) {
             $this->row->buy_stop_min_percent = max($this->row->buy_stop_min_percent - 0.5, 5);
+            $this->row->buy_stop_max_value = $this->order->value;
         }
 
         $this->row->updateBuyStopEnable();
