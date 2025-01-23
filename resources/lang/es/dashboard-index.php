@@ -1,9 +1,9 @@
 <?php return [
-    'buying' => 'Vendiendo',
+    'buying' => 'Comprando',
     'meta-title' => 'Dashboard',
     'orders-filled' => 'Últimas Órdenes Completadas',
     'orders-open' => 'Órdenes Abiertas',
-    'selling' => 'Comprando',
+    'selling' => 'Vendiendo',
     'with-references' => 'Con Referencias',
     'without-references' => 'Sin Referencias',
 ];
