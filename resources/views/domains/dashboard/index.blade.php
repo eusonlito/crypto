@@ -12,13 +12,13 @@
 
 @endif
 
-@if ($walletsCrypto->where('sell_stop', true)->isNotEmpty())
+@if (($wallets = $walletsCrypto->where('sell_stop', true))->isNotEmpty())
 
 <h2 class="box py-3 px-5 mt-5 text-lg font-medium">
     {{ __('dashboard-index.selling') }}
 </h2>
 
-@foreach ($walletsCrypto->where('sell_stop', true) as $row)
+@foreach ($wallets as $row)
 
 <div class="mt-4">
     <x-wallet-stat-box-crypto :row="$row" />
@@ -28,13 +28,13 @@
 
 @endif
 
-@if ($walletsCrypto->where('buy_stop', true)->isNotEmpty())
+@if (($wallets = $walletsCrypto->where('buy_stop', true))->isNotEmpty())
 
 <h2 class="box py-3 px-5 mt-5 text-lg font-medium">
     {{ __('dashboard-index.buying') }}
 </h2>
 
-@foreach ($walletsCrypto->where('buy_stop', true) as $row)
+@foreach ($wallets as $row)
 
 <div class="mt-4">
     <x-wallet-stat-box-crypto :row="$row" />
@@ -46,7 +46,9 @@
 
 <div class="mt-4 lg:grid grid-flow-col gap-4">
     @foreach ($tickers as $row)
-        <x-ticker-stat-box :row="$row" />
+
+    <x-ticker-stat-box :row="$row" />
+
     @endforeach
 </div>
 
@@ -66,12 +68,22 @@
 </form>
 
 <div class="grid grid-cols-12 gap-4 mt-4">
-    @foreach ($walletsCrypto as $row)
+    @foreach ($walletsCrypto->where('sell_stop', true) as $row)
+
     <x-wallet-chart :row="$row" :references="$filters['references']" />
+
+    @endforeach
+
+    @foreach ($walletsCrypto->where('buy_stop', true) as $row)
+
+    <x-wallet-chart :row="$row" :references="$filters['references']" />
+
     @endforeach
 
     @foreach ($tickers->whereNotIn('product_id', $walletsCrypto->pluck('product_id')) as $row)
+
     <x-ticker-chart :row="$row" :references="$filters['references']" />
+
     @endforeach
 </div>
 
