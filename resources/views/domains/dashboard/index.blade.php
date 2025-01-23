@@ -12,11 +12,37 @@
 
 @endif
 
-@foreach ($walletsCrypto as $row)
+@if ($walletsCrypto->where('sell_stop', true)->isNotEmpty())
+
+<h2 class="box py-3 px-5 mt-5 text-lg font-medium">
+    {{ __('dashboard-index.selling') }}
+</h2>
+
+@foreach ($walletsCrypto->where('sell_stop', true) as $row)
+
 <div class="mt-4">
     <x-wallet-stat-box-crypto :row="$row" />
 </div>
+
 @endforeach
+
+@endif
+
+@if ($walletsCrypto->where('buy_stop', true)->isNotEmpty())
+
+<h2 class="box py-3 px-5 mt-5 text-lg font-medium">
+    {{ __('dashboard-index.buying') }}
+</h2>
+
+@foreach ($walletsCrypto->where('buy_stop', true) as $row)
+
+<div class="mt-4">
+    <x-wallet-stat-box-crypto :row="$row" />
+</div>
+
+@endforeach
+
+@endif
 
 <div class="mt-4 lg:grid grid-flow-col gap-4">
     @foreach ($tickers as $row)
@@ -51,11 +77,9 @@
 
 @if ($ordersFilled->isNotEmpty())
 
-<div class="flex items-center h-10 mt-5">
-    <h2 class="text-lg font-medium truncate mr-5">
-        {{ __('dashboard-index.orders-filled') }}
-    </h2>
-</div>
+<h2 class="box py-3 px-5 mt-5 text-lg font-medium">
+    {{ __('dashboard-index.orders-filled') }}
+</h2>
 
 @include ('domains.order.molecules.list', ['list' => $ordersFilled])
 
@@ -63,12 +87,10 @@
 
 @if ($ordersOpen->isNotEmpty())
 
-<div class="flex items-center h-10 mt-5">
-    <h2 class="text-lg font-medium truncate mr-5">
-        {{ $ordersOpen->count() }}
-        {{ __('dashboard-index.orders-open') }}
-    </h2>
-</div>
+<h2 class="box py-3 px-5 mt-5 text-lg font-medium">
+    {{ $ordersOpen->count() }}
+    {{ __('dashboard-index.orders-open') }}
+</h2>
 
 @include ('domains.order.molecules.list', [
     'list' => $ordersOpen,
